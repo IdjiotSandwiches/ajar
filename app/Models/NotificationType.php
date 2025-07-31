@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Role extends Model
+class NotificationType extends Model
 {
     use HasFactory;
 
@@ -17,8 +17,12 @@ class Role extends Model
      */
     protected $fillable = ['name'];
 
-    public function users(): HasMany
+    /**
+     * HasMany: Notifications
+     * @return HasMany<Notification, NotificationType>
+     */
+    public function notifications(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Notification::class);
     }
 }

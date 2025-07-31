@@ -16,11 +16,11 @@ return new class extends Migration
             $table->boolean('is_complete');
             $table->boolean('is_verified');
             $table->unsignedBigInteger('course_schedule_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('student_id');
             $table->timestamps();
 
             $table->foreign('course_schedule_id')->references('id')->on('course_schedules')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('teacher_reviews', function (Blueprint $table) {
             $table->id();
-            $table->decimal('rating');
+            $table->decimal('rating', 3, 2);
             $table->text('description')->nullable();
             $table->unsignedBigInteger('reviewer_id');
             $table->unsignedBigInteger('teacher_id');
@@ -21,6 +21,8 @@ return new class extends Migration
 
             $table->foreign('reviewer_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('teacher_id')->references('user_id')->on('teachers')->onDelete('cascade');
+
+            $table->unique(['reviewer_id', 'teacher_id']);
         });
     }
 

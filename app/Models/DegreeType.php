@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Role extends Model
+class DegreeType extends Model
 {
     use HasFactory;
 
@@ -17,8 +17,12 @@ class Role extends Model
      */
     protected $fillable = ['name'];
 
-    public function users(): HasMany
+    /**
+     * HasMany: Graduates
+     * @return HasMany<Graduate, DegreeType>
+     */
+    public function graduates(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Graduate::class);
     }
 }
