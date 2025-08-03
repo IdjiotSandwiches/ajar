@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\RegisterInterface;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -13,14 +14,40 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RegisteredUserController extends Controller
+class RegisterController extends Controller
 {
-    /**
-     * Show the registration page.
-     */
-    public function create(): Response
+    private RegisterInterface $service;
+
+    public function __construct(RegisterInterface $service)
     {
-        return Inertia::render('auth/register');
+        $this->service = $service;
+    }
+
+    /**
+     * Student Registration Form
+     * @return \Inertia\Response
+     */
+    public function studentForm(): Response
+    {
+        return Inertia::render('auth.register.student-register');
+    }
+
+    /**
+     * Teacher Registration Form
+     * @return \Inertia\Response
+     */
+    public function teacherForm(): Response
+    {
+        return Inertia::render('auth.register.teacher-register');
+    }
+
+    /**
+     * Institute Registration Form
+     * @return \Inertia\Response
+     */
+    public function instituteForm(): Response
+    {
+        return Inertia::render('auth.register.institute-register');
     }
 
     /**
