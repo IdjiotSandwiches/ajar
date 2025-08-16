@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\Institute;
+use App\Models\Teacher;
 use Exception;
 use App\Models\User;
 use App\Enums\RoleEnum;
 use App\Interfaces\RegisterInterface;
+use Fruitcake\Cors\Exceptions\InvalidOptionException;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterService implements RegisterInterface
@@ -23,13 +26,19 @@ class RegisterService implements RegisterInterface
         switch ($user->role_id)
         {
             case RoleEnum::Teacher:
+                Teacher::create([
+                    'user_id' => $user->id
+                ]);
                 break;
             case RoleEnum::Institute:
+                Institute::create([
+                    'user_id' => $user->id
+                ]);
                 break;
             case RoleEnum::Student:
                 break;
             default:
-                throw new Exception("");
+                throw new InvalidOptionException("");
         }
 
         return $user;
