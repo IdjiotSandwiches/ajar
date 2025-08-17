@@ -13,5 +13,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
+Route::middleware(['auth', 'verified', 'role:Admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+    });
+
+Route::middleware(['auth', 'verified', 'role:Teacher'])
+    ->prefix('teacher')
+    ->name('teacher.')
+    ->group(function () {
+
+    });
+
+Route::middleware(['auth', 'verified', 'role:Institute'])
+    ->prefix('institute')
+    ->name('institute.')
+    ->group(function () {
+
+    });
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

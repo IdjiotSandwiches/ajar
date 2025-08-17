@@ -20,8 +20,10 @@ class RoleMiddleware
             abort(401, 'Unauthenticated.');
 
         $user = Auth::user();
-        if (!$user->role || !in_array($user->role->name, $roles))
-            abort(403, 'UNAUTHORIZED ACTION.');
+        $roleName = $user->role_id->name;
+
+        if (! in_array($roleName, $roles))
+            abort(403, 'Unauthorized action.');
 
         return $next($request);
     }
