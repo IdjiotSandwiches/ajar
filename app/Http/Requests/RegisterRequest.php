@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\DegreeTypeEnum;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\Password;
 
 class RegisterRequest extends FormRequest
@@ -28,17 +31,17 @@ class RegisterRequest extends FormRequest
             'phone_number' => 'required|string|unique:users,phone_number|phone:ID',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Password::defaults()],
-            'role_id' => 'required|exists:roles,id',
+            'role_id' => ['required', new Enum(RoleEnum::class)],
         ];
 
-        if ($this->input('role_id') == 2) {
+        if ($this->input('role_id') == RoleEnum::Teacher) {
             $rules['category_id'] = 'required|exists:categories,id';
             $rules['description'] = 'string';
 
             $rules['graduates'] = 'required|array|min:1';
             $rules['graduates.*.degree_title'] = 'required|string';
             $rules['graduates.*.university_name'] = 'required|string';
-            $rules['graduates.*.degree_type_id'] = 'required|exists:degree_types,id';
+            $rules['graduates.*.degree_type_id'] = ['required', new Enum(DegreeTypeEnum::class)];
 
             $rules['works'] = 'required|array|min:1';
             $rules['works.*.position'] = 'required|string';
@@ -46,7 +49,7 @@ class RegisterRequest extends FormRequest
             $rules['works.*.duration'] = 'required|int';
 
             $rules['certificates'] ='required|array|min:1';
-            $rules['certificates.*'] = 'file|image|mimes:jpeg,png,jpg|max:2048';
+            $rules['certificates.*.image'] = 'file|image|mimes:jpeg,png,jpg|max:2048';
         }
 
         return $rules;

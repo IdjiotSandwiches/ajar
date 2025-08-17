@@ -22,6 +22,7 @@ class RegisterController extends Controller
 
     /**
      * Student Registration Form
+     *
      * @return \Inertia\Response
      */
     public function studentForm(): Response
@@ -31,6 +32,7 @@ class RegisterController extends Controller
 
     /**
      * Teacher Registration Form
+     *
      * @return \Inertia\Response
      */
     public function teacherForm(): Response
@@ -40,6 +42,7 @@ class RegisterController extends Controller
 
     /**
      * Institute Registration Form
+     *
      * @return \Inertia\Response
      */
     public function instituteForm(): Response
@@ -55,13 +58,14 @@ class RegisterController extends Controller
     public function store(RegisterRequest $request): RedirectResponse
     {
         try {
-            $user = $request->validated();
+            $data = $request->validated();
+            $user = $this->service
+                ->register($data);
 
             event(new Registered($user));
-
             Auth::login($user);
         } catch (\Exception $e) {
-
+            return back($e->getMessage());
         }
 
         return to_route('dashboard');

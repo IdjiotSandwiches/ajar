@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\DegreeTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,18 @@ class Graduate extends Model
         'teacher_id',
         'degree_type_id'
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'degree_type_id' => DegreeTypeEnum::class
+        ];
+    }
 
     /**
      * BelongsTo: Teacher
