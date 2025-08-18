@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('reviewer_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('institute_id')->references('user_id')->on('institute')->onDelete('cascade');
+            $table->foreign('institute_id')->references('user_id')->on('institutes')->onDelete('cascade');
 
             $table->unique(['reviewer_id', 'institute_id']);
         });
