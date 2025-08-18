@@ -15,9 +15,9 @@ Route::middleware('guest')->group(function () {
         ->name('register.')
         ->controller(RegisterController::class)
         ->group(function () {
-            Route::get('/register/student', 'studentForm')->name('student');
-            Route::get('/register/teacher', 'teacherForm')->name('teacher');
-            Route::get('/register/institute', 'instituteForm')->name('institute');
+            Route::get('/student', 'studentForm')->name('student');
+            Route::get('/teacher', 'teacherForm')->name('teacher');
+            Route::get('/institute', 'instituteForm')->name('institute');
         });
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
