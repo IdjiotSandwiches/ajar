@@ -18,6 +18,7 @@ Route::middleware('guest')->group(function () {
             Route::get('/student', 'studentForm')->name('student');
             Route::get('/teacher', 'teacherForm')->name('teacher');
             Route::get('/institute', 'instituteForm')->name('institute');
+            Route::post('/', 'store')->name('submit');
         });
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])

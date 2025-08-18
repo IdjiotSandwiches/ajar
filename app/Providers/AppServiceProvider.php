@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Enums\RoleEnum;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Inertia::share([
+            'roles_enum' => RoleEnum::asArray()
+        ]);
     }
 }

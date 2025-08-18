@@ -27,7 +27,7 @@ class RegisterController extends Controller
      */
     public function studentForm(): Response
     {
-        return Inertia::render('auth.register.student-register');
+        return Inertia::render('auth/register/student-register');
     }
 
     /**
@@ -37,7 +37,7 @@ class RegisterController extends Controller
      */
     public function teacherForm(): Response
     {
-        return Inertia::render('auth.register.teacher-register');
+        return Inertia::render('auth/register/teacher-register');
     }
 
     /**
@@ -47,7 +47,7 @@ class RegisterController extends Controller
      */
     public function instituteForm(): Response
     {
-        return Inertia::render('auth.register.institute-register');
+        return Inertia::render('auth/register/institute-register');
     }
 
     /**
