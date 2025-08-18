@@ -1,16 +1,13 @@
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
 
 interface MultiStepFormProps {
     steps: React.ReactNode[];
     onFinish: (e: React.FormEvent) => void;
-    errors?: Record<string, string>;
-    stepFields: string[][];
+    currentStep: number;
+    setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function MultiStepForm({ steps, onFinish, errors, stepFields }: MultiStepFormProps) {
-    const [currentStep, setCurrentStep] = useState(0);
-
+export default function MultiStepForm({ steps, currentStep, setCurrentStep, onFinish }: MultiStepFormProps) {
     const isFirst = currentStep === 0;
     const isLast = currentStep === steps.length - 1;
 
@@ -20,16 +17,6 @@ export default function MultiStepForm({ steps, onFinish, errors, stepFields }: M
 
     const back = () => {
         if (!isFirst) setCurrentStep((s) => s - 1);
-    };
-
-    const jumpToErrorStep = () => {
-        if (!errors) return;
-        for (let i = 0; i < stepFields.length; i++) {
-            if (stepFields[i].some((field) => errors[field])) {
-                setCurrentStep(i);
-                break;
-            }
-        }
     };
 
     return (
@@ -43,18 +30,7 @@ export default function MultiStepForm({ steps, onFinish, errors, stepFields }: M
                     </Button>
                 )}
 
-                <Button
-                    type="button"
-                    onClick={(e) => {
-                        if (isLast) {
-                            onFinish(e);
-                            jumpToErrorStep();
-                        } else {
-                            next();
-                        }
-                    }}
-                    className="rounded-full"
-                >
+                <Button type="button" onClick={isLast ? onFinish : next} className="rounded-full">
                     {isLast ? 'Submit' : 'Next'}
                 </Button>
             </div>

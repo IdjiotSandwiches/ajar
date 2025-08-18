@@ -1,10 +1,12 @@
 import { Head, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 
 import InputError from '@/components/input-error';
 import { Input } from '@/components/ui/input';
+import { RoleEnums } from '@/interfaces/shared';
 import AuthLayout from '@/layouts/auth-layout';
 import MultiStepForm from '@/layouts/auth/auth-multistep';
+import ErrorWatcher from '@/layouts/auth/auth-register-watcher';
 
 interface RegisterFormProps {
     name: string;
@@ -15,15 +17,10 @@ interface RegisterFormProps {
     role_id: number;
 }
 
-interface PageProps {
-    enums: {
-        roles_enum: Record<string, number>;
-    };
-    [key: string]: any;
-}
-
 export default function Register() {
-    const enums = usePage<PageProps>().props;
+    const [currentStep, setCurrentStep] = useState(0);
+
+    const enums = usePage<RoleEnums>().props;
     const roles = enums.roles_enum;
 
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterFormProps>>({
@@ -127,17 +124,15 @@ export default function Register() {
         <AuthLayout title="Register as Student">
             <Head title="Register" />
             <form className="flex flex-col gap-6" onSubmit={submit}>
-                <div className="">
-                    <MultiStepForm
-                        steps={steps}
-                        onFinish={submit}
-                        errors={errors}
-                        stepFields={[
-                            ['name', 'phone_number'],
-                            ['email', 'password', 'password_confirmation'],
-                        ]}
-                    />
-                </div>
+                <ErrorWatcher
+                    errors={errors}
+                    steps={[
+                        ['name', 'phone_number'],
+                        ['email', 'password', 'password_confirmation'],
+                    ]}
+                    onError={(step) => setCurrentStep(step)}
+                />
+                <MultiStepForm steps={steps} currentStep={currentStep} setCurrentStep={setCurrentStep} onFinish={submit} />
             </form>
         </AuthLayout>
     );
