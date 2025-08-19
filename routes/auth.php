@@ -7,7 +7,6 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\StudentRegisterController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,11 +14,10 @@ Route::middleware('guest')->group(function () {
     Route::prefix('register')
         ->name('register.')
         ->group(function () {
-            Route::get('/student', [StudentRegisterController::class, 'show'])->name('student');
+            Route::get('/student', [RegisterController::class, 'studentForm'])->name('student');
             Route::get('/teacher', [RegisterController::class, 'teacherForm'])->name('teacher');
             Route::get('/institute', [RegisterController::class, 'instituteForm'])->name('institute');
             Route::post('/', [RegisterController::class, 'store'])->name('submit');
-            Route::post('/student', [StudentRegisterController::class, 'store'])->name('student');
         });
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])

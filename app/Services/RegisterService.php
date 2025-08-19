@@ -67,17 +67,6 @@ class RegisterService implements RegisterInterface
     }
 
     /**
-     * Remove user on refresh
-     *
-     * @return void
-     */
-    public function clearCurrentUserOnSession(): void
-    {
-        $user = $this->findUserOnSession();
-        $user?->delete();
-    }
-
-    /**
      * Teacher data creation
      *
      * @param array $data

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Interfaces\RegisterInterface;
@@ -27,7 +28,9 @@ class RegisterController extends Controller
      */
     public function studentForm(): Response
     {
-        return Inertia::render('auth/register/student-register');
+        return Inertia::render('auth/register/form', [
+            'role' => RoleEnum::Student
+        ]);
     }
 
     /**
@@ -37,7 +40,9 @@ class RegisterController extends Controller
      */
     public function teacherForm(): Response
     {
-        return Inertia::render('auth/register/teacher-register');
+        return Inertia::render('auth/register/form', [
+            'role' => RoleEnum::Teacher
+        ]);
     }
 
     /**
@@ -47,7 +52,9 @@ class RegisterController extends Controller
      */
     public function instituteForm(): Response
     {
-        return Inertia::render('auth/register/institute-register');
+        return Inertia::render('auth/register/form', [
+            'role' => RoleEnum::Institute
+        ]);
     }
 
     /**

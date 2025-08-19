@@ -4,3 +4,12 @@ export interface RoleEnums {
     };
     [key: string]: any;
 }
+
+export interface RegisterFormProps {
+    name: string;
+    email: string;
+    phone_number: string;
+    password: string;
+    password_confirmation: string;
+    role_id: number;
+};
