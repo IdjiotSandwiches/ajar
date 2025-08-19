@@ -56,6 +56,28 @@ class RegisterService implements RegisterInterface
     }
 
     /**
+     * Get user based on session
+     *
+     * @return User|null
+     */
+    public function findUserOnSession(): User|null
+    {
+        $user = User::find(session('user_id'));
+        return $user;
+    }
+
+    /**
+     * Remove user on refresh
+     *
+     * @return void
+     */
+    public function clearCurrentUserOnSession(): void
+    {
+        $user = $this->findUserOnSession();
+        $user?->delete();
+    }
+
+    /**
      * Teacher data creation
      *
      * @param array $data

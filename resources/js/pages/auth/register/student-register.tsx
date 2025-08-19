@@ -1,12 +1,11 @@
-import { Head, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler, useState } from 'react';
+import { Head, router, useForm, usePage } from '@inertiajs/react';
+import { FormEventHandler, useEffect } from 'react';
 
 import InputError from '@/components/input-error';
+import AuthLayout from '@/layouts/auth-layout';
 import { Input } from '@/components/ui/input';
 import { RoleEnums } from '@/interfaces/shared';
-import AuthLayout from '@/layouts/auth-layout';
-import MultiStepForm from '@/layouts/auth/auth-multistep';
-import ErrorWatcher from '@/layouts/auth/auth-register-watcher';
+import { Button } from '@/components/ui/button';
 
 interface RegisterFormProps {
     name: string;
@@ -15,13 +14,16 @@ interface RegisterFormProps {
     password: string;
     password_confirmation: string;
     role_id: number;
+    step: number;
 }
 
-export default function Register() {
-    const [currentStep, setCurrentStep] = useState(0);
-
+export default function Register({ step }: { step: number }) {
     const enums = usePage<RoleEnums>().props;
     const roles = enums.roles_enum;
+
+    useEffect(() => {
+        setData('step', Number(step));
+    }, [step]);
 
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterFormProps>>({
         name: '',
@@ -30,13 +32,18 @@ export default function Register() {
         password: '',
         password_confirmation: '',
         role_id: roles.Student,
+        step: step
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('register.submit'), {
+        post(route('register.student'), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
+    };
+
+    const back = () => {
+        router.get(route('register.student', { step: step == 0 ? 0 : step - 1 }), {}, { preserveState: true });
     };
 
     const steps = [
@@ -124,15 +131,20 @@ export default function Register() {
         <AuthLayout title="Register as Student">
             <Head title="Register" />
             <form className="flex flex-col gap-6" onSubmit={submit}>
-                <ErrorWatcher
-                    errors={errors}
-                    steps={[
-                        ['name', 'phone_number'],
-                        ['email', 'password', 'password_confirmation'],
-                    ]}
-                    onError={(step) => setCurrentStep(step)}
-                />
-                <MultiStepForm steps={steps} currentStep={currentStep} setCurrentStep={setCurrentStep} onFinish={submit} />
+                <input type="hidden" name="step" value={data.step} />
+                <div className="grid gap-4">
+                    {steps[step]}
+                </div>
+                <div className="flex justify-end gap-2">
+                    {step != 0 && (
+                        <Button type="button" variant="ghost" onClick={back} className="rounded-full">
+                            Back
+                        </Button>
+                    )}
+                    <Button type="submit" className="rounded-full">
+                        {step === steps.length ? 'Submit' : 'Next'}
+                    </Button>
+                </div>
             </form>
         </AuthLayout>
     );
