@@ -56,17 +56,6 @@ class RegisterService implements RegisterInterface
     }
 
     /**
-     * Get user based on session
-     *
-     * @return User|null
-     */
-    public function findUserOnSession(): User|null
-    {
-        $user = User::find(session('user_id'));
-        return $user;
-    }
-
-    /**
      * Teacher data creation
      *
      * @param array $data
