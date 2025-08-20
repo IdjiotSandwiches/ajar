@@ -12,8 +12,18 @@ interface CategoryProps {
 }
 
 export default function CategoryForm({ categories, form }: CategoryProps) {
-    const [selected, setSelected] = useState<string>(categories[0].name);
+    const flattenCategories = (arr: Category[]): Category[] =>
+        arr.flatMap(obj => [obj, ...(obj.children ? flattenCategories(obj.children) : [])]);
+
+    const findByName = (arr: Category[], id: number): Category | undefined =>
+        flattenCategories(arr).find(obj => obj.id === id);
+
+    const parentCategory = form.data.category
+        ? findByName(categories, form.data.category)?.parent_id
+        : "";
+
     const [category, setCategory] = useState<number | null>(form.data.category ?? null);
+    const [selected, setSelected] = useState<string>(categories.find((c) => c.id === parentCategory)?.name ?? categories[0].name);
 
     const onSelect = (id: number) => {
         setCategory(id);
