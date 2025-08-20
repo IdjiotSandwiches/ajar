@@ -34,22 +34,23 @@ class RegisterRequest extends FormRequest
             'role_id' => ['required', new Enum(RoleEnum::class)],
         ];
 
-        if ($this->input('role_id') == RoleEnum::Teacher) {
-            $rules['category_id'] = 'required|exists:categories,id';
+        $role = RoleEnum::from($this->input('role_id'));
+        if ($role === RoleEnum::Teacher) {
+            $rules['category'] = 'required|exists:categories,id';
             $rules['description'] = 'string';
 
             $rules['graduates'] = 'required|array|min:1';
             $rules['graduates.*.degree_title'] = 'required|string';
             $rules['graduates.*.university_name'] = 'required|string';
-            $rules['graduates.*.degree_type_id'] = ['required', new Enum(DegreeTypeEnum::class)];
+            $rules['graduates.*.degree_type'] = ['required', new Enum(DegreeTypeEnum::class)];
 
             $rules['works'] = 'required|array|min:1';
             $rules['works.*.position'] = 'required|string';
             $rules['works.*.institution'] = 'required|string';
             $rules['works.*.duration'] = 'required|int';
 
-            $rules['certificates'] ='required|array|min:1';
-            $rules['certificates.*.image'] = 'file|image|mimes:jpeg,png,jpg|max:2048';
+            $rules['certificates'] = 'required|array|min:1';
+            $rules['certificates.*'] = 'file|image|mimes:jpeg,png,jpg|max:2048';
         }
 
         return $rules;

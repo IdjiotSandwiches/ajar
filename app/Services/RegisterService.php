@@ -68,7 +68,7 @@ class RegisterService implements RegisterInterface
             'user_id' => $user->id,
             'description' => $data['description'],
             'is_verified' => false,
-            'category_id' => $data['category_id']
+            'category_id' => $data['category']
         ]);
 
         foreach($data['graduates'] as $graduate) {
@@ -76,7 +76,7 @@ class RegisterService implements RegisterInterface
                 'degree_title' => $graduate['degree_title'],
                 'university_name' => $graduate['university_name'],
                 'teacher_id' => $teacher->id,
-                'degree_type_id' => DegreeTypeEnum::from($graduate['degree_type_id'])
+                'degree_type_id' => DegreeTypeEnum::from($graduate['degree_type'])
             ]);
         }
 

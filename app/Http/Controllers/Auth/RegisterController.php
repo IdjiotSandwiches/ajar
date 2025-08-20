@@ -6,6 +6,7 @@ use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Interfaces\RegisterInterface;
+use App\Models\Category;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +42,8 @@ class RegisterController extends Controller
     public function teacherForm(): Response
     {
         return Inertia::render('auth/register/form', [
-            'role' => RoleEnum::Teacher
+            'role' => RoleEnum::Teacher,
+            'categories' => Category::with('children')->whereNull('parent_id')->get()
         ]);
     }
 

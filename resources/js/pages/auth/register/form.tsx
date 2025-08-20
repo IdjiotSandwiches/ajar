@@ -1,91 +1,72 @@
-import { Head, router, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler, useState } from 'react';
+import { useForm, usePage } from '@inertiajs/react';
 
-import { Button } from '@/components/ui/button';
-import { RegisterFormProps, RoleEnums } from '@/interfaces/shared';
-import AuthLayout from '@/layouts/auth-layout';
+import { Category, RegisterFormProps, RoleConfig, RoleEnums, TeacherRegisterProps } from '@/interfaces/shared';
+import RegisterLayout from '@/layouts/auth/auth-register-layout';
 import FormInput from './form-input';
+import CategoryForm from './category';
 
-interface RoleConfig {
-    title: string;
-    basic_info: Array<keyof RegisterFormProps>;
-    credential_info: Array<keyof RegisterFormProps>;
-}
-
-export default function RegisterForm({ role }: { role: number }) {
-    const [currentStep, setCurrentStep] = useState(1);
-
-    const next = () => setCurrentStep(currentStep + 1);
-    const back = () => setCurrentStep(currentStep - 1);
-
+export default function RegisterForm({ role, categories }: { role: number; categories: Category[] }) {
     const enums = usePage<RoleEnums>().props;
     const roles = enums.roles_enum;
+    const base_config: RoleConfig = {
+        basic_info: ['name', 'phone_number'],
+        credential_info: ['email', 'password', 'password_confirmation'],
+    };
 
-    const form = useForm<Required<RegisterFormProps>>({
-        name: '',
-        email: '',
-        phone_number: '',
-        password: '',
-        password_confirmation: '',
-        role_id: role,
-    });
-
-    let title = 'Register as ';
-    const roleConfig: Record<string, RoleConfig> = {
-        [roles.Student]: {
-            title: 'Student',
-            basic_info: ['name', 'phone_number'],
-            credential_info: ['email', 'password', 'password_confirmation'],
-        },
+    const role_config: Record<string, RoleConfig> = {
+        [roles.Student]: base_config,
+        [roles.Institute]: base_config,
         [roles.Teacher]: {
-            title: 'Teacher',
-            basic_info: ['name', 'phone_number'],
-            credential_info: ['email', 'password', 'password_confirmation'],
-        },
-        [roles.Institute]: {
-            title: 'Institute',
-            basic_info: ['name', 'phone_number'],
-            credential_info: ['email', 'password', 'password_confirmation'],
+            basic_info: ['email', 'password', 'password_confirmation'],
+            credential_info: ['name', 'phone_number'],
+            more_info: [
+                ['description'],
+                ['category_id'],
+                ['degree_title', 'university_name', 'degree_type_id'],
+                ['position', 'institution', 'duration'],
+                ['certificates'],
+            ],
         },
     };
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-        form.post(route('register.submit'), {
-            onFinish: () => form.reset('password', 'password_confirmation'),
-            onError: (errors) => {
-                if (roleConfig[role].basic_info.some((key) => errors[key]))
-                    setCurrentStep(1);
-            }
-        });
-    };
+    const form =
+        role === roles.Teacher
+            ? useForm<Partial<TeacherRegisterProps>>({
+                  name: '',
+                  email: '',
+                  phone_number: '',
+                  password: '',
+                  password_confirmation: '',
+                  role_id: role,
+                  category_id: null,
+                  certificates: [],
+                  description: '',
+                  graduates: [],
+                  works: [],
+              })
+            : useForm<Partial<RegisterFormProps>>({
+                  name: '',
+                  email: '',
+                  phone_number: '',
+                  password: '',
+                  password_confirmation: '',
+                  role_id: role,
+              });
 
-    if (roleConfig[role]) title += roleConfig[role].title;
-    else router.get(route('register.student'));
-
+    role_config[role].title = Object.keys(roles).find((key) => roles[key] === role);
     const steps = [
-        <FormInput form={form} content={roleConfig[role].basic_info} />,
-        <FormInput form={form} content={roleConfig[role].credential_info} />
+        <FormInput form={form} content={role_config[role].basic_info} />,
+        <FormInput form={form} content={role_config[role].credential_info} />,
     ];
 
-    return (
-        <AuthLayout title={title}>
-            <Head title="Register" />
-            <form className="flex flex-col gap-6" onSubmit={submit}>
-                <div className="grid gap-4">{steps[currentStep - 1]}</div>
+    if (role === roles.Teacher) {
+        const more_steps = [
+            <CategoryForm categories={categories} form={form} />,
+        ];
+        steps.push(...more_steps);
+    }
 
-                <div className="mt-4 flex justify-end gap-2">
-                    {currentStep - 1 !== 0 && (
-                        <Button type="button" variant="ghost" onClick={back} className="rounded-full">
-                            Back
-                        </Button>
-                    )}
+    console.log(form.data)
 
-                    <Button type="button" onClick={currentStep === steps.length ? submit : next} className="rounded-full">
-                        {currentStep === steps.length ? 'Submit' : 'Next'}
-                    </Button>
-                </div>
-            </form>
-        </AuthLayout>
-    );
+    return <RegisterLayout form={form} role_config={role_config[role]} steps={steps} />;
 }

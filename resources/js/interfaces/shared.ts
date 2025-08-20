@@ -12,4 +12,38 @@ export interface RegisterFormProps {
     password: string;
     password_confirmation: string;
     role_id: number;
-};
+}
+
+export interface RoleConfig {
+    title?: string | null | undefined;
+    basic_info: Array<keyof RegisterFormProps>;
+    credential_info: Array<keyof RegisterFormProps>;
+    more_info?: Array<keyof TeacherRegisterProps | keyof GraduateProps | keyof WorkProps>[];
+}
+
+export interface GraduateProps {
+    degree_title: string;
+    university_name: string;
+    degree_type_id: number;
+}
+
+export interface WorkProps {
+    position: string;
+    institution: string;
+    duration: number;
+}
+
+export interface TeacherRegisterProps extends RegisterFormProps {
+    description: string;
+    category_id: number | null;
+    graduates: any;
+    works: any;
+    certificates: File[];
+}
+
+export interface Category {
+    id: number;
+    name: string;
+    parent_id?: number | null;
+    children?: Category[];
+}

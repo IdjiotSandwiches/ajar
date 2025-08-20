@@ -8,7 +8,7 @@ export default function FormInput({
     form,
     content,
 }: {
-    form: InertiaFormProps<Required<RegisterFormProps>>;
+    form: InertiaFormProps<Partial<RegisterFormProps>>;
     content: Array<keyof RegisterFormProps>;
 }) {
     function separateWords(name: string) {
@@ -18,20 +18,20 @@ export default function FormInput({
             .join(' ');
     }
 
-    const inputType: Record<keyof RegisterFormProps, string> = {
+    const inputType: Record<keyof RegisterFormProps, string | undefined> = {
         'name': 'text',
         'email': 'email',
         'phone_number': 'text',
         'password': 'password',
         'password_confirmation': 'password',
-        'role_id': 'number'
+        'role_id': undefined
     };
 
     return (
         <>
-            {content.map((c) => {
+            {content.map((c, idx) => {
                 return (
-                    <div className="grid">
+                    <div className="grid" key={idx}>
                         <Input
                             id={c}
                             type={inputType[c]}
