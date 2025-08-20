@@ -4,6 +4,10 @@ import { Input } from '@/components/ui/input';
 import { RegisterFormProps } from '@/interfaces/shared';
 import { InertiaFormProps } from '@inertiajs/react';
 
+interface FormInputProps {
+    setIsFilled: React.Dispatch<React.SetStateAction<Boolean>>;
+}
+
 export default function FormInput({
     form,
     content,

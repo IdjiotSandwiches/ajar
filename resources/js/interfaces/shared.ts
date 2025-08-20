@@ -33,9 +33,9 @@ export interface WorkProps {
     duration: number;
 }
 
-export interface TeacherRegisterProps extends RegisterFormProps {
+export interface TeacherRegisterProps {
     description: string;
-    category_id: number | null;
+    category: number | null;
     graduates: any;
     works: any;
     certificates: File[];

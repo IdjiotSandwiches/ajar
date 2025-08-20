@@ -13,10 +13,11 @@ interface CategoryProps {
 
 export default function CategoryForm({ categories, form }: CategoryProps) {
     const [selected, setSelected] = useState<string>(categories[0].name);
-    const [category, setCategory] = useState<number | null>(null);
+    const [category, setCategory] = useState<number | null>(form.data.category ?? null);
 
     const onSelect = (id: number) => {
         setCategory(id);
+        form.setData('category', id);
     };
 
     return (
@@ -55,7 +56,7 @@ export default function CategoryForm({ categories, form }: CategoryProps) {
                     );
                 })}
             </RadioGroup>
-            <InputError message={form.errors.category_id} />
+            <InputError message={form.errors.category} />
         </>
     );
 }
