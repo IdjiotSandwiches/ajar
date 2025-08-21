@@ -4,10 +4,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Category, GraduateProps, RegisterFormProps, RoleConfig, RoleEnums, TeacherRegisterProps, WorkProps } from '@/interfaces/shared';
 import RegisterLayout from '@/layouts/auth/auth-register-layout';
 import { JSX } from 'react';
-import CategoryForm from './category';
-import FormInput from './form-input';
-import GraduateForm from './graduate';
-import WorkForm from './work';
+import CategoryForm from '../../../components/register/category';
+import FormInput from '../../../components/register/form-input';
+import GraduateForm from '../../../components/register/graduate';
+import WorkForm from '../../../components/register/work';
 
 export default function RegisterForm({ role, categories }: { role: number; categories: Category[] }) {
     const enums = usePage<RoleEnums>().props;
