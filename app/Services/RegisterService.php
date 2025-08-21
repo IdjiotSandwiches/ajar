@@ -32,7 +32,7 @@ class RegisterService implements RegisterInterface
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'phone_number' => $data['phone_number'],
-                'role_id' => RoleEnum::from($data['role_id'])
+                'role_id' => RoleEnum::from($data['role_id'])->value
             ]);
 
             switch ($user->role_id)
@@ -75,8 +75,8 @@ class RegisterService implements RegisterInterface
             Graduate::create([
                 'degree_title' => $graduate['degree_title'],
                 'university_name' => $graduate['university_name'],
-                'teacher_id' => $teacher->id,
-                'degree_type_id' => DegreeTypeEnum::from($graduate['degree_type'])
+                'teacher_id' => $teacher->user_id,
+                'degree_type_id' => DegreeTypeEnum::from($graduate['degree_type'])->value
             ]);
         }
 
@@ -85,7 +85,7 @@ class RegisterService implements RegisterInterface
                 'position' => $work['position'],
                 'institution' => $work['institution'],
                 'duration' => $work['duration'],
-                'teacher_id' => $teacher->id
+                'teacher_id' => $teacher->user_id
             ]);
         }
 
@@ -94,7 +94,7 @@ class RegisterService implements RegisterInterface
             if ($url) {
                 Certificate::create([
                     'image' => $url,
-                    'teacher_id' => $teacher->id
+                    'teacher_id' => $teacher->user_id
                 ]);
             }
         }

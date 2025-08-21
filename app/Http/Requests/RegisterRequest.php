@@ -55,7 +55,7 @@ class RegisterRequest extends FormRequest
         $role = RoleEnum::from($this->input('role_id'));
         if ($role === RoleEnum::Teacher) {
             $rules['category'] = 'required|exists:categories,id';
-            $rules['description'] = 'string';
+            $rules['description'] = 'nullable|string';
 
             $rules['graduates'] = 'required|array|min:1';
             $rules['graduates.*.degree_title'] = 'required|string';
@@ -67,7 +67,7 @@ class RegisterRequest extends FormRequest
             $rules['works.*.institution'] = 'required|string';
             $rules['works.*.duration'] = 'required|int|min:1';
 
-            $rules['certificates'] = 'array|min:1';
+            $rules['certificates'] = 'array';
             $rules['certificates.*'] = 'file|image|mimes:jpeg,png,jpg|max:2048';
         }
 

@@ -68,6 +68,8 @@ export default function RegisterForm({ role, categories }: { role: number; categ
         },
     ];
 
+    console.log(form);
+
     if (role === roles.Teacher) {
         const more_steps: { title: string; component: JSX.Element }[] = [
             {

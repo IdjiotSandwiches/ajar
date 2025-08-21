@@ -34,7 +34,7 @@ export default function WorkForm({ form }: { form: InertiaFormProps<Partial<Teac
                             return (
                                 <>
                                     <div className="grid w-full max-w-sm items-center gap-2" key={`works.${idx}.institution`}>
-                                        <Label htmlFor={`works.${idx}.institution`}>Company/Institutiion Name - {idx + 1}</Label>
+                                        <Label htmlFor={`works.${idx}.institution`}>Company/Institution Name - {idx + 1}</Label>
                                         <Input
                                             id={`works.${idx}.institution`}
                                             type="text"
@@ -51,7 +51,7 @@ export default function WorkForm({ form }: { form: InertiaFormProps<Partial<Teac
                                                 ])
                                             }
                                             disabled={form.processing}
-                                            placeholder={`Company/Institutiion Name ${idx + 1}`}
+                                            placeholder={`Company/Institution Name ${idx + 1}`}
                                         />
                                         <div className={rowHasError ? 'h-5' : ''}>
                                             <InputError message={getError(`works.${idx}.institution`)} />
