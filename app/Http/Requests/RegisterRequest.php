@@ -20,6 +20,24 @@ class RegisterRequest extends FormRequest
     }
 
     /**
+     * Custom attribute to be shown
+     *
+     * @return array{certificates.*: string, graduates.*.degree_title: string, graduates.*.degree_type: string, graduates.*.university_name: string, works.*.duration: string, works.*.institution: string, works.*.position: string}
+     */
+    public function attributes(): array
+    {
+        return [
+            'graduates.*.degree_title' => 'Title/Major',
+            'graduates.*.university_name' => 'Institution',
+            'graduates.*.degree_type' => 'Degree',
+            'works.*.position' => 'Position',
+            'works.*.institution' => 'Institution',
+            'works.*.duration' => 'Duration',
+            'certificates.*' => 'Certificate',
+        ];
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -29,7 +47,7 @@ class RegisterRequest extends FormRequest
         $rules = [
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|unique:users,phone_number|phone:ID',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Password::defaults()],
             'role_id' => ['required', new Enum(RoleEnum::class)],
         ];
@@ -47,9 +65,9 @@ class RegisterRequest extends FormRequest
             $rules['works'] = 'required|array|min:1';
             $rules['works.*.position'] = 'required|string';
             $rules['works.*.institution'] = 'required|string';
-            $rules['works.*.duration'] = 'required|int';
+            $rules['works.*.duration'] = 'required|int|min:1';
 
-            $rules['certificates'] = 'required|array|min:1';
+            $rules['certificates'] = 'array|min:1';
             $rules['certificates.*'] = 'file|image|mimes:jpeg,png,jpg|max:2048';
         }
 

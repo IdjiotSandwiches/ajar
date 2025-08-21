@@ -5,6 +5,13 @@ export interface RoleEnums {
     [key: string]: any;
 }
 
+export interface DegreeTypeEnums {
+    enums: {
+        degree_type_enum: Record<string, number>;
+    };
+    [key: string]: any;
+}
+
 export interface RegisterFormProps {
     name: string;
     email: string;
@@ -22,12 +29,14 @@ export interface RoleConfig {
 }
 
 export interface GraduateProps {
+    id: number;
     degree_title: string;
     university_name: string;
-    degree_type_id: number;
+    degree_type: number | null;
 }
 
 export interface WorkProps {
+    id: number;
     position: string;
     institution: string;
     duration: number;
@@ -36,8 +45,8 @@ export interface WorkProps {
 export interface TeacherRegisterProps {
     description: string;
     category: number | null;
-    graduates: any;
-    works: any;
+    graduates: any[];
+    works: any[];
     certificates: File[];
 }
 

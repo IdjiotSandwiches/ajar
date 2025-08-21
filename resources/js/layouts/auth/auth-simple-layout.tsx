@@ -22,7 +22,7 @@ export default function AuthSimpleLayout({ children, title, step = 0 }: PropsWit
                             </div>
                         </div>
                     }
-                    <div className="w-full max-w-md">
+                    <div className={"w-full" + (step <= 2 ? " max-w-md" : " max-w-3xl") }>
                         <h1 className="text-center text-3xl font-semibold pb-4">{title}</h1>
                         {children}
                     </div>

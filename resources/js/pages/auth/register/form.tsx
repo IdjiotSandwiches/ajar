@@ -1,11 +1,13 @@
 import { useForm, usePage } from '@inertiajs/react';
 
 import { Textarea } from '@/components/ui/textarea';
-import { Category, RegisterFormProps, RoleConfig, RoleEnums, TeacherRegisterProps } from '@/interfaces/shared';
+import { Category, GraduateProps, RegisterFormProps, RoleConfig, RoleEnums, TeacherRegisterProps, WorkProps } from '@/interfaces/shared';
 import RegisterLayout from '@/layouts/auth/auth-register-layout';
 import { JSX } from 'react';
 import CategoryForm from './category';
 import FormInput from './form-input';
+import GraduateForm from './graduate';
+import WorkForm from './work';
 
 export default function RegisterForm({ role, categories }: { role: number; categories: Category[] }) {
     const enums = usePage<RoleEnums>().props;
@@ -24,7 +26,7 @@ export default function RegisterForm({ role, categories }: { role: number; categ
             more_info: [
                 ['description'],
                 ['category'],
-                ['degree_title', 'university_name', 'degree_type_id'],
+                ['degree_title', 'university_name', 'degree_type'],
                 ['position', 'institution', 'duration'],
                 ['certificates'],
             ],
@@ -43,8 +45,8 @@ export default function RegisterForm({ role, categories }: { role: number; categ
                   category: null,
                   certificates: [],
                   description: '',
-                  graduates: [],
-                  works: [],
+                  graduates: [{ id: Date.now(), degree_title: '', university_name: '', degree_type: null }] as GraduateProps[],
+                  works: [{ id: Date.now(), duration: 0, institution: '', position: '' }] as WorkProps[],
               }
             : {
                   name: '',
@@ -85,7 +87,19 @@ export default function RegisterForm({ role, categories }: { role: number; categ
             },
             {
                 title: 'Your preferred category?',
-                component: <CategoryForm categories={categories} form={form} />
+                component: <CategoryForm categories={categories} form={form} />,
+            },
+            {
+                title: 'Tell us about your graduation',
+                component: <GraduateForm form={form} />,
+            },
+            {
+                title: 'Do you have any work experience?',
+                component: <WorkForm form={form} />
+            },
+            {
+                title: 'Certificates',
+                component: <></>
             }
         ];
         steps.push(...more_steps);

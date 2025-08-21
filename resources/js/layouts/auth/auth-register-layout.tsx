@@ -4,6 +4,7 @@ import { FormEventHandler, JSX, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { RegisterFormProps, RoleConfig } from '@/interfaces/shared';
 import AuthLayout from '@/layouts/auth-layout';
+import { LoaderCircle } from 'lucide-react';
 
 interface StepsProps {
     title?: string | null;
@@ -27,19 +28,15 @@ export default function RegisterLayout({ steps, role_config, form }: RegisterLay
         form.post(route('register.submit'), {
             onFinish: () => form.reset('password', 'password_confirmation'),
             onError: (errors) => {
-                if (role_config.basic_info.some((key) => errors[key]))
-                    setCurrentStep(1);
-                else if (role_config.credential_info.some((key) => errors[key]))
-                    setCurrentStep(2);
-                else if (role_config.more_info)
-                {
+                if (role_config.basic_info.some((key) => errors[key])) setCurrentStep(1);
+                else if (role_config.credential_info.some((key) => errors[key])) setCurrentStep(2);
+                else if (role_config.more_info) {
                     const more_info = role_config.more_info;
                     more_info.forEach((info, idx) => {
-                        if (info.some((key) => errors[key]))
-                            setCurrentStep(2 + idx + 1);
+                        if (info.some((key) => errors[key])) setCurrentStep(2 + idx + 1);
                     });
                 }
-            }
+            },
         });
     };
 
@@ -48,7 +45,7 @@ export default function RegisterLayout({ steps, role_config, form }: RegisterLay
     else router.get(route('register.student'));
 
     return (
-        <AuthLayout title={currentStep <= 2 ? title : steps[currentStep - 1].title ?? ""} step={currentStep}>
+        <AuthLayout title={currentStep <= 2 ? title : (steps[currentStep - 1].title ?? '')} step={currentStep}>
             <Head title="Register" />
             <form className="flex flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-4">{steps[currentStep - 1].component}</div>
@@ -61,7 +58,14 @@ export default function RegisterLayout({ steps, role_config, form }: RegisterLay
                     )}
 
                     <Button type="button" onClick={currentStep === steps.length ? submit : next} className="rounded-full">
-                        {currentStep === steps.length ? 'Submit' : 'Next'}
+                        {currentStep === steps.length ? (
+                            <>
+                                {form.processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                                Submit
+                            </>
+                        ) : (
+                            'Next'
+                        )}
                     </Button>
                 </div>
             </form>
