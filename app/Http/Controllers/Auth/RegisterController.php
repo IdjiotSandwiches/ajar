@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
-use App\Interfaces\RegisterInterface;
 use App\Models\Category;
+use App\Services\RegisterService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -15,9 +15,9 @@ use Inertia\Response;
 
 class RegisterController extends Controller
 {
-    private RegisterInterface $service;
+    private RegisterService $service;
 
-    public function __construct(RegisterInterface $service)
+    public function __construct(RegisterService $service)
     {
         $this->service = $service;
     }

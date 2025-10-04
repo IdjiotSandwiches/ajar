@@ -9,14 +9,13 @@ use App\Models\Institute;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Enums\RoleEnum;
-use App\Interfaces\RegisterInterface;
 use App\Models\WorkExperience;
 use App\Utilities\UploadUtility;
 use Fruitcake\Cors\Exceptions\InvalidOptionException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class RegisterService implements RegisterInterface
+class RegisterService
 {
     /**
      * Transaction of user registration
