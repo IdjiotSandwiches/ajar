@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('image');
             $table->unsignedBigInteger('teacher_id');
             $table->timestamps();
