@@ -74,7 +74,7 @@ class RegisterController extends Controller
             event(new Registered($user));
             Auth::login($user);
         } catch (\Exception $e) {
-            return back($e->getMessage());
+             return back()->withErrors(['error' => $e->getMessage()]);
         }
 
         return to_route('dashboard');
