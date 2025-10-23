@@ -29,7 +29,7 @@ export interface RoleConfig {
 }
 
 export interface GraduateProps {
-    id: number;
+    id?: number;
     degree_title: string;
     university_name: string;
     degree_type: number | null;
@@ -42,7 +42,11 @@ export interface WorkProps {
     duration: number;
 }
 
-export interface TeacherRegisterProps {
+export interface CertificateProps{
+    image: File | string;
+}
+
+export interface TeacherRegisterProps extends RegisterFormProps {
     description: string;
     category: number | null;
     graduates: any[];
