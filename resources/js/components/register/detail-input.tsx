@@ -39,6 +39,9 @@ const DetailInput: React.FC<DetailInputProps> = ({
     }
   }, [value, type]);
 
+  const displayValue =
+    type === "number" && (value === 0 || value === "0") ? "" : value;
+
   return (
     <div className="relative z-0 w-full mb-5 group">
       {type === "textarea" ? (
@@ -66,7 +69,7 @@ const DetailInput: React.FC<DetailInputProps> = ({
           name={name}
           id={id}
           min={min}
-          value={value}
+          value={type === "number" ? displayValue : value}
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
@@ -79,7 +82,7 @@ const DetailInput: React.FC<DetailInputProps> = ({
         />
       )}
       <label
-        htmlFor={name}
+        htmlFor={id}
         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 
                    duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
                    peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto 

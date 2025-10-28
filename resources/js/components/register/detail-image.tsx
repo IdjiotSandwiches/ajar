@@ -1,41 +1,54 @@
 import React, { useEffect, useState } from "react";
 
 interface DetailImageProps {
-  certiIndex: number;
+  Index: number;
   onFilesChange: (files: File[]) => void;
   productImages?: File[];
+  multiple?: boolean;
 }
 
 const DetailImage: React.FC<DetailImageProps> = ({
-  certiIndex,
+  Index,
   onFilesChange,
   productImages = [],
+  multiple = true
 }) => {
   const [files, setFiles] = useState<File[]>(productImages);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
-  // Generate preview URLs
   useEffect(() => {
     const urls = files.map((file) => URL.createObjectURL(file));
     setPreviewUrls(urls);
 
-    // cleanup old blobs
     return () => {
       urls.forEach((url) => URL.revokeObjectURL(url));
     };
   }, [files]);
 
   useEffect(() => {
-    onFilesChange(files);
-  }, [files, onFilesChange]);
+    const currentNames = (productImages ?? []).map((f) => f.name).join(",");
+    const newNames = files.map((f) => f.name).join(",");
+
+    if (currentNames !== newNames) {
+      onFilesChange(files);
+    }
+  }, [files]);
 
   const handleFilesChange = (newFiles: FileList | null) => {
     if (!newFiles) return;
     const selectedFiles = Array.from(newFiles);
-    const updatedFiles = [...files, ...selectedFiles].filter(
-      (file, index, self) =>
-        index === self.findIndex((f) => f.name === file.name)
-    );
+
+    let updatedFiles: File[];
+
+    if (multiple) { 
+      updatedFiles = [...files, ...selectedFiles].filter(
+        (file, index, self) =>
+          index === self.findIndex((f) => f.name === file.name)
+      );
+    } else {
+      updatedFiles = [selectedFiles[selectedFiles.length - 1]];
+    }
+
     setFiles(updatedFiles);
   };
 
@@ -44,7 +57,7 @@ const DetailImage: React.FC<DetailImageProps> = ({
     setFiles(updatedFiles);
   };
 
-  const inputId = `hidden-input-${certiIndex}`;
+  const inputId = `hidden-input-${Index}`;
 
   return (
     <div className="p-6 border rounded-lg my-6">
@@ -52,7 +65,7 @@ const DetailImage: React.FC<DetailImageProps> = ({
         <input
           type="file"
           id={inputId}
-          multiple
+          {...(multiple ? { multiple: true } : {})} 
           className="hidden"
           onChange={(e) => handleFilesChange(e.target.files)}
           accept="image/*"
@@ -76,7 +89,7 @@ const DetailImage: React.FC<DetailImageProps> = ({
                 className="relative w-24 h-24 border bg-gray-100 rounded-md flex items-center justify-center"
               >
                 <img
-                  src={previewUrls[index]} // ✅ pakai URL dari state
+                  src={previewUrls[index]}
                   alt="preview"
                   className="w-full h-full object-cover rounded-md"
                 />
