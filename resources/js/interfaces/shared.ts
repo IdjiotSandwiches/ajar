@@ -82,7 +82,7 @@ export interface ProgrammingLanguageProps {
     programming_language: string;
 }
 
-export interface CreateCourseData {
+export interface CourseData {
     [key: string]: any;
     title: string;
     description: string;
@@ -97,4 +97,11 @@ export interface CreateCourseData {
     discount: number;
     teacher_salary: number;
     course_images: File[];
+}
+
+export interface DeleteConfirmationModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  description: string;
 }

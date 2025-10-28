@@ -3,10 +3,10 @@ import { useForm } from "@inertiajs/react";
 import { Plus, Trash2 } from "react-feather";
 import DetailInput from "@/components/register/detail-input";
 import DetailImage from "@/components/register/detail-image";
-import { BenefitStudentProps, BenefitTeacherProps, CourseOverviewProps, CreateCourseData, LearnObjProps, ProgrammingLanguageProps } from "@/interfaces/shared";
+import { BenefitStudentProps, BenefitTeacherProps, CourseOverviewProps, CourseData, LearnObjProps, ProgrammingLanguageProps } from "@/interfaces/shared";
 
 export default function CreateCoursePage() {
-    const form = useForm<CreateCourseData>({
+    const form = useForm<CourseData>({
         title: "",
         description: "",
         category: null,

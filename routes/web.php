@@ -15,6 +15,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('create-course', function () {
         return Inertia::render('courses/create');
     })->name('create-course');
+
+    Route::get('list-course', function () {
+        return Inertia::render('courses/list');
+    })->name('list-course');
 });
 
 Route::middleware(['auth', 'verified', 'role:Admin'])
