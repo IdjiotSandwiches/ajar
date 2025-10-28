@@ -11,6 +11,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    Route::get('create-course', function () {
+        return Inertia::render('courses/create');
+    })->name('create-course');
 });
 
 Route::middleware(['auth', 'verified', 'role:Admin'])
@@ -33,6 +37,8 @@ Route::middleware(['auth', 'verified', 'role:Institute'])
     ->group(function () {
 
     });
+
+
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

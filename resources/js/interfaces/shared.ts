@@ -42,7 +42,7 @@ export interface WorkProps {
     duration: number;
 }
 
-export interface CertificateProps{
+export interface CertificateProps {
     image: File | string;
 }
 
@@ -59,4 +59,42 @@ export interface Category {
     name: string;
     parent_id?: number | null;
     children?: Category[];
+}
+
+export interface LearnObjProps {
+    id: number;
+    learning_objective: string;
+}
+export interface BenefitStudentProps {
+    id: number;
+    benefit_for_students: string;
+}
+export interface BenefitTeacherProps {
+    id: number;
+    benefit_for_teachers: string;
+}
+export interface CourseOverviewProps {
+    id: number;
+    course_overview: string;
+}
+export interface ProgrammingLanguageProps {
+    id: number;
+    programming_language: string;
+}
+
+export interface CreateCourseData {
+    [key: string]: any;
+    title: string;
+    description: string;
+    category: number | null;
+    learning_objectives: LearnObjProps[];
+    benefit_for_students: BenefitStudentProps[];
+    benefit_for_teachers: BenefitTeacherProps[];
+    course_overviews: CourseOverviewProps[];
+    programming_language: ProgrammingLanguageProps[];
+    duration: number;
+    price_for_student: number;
+    discount: number;
+    teacher_salary: number;
+    course_images: File[];
 }
