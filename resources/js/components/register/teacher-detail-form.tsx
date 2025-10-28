@@ -13,7 +13,7 @@ import DetailImage from "./detail-image";
 
 interface TeacherDetailFormProps {
   form: InertiaFormProps<Partial<TeacherRegisterProps>>;
-  categories: Category[]; 
+  categories: Category[];
   onNext?: () => void;
 
 }
@@ -35,8 +35,6 @@ const exampleCategories = [
 
 const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
   form,
-  categories,
-  onNext
 }) => {
   const parentCategories = exampleCategories.filter((c) => !c.parent_id);
   const subCategories = exampleCategories.filter((c) => c.parent_id);
@@ -139,8 +137,8 @@ const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
               />
               <span
                 className={`w-4 h-4 rounded-full border-2 ${selectedParent === parent.id
-                    ? "border-[#3ABEFF]/70 bg-[#3ABEFF]/70"
-                    : "border-gray-400"
+                  ? "border-[#3ABEFF]/70 bg-[#3ABEFF]/70"
+                  : "border-gray-400"
                   } flex items-center justify-center transition-all`}
               >
                 {selectedParent === parent.id && (
@@ -172,8 +170,8 @@ const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
                   />
                   <span
                     className={`w-4 h-4 rounded border flex items-center justify-center ${selectedSubcategories.includes(sub.id)
-                        ? "bg-[#3ABEFF] border-[#3ABEFF]"
-                        : "border-gray-400 bg-white"
+                      ? "bg-[#3ABEFF] border-[#3ABEFF]"
+                      : "border-gray-400 bg-white"
                       } transition-all`}
                   >
                     {selectedSubcategories.includes(sub.id) && (
@@ -210,6 +208,8 @@ const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
               <div className="flex-1 grid md:grid-cols-2 gap-4">
                 <DetailInput
                   type="text"
+                  name="EduInstitute"
+                  id={`EduInstitute${index + 1}`}
                   title={`Educational Institution ${index + 1}`}
                   value={g.university_name}
                   onChange={(e) =>
@@ -226,6 +226,8 @@ const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
                 <DetailInput
                   type="text"
                   title={`Title / Major ${index + 1}`}
+                  name="TitleMajor"
+                  id={`TitleMajor${index + 1}`}
                   value={g.degree_title}
                   onChange={(e) =>
                     form.setData(
@@ -276,6 +278,8 @@ const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
                 <DetailInput
                   type="text"
                   title={`Company / Institution ${index + 1}`}
+                  name="CompanyInstitute"
+                  id={`CompanyInstitute${index + 1}`}
                   value={w.institution}
                   onChange={(e) =>
                     form.setData(
@@ -292,6 +296,8 @@ const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
                   type="number"
                   min="0"
                   title={`Work Duration ${index + 1}`}
+                  name="WorkDuration"
+                  id={`WorkDuration${index + 1}`}
                   value={w.position}
                   onChange={(e) =>
                     form.setData(
@@ -330,11 +336,12 @@ const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
         })}
       </div>
 
-      {/* ✅ Certificates (using DetailImage) */}
+      {/* Certificates */}
       <div>
         <h3 className="font-medium text-gray-800 mb-3">Certificates</h3>
         <DetailImage
-          certiIndex={0}
+          Index={0}
+          multiple
           productImages={form.data.certificates ?? []}
           onFilesChange={handleCertificatesChange}
         />
