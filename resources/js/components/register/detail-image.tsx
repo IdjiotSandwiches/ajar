@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 interface DetailImageProps {
   Index: number;
   onFilesChange: (files: File[]) => void;
-  productImages?: File[];
+  productImages?: (File | string)[];
   multiple?: boolean;
 }
 
@@ -11,48 +11,42 @@ const DetailImage: React.FC<DetailImageProps> = ({
   Index,
   onFilesChange,
   productImages = [],
-  multiple = true
+  multiple = true,
 }) => {
-  const [files, setFiles] = useState<File[]>(productImages);
+  const [files, setFiles] = useState<(File | string)[]>(productImages);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
   useEffect(() => {
-    const urls = files.map((file) => URL.createObjectURL(file));
+    setFiles(productImages);
+  }, [productImages]);
+
+  useEffect(() => {
+    const urls = (files ?? []).map((img) => {
+      if (img instanceof File) return URL.createObjectURL(img);
+      if (typeof img === "string") return img;
+      return "";
+    });
+
     setPreviewUrls(urls);
 
     return () => {
-      urls.forEach((url) => URL.revokeObjectURL(url));
+      (files ?? []).forEach((img, i) => {
+        if (img instanceof File) URL.revokeObjectURL(urls[i]);
+      });
     };
-  }, [files]);
-
-  useEffect(() => {
-    const currentNames = (productImages ?? []).map((f) => f.name).join(",");
-    const newNames = files.map((f) => f.name).join(",");
-
-    if (currentNames !== newNames) {
-      onFilesChange(files);
-    }
   }, [files]);
 
   const handleFilesChange = (newFiles: FileList | null) => {
     if (!newFiles) return;
     const selectedFiles = Array.from(newFiles);
-
-    let updatedFiles: File[];
-
-    if (multiple) { 
-      updatedFiles = [...files, ...selectedFiles].filter(
-        (file, index, self) =>
-          index === self.findIndex((f) => f.name === file.name)
-      );
-    } else {
-      updatedFiles = [selectedFiles[selectedFiles.length - 1]];
-    }
-
+    const updatedFiles = multiple
+      ? [...files, ...selectedFiles]
+      : [selectedFiles[selectedFiles.length - 1]];
     setFiles(updatedFiles);
+    onFilesChange(selectedFiles);
   };
 
-  const removeFile = (fileToRemove: File) => {
+  const removeFile = (fileToRemove: File | string) => {
     const updatedFiles = files.filter((file) => file !== fileToRemove);
     setFiles(updatedFiles);
   };
@@ -65,7 +59,7 @@ const DetailImage: React.FC<DetailImageProps> = ({
         <input
           type="file"
           id={inputId}
-          {...(multiple ? { multiple: true } : {})} 
+          {...(multiple ? { multiple: true } : {})}
           className="hidden"
           onChange={(e) => handleFilesChange(e.target.files)}
           accept="image/*"
@@ -82,20 +76,17 @@ const DetailImage: React.FC<DetailImageProps> = ({
       <div className="mt-4">
         <h3 className="font-semibold text-gray-900">To Upload</h3>
         <ul className="flex flex-wrap mt-4 gap-4">
-          {files.length > 0 ? (
-            files.map((file, index) => (
-              <li
-                key={index}
-                className="relative w-24 h-24 border bg-gray-100 rounded-md flex items-center justify-center"
-              >
+          {previewUrls.length > 0 ? (
+            previewUrls.map((url, index) => (
+              <li key={index} className="relative w-24 h-24 border rounded-md">
                 <img
-                  src={previewUrls[index]}
+                  src={url}
                   alt="preview"
                   className="w-full h-full object-cover rounded-md"
                 />
                 <button
                   type="button"
-                  onClick={() => removeFile(file)}
+                  onClick={() => removeFile(files[index])}
                   className="absolute top-0 right-0 text-red-600 text-sm"
                 >
                   &times;

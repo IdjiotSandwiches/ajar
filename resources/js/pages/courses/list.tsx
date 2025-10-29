@@ -135,7 +135,7 @@ export default function CourseList() {
 
                     <td className="py-3 px-4 text-center">
                       <div className="flex items-center justify-center gap-2">
-                        <button className="p-2 bg-[#42C2FF] hover:bg-[#42C2FF]/90 rounded-md text-white">
+                        <button onClick={() => router.visit(route("edit-course"))} className="p-2 bg-[#42C2FF] hover:bg-[#42C2FF]/90 rounded-md text-white">
                           <Pencil size={16} strokeWidth={2} />
                         </button>
                         <button

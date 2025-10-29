@@ -52,6 +52,7 @@ export interface TeacherRegisterProps extends RegisterFormProps {
     graduates: any[];
     works: any[];
     certificates: File[];
+    image?: File[];
 }
 
 export interface Category {
@@ -86,7 +87,8 @@ export interface CourseData {
     [key: string]: any;
     title: string;
     description: string;
-    category: number | null;
+    parent_category: number;
+    category: number[] | null;
     learning_objectives: LearnObjProps[];
     benefit_for_students: BenefitStudentProps[];
     benefit_for_teachers: BenefitTeacherProps[];
@@ -96,7 +98,8 @@ export interface CourseData {
     price_for_student: number;
     discount: number;
     teacher_salary: number;
-    course_images: File[];
+    course_images: File[] | string[];
+    teacher?: TeacherRegisterProps[];
 }
 
 export interface DeleteConfirmationModalProps {

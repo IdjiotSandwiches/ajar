@@ -1,0 +1,169 @@
+import React, { useState } from "react";
+import { X } from "react-feather";
+import { router } from "@inertiajs/react"; // ✅ untuk navigasi ke halaman detail (Inertia)
+
+interface Teacher {
+  id: number;
+  name: string;
+  expertise: string;
+  image?: string;
+}
+
+interface TeacherSelectModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  teachers: Teacher[];
+  onSelect: (teacher: Teacher) => void;
+}
+
+const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
+  isOpen,
+  onClose,
+  teachers,
+  onSelect,
+}) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null);
+
+  const teachersPerPage = 5;
+  const totalPages = Math.ceil(teachers.length / teachersPerPage);
+
+  const indexOfLastTeacher = currentPage * teachersPerPage;
+  const indexOfFirstTeacher = indexOfLastTeacher - teachersPerPage;
+  const currentTeachers = teachers.slice(indexOfFirstTeacher, indexOfLastTeacher);
+
+  if (!isOpen) return null;
+
+  const handleSelect = () => {
+    if (selectedTeacher) onSelect(selectedTeacher);
+  };
+
+  const handleViewDetail = (id: number) => {
+    router.visit(`/teachers/${id}`); // ✅ arahkan ke halaman detail guru
+  };
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm z-50 transition-opacity duration-200">
+      <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative animate-fadeIn">
+        {/* Tombol Close */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+        >
+          <X size={20} />
+        </button>
+
+        {/* Judul */}
+        <h2 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+          Select a Teacher
+        </h2>
+
+        {/* List Teacher */}
+        <div className="flex flex-col gap-3 max-h-80 overflow-y-auto pr-1">
+          {currentTeachers.map((teacher) => (
+            <div
+              key={teacher.id}
+              onClick={() => setSelectedTeacher(teacher)}
+              className={`flex justify-between items-center border rounded-xl p-3 cursor-pointer transition-all duration-200 ${
+                selectedTeacher?.id === teacher.id
+                  ? "bg-[#3ABEFF]/10 border-[#3ABEFF]"
+                  : "border-gray-200 hover:border-[#3ABEFF]"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gray-100 rounded-full overflow-hidden shadow-sm">
+                  {teacher.image ? (
+                    <img
+                      src={teacher.image}
+                      alt={teacher.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-300" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="font-medium text-gray-800">{teacher.name}</h3>
+                  <p className="text-sm text-gray-500">{teacher.expertise}</p>
+                </div>
+              </div>
+
+              {/* Tombol Detail */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation(); // supaya tidak ikut memilih saat klik tombol
+                  handleViewDetail(teacher.id);
+                }}
+                className="text-[#3ABEFF] hover:text-[#35AEE0] text-sm font-medium"
+              >
+                Detail
+              </button>
+            </div>
+          ))}
+
+          {teachers.length === 0 && (
+            <p className="text-gray-500 text-center py-4">No teachers found</p>
+          )}
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-4">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              className={`px-3 py-1 rounded-lg text-sm border ${
+                currentPage === 1
+                  ? "text-gray-400 border-gray-200 cursor-not-allowed"
+                  : "text-[#3ABEFF] border-[#3ABEFF] hover:bg-[#3ABEFF]/10"
+              }`}
+            >
+              Prev
+            </button>
+
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-3 py-1 rounded-lg text-sm border ${
+                  currentPage === i + 1
+                    ? "bg-[#3ABEFF] text-white border-[#3ABEFF]"
+                    : "border-gray-200 text-gray-600 hover:bg-gray-100"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              className={`px-3 py-1 rounded-lg text-sm border ${
+                currentPage === totalPages
+                  ? "text-gray-400 border-gray-200 cursor-not-allowed"
+                  : "text-[#3ABEFF] border-[#3ABEFF] hover:bg-[#3ABEFF]/10"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        )}
+
+        {/* Tombol Select */}
+        <div className="flex justify-center mt-5">
+          <button
+            onClick={handleSelect}
+            disabled={!selectedTeacher}
+            className={`px-6 py-2 rounded-lg text-sm font-medium transition ${
+              selectedTeacher
+                ? "bg-[#3ABEFF] text-white hover:bg-[#3ABEFF]/90"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
+          >
+            Select
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TeacherSelectModal;

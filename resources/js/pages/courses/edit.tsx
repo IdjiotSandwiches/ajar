@@ -1,27 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "@inertiajs/react";
 import { Plus, Trash2 } from "react-feather";
 import DetailInput from "@/components/register/detail-input";
 import DetailImage from "@/components/register/detail-image";
 import { BenefitStudentProps, BenefitTeacherProps, CourseOverviewProps, CourseData, LearnObjProps, ProgrammingLanguageProps } from "@/interfaces/shared";
+import TeacherListField from "@/components/ui/list-teacher-field";
+import { dummyCourse } from "@/dummy-data/dummy-course";
 
 export default function CreateCoursePage() {
+
     const form = useForm<CourseData>({
-        title: "",
-        description: "",
-        parent_category: null,
-        category: [],
-        learning_objectives: [{ id: Date.now(), learning_objective: "" }],
-        benefit_for_students: [{ id: Date.now() + 1, benefit_for_students: "" }],
-        benefit_for_teachers: [{ id: Date.now() + 2, benefit_for_teachers: "" }],
-        course_overviews: [{ id: Date.now() + 3, course_overview: "" }],
-        programming_language: [{ id: Date.now() + 4, programming_language: "" }],
-        duration: 0,
-        price_for_student: 0,
-        discount: 0,
-        teacher_salary: 0,
-        course_images: [],
-    });
+            title: "",
+            description: "",
+            parent_category: null,
+            category: [],
+            learning_objectives: [{ id: Date.now(), learning_objective: "" }],
+            benefit_for_students: [{ id: Date.now() + 1, benefit_for_students: "" }],
+            benefit_for_teachers: [{ id: Date.now() + 2, benefit_for_teachers: "" }],
+            course_overviews: [{ id: Date.now() + 3, course_overview: "" }],
+            programming_language: [{ id: Date.now() + 4, programming_language: "" }],
+            duration: 0,
+            price_for_student: 0,
+            discount: 0,
+            teacher_salary: 0,
+            course_images: [],
+        });
 
 
     // ---- Category ----
@@ -171,14 +174,18 @@ export default function CreateCoursePage() {
         // form.post(route("courses.store")); // nanti sesuaikan route store course
     };
 
+    useEffect(() => {
+        form.setData(dummyCourse);
+    }, []);
+
     return (
         <div className="min-h-screen bg-[#F7FDFF]">
             <div className="max-w-4xl mx-auto p-8 bg-white mt-12 rounded-2xl shadow-sm">
                 <h1 className="text-3xl font-semibold text-center text-sky-500 mb-8">
-                    Create Course
+                    Edit Course
                 </h1>
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <form onSubmit={handleSubmit} className="flex flex-col">
                     <DetailInput
                         type="text"
                         name="title"
@@ -567,8 +574,8 @@ export default function CreateCoursePage() {
                         title="Price for Student (Rp)"
                         name="price"
                         id="price"
-                        value={form.data.price}
-                        onChange={(e) => form.setData("price", e.target.value)}
+                        value={form.data.price_for_student}
+                        onChange={(e) => form.setData("price_for_student", e.target.value)}
                     />
 
 
@@ -591,15 +598,22 @@ export default function CreateCoursePage() {
                         title="Teacher Salary (/Session)"
                         name="salary"
                         id="salary"
-                        value={form.data.salary}
-                        onChange={(e) => form.setData("salary", e.target.value)}
+                        value={form.data.teacher_salary}
+                        onChange={(e) => form.setData("teacher_salary", e.target.value)}
+                    />
+
+
+                    {/* Teachers */}
+                    <TeacherListField
+                        selectedTeachers={form.data.teacher ?? []}
+                        onChange={(updated) => form.setData("teacher", updated)}
                     />
 
                     {/* Course Image */}
                     <div>
                         <h3 className="font-medium text-gray-800 mb-3">Course Image</h3>
                         <DetailImage
-                            productImages={form.data.image}
+                            productImages={form.data.course_images}
                             onFilesChange={handleImageChange}
                             Index={0}
                             multiple={false}
