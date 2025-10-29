@@ -23,6 +23,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('edit-course', function () {
         return Inertia::render('courses/edit');
     })->name('edit-course');
+
+    Route::get('add-schedule', function () {
+        return Inertia::render('courses/add-schedule');
+    })->name('add-schedule');
 });
 
 Route::middleware(['auth', 'verified', 'role:Admin'])
