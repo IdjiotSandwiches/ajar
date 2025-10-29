@@ -14,7 +14,7 @@ const DeleteConfirmationView: React.FC<DeleteConfirmationViewProps> = ({
 }) => {
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-[#3ABEFF]/40 backdrop-blur-sm z-50">
-      <div className="bg-white w-[380px] rounded-2xl shadow-2xl p-6 relative text-center">
+      <div className="bg-white w-[380px] rounded-2xl shadow-2xl p-6 relative text-center animate-fadeIn">
         {/* Tombol Close */}
         <button
           onClick={onClose}

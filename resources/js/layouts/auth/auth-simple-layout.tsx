@@ -1,3 +1,4 @@
+import BackButton from '@/components/ui/back-button';
 import { router } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
 
@@ -11,12 +12,7 @@ export default function AuthSimpleLayout({ children, title, step = 0 }: PropsWit
 
   return (
     <div className="flex flex-col items-start min-h-screen bg-[#F8FEFF] p-6">
-      <button
-        onClick={() => router.visit(document.referrer || '/')}
-        className="flex items-center text-gray-800 hover:text-blue-500 transition"
-      >
-        <span className="mr-1 text-lg"></span> Back
-      </button>
+      <BackButton className="m-4" label="Back" />
 
       <div className="flex flex-1 w-full items-center justify-center"> 
         {!isFullPage ? (

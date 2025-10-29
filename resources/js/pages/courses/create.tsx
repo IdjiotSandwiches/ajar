@@ -4,6 +4,7 @@ import { Plus, Trash2 } from "react-feather";
 import DetailInput from "@/components/register/detail-input";
 import DetailImage from "@/components/register/detail-image";
 import { BenefitStudentProps, BenefitTeacherProps, CourseOverviewProps, CourseData, LearnObjProps, ProgrammingLanguageProps } from "@/interfaces/shared";
+import BackButton from "@/components/ui/back-button";
 
 export default function CreateCoursePage() {
     const form = useForm<CourseData>({
@@ -173,8 +174,9 @@ export default function CreateCoursePage() {
 
     return (
         <div className="min-h-screen bg-[#F7FDFF]">
+            <BackButton className="m-4" label="Back" />
             <div className="max-w-4xl mx-auto p-8 bg-white mt-12 rounded-2xl shadow-sm">
-                <h1 className="text-3xl font-semibold text-center text-sky-500 mb-8">
+                <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">
                     Create Course
                 </h1>
 
@@ -280,7 +282,7 @@ export default function CreateCoursePage() {
 
                     {/* Learning Objectives */}
                     <div>
-                        <h3 className="font-medium text-gray-800 mb-3">Learning Objectives</h3>
+                        <h3 className="text-sm font-medium text-gray-800 mb-3">Learning Objectives</h3>
                         {(form.data.learning_objectives ?? []).map((obj: LearnObjProps, index: number) => {
                             const isLast = index === (form.data.learning_objectives?.length ?? 1) - 1;
                             const isSingle = (form.data.learning_objectives?.length ?? 0) === 1;
@@ -335,7 +337,7 @@ export default function CreateCoursePage() {
 
                     {/* Benefit for Students*/}
                     <div>
-                        <h3 className="font-medium text-gray-800 mb-3">Benefit for Students</h3>
+                        <h3 className="text-sm font-medium text-gray-800 mb-3">Benefit for Students</h3>
                         {(form.data.benefit_for_students ?? []).map((bsp: BenefitStudentProps, index: number) => {
                             const isLast = index === (form.data.benefit_for_students?.length ?? 1) - 1;
                             const isSingle = (form.data.benefit_for_students?.length ?? 0) === 1;
@@ -389,7 +391,7 @@ export default function CreateCoursePage() {
 
                     {/* Benefit for Teachers*/}
                     <div>
-                        <h3 className="font-medium text-gray-800 mb-3">Benefit for Teachers</h3>
+                        <h3 className="text-sm font-medium text-gray-800 mb-3">Benefit for Teachers</h3>
                         {(form.data.benefit_for_teachers ?? []).map((bst: BenefitTeacherProps, index: number) => {
                             const isLast = index === (form.data.benefit_for_teachers?.length ?? 1) - 1;
                             const isSingle = (form.data.benefit_for_teachers?.length ?? 0) === 1;
@@ -443,7 +445,7 @@ export default function CreateCoursePage() {
 
                     {/* Course Overview */}
                     <div>
-                        <h3 className="font-medium text-gray-800 mb-3">Course Overview</h3>
+                        <h3 className="text-sm font-medium text-gray-800 mb-3">Course Overview</h3>
                         {(form.data.course_overviews ?? []).map((cop: CourseOverviewProps, index: number) => {
                             const isLast = index === (form.data.course_overviews?.length ?? 1) - 1;
                             const isSingle = (form.data.course_overviews?.length ?? 0) === 1;
@@ -497,7 +499,7 @@ export default function CreateCoursePage() {
 
                     {/* Programming Language */}
                     <div>
-                        <h3 className="font-medium text-gray-800 mb-3">Programming Language</h3>
+                        <h3 className="text-sm font-medium text-gray-800 mb-3">Programming Language</h3>
                         {(form.data.programming_language ?? []).map((pl: ProgrammingLanguageProps, index: number) => {
                             const isLast = index === (form.data.programming_language?.length ?? 1) - 1;
                             const isSingle = (form.data.programming_language?.length ?? 0) === 1;
@@ -597,7 +599,7 @@ export default function CreateCoursePage() {
 
                     {/* Course Image */}
                     <div>
-                        <h3 className="font-medium text-gray-800 mb-3">Course Image</h3>
+                        <h3 className="text-sm font-medium text-gray-800 mb-3">Course Image</h3>
                         <DetailImage
                             productImages={form.data.image}
                             onFilesChange={handleImageChange}

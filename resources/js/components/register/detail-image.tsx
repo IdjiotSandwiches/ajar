@@ -74,7 +74,7 @@ const DetailImage: React.FC<DetailImageProps> = ({
       </div>
 
       <div className="mt-4">
-        <h3 className="font-semibold text-gray-900">To Upload</h3>
+        <h3 className="text-sm font-semibold text-gray-900">To Upload</h3>
         <ul className="flex flex-wrap mt-4 gap-4">
           {previewUrls.length > 0 ? (
             previewUrls.map((url, index) => (

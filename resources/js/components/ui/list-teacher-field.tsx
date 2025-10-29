@@ -35,7 +35,7 @@ const TeacherListField: React.FC<TeacherListFieldProps> = ({
 
   return (
     <div>
-      <h3 className="font-medium text-gray-800 mb-3">Teachers</h3>
+      <h3 className="text-sm font-medium text-gray-800 mb-3">Teachers</h3>
 
       <div className="flex gap-4 flex-wrap items-center mb-3">
         {selectedTeachers.map((teacher) => (
