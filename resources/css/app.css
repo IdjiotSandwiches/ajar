@@ -174,3 +174,23 @@
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out;
 }
+
+
+::-webkit-scrollbar {
+  width: 12px;   
+  height: 1px;        
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;  
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3ABEFF; 
+  border-radius: 10px;
+  border: 2px solid #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #2aa2dd;
+}

@@ -1,6 +1,6 @@
-import BackButton from "@/components/ui/back-button";
 import { getCategoryNameById } from "@/dummy-data/dummy-category";
 import { dummyCourse } from "@/dummy-data/dummy-course";
+import AppLayout from "@/layouts/app-layout";
 import { Plus } from "lucide-react";
 import React, { useState } from "react";
 
@@ -64,7 +64,7 @@ export default function AddSchedulePage() {
 
     return (
         <div>
-            <BackButton className="m-4" label="Back" />
+            {/* <BackButton className="m-4" label="Back" /> */}
             <div className="max-w-7xl mx-auto py-12 px-8">
 
 
@@ -193,3 +193,6 @@ export default function AddSchedulePage() {
         </div>
     );
 }
+
+
+AddSchedulePage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;

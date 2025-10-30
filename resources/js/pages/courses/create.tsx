@@ -5,6 +5,7 @@ import DetailInput from "@/components/register/detail-input";
 import DetailImage from "@/components/register/detail-image";
 import { BenefitStudentProps, BenefitTeacherProps, CourseOverviewProps, CourseData, LearnObjProps, ProgrammingLanguageProps } from "@/interfaces/shared";
 import BackButton from "@/components/ui/back-button";
+import AppLayout from "@/layouts/app-layout";
 
 export default function CreateCoursePage() {
     const form = useForm<CourseData>({
@@ -174,7 +175,7 @@ export default function CreateCoursePage() {
 
     return (
         <div className="min-h-screen bg-[#F7FDFF]">
-            <BackButton className="m-4" label="Back" />
+            {/* <BackButton className="m-4" label="Back" /> */}
             <div className="max-w-4xl mx-auto p-8 bg-white mt-12 rounded-2xl shadow-sm">
                 <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">
                     Create Course
@@ -610,7 +611,7 @@ export default function CreateCoursePage() {
 
                     <button
                         type="submit"
-                        className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 rounded-lg transition-all"
+                        className="bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white font-semibold py-2 rounded-lg transition-all"
                     >
                         Submit
                     </button>
@@ -619,3 +620,5 @@ export default function CreateCoursePage() {
         </div>
     );
 }
+
+CreateCoursePage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;

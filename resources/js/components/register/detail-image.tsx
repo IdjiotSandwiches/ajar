@@ -17,8 +17,11 @@ const DetailImage: React.FC<DetailImageProps> = ({
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
   useEffect(() => {
+  if (JSON.stringify(productImages) !== JSON.stringify(files)) {
     setFiles(productImages);
-  }, [productImages]);
+  }
+}, [productImages]);
+
 
   useEffect(() => {
     const urls = (files ?? []).map((img) => {

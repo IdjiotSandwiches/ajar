@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { router } from "@inertiajs/react";
 import DeleteConfirmationModal from "@/components/modal/delete-confirmation";
-import BackButton from "@/components/ui/back-button";
+// import BackButton from "@/components/ui/back-button";
+import AppLayout from "@/layouts/app-layout";
 
 export default function CourseList() {
   const [courses, setCourses] = useState<any[]>([]); // ✅ state untuk semua kursus
@@ -71,7 +72,7 @@ export default function CourseList() {
 
   return (
     <div className="min-h-screen bg-[#f9fdfd] flex flex-col">
-      <BackButton className="m-4" label="Back" />
+      {/* <BackButton className="m-4" label="Back" /> */}
       <div className="max-w-6xl mx-auto w-full px-6 py-10 bg-white/80 backdrop-blur-sm shadow-sm rounded-2xl mt-10">
         <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-10">
           List Courses
@@ -170,3 +171,5 @@ export default function CourseList() {
 
   
 }
+
+CourseList.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
