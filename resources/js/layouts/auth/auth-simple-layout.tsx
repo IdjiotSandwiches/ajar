@@ -12,7 +12,7 @@ export default function AuthSimpleLayout({ children, title, step = 0 }: PropsWit
 
   return (
     <div className="flex flex-col items-start min-h-screen bg-[#F8FEFF] p-6">
-      <BackButton className="m-4" label="Back" />
+      {/* <BackButton className="m-4" label="Back" /> */}
 
       <div className="flex flex-1 w-full items-center justify-center"> 
         {!isFullPage ? (
