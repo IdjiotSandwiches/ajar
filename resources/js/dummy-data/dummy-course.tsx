@@ -1,47 +1,169 @@
 import { CourseData } from "@/interfaces/shared";
 import { dummyTeachers } from "./dummy-teacher";
 
-export const dummyCourse: CourseData = {
-  title: "Fullstack Web Development Bootcamp",
-  description:
-    "Kursus intensif selama 12 minggu untuk menjadi Fullstack Web Developer. Materi meliputi HTML, CSS, JavaScript, React, dan Node.js.",
-  parent_category: 7,
-  category: [8, 9],
-  learning_objectives: [
-    { id: 1, learning_objective: "Menguasai dasar-dasar HTML, CSS, dan JavaScript." },
-    { id: 2, learning_objective: "Membangun aplikasi web dengan React dan Node.js." },
-    { id: 3, learning_objective: "Menerapkan REST API dan konsep database relasional." },
-  ],
-  benefit_for_students: [
-    { id: 1, benefit_for_students: "Dapat membuat website responsif dan interaktif." },
-    { id: 2, benefit_for_students: "Mendapatkan sertifikat kelulusan." },
-  ],
-  benefit_for_teachers: [
-    { id: 1, benefit_for_teachers: "Kesempatan mengajar dalam kelas profesional." },
-    { id: 2, benefit_for_teachers: "Mendapatkan bonus dari performa kursus." },
-  ],
-  course_overviews: [
-    { id: 1, course_overview: "Pendahuluan tentang web development." },
-    { id: 2, course_overview: "Frontend dengan React." },
-    { id: 3, course_overview: "Backend dengan Express & Node.js." },
-  ],
-  programming_language: [
-    { id: 1, programming_language: "HTML" },
-    { id: 2, programming_language: "CSS" },
-    { id: 3, programming_language: "JavaScript" },
-    { id: 4, programming_language: "TypeScript" },
-  ],
-  duration: 12,
-  price_for_student: 1500000,
-  discount: 10,
-  teacher_salary: 700000,
-  course_images: ["/images/image-1.jpg"],
-  teacher: [
-    {
-      ...dummyTeachers[0],
-    }, 
-    {
-      ...dummyTeachers[1],
-    },
-  ],
-};
+export const dummyCourse: CourseData[] = [
+  {
+    title: "Fullstack Web Development Bootcamp",
+    description:
+      "Kursus intensif 12 minggu untuk menguasai HTML, CSS, JavaScript, React, dan Node.js hingga siap kerja sebagai web developer.",
+    parent_category: 7,
+    category: [8, 9],
+    learning_objectives: [
+      { id: 1, learning_objective: "Menguasai dasar-dasar HTML, CSS, dan JavaScript." },
+      { id: 2, learning_objective: "Membangun aplikasi web modern dengan React." },
+      { id: 3, learning_objective: "Membuat backend API menggunakan Node.js dan Express." },
+    ],
+    benefit_for_students: [
+      { id: 1, benefit_for_students: "Dapat membangun website interaktif dari nol." },
+      { id: 2, benefit_for_students: "Sertifikat kelulusan resmi dari Ajar." },
+    ],
+    benefit_for_teachers: [],
+    course_overviews: [
+      { id: 1, course_overview: "Pengenalan web development" },
+      { id: 2, course_overview: "Frontend dengan React" },
+      { id: 3, course_overview: "Backend dengan Node.js" },
+    ],
+    programming_language: [
+      { id: 1, programming_language: "HTML" },
+      { id: 2, programming_language: "CSS" },
+      { id: 3, programming_language: "JavaScript" },
+      { id: 4, programming_language: "TypeScript" },
+    ],
+    duration: 12,
+    price_for_student: 1500000,
+    discount: 10,
+    teacher_salary: 700000,
+    course_images: ["/images/image-1.jpg"],
+    teacher: [{ ...dummyTeachers[0] }],
+    institution: "Ajar Academy",
+    ratings: [5, 4, 5, 4, 5],
+    reviews: [
+      "Kursusnya sangat membantu!",
+      "Instruktur menjelaskan dengan jelas.",
+    ],
+  },
+  {
+    title: "UI/UX Design Masterclass",
+    description:
+      "Belajar prinsip desain dan prototyping menggunakan Figma dan Design Thinking untuk hasil desain profesional.",
+    parent_category: 3,
+    category: [5],
+    learning_objectives: [
+      { id: 1, learning_objective: "Memahami prinsip desain UI/UX." },
+      { id: 2, learning_objective: "Membuat prototipe menggunakan Figma." },
+      { id: 3, learning_objective: "Melakukan user testing dan iterasi desain." },
+    ],
+    benefit_for_students: [
+      { id: 1, benefit_for_students: "Portofolio desain yang siap kerja." },
+      { id: 2, benefit_for_students: "Mentoring langsung dari desainer profesional." },
+    ],
+    benefit_for_teachers: [],
+    course_overviews: [],
+    programming_language: [],
+    duration: 8,
+    price_for_student: 1200000,
+    discount: 0,
+    teacher_salary: 600000,
+    course_images: ["/images/image-1.jpg"],
+    teacher: [{ ...dummyTeachers[1] }],
+    institution: "DesignHub Indonesia",
+    ratings: [4, 4, 5, 5],
+    reviews: [
+      "Belajar UI/UX jadi menyenangkan!",
+      "Banyak latihan praktis.",
+      "Instruktur berpengalaman banget.",
+    ],
+  },
+  {
+    title: "Mobile App Development with Flutter",
+    description:
+      "Pelajari cara membuat aplikasi mobile Android dan iOS menggunakan Flutter dan Dart dengan performa tinggi.",
+    parent_category: 9,
+    category: [10],
+    learning_objectives: [
+      { id: 1, learning_objective: "Memahami dasar Flutter dan Dart." },
+      { id: 2, learning_objective: "Membangun UI responsif untuk mobile." },
+      { id: 3, learning_objective: "Integrasi API dan penyimpanan data lokal." },
+    ],
+    benefit_for_students: [
+      { id: 1, benefit_for_students: "Mampu membuat aplikasi Android/iOS." },
+      { id: 2, benefit_for_students: "Dapat upload aplikasi ke Play Store." },
+    ],
+    benefit_for_teachers: [],
+    course_overviews: [],
+    programming_language: [{ id: 1, programming_language: "Dart" }],
+    duration: 10,
+    price_for_student: 2000000,
+    discount: 15,
+    teacher_salary: 1000000,
+    course_images: ["/images/image-1.jpg"],
+    teacher: [{ ...dummyTeachers[2] }],
+    institution: "Mobile Dev Academy",
+    ratings: [5, 5, 5, 4, 5],
+    reviews: [
+      "Belajar Flutter dengan mudah!",
+      "Materinya update dan aplikatif.",
+      "Instruktur sangat responsif.",
+    ],
+  },
+  {
+    title: "Data Science with Python",
+    description:
+      "Pelajari analisis data dan machine learning menggunakan Python, Pandas, dan Scikit-Learn dari dasar hingga lanjutan.",
+    parent_category: 6,
+    category: [11],
+    learning_objectives: [
+      { id: 1, learning_objective: "Mengolah dan memvisualisasikan data." },
+      { id: 2, learning_objective: "Membuat model machine learning sederhana." },
+    ],
+    benefit_for_students: [
+      { id: 1, benefit_for_students: "Kemampuan analisis data siap kerja." },
+    ],
+    benefit_for_teachers: [],
+    course_overviews: [],
+    programming_language: [{ id: 1, programming_language: "Python" }],
+    duration: 10,
+    price_for_student: 1800000,
+    discount: 5,
+    teacher_salary: 900000,
+    course_images: ["/images/image-1.jpg"],
+    teacher: [{ ...dummyTeachers[3] }],
+    institution: "DataLab Institute",
+    ratings: [4, 4, 5, 3, 5, 5],
+    reviews: [
+      "Banyak insight baru soal data!",
+      "Penjelasan sangat detail.",
+      "Latihannya menantang tapi seru.",
+    ],
+  },
+  {
+    title: "Introduction to Cybersecurity",
+    description:
+      "Pelajari dasar keamanan siber, enkripsi, dan teknik melindungi data pribadi serta sistem dari serangan digital.",
+    parent_category: 10,
+    category: [12],
+    learning_objectives: [
+      { id: 1, learning_objective: "Memahami dasar keamanan jaringan." },
+      { id: 2, learning_objective: "Mengetahui teknik enkripsi dasar." },
+    ],
+    benefit_for_students: [
+      { id: 1, benefit_for_students: "Kemampuan melindungi sistem dan data digital." },
+    ],
+    benefit_for_teachers: [],
+    course_overviews: [],
+    programming_language: [],
+    duration: 6,
+    price_for_student: 1000000,
+    discount: 0,
+    teacher_salary: 500000,
+    course_images: ["/images/image-1.jpg"],
+    teacher: [{ ...dummyTeachers[4] }],
+    institution: "CyberSafe Academy",
+    ratings: [4, 5, 4, 4],
+    reviews: [
+      "Cocok untuk pemula keamanan siber.",
+      "Menarik dan informatif.",
+      "Instruktur komunikatif.",
+    ],
+  },
+];

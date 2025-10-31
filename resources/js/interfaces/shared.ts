@@ -100,11 +100,14 @@ export interface CourseData {
     teacher_salary: number;
     course_images: File[] | string[];
     teacher?: TeacherRegisterProps[];
+    institution?: string;
+    ratings?: number[];
+    reviews?: string[];
 }
 
 export interface DeleteConfirmationModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  description: string;
+    isOpen: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+    description: string;
 }

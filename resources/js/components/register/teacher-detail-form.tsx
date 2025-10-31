@@ -8,8 +8,8 @@ import {
   Category,
   TeacherRegisterProps,
 } from "@/interfaces/shared";
-import DetailInput from "./detail-input";
-import DetailImage from "./detail-image";
+import DetailInput from "../detail-input";
+import DetailImage from "../detail-image";
 
 interface TeacherDetailFormProps {
   form: InertiaFormProps<Partial<TeacherRegisterProps>>;

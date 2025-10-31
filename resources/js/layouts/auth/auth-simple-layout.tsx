@@ -8,7 +8,7 @@ interface AuthLayoutProps {
 }
 
 export default function AuthSimpleLayout({ children, title, step = 0 }: PropsWithChildren<AuthLayoutProps>) {
-  const isFullPage = step > 2; // 👉 langkah 3 ke atas (TeacherDetailForm)
+  const isFullPage = step > 2; 
 
   return (
     <div className="flex flex-col items-start min-h-screen bg-[#F8FEFF] p-6">

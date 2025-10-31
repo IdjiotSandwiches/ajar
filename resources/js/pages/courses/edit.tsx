@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useForm } from "@inertiajs/react";
 import { Plus, Trash2 } from "react-feather";
-import DetailInput from "@/components/register/detail-input";
-import DetailImage from "@/components/register/detail-image";
+import DetailInput from "@/components/detail-input";
+import DetailImage from "@/components/detail-image";
 import { BenefitStudentProps, BenefitTeacherProps, CourseOverviewProps, CourseData, LearnObjProps, ProgrammingLanguageProps } from "@/interfaces/shared";
 import TeacherListField from "@/components/ui/list-teacher-field";
 import { dummyCourse } from "@/dummy-data/dummy-course";

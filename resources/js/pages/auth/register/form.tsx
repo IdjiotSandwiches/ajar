@@ -5,7 +5,7 @@ import { Category, RoleConfig, RoleEnums, TeacherRegisterProps } from '@/interfa
 import RegisterLayout from '@/layouts/auth/auth-register-layout';
 import { JSX, useRef } from 'react';
 // import CategoryForm from '../../../components/register/category';
-import FormInput from '../../../components/register/form-input';
+import FormInput from '../../../components/form-input';
 // import GraduateForm from '../../../components/register/graduate';
 // import WorkForm from '../../../components/register/work';
 import TeacherDetailForm from '@/components/register/teacher-detail-form';
