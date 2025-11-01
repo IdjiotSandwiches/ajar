@@ -31,6 +31,9 @@ export const dummyTeachers: TeacherRegisterProps[] = [
       "https://cdn-icons-png.flaticon.com/512/6340/6340906.png",
       "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
     ] as unknown as File[],
+     image: [
+      "https://randomuser.me/api/portraits/men/33.jpg",
+    ] as unknown as File[],
   },
   {
     name: "Maria Anggraini",
@@ -60,6 +63,9 @@ export const dummyTeachers: TeacherRegisterProps[] = [
     ],
     certificates: [
       "https://cdn-icons-png.flaticon.com/512/2965/2965879.png",
+    ] as unknown as File[],
+    image: [
+      "https://randomuser.me/api/portraits/women/10.jpg",
     ] as unknown as File[],
   },
   {
@@ -91,6 +97,9 @@ export const dummyTeachers: TeacherRegisterProps[] = [
     certificates: [
       "https://cdn-icons-png.flaticon.com/512/1055/1055646.png",
     ] as unknown as File[],
+    image: [
+      "https://randomuser.me/api/portraits/women/12.jpg",
+    ] as unknown as File[],
   },
   {
     name: "Budi Santoso",
@@ -120,6 +129,9 @@ export const dummyTeachers: TeacherRegisterProps[] = [
     ],
     certificates: [
       "https://cdn-icons-png.flaticon.com/512/3305/3305897.png",
+    ] as unknown as File[],
+    image: [
+      "https://randomuser.me/api/portraits/women/33.jpg",
     ] as unknown as File[],
   },
   {
@@ -181,6 +193,9 @@ export const dummyTeachers: TeacherRegisterProps[] = [
     certificates: [
       "https://cdn-icons-png.flaticon.com/512/595/595067.png",
     ] as unknown as File[],
+    image: [
+      "https://randomuser.me/api/portraits/women/20.jpg",
+    ] as unknown as File[],
   },
   {
     name: "Lina Marlina",
@@ -210,6 +225,9 @@ export const dummyTeachers: TeacherRegisterProps[] = [
     ],
     certificates: [
       "https://cdn-icons-png.flaticon.com/512/3141/3141156.png",
+    ] as unknown as File[],
+    image: [
+      "https://randomuser.me/api/portraits/women/5.jpg",
     ] as unknown as File[],
   },
   {
@@ -241,6 +259,9 @@ export const dummyTeachers: TeacherRegisterProps[] = [
     certificates: [
       "https://cdn-icons-png.flaticon.com/512/3659/3659899.png",
     ] as unknown as File[],
+    image: [
+      "https://randomuser.me/api/portraits/men/10.jpg",
+    ] as unknown as File[],
   },
   {
     name: "Nur Aisyah",
@@ -270,6 +291,9 @@ export const dummyTeachers: TeacherRegisterProps[] = [
     ],
     certificates: [
       "https://cdn-icons-png.flaticon.com/512/4341/4341013.png",
+    ] as unknown as File[],
+    image: [
+      "https://randomuser.me/api/portraits/women/22.jpg",
     ] as unknown as File[],
   },
   {
@@ -301,6 +325,9 @@ export const dummyTeachers: TeacherRegisterProps[] = [
     certificates: [
       "https://cdn-icons-png.flaticon.com/512/4208/4208396.png",
     ] as unknown as File[],
+    image: [
+      "https://randomuser.me/api/portraits/men/20.jpg",
+    ] as unknown as File[],
   },
   {
     name: "Siti Rahmawati",
@@ -330,6 +357,9 @@ export const dummyTeachers: TeacherRegisterProps[] = [
     ],
     certificates: [
       "https://cdn-icons-png.flaticon.com/512/1027/1027471.png",
+    ] as unknown as File[],
+    image: [
+      "https://randomuser.me/api/portraits/women/34.jpg",
     ] as unknown as File[],
   },
 ];

@@ -12,7 +12,7 @@ interface ScheduleSlot {
 
 export default function AddSchedulePage() {
     const currentTeacher = { id: 1, name: "Dodi", avatar: "/images/teacher-dodi.png" };
-    const course = dummyCourse;
+    const course = dummyCourse[0];
 
     const hours = [
         "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",

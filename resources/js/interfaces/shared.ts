@@ -87,8 +87,8 @@ export interface CourseData {
     [key: string]: any;
     title: string;
     description: string;
-    parent_category: number;
-    category: number[] | null;
+    parent_category: string;
+    category: string[] | null;
     learning_objectives: LearnObjProps[];
     benefit_for_students: BenefitStudentProps[];
     benefit_for_teachers: BenefitTeacherProps[];

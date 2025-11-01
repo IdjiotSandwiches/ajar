@@ -22,16 +22,22 @@ import Navbar from "@/components/navbar";
 import BackButton from "@/components/ui/back-button";
 import React, { PropsWithChildren } from "react";
 
+interface AppNavbarLayoutProps {
+  showBackButton?: boolean;
+  useContainer?: boolean;
+}
 
 export default function AppNavbarLayout({
   children,
   showBackButton = true,
-}: PropsWithChildren<{ showBackButton?: boolean }>) {
+  useContainer = true, // default true agar tetap konsisten
+}: PropsWithChildren<AppNavbarLayoutProps>) {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navbar */}
       <Navbar />
 
+      {/* Tombol Back (opsional) */}
       {showBackButton && (
         <div className="absolute top-24 left-6 z-20">
           <BackButton label="Back" />
@@ -39,7 +45,11 @@ export default function AppNavbarLayout({
       )}
 
       {/* Konten utama */}
-      <main className="flex-1 container mx-auto px-6 py-8">
+      <main
+        className={`flex-1 py-8 ${
+          useContainer ? "container mx-auto" : "w-full"
+        }`}
+      >
         {children}
       </main>
 
@@ -48,4 +58,5 @@ export default function AppNavbarLayout({
     </div>
   );
 }
+
 

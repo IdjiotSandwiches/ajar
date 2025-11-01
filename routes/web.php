@@ -21,9 +21,9 @@ Route::middleware('guest')->group(function () {
         return Inertia::render('courses/create');
     })->name('create-course');
 
-    Route::get('list-course', function () {
-        return Inertia::render('courses/list');
-    })->name('list-course');
+    Route::get('my-course', function () {
+        return Inertia::render('courses/my-courses');
+    })->name('my-course');
 
     Route::get('edit-course', function () {
         return Inertia::render('courses/edit');
@@ -32,6 +32,11 @@ Route::middleware('guest')->group(function () {
     Route::get('add-schedule', function () {
         return Inertia::render('courses/add-schedule');
     })->name('add-schedule');
+
+    Route::get('list-course', function () {
+        return Inertia::render('courses/list-courses');
+    })->name('list-course');
+
 });
 
 // Route::middleware(['auth', 'verified', 'role:Admin'])

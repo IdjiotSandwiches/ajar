@@ -1,3 +1,4 @@
+import { router } from "@inertiajs/react";
 import React from "react";
 
 export default function BecomeTeacherSection() {
@@ -23,6 +24,7 @@ export default function BecomeTeacherSection() {
             <button
               className="inline-block bg-[#3ABEFF] text-white font-semibold text-md px-6 py-3 rounded-md shadow-md 
               hover:bg-[#2ea5d3] transition-all duration-300 max-w-1/8"
+              onClick={() => router.get(route('register.teacher'))}
             >
               Register
             </button>

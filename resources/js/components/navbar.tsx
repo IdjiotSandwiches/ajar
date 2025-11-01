@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Bell } from "lucide-react";
+import { router } from "@inertiajs/react";
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,7 +19,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="w-full bg-white shadow-sm sticky top-0 z-50">
+    <nav className="w-full bg-white shadow-sm sticky top-0 z-99">
       <div className="relative flex items-center justify-between px-8 py-4 max-w-[1870px] mx-auto">
         {/* === Left: Logo (pojok kiri) === */}
         <div className="flex items-center">
@@ -27,10 +28,10 @@ export default function Navbar() {
 
         {/* === Middle: Navigation benar-benar di tengah === */}
         <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-12 text-[#3ABEFF] font-medium">
-          <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg">
+          <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg" onClick={() => router.get(route('home'))}>
             Home
           </a>
-          <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg">
+          <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg" onClick={() => router.get(route('list-course'))}>
             Course
           </a>
           <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg">
