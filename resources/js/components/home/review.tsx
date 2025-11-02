@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { dummyReview, ReviewData } from "@/dummy-data/dummy-review";
+import { dummyInstitution } from "@/dummy-data/dummy-institute"; // ✅ tambahkan ini
 
 export default function ReviewSection() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -70,61 +71,68 @@ export default function ReviewSection() {
             ref={containerRef}
             className="flex overflow-hidden scroll-smooth gap-8 flex-1"
           >
-            {dummyReview.map((review: ReviewData) => (
-              <div
-                key={review.id}
-                data-card
-                className="bg-white border border-gray-100 rounded-lg shadow-sm p-8 flex flex-col justify-between flex-shrink-0 w-[48%] hover:shadow-md transition-all"
-              >
-                {/* === Reviewer Info === */}
-                <div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <img
-                      src={review.avatar}
-                      alt={review.reviewer_name}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                    <div>
-                      <p className="font-medium text-gray-800">
-                        {review.reviewer_name} –{" "}
-                        <span className="text-gray-500">{review.role}</span>
-                      </p>
-                      <p className="text-yellow-400 text-sm">
-                        {"★".repeat(review.rating)}{" "}
-                        <span className="text-gray-300">
-                          {"★".repeat(5 - review.rating)}
-                        </span>
-                      </p>
+            {dummyReview.map((review: ReviewData) => {
+              // ✅ ambil data institusi berdasarkan ID
+              const institution = dummyInstitution.find(
+                (inst) => inst.id === review.review_to.institutionId
+              );
+
+              return (
+                <div
+                  key={review.id}
+                  data-card
+                  className="bg-white border border-gray-100 rounded-lg shadow-sm p-8 flex flex-col justify-between flex-shrink-0 w-[48%] hover:shadow-md transition-all"
+                >
+                  {/* === Reviewer Info === */}
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <img
+                        src={review.avatar}
+                        alt={review.reviewer_name}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                      <div>
+                        <p className="font-medium text-gray-800">
+                          {review.reviewer_name} –{" "}
+                          <span className="text-gray-500">{review.role}</span>
+                        </p>
+                        <p className="text-yellow-400 text-sm">
+                          {"★".repeat(review.rating)}{" "}
+                          <span className="text-gray-300">
+                            {"★".repeat(5 - review.rating)}
+                          </span>
+                        </p>
+                      </div>
                     </div>
+
+                    {/* === Review Text === */}
+                    <p className="text-gray-600 text-sm mb-6">
+                      {review.review_text}
+                    </p>
                   </div>
 
-                  {/* === Review Text === */}
-                  <p className="text-gray-600 text-sm mb-22">
-                    {review.review_text}
-                  </p>
-                </div>
-
-                {/* === Review Target === */}
-                <div className="border-t pt-3 mt-auto">
-                  <p className="text-xs text-gray-500 mb-2">Review to:</p>
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={review.review_to.institution.logo}
-                      alt={review.review_to.institution.name}
-                      className="w-10 h-10 rounded-lg object-cover"
-                    />
-                    <div>
-                      <p className="text-[#3ABEFF] font-medium text-sm">
-                        {review.review_to.teacher.name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {review.review_to.institution.name}
-                      </p>
+                  {/* === Review Target === */}
+                  <div className="border-t pt-3 mt-auto">
+                    <p className="text-xs text-gray-500 mb-2">Review to:</p>
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={institution?.logo || "/images/default-logo.png"}
+                        alt={institution?.name || "Unknown Institution"}
+                        className="w-10 h-10 rounded-lg object-cover"
+                      />
+                      <div>
+                        <p className="text-[#3ABEFF] font-medium text-sm">
+                          {review.review_to.teacher.name}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {institution?.name || "Unknown Institution"}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Right Arrow */}

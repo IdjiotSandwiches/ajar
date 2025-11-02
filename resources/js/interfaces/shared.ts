@@ -111,3 +111,18 @@ export interface DeleteConfirmationModalProps {
     onConfirm: () => void;
     description: string;
 }
+
+export interface InstitutionData {
+  id: number;
+  name: string;
+  logo: string;
+  banner: string;
+  description: string;
+  rating: number;
+  totalCourses: number;
+  totalTeachers: number;
+  category: string;
+  location: string;
+  contactEmail: string;
+  reviews?: string[];
+}

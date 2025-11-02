@@ -227,7 +227,7 @@ export const dummyTeachers: TeacherRegisterProps[] = [
       "https://cdn-icons-png.flaticon.com/512/3141/3141156.png",
     ] as unknown as File[],
     image: [
-      "https://randomuser.me/api/portraits/women/5.jpg",
+      "https://randomuser.me/api/portraits/women/8.jpg",
     ] as unknown as File[],
   },
   {

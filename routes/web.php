@@ -37,6 +37,10 @@ Route::middleware('guest')->group(function () {
         return Inertia::render('courses/list-courses');
     })->name('list-course');
 
+    Route::get('detail-institute', function () {
+        return Inertia::render('institute/detail');
+    })->name('detail-institute');
+
 });
 
 // Route::middleware(['auth', 'verified', 'role:Admin'])

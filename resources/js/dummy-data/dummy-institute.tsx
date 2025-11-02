@@ -1,28 +1,75 @@
-export interface InstitutionData {
-  id: number;
-  name: string;
-  logo: string; 
-}
+import { InstitutionData } from "@/interfaces/shared";
 
 export const dummyInstitution: InstitutionData[] = [
-  { id: 1, name: "Ajar Academy", logo: "/images/image-1.jpg" },
-  { id: 2, name: "Techno Institute", logo: "/images/image-1.jpg" },
-  { id: 3, name: "EduSmart", logo: "/images/image-1.jpg" },
-  { id: 4, name: "CodeLab", logo: "/images/image-1.jpg" },
-  { id: 5, name: "Learnify", logo: "/images/image-1.jpg" },
-  { id: 6, name: "SkillHub", logo: "/images/image-1.jpg" },
-  { id: 7, name: "ProLearn", logo: "/images/image-1.jpg" },
-  { id: 8, name: "NextGen Academy", logo: "/images/image-1.jpg" },
-  { id: 9, name: "FutureSkill", logo: "/images/image-1.jpg" },
-  { id: 10, name: "DevSphere", logo: "/images/image-1.jpg" },
-  { id: 11, name: "Inovate", logo: "/images/image-1.jpg" },
-  { id: 12, name: "GoEdu", logo: "/images/image-1.jpg" },
-  { id: 13, name: "ByteLearn", logo: "/images/image-1.jpg" },
-  { id: 14, name: "CodePro", logo: "/images/image-1.jpg" },
-  { id: 15, name: "TechEdu", logo: "/images/image-1.jpg" },
-  { id: 16, name: "BrightMind", logo: "/images/image-1.jpg" },
-  { id: 17, name: "SmartGrow", logo: "/images/image-1.jpg" },
-  { id: 18, name: "AlphaLearn", logo: "/images/image-1.jpg" },
-  { id: 19, name: "CodeNation", logo: "/images/image-1.jpg" },
-  { id: 20, name: "EduPlus", logo: "/images/image-1.jpg" },
+  {
+    id: 1,
+    name: "Ajar Academy",
+    logo: "/images/image-1.jpg",
+    banner: "/images/banner-1.jpg",
+    description:
+      "Ajar Academy berfokus pada pengembangan keterampilan digital dengan pendekatan praktis. Kami menyediakan berbagai kursus dari pemrograman dasar hingga advanced AI.",
+    rating: 4.9,
+    totalCourses: 24,
+    totalTeachers: 12,
+    category: "Technology & Programming",
+    location: "Jakarta, Indonesia",
+    contactEmail: "contact@ajaracademy.com",
+    reviews: ["Sangat berguna!", "Cocok untuk pemula di bidang keamanan."],
+  },
+  {
+    id: 2,
+    name: "Techno Institute",
+    logo: "/images/image-1.jpg",
+    banner: "/images/banner-2.jpg",
+    description:
+      "Techno Institute menghadirkan pengalaman belajar interaktif dalam bidang teknologi informasi dan pengembangan aplikasi. Cocok untuk pelajar dan profesional.",
+    rating: 4.7,
+    totalCourses: 18,
+    totalTeachers: 8,
+    category: "Software Engineering",
+    location: "Bandung, Indonesia",
+    contactEmail: "hello@technoinstitute.com",
+  },
+  {
+    id: 3,
+    name: "EduSmart",
+    logo: "/images/image-1.jpg",
+    banner: "/images/banner-3.jpg",
+    description:
+      "EduSmart menyediakan kursus online dengan mentor profesional. Kami membantu pelajar mencapai potensi terbaik dalam dunia digital.",
+    rating: 4.8,
+    totalCourses: 30,
+    totalTeachers: 15,
+    category: "General Education",
+    location: "Surabaya, Indonesia",
+    contactEmail: "support@edusmart.com",
+  },
+  {
+    id: 4,
+    name: "CodeLab",
+    logo: "/images/image-1.jpg",
+    banner: "/images/banner-4.jpg",
+    description:
+      "CodeLab adalah tempat terbaik untuk belajar coding dari dasar hingga mahir. Dilengkapi dengan proyek nyata dan sistem pembelajaran berbasis hasil.",
+    rating: 4.9,
+    totalCourses: 20,
+    totalTeachers: 10,
+    category: "Web Development",
+    location: "Yogyakarta, Indonesia",
+    contactEmail: "info@codelab.id",
+  },
+  {
+    id: 5,
+    name: "Learnify",
+    logo: "/images/image-1.jpg",
+    banner: "/images/banner-5.jpg",
+    description:
+      "Learnify menghubungkan pelajar dan pengajar terbaik di bidang desain, UI/UX, dan multimedia. Belajar kreatif dengan proyek kolaboratif.",
+    rating: 4.6,
+    totalCourses: 15,
+    totalTeachers: 9,
+    category: "Design & Multimedia",
+    location: "Denpasar, Indonesia",
+    contactEmail: "learn@learnify.com",
+  },
 ];
