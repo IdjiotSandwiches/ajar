@@ -35,7 +35,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             setVisibleStatus(status);
             const timer = setTimeout(() => {
                 setVisibleStatus(null);
-            }, 10000); 
+            }, 10000);
             return () => clearTimeout(timer);
         }
     }, [status]);
@@ -100,7 +100,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     Forgot password?
                                 </TextLink>
                             )}
-                        </div> 
+                        </div>
                     </div>
 
                     <div className="mt-4 flex justify-end gap-2">
