@@ -64,18 +64,6 @@ export default function CourseCard({ course }: { course: any }) {
         <div className="absolute top-3 left-3 bg-[#E8FBF2] text-[#00B087] text-xs font-semibold px-2 py-1 rounded cursor-default">
           Terlaris
         </div>
-
-        {/* Logo Programming Language */}
-        {/* {langIconPath && (
-          <div className="absolute top-3 right-3 p-1">
-            <img
-              src={langIconPath}
-              alt={firstLang}
-              className="w-8 h-8 object-contain"
-              onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
-            />
-          </div>
-        )} */}
       </div>
 
       {/* === Info Guru === */}
