@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             CourseStudentBenefitSeeder::class,
             CourseTeacherBenefitSeeder::class,
             CourseScheduleSeeder::class,
+            TeacherReviewSeeder::class,
         ]);
     }
 }

@@ -10,7 +10,8 @@ import Navbar from '@/components/navbar';
 import { Head, usePage } from '@inertiajs/react';
 
 export default function HomePage() {
-    const { courses } = usePage().props;
+    const { courses, institutes } = usePage().props;
+    console.log(institutes);
     return (
         <>
             <Head title="Home" />
@@ -19,7 +20,7 @@ export default function HomePage() {
                 <main className="flex-1">
                     <HeroSection />
                     <PopularCourses courses={courses as any[]} />
-                    <InstitutionSection />
+                    <InstitutionSection institutes={institutes as any[]} />
                     <LearningToTeachSection />
                     <TechDesignCourseSection />
                     <BecomeTeacherSection />

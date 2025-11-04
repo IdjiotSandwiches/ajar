@@ -19,7 +19,8 @@ class HomeController extends Controller
     public function getHomeData(): Response
     {
         return Inertia::render('home', [
-            'courses' => $this->service->getCoursesPreview()
+            'courses' => $this->service->getCoursesPreview(),
+            'institutes' => $this->service->getInstituteWithBestTeacher()
         ]);
     }
 }
