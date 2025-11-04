@@ -1,4 +1,5 @@
 import { dummyInstitution } from "@/dummy-data/dummy-institute";
+import { router } from "@inertiajs/react";
 import React from "react";
 
 export default function InstitutionSection() {
@@ -27,7 +28,8 @@ export default function InstitutionSection() {
               <img
                 src={inst.logo}
                 alt={inst.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
+                onClick={() => router.get(route('detail-institute'))}
               />
             </div>
             <p className="mt-3 text-gray-600 text-sm text-center">{inst.name}</p>

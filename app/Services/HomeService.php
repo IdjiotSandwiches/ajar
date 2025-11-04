@@ -8,7 +8,7 @@ class HomeService
 {
     public function getCoursesPreview()
     {
-        $courses = Course::with('teachers')
+        $courses = Course::with(['teachers.user', 'institute.user', 'courseReviews', 'courseSkills.skill'])
             ->limit(5)
             ->get();
 

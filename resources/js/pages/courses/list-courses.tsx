@@ -6,6 +6,7 @@ import FilterTeacher from "@/components/filter/teacher";
 import { dummyCourse } from "@/dummy-data/dummy-course";
 import AppLayout from "@/layouts/app-layout";
 import { Search } from "lucide-react";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 const user = {
   role: "student",
@@ -48,8 +49,8 @@ export default function CourseListPage() {
                 <button
                   onClick={() => setActiveCategory(cat as "Technology" | "Design")}
                   className={`relative text-lg md:text-xl font-semibold pb-2 transition-all ${activeCategory === cat
-                      ? "text-[#3ABEFF]"
-                      : "text-gray-400 hover:text-[#3ABEFF]"
+                    ? "text-[#3ABEFF]"
+                    : "text-gray-400 hover:text-[#3ABEFF]"
                     }`}
                 >
                   {cat}
@@ -60,8 +61,8 @@ export default function CourseListPage() {
             {/* Garis aktif penuh */}
             <span
               className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-500 ease-in-out ${activeCategory === "Technology"
-                  ? "left-0 w-1/2"
-                  : "left-1/2 w-1/2"
+                ? "left-0 w-1/2"
+                : "left-1/2 w-1/2"
                 }`}
             />
           </div>
@@ -107,9 +108,17 @@ export default function CourseListPage() {
         <div className="flex justify-center mt-10">
           <button
             onClick={() => setShowAll(!showAll)}
-            className="px-6 py-2 bg-[#3ABEFF] text-white rounded-full font-medium hover:bg-[#3ABEFF]/90 transition"
+            className="px-6 py-2 text-[#42C2FF] rounded-full font-medium hover:text-[#42C2FF]/90 transition"
           >
-            {showAll ? "See Less" : "See More"}
+            {showAll ? (
+              <div className="flex items-center gap-2">
+                See Less <FaChevronUp className="text-sm" />
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                See More <FaChevronDown className="text-sm" />
+              </div>
+            )}
           </button>
         </div>
       )}

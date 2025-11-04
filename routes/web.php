@@ -4,8 +4,6 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Route::get('/', fn() => Inertia::render('home'))
-//     ->name('home');
 Route::get('/', [HomeController::class, 'getHomeData'])
     ->name('home');
 

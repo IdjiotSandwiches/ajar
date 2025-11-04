@@ -21,6 +21,7 @@ class Course extends Model
         'description',
         'price',
         'duration',
+        'image',
         'category_id',
         'institute_id'
     ];
