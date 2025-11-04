@@ -66,18 +66,22 @@ export interface LearnObjProps {
     id: number;
     learning_objective: string;
 }
+
 export interface BenefitStudentProps {
     id: number;
     benefit_for_students: string;
 }
+
 export interface BenefitTeacherProps {
     id: number;
     benefit_for_teachers: string;
 }
+
 export interface CourseOverviewProps {
     id: number;
     course_overview: string;
 }
+
 export interface ProgrammingLanguageProps {
     id: number;
     programming_language: string;

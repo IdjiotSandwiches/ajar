@@ -17,7 +17,17 @@ class DatabaseSeeder extends Seeder
             DegreeTypeSeeder::class,
             NotificationTypeSeeder::class,
             SkillSeeder::class,
-            SocialMediaTypeSeeder::class
+            SocialMediaTypeSeeder::class,
+            UserSeeder::class,
+            TeacherSeeder::class,
+            InstituteSeeder::class,
+            CourseSeeder::class,
+            CourseLearningObjectiveSeeder::class,
+            CourseOverviewSeeder::class,
+            CourseSkillSeeder::class,
+            CourseStudentBenefitSeeder::class,
+            CourseTeacherBenefitSeeder::class,
+            CourseScheduleSeeder::class,
         ]);
     }
 }

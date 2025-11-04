@@ -67,18 +67,16 @@ class RegisterController extends Controller
     public function store(RegisterRequest $request): RedirectResponse
     {
         try {
-            dd($request);
             $data = $request->validated();
             $user = $this->service
                 ->register($data);
 
-            dd($data);
             event(new Registered($user));
             Auth::login($user);
         } catch (\Exception $e) {
-             return back()->withErrors(['error' => $e->getMessage()]);
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
 
-        return to_route('dashboard');
+        return to_route('verification.notice');
     }
 }
