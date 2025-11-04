@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { CourseData, TeacherRegisterProps } from "@/interfaces/shared";
 import { Star } from "lucide-react";
 import { usePage } from '@inertiajs/react';
 
@@ -87,15 +86,11 @@ export default function CourseCard({ course }: { course: any }) {
               className="absolute inset-0 transition-all duration-700 ease-in-out flex items-center gap-2 px-4 py-2"
               key={currentTeacherIndex}
             >
-              {teacherImage ? (
-                <img
-                  src={teacherImage}
-                  alt={teacher?.name}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-gray-200 flex-shrink-0" />
-              )}
+              <img
+                src={teacherImage}
+                alt={teacher?.name}
+                className="w-8 h-8 rounded-full object-cover border"
+              />
               <div className="flex flex-col">
                 <p className="text-sm font-medium text-gray-800 leading-tight">
                   {teacher?.name}
@@ -113,16 +108,17 @@ export default function CourseCard({ course }: { course: any }) {
         </div>
       )}
 
-
       {/* === Konten Utama === */}
       <div className="p-4 flex flex-col justify-between flex-grow cursor-default">
         <div>
           <h3 className="text-gray-800 font-semibold text-base leading-tight mb-1">
             {course.name}
           </h3>
+
           <p className="text-gray-500 text-xs mb-2">
             by <span className="font-medium">{course.institute?.user?.name}</span>
           </p>
+
           <p className="text-gray-600 text-sm line-clamp-2 mb-3">
             {course.description}
           </p>

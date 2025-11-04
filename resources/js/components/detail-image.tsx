@@ -90,7 +90,7 @@ const DetailImage: React.FC<DetailImageProps> = ({
                 <button
                   type="button"
                   onClick={() => removeFile(files[index])}
-                  className="absolute top-0 right-0 text-red-600 text-sm"
+                  className="absolute top-0 right-0 text-red-600 text-sm pr-1"
                 >
                   &times;
                 </button>

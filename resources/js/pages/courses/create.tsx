@@ -1,69 +1,41 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
-import { Plus, Trash2 } from "react-feather";
+import { Trash2 } from "react-feather";
 import DetailInput from "@/components/detail-input";
 import DetailImage from "@/components/detail-image";
-import { BenefitStudentProps, BenefitTeacherProps, CourseOverviewProps, CourseData, LearnObjProps, ProgrammingLanguageProps } from "@/interfaces/shared";
-import BackButton from "@/components/ui/back-button";
+import { BenefitStudentProps, BenefitTeacherProps, CourseOverviewProps, CourseData, LearnObjProps, Category, SkillProps } from "@/interfaces/shared";
 import AppLayout from "@/layouts/app-layout";
+import CategoryForm from "@/components/course/category";
+import InputError from "@/components/input-error";
+import { CirclePlus } from "lucide-react";
 
-export default function CreateCoursePage() {
-    const form = useForm<CourseData>({
-        title: "",
+export default function CreateCoursePage({ categories }: { categories: Category[] }) {
+    const getError = (field: string) => (form.errors as Record<string, string>)[field];
+    const form = useForm<Partial<CourseData>>({
+        name: "",
         description: "",
-        parent_category: null,
-        category: [],
-        learning_objectives: [{ id: Date.now(), learning_objective: "" }],
-        benefit_for_students: [{ id: Date.now() + 1, benefit_for_students: "" }],
-        benefit_for_teachers: [{ id: Date.now() + 2, benefit_for_teachers: "" }],
-        course_overviews: [{ id: Date.now() + 3, course_overview: "" }],
-        programming_language: [{ id: Date.now() + 4, programming_language: "" }],
+        price: 0,
         duration: 0,
-        price_for_student: 0,
         discount: 0,
         teacher_salary: 0,
+        // parent_category: null,
+        category: null,
+        // category_id: null,
+
+        learning_objectives: [{ id: Date.now(), description: "" }],
+        benefit_for_students: [{ id: Date.now() + 1, description: "" }],
+        benefit_for_teachers: [{ id: Date.now() + 2, description: "" }],
+        course_overviews: [{ id: Date.now() + 3, description: "" }],
+
+        course_skills: [{ id: Date.now() + 4, name: "" }],
         course_images: [],
+
+        teacher: [],
+        institution: null,
+
+        ratings: [],
+        reviews: []
     });
-
-
-    // ---- Category ----
-    const exampleCategories = [
-        { id: 1, name: "Technology" },
-        { id: 2, name: "Artificial Intelligence", parent_id: 1 },
-        { id: 3, name: "Network", parent_id: 1 },
-        { id: 4, name: "Cyber Security", parent_id: 1 },
-        { id: 5, name: "Cloud Computing", parent_id: 1 },
-        { id: 6, name: "Data Science", parent_id: 1 },
-        { id: 7, name: "Design" },
-        { id: 8, name: "Graphic Design", parent_id: 7 },
-        { id: 9, name: "UI/UX Design", parent_id: 7 },
-        { id: 10, name: "Illustration", parent_id: 7 },
-        { id: 11, name: "Video Maker", parent_id: 7 },
-        { id: 12, name: "Logo Maker", parent_id: 7 },
-    ];
-
-    const parentCategories = exampleCategories.filter((c) => !c.parent_id);
-    const subCategories = exampleCategories.filter((c) => c.parent_id);
-
-    const selectedParent = form.data.parent_category ?? null;
-    const selectedSubcategories = Array.isArray(form.data.category)
-        ? form.data.category
-        : [];
-
-    const handleParentSelect = (parentId: number) => {
-        form.setData({
-            ...form.data,
-            parent_category: parentId,
-            category: [],
-        });
-    };
-
-    const handleSubcategoryToggle = (subId: number, checked: boolean) => {
-        const updated = checked
-            ? [...selectedSubcategories, subId]
-            : selectedSubcategories.filter((id: number) => id !== subId);
-        form.setData("category", updated);
-    };
 
 
     // ---- Learning Objectives ----
@@ -72,7 +44,7 @@ export default function CreateCoursePage() {
             ...(form.data.learning_objectives ?? []),
             {
                 id: Date.now(),
-                learning_objective: "",
+                description: "",
             },
         ]);
     };
@@ -91,7 +63,7 @@ export default function CreateCoursePage() {
             ...(form.data.benefit_for_students ?? []),
             {
                 id: Date.now(),
-                benefit_for_students: "",
+                description: "",
             },
         ]);
     };
@@ -110,7 +82,7 @@ export default function CreateCoursePage() {
             ...(form.data.benefit_for_teachers ?? []),
             {
                 id: Date.now(),
-                benefit_for_teachers: "",
+                description: "",
             },
         ]);
     };
@@ -129,7 +101,7 @@ export default function CreateCoursePage() {
             ...(form.data.course_overviews ?? []),
             {
                 id: Date.now(),
-                course_overview: "",
+                description: "",
             },
         ]);
     };
@@ -143,20 +115,20 @@ export default function CreateCoursePage() {
 
 
     // ---- Programming Language ----
-    const handleAddProgrammingLang = () => {
-        form.setData("programming_language", [
-            ...(form.data.programming_language ?? []),
+    const handleAddCourseSkill = () => {
+        form.setData("course_skills", [
+            ...(form.data.course_skills ?? []),
             {
                 id: Date.now(),
-                programming_language: "",
+                name: "",
             },
         ]);
     };
 
-    const handleRemoveProgrammingLang = (id: number) => {
+    const handleRemoveCourseSkill = (id: number) => {
         form.setData(
-            "programming_language",
-            (form.data.programming_language ?? []).filter((g: ProgrammingLanguageProps) => g.id !== id)
+            "course_skills",
+            (form.data.course_skills ?? []).filter((g: SkillProps) => g.id !== id)
         );
     };
 
@@ -175,113 +147,41 @@ export default function CreateCoursePage() {
 
     return (
         <div className="min-h-screen bg-[#F7FDFF]">
-            {/* <BackButton className="m-4" label="Back" /> */}
             <div className="max-w-4xl mx-auto p-8 bg-white mt-12 rounded-2xl shadow-sm">
                 <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">
                     Create Course
                 </h1>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <DetailInput
-                        type="text"
-                        name="title"
-                        id="title"
-                        title="Title"
-                        value={form.data.title}
-                        onChange={(e) => form.setData("title", e.target.value)}
-                    />
-
-                    <DetailInput
-                        type="textarea"
-                        name="description"
-                        id="description"
-                        title="Description"
-                        value={form.data.description ?? ""}
-                        onChange={(e) => form.setData("description", e.target.value)}
-                    />
-
-                    {/* Category */}
-                    <div>
-                        <label className="text-sm font-medium text-gray-700 mb-2 block">
-                            Category
-                        </label>
-
-                        {/* Parent Category */}
-                        <div className="flex gap-6 mb-4 flex-wrap">
-                            {parentCategories.map((parent) => (
-                                <label
-                                    key={parent.id}
-                                    className="flex items-center space-x-2 font-medium text-gray-800 cursor-pointer"
-                                >
-                                    <input
-                                        type="radio"
-                                        name="parent_category"
-                                        checked={selectedParent === parent.id}
-                                        onChange={() => handleParentSelect(parent.id)}
-                                        className="hidden peer"
-                                    />
-                                    <span
-                                        className={`w-4 h-4 rounded-full border-2 ${selectedParent === parent.id
-                                            ? "border-[#3ABEFF]/70 bg-[#3ABEFF]/70"
-                                            : "border-gray-400"
-                                            } flex items-center justify-center transition-all`}
-                                    >
-                                        {selectedParent === parent.id && (
-                                            <span className="w-2 h-2 bg-[#3ABEFF] rounded-full"></span>
-                                        )}
-                                    </span>
-                                    <span className="select-none">{parent.name}</span>
-                                </label>
-                            ))}
+                    <div className="items-center gap-2 mb-2">
+                        <DetailInput
+                            type="text"
+                            name="name"
+                            id="name"
+                            title="Name"
+                            value={form.data.name ?? ""}
+                            onChange={(e) => form.setData("name", e.target.value)}
+                        />
+                        <div className={getError(`name`) ? 'h-5' : ''}>
+                            <InputError message={getError(`name`)} />
                         </div>
-
-                        {/* Subcategories */}
-                        {selectedParent && (
-                            <div className="ml-2 flex flex-col gap-1">
-                                {subCategories
-                                    .filter((sub) => sub.parent_id === selectedParent)
-                                    .map((sub) => (
-                                        <label
-                                            key={sub.id}
-                                            className="flex items-center space-x-2 text-gray-700 cursor-pointer"
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedSubcategories.includes(sub.id)}
-                                                onChange={(e) =>
-                                                    handleSubcategoryToggle(sub.id, e.target.checked)
-                                                }
-                                                className="hidden peer"
-                                            />
-                                            <span
-                                                className={`w-4 h-4 rounded border flex items-center justify-center ${selectedSubcategories.includes(sub.id)
-                                                    ? "bg-[#3ABEFF] border-[#3ABEFF]"
-                                                    : "border-gray-400 bg-white"
-                                                    } transition-all`}
-                                            >
-                                                {selectedSubcategories.includes(sub.id) && (
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="w-3 h-3 text-white"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M16.707 5.293a1 1 0 010 1.414l-8.004 8.004a1 1 0 01-1.414 0L3.293 10.71a1 1 0 011.414-1.414l3.582 3.582 7.296-7.296a1 1 0 011.414 0z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                )}
-                                            </span>
-                                            <span className="text-sm select-none">{sub.name}</span>
-                                        </label>
-                                    ))}
-                            </div>
-                        )}
+                    </div>
+                    <div>
+                        <DetailInput
+                            type="textarea"
+                            name="description"
+                            id="description"
+                            title="Description"
+                            value={form.data.description ?? ""}
+                            onChange={(e) => form.setData("description", e.target.value)}
+                        />
+                        <div className={getError(`description`) ? 'h-5' : ''}>
+                            <InputError message={getError(`description`)} />
+                        </div>
                     </div>
 
-                    {/* Learning Objectives */}
+                    {/* <CategoryForm form={form} categories={categories} /> */}
+
                     <div>
                         <h3 className="text-sm font-medium text-gray-800 mb-3">Learning Objectives</h3>
                         {(form.data.learning_objectives ?? []).map((obj: LearnObjProps, index: number) => {
@@ -290,24 +190,28 @@ export default function CreateCoursePage() {
 
                             return (
                                 <div key={obj.id} className="relative flex items-center gap-4">
-                                    <div className="flex-1 gap-4">
+                                    <div className={`flex-1 gap-4 ${!isLast ? "mb-4": ""}`}>
                                         <DetailInput
                                             type="textarea"
                                             name="learnObj"
-                                            id={`learnObj${index + 1}`}
+                                            id={`learnObj${index}`}
                                             title={`Learning Objective ${index + 1}`}
-                                            value={obj.learning_objective}
+                                            value={obj.description}
                                             onChange={(e) =>
                                                 form.setData(
                                                     "learning_objectives",
                                                     (form.data.learning_objectives ?? []).map((learnObj) =>
                                                         learnObj.id === obj.id
-                                                            ? { ...learnObj, learning_objective: e.target.value }
+                                                            ? { ...learnObj, description: e.target.value }
                                                             : learnObj
                                                     )
                                                 )
                                             }
+                                            disabled={form.processing}
                                         />
+                                        <div className={getError(`learnObj${index}`) ? 'h-5' : ''}>
+                                            <InputError message={getError(`learnObj${index}`)} />
+                                        </div>
                                     </div>
 
                                     <div className="flex items-center">
@@ -315,9 +219,9 @@ export default function CreateCoursePage() {
                                             <button
                                                 type="button"
                                                 onClick={handleAddLearnObj}
-                                                className="text-[#3ABEFF] hover:text-[#35aee0] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
                                             >
-                                                <Plus size={18} />
+                                                <CirclePlus size={18} />
                                             </button>
                                         ) : (
                                             <button
@@ -334,9 +238,6 @@ export default function CreateCoursePage() {
                         })}
                     </div>
 
-
-
-                    {/* Benefit for Students*/}
                     <div>
                         <h3 className="text-sm font-medium text-gray-800 mb-3">Benefit for Students</h3>
                         {(form.data.benefit_for_students ?? []).map((bsp: BenefitStudentProps, index: number) => {
@@ -345,23 +246,24 @@ export default function CreateCoursePage() {
 
                             return (
                                 <div key={bsp.id} className="relative flex items-center gap-4">
-                                    <div className="flex-1 gap-4">
+                                    <div className={`flex-1 gap-4 ${!isLast ? "mb-4": ""}`}>
                                         <DetailInput
                                             type="textarea"
                                             name="benStud"
-                                            id={`benStud${index + 1}`}
+                                            id={`benStud${index}`}
                                             title={`Benefit for Student ${index + 1}`}
-                                            value={bsp.benefit_for_students}
+                                            value={bsp.description}
                                             onChange={(e) =>
                                                 form.setData(
                                                     "benefit_for_students",
                                                     (form.data.benefit_for_students ?? []).map((benStud) =>
                                                         benStud.id === bsp.id
-                                                            ? { ...benStud, benefit_for_students: e.target.value }
+                                                            ? { ...benStud, description: e.target.value }
                                                             : benStud
                                                     )
                                                 )
                                             }
+                                            disabled={form.processing}
                                         />
                                     </div>
 
@@ -370,9 +272,9 @@ export default function CreateCoursePage() {
                                             <button
                                                 type="button"
                                                 onClick={handleAddBenefitStudent}
-                                                className="text-[#3ABEFF] hover:text-[#35aee0] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
                                             >
-                                                <Plus size={18} />
+                                                <CirclePlus size={18} />
                                             </button>
                                         ) : (
                                             <button
@@ -399,19 +301,19 @@ export default function CreateCoursePage() {
 
                             return (
                                 <div key={bst.id} className="relative flex items-center gap-4">
-                                    <div className="flex-1 gap-4">
+                                    <div className={`flex-1 gap-4 ${!isLast ? "mb-4": ""}`}>
                                         <DetailInput
                                             type="textarea"
                                             name="benTeach"
-                                            id={`benTeach${index + 1}`}
+                                            id={`benTeach${index}`}
                                             title={`Benefit for Teacher ${index + 1}`}
-                                            value={bst.benefit_for_teachers}
+                                            value={bst.description}
                                             onChange={(e) =>
                                                 form.setData(
                                                     "benefit_for_teachers",
                                                     (form.data.benefit_for_teachers ?? []).map((benTeach) =>
                                                         benTeach.id === bst.id
-                                                            ? { ...benTeach, benefit_for_teachers: e.target.value }
+                                                            ? { ...benTeach, description: e.target.value }
                                                             : benTeach
                                                     )
                                                 )
@@ -424,9 +326,9 @@ export default function CreateCoursePage() {
                                             <button
                                                 type="button"
                                                 onClick={handleAddBenefitTeacher}
-                                                className="text-[#3ABEFF] hover:text-[#35aee0] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
                                             >
-                                                <Plus size={18} />
+                                                <CirclePlus size={18} />
                                             </button>
                                         ) : (
                                             <button
@@ -453,19 +355,19 @@ export default function CreateCoursePage() {
 
                             return (
                                 <div key={cop.id} className="relative flex items-center gap-4">
-                                    <div className="flex-1 gap-4">
+                                    <div className={`flex-1 gap-4 ${!isLast ? "mb-4": ""}`}>
                                         <DetailInput
                                             type="textarea"
                                             name="programLang"
-                                            id={`csrOverview${index + 1}`}
+                                            id={`csrOverview${index}`}
                                             title={`Course Overview ${index + 1}`}
-                                            value={cop.course_overview}
+                                            value={cop.description}
                                             onChange={(e) =>
                                                 form.setData(
                                                     "course_overviews",
                                                     (form.data.course_overviews ?? []).map((courseOverview) =>
                                                         courseOverview.id === cop.id
-                                                            ? { ...courseOverview, course_overview: e.target.value }
+                                                            ? { ...courseOverview, description: e.target.value }
                                                             : courseOverview
                                                     )
                                                 )
@@ -478,9 +380,9 @@ export default function CreateCoursePage() {
                                             <button
                                                 type="button"
                                                 onClick={handleAddCourseOverview}
-                                                className="text-[#3ABEFF] hover:text-[#35aee0] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
                                             >
-                                                <Plus size={18} />
+                                                <CirclePlus size={18} />
                                             </button>
                                         ) : (
                                             <button
@@ -498,29 +400,29 @@ export default function CreateCoursePage() {
                     </div>
 
 
-                    {/* Programming Language */}
+                    {/* Course Skills */}
                     <div>
-                        <h3 className="text-sm font-medium text-gray-800 mb-3">Programming Language</h3>
-                        {(form.data.programming_language ?? []).map((pl: ProgrammingLanguageProps, index: number) => {
-                            const isLast = index === (form.data.programming_language?.length ?? 1) - 1;
-                            const isSingle = (form.data.programming_language?.length ?? 0) === 1;
+                        <h3 className="text-sm font-medium text-gray-800 mb-3">Course Skills</h3>
+                        {(form.data.course_skills ?? []).map((pl: SkillProps, index: number) => {
+                            const isLast = index === (form.data.course_skills?.length ?? 1) - 1;
+                            const isSingle = (form.data.course_skills?.length ?? 0) === 1;
 
                             return (
                                 <div key={pl.id} className="relative flex items-center gap-4">
-                                    <div className="flex-1 gap-4">
+                                    <div className={`flex-1 gap-4 ${!isLast ? "mb-4": ""}`}>
                                         <DetailInput
                                             type="textarea"
-                                            name="programLang"
-                                            id={`programLang${index + 1}`}
-                                            title={`Programming Language ${index + 1}`}
-                                            value={pl.programming_language}
+                                            name="courseSkill"
+                                            id={`courseSkill${index}`}
+                                            title={`Course Skill ${index + 1}`}
+                                            value={pl.name}
                                             onChange={(e) =>
                                                 form.setData(
-                                                    "programming_language",
-                                                    (form.data.programming_language ?? []).map((programLang) =>
-                                                        programLang.id === pl.id
-                                                            ? { ...programLang, programming_language: e.target.value }
-                                                            : programLang
+                                                    "course_skills",
+                                                    (form.data.course_skills ?? []).map((courseSkill) =>
+                                                        courseSkill.id === pl.id
+                                                            ? { ...courseSkill, name: e.target.value }
+                                                            : courseSkill
                                                     )
                                                 )
                                             }
@@ -531,15 +433,15 @@ export default function CreateCoursePage() {
                                         {isLast || isSingle ? (
                                             <button
                                                 type="button"
-                                                onClick={handleAddProgrammingLang}
-                                                className="text-[#3ABEFF] hover:text-[#35aee0] p-2 rounded-full"
+                                                onClick={handleAddCourseSkill}
+                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
                                             >
-                                                <Plus size={18} />
+                                                <CirclePlus size={18} />
                                             </button>
                                         ) : (
                                             <button
                                                 type="button"
-                                                onClick={() => handleRemoveProgrammingLang(pl.id)}
+                                                onClick={() => handleRemoveCourseSkill(pl.id)}
                                                 className="text-gray-500 hover:text-red-500 p-2 rounded-full"
                                             >
                                                 <Trash2 size={18} />
@@ -554,55 +456,55 @@ export default function CreateCoursePage() {
                     {/* Duration */}
                     <DetailInput
                         type="number"
-                        min="0"
+                        min={0}
                         title="Duration (Minutes)"
                         name="duration"
                         id="duration"
-                        value={form.data.duration}
-                        onChange={(e) => form.setData("duration", e.target.value)}
+                        value={form.data.duration ?? 0}
+                        onChange={(e) => form.setData("duration", Number(e.target.value))}
                     />
 
 
                     {/* Price for Student */}
                     <DetailInput
                         type="number"
-                        min="0"
+                        min={0}
                         title="Price for Student (Rp)"
                         name="price"
                         id="price"
-                        value={form.data.price}
-                        onChange={(e) => form.setData("price", e.target.value)}
+                        value={form.data.price ?? 0}
+                        onChange={(e) => form.setData("price", Number(e.target.value))}
                     />
 
 
                     {/* Discount */}
                     <DetailInput
                         type="number"
-                        min="0"
+                        min={0}
                         title="Discount (%)"
                         name="discount"
                         id="discount"
-                        value={form.data.discount}
-                        onChange={(e) => form.setData("discount", e.target.value)}
+                        value={form.data.discount ?? 0}
+                        onChange={(e) => form.setData("discount", Number(e.target.value))}
                     />
 
 
                     {/* Teacher Salary */}
                     <DetailInput
                         type="number"
-                        min="0"
+                        min={0}
                         title="Teacher Salary (/Session)"
-                        name="salary"
-                        id="salary"
-                        value={form.data.salary}
-                        onChange={(e) => form.setData("salary", e.target.value)}
+                        name="teacher_salary"
+                        id="teacher_salary"
+                        value={form.data.teacher_salary ?? 0}
+                        onChange={(e) => form.setData("teacher_salary", Number(e.target.value))}
                     />
 
                     {/* Course Image */}
                     <div>
                         <h3 className="text-sm font-medium text-gray-800 mb-3">Course Image</h3>
                         <DetailImage
-                            productImages={form.data.image}
+                            productImages={form.data.course_images}
                             onFilesChange={handleImageChange}
                             Index={0}
                             multiple={false}

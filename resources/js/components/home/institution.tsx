@@ -1,4 +1,5 @@
-import { dummyInstitution } from "@/dummy-data/dummy-institute";
+
+import { dummyInstitutions } from "@/dummy-data/dummy-institute";
 import { router } from "@inertiajs/react";
 import React from "react";
 
@@ -19,7 +20,7 @@ export default function InstitutionSection() {
         className="flex gap-8 overflow-x-auto pb-4 snap-x snap-mandatory 
         scrollbar-thin scrollbar-thumb-[#3ABEFF]/30 scrollbar-track-transparent scroll-smooth"
       >
-        {dummyInstitution.map((inst, index) => (
+        {dummyInstitutions.map((inst, index) => (
           <div
             key={index}
             className="snap-start flex-shrink-0 w-[120px] flex flex-col items-center"

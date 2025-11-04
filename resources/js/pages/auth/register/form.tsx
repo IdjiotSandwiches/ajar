@@ -1,15 +1,9 @@
 import { useForm, usePage } from '@inertiajs/react';
-
-// import { Textarea } from '@/components/ui/textarea';
 import { Category, RoleConfig, RoleEnums, TeacherRegisterProps } from '@/interfaces/shared';
 import RegisterLayout from '@/layouts/auth/auth-register-layout';
-import { JSX, useRef } from 'react';
-// import CategoryForm from '../../../components/register/category';
+import { JSX } from 'react';
 import FormInput from '../../../components/form-input';
-// import GraduateForm from '../../../components/register/graduate';
-// import WorkForm from '../../../components/register/work';
 import TeacherDetailForm from '@/components/register/teacher-detail-form';
-// import { convertToFormData } from '@/utils/convertToFormData';
 
 export default function RegisterForm({ role, categories }: { role: number; categories: Category[] }) {
     const enums = usePage<RoleEnums>().props;
@@ -50,8 +44,6 @@ export default function RegisterForm({ role, categories }: { role: number; categ
                 description: '',
                 graduates: [{ id: Date.now(), degree_title: '', university_name: '', degree_type: null }],
                 works: [{ id: Date.now(), duration: 0, institution: '', position: '' }],
-                //   graduates: [{ id: Date.now(), degree_title: '', university_name: '', degree_type: null }] as GraduateProps[],
-                //   works: [{ id: Date.now(), duration: 0, institution: '', position: '' }] as WorkProps[],
             }
             : {
                 name: '',
@@ -64,15 +56,13 @@ export default function RegisterForm({ role, categories }: { role: number; categ
     );
 
 
-    const firstInputRef = useRef<HTMLInputElement | null>(null);
-
     role_config[role].title = Object.keys(roles).find((key) => roles[key] === role);
     const steps: { title?: string; component: JSX.Element }[] = [
         {
-            component: <FormInput form={form} content={role_config[role].basic_info} firstInputRef={firstInputRef} />,
+            component: <FormInput form={form} content={role_config[role].basic_info} />,
         },
         {
-            component: <FormInput form={form} content={role_config[role].credential_info} firstInputRef={firstInputRef} />,
+            component: <FormInput form={form} content={role_config[role].credential_info} />,
         },
     ];
 
@@ -87,7 +77,6 @@ export default function RegisterForm({ role, categories }: { role: number; categ
                     form={form}
                     categories={categories}
                     onNext={() => console.log("Next clicked")}
-                    // onSubmit={handleSubmit}
                 />
             ),
         });
