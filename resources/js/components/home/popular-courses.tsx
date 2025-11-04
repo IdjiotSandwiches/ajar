@@ -1,12 +1,12 @@
 import React from "react";
 import CourseCard from "../ui/course-card";
-import { dummyCourse } from "@/dummy-data/dummy-course";
 import { CourseData } from "@/interfaces/shared";
 import { router } from "@inertiajs/react";
+import { dummyCourses } from "@/dummy-data/dummy-course";
 
 export default function PopularCourses() {
   // Hitung rata-rata rating setiap course
-  const topCourses = [...dummyCourse]
+  const topCourses = [...dummyCourses]
     .map((course) => ({
       ...course,
       avgRating:

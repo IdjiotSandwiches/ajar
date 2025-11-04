@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { CourseData, TeacherRegisterProps } from "@/interfaces/shared";
 import { Star } from "lucide-react";
+import { CourseData, TeacherRegisterProps, InstitutionData } from "@/interfaces/shared";
 
 interface CourseCardProps {
   course: CourseData;
@@ -12,31 +12,24 @@ export default function CourseCard({ course, userRole }: CourseCardProps) {
     typeof course.course_images?.[0] === "string"
       ? course.course_images[0]
       : course.course_images?.[0]
-        ? URL.createObjectURL(course.course_images[0])
-        : "/images/placeholder-course.png";
+      ? URL.createObjectURL(course.course_images[0])
+      : "/images/image-1.jpg";
 
   const avgRating =
     course.ratings && course.ratings.length > 0
-      ? (
-        course.ratings.reduce((a, b) => a + b, 0) / course.ratings.length
-      ).toFixed(1)
+      ? (course.ratings.reduce((a, b) => a + b, 0) / course.ratings.length).toFixed(1)
       : "0";
 
-  const firstLang = course.programming_language?.[0]?.programming_language || "";
-  const langKey = firstLang
-    ? firstLang.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "")
-    : "";
-  const langIconPath = langKey ? `/images/${langKey}.png` : "";
-
   const teachers: TeacherRegisterProps[] = course.teacher || [];
+  const institution: InstitutionData | null | string = course.institution || null;
+
   const [currentTeacherIndex, setCurrentTeacherIndex] = useState(0);
 
-  // === auto-scroll guru ===
   useEffect(() => {
     if (teachers.length > 1) {
       const interval = setInterval(() => {
         setCurrentTeacherIndex((prev) => (prev + 1) % teachers.length);
-      }, 3000); // ganti setiap 3 detik
+      }, 3000);
       return () => clearInterval(interval);
     }
   }, [teachers.length]);
@@ -48,7 +41,7 @@ export default function CourseCard({ course, userRole }: CourseCardProps) {
       ? typeof teacher.image[0] === "string"
         ? teacher.image[0]
         : URL.createObjectURL(teacher.image[0])
-      : null;
+      : "/images/default-teacher.png";
 
   return (
     <div className="bg-white border-2 border-[#3ABEFF]/20 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-200 min-w-[280px] max-w-[340px] flex-shrink-0 flex flex-col">
@@ -56,19 +49,10 @@ export default function CourseCard({ course, userRole }: CourseCardProps) {
       <div className="relative">
         <img src={image} alt={course.title} className="w-full h-40 object-cover" />
 
-        <div className="absolute top-3 left-3 bg-[#E8FBF2] text-[#00B087] text-xs font-semibold px-2 py-1 rounded cursor-default">
-          Terlaris
-        </div>
-
-        {/* Logo Programming Language */}
-        {langIconPath && (
-          <div className="absolute top-3 right-3 p-1">
-            <img
-              src={langIconPath}
-              alt={firstLang}
-              className="w-8 h-8 object-contain"
-              onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
-            />
+        {/* Label status */}
+        {course.is_best_seller && (
+          <div className="absolute top-3 left-3 bg-[#E8FBF2] text-[#00B087] text-xs font-semibold px-2 py-1 rounded cursor-default">
+            Terlaris
           </div>
         )}
       </div>
@@ -81,15 +65,11 @@ export default function CourseCard({ course, userRole }: CourseCardProps) {
               className="absolute inset-0 transition-all duration-700 ease-in-out flex items-center gap-2 px-4 py-2"
               key={currentTeacherIndex}
             >
-              {teacherImage ? (
-                <img
-                  src={teacherImage}
-                  alt={teacher?.name}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-gray-200 flex-shrink-0" />
-              )}
+              <img
+                src={teacherImage}
+                alt={teacher?.name}
+                className="w-8 h-8 rounded-full object-cover border"
+              />
               <div className="flex flex-col">
                 <p className="text-sm font-medium text-gray-800 leading-tight">
                   {teacher?.name}
@@ -107,16 +87,20 @@ export default function CourseCard({ course, userRole }: CourseCardProps) {
         </div>
       )}
 
-
       {/* === Konten Utama === */}
       <div className="p-4 flex flex-col justify-between flex-grow cursor-default">
         <div>
           <h3 className="text-gray-800 font-semibold text-base leading-tight mb-1">
             {course.title}
           </h3>
+
           <p className="text-gray-500 text-xs mb-2">
-            by <span className="font-medium">{course.institution}</span>
+            by{" "}
+            <span className="font-medium">
+              {institution?.name || "Independent Teacher"}
+            </span>
           </p>
+
           <p className="text-gray-600 text-sm line-clamp-2 mb-3">
             {course.description}
           </p>
@@ -134,9 +118,11 @@ export default function CourseCard({ course, userRole }: CourseCardProps) {
         <div className="mt-4 flex items-center justify-between">
           <div>
             <p className="text-gray-800 font-semibold text-sm">
-              Rp{course.price_for_student.toLocaleString("id-ID")}
+              Rp{course.price_for_student?.toLocaleString("id-ID") || 0}
             </p>
-            <p className="text-gray-500 text-xs">{course.duration * 10} Minutes</p>
+            <p className="text-gray-500 text-xs">
+              {course.duration ? `${course.duration * 10} Minutes` : "Unknown duration"}
+            </p>
           </div>
           <button className="bg-[#3ABEFF] text-white text-sm px-4 py-1.5 rounded-full font-medium hover:bg-[#3ABEFF]/90 transition cursor-pointer">
             See info →

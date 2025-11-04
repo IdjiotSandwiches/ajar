@@ -29,7 +29,7 @@ export interface RoleConfig {
 }
 
 export interface GraduateProps {
-    id?: number;
+    id: number;
     degree_title: string;
     university_name: string;
     degree_type: number | null;
@@ -37,9 +37,9 @@ export interface GraduateProps {
 
 export interface WorkProps {
     id: number;
-    position: string;
-    institution: string;
     duration: number;
+    institution: string;
+    position: string;
 }
 
 export interface CertificateProps {
@@ -47,12 +47,12 @@ export interface CertificateProps {
 }
 
 export interface TeacherRegisterProps extends RegisterFormProps {
-    description: string;
+    description: string | number;
     category: number | null;
     graduates: any[];
     works: any[];
-    certificates: File[];
-    image?: File[];
+    certificates: File[] | string[];
+    image?: File[] | string[];
 }
 
 export interface Category {
@@ -64,45 +64,65 @@ export interface Category {
 
 export interface LearnObjProps {
     id: number;
-    learning_objective: string;
+    description: string;
+    course_id?: number;
 }
 export interface BenefitStudentProps {
     id: number;
-    benefit_for_students: string;
+    description: string;
+    course_id?: number;
 }
 export interface BenefitTeacherProps {
     id: number;
-    benefit_for_teachers: string;
+    description: string;
+    course_id?: number;
 }
 export interface CourseOverviewProps {
     id: number;
-    course_overview: string;
+    description: string;
+    course_id?: number;
 }
-export interface ProgrammingLanguageProps {
-    id: number;
-    programming_language: string;
+export interface SkillProps {
+  id: number;
+  name: string;
+  course_skills?: CourseSkillProps[];
 }
+
+export interface CourseSkillProps {
+  id: number;
+  course_id: number;
+  skill_id: number;
+  course?: CourseData; 
+  skill?: SkillProps;  
+}
+
 
 export interface CourseData {
     [key: string]: any;
-    title: string;
+    id?: number
+    name: string;
     description: string;
-    parent_category: string;
-    category: string[] | null;
-    learning_objectives: LearnObjProps[];
-    benefit_for_students: BenefitStudentProps[];
-    benefit_for_teachers: BenefitTeacherProps[];
-    course_overviews: CourseOverviewProps[];
-    programming_language: ProgrammingLanguageProps[];
+    price: number;
     duration: number;
-    price_for_student: number;
-    discount: number;
-    teacher_salary: number;
-    course_images: File[] | string[];
+    discount?: number;
+
+    category: number | null;
+
+    learning_objectives?: LearnObjProps[];
+    benefit_for_students?: BenefitStudentProps[];
+    benefit_for_teachers?: BenefitTeacherProps[];
+    course_overviews?: CourseOverviewProps[];
+    course_skills?: SkillProps[];
+
+    course_images?: (File | string)[];
+
     teacher?: TeacherRegisterProps[];
-    institution?: string;
+    institution?: string | InstitutionData | null;
+
     ratings?: number[];
     reviews?: string[];
+    
+    teacher_salary: number;
 }
 
 export interface DeleteConfirmationModalProps {

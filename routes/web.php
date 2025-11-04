@@ -25,8 +25,10 @@ Route::middleware('guest')->group(function () {
         return Inertia::render('courses/my-courses');
     })->name('my-course');
 
-    Route::get('edit-course', function () {
-        return Inertia::render('courses/edit');
+    Route::get('edit-course/{id}', function ($id) {
+    return Inertia::render('courses/edit', [
+        'courseId' => $id,
+    ]);
     })->name('edit-course');
 
     Route::get('add-schedule', function () {

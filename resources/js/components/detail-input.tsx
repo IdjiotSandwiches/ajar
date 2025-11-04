@@ -10,6 +10,8 @@ interface DetailInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  tabIndex?: number
+  disabled?: boolean;
 }
 
 const DetailInput: React.FC<DetailInputProps> = ({
@@ -22,6 +24,8 @@ const DetailInput: React.FC<DetailInputProps> = ({
   onChange,
   onBlur,
   onFocus,
+  tabIndex,
+  disabled
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -43,7 +47,7 @@ const DetailInput: React.FC<DetailInputProps> = ({
     type === "number" && (value === 0 || value === "0") ? "" : value;
 
   return (
-    <div className="relative z-0 w-full mb-5 group">
+    <div className="relative z-0 w-full group">
       {type === "textarea" ? (
         <textarea
           name={name}
@@ -60,6 +64,8 @@ const DetailInput: React.FC<DetailInputProps> = ({
                      dark:focus:border-[#3ABEFF] focus:outline-none focus:ring-0 focus:border-[#3ABEFF] peer"
           placeholder=" "
           autoComplete="off"
+          tabIndex={tabIndex}
+          disabled={disabled}
           required
           style={{ resize: "none", overflow: "hidden" }}
         />
@@ -78,6 +84,8 @@ const DetailInput: React.FC<DetailInputProps> = ({
                      dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-[#3ABEFF] peer"
           placeholder=" "
           autoComplete="off"
+          tabIndex={tabIndex}
+          disabled={disabled}
           required
         />
       )}

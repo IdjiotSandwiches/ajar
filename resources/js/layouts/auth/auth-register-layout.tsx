@@ -17,7 +17,7 @@ interface RegisterLayoutProps {
     form: InertiaFormProps<Partial<RegisterFormProps>>;
 }
 
-export default function     RegisterLayout({ steps, role_config, form }: RegisterLayoutProps) {
+export default function RegisterLayout({ steps, role_config, form }: RegisterLayoutProps) {
     const [currentStep, setCurrentStep] = useState(1);
 
     const next = () => setCurrentStep(currentStep + 1);

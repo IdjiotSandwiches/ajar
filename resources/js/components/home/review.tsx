@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { dummyReview, ReviewData } from "@/dummy-data/dummy-review";
-import { dummyInstitution } from "@/dummy-data/dummy-institute"; // ✅ tambahkan ini
+import { dummyInstitutions } from "@/dummy-data/dummy-institute";
 
 export default function ReviewSection() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -73,7 +73,7 @@ export default function ReviewSection() {
           >
             {dummyReview.map((review: ReviewData) => {
               // ✅ ambil data institusi berdasarkan ID
-              const institution = dummyInstitution.find(
+              const institution = dummyInstitutions.find(
                 (inst) => inst.id === review.review_to.institutionId
               );
 

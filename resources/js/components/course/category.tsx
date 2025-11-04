@@ -1,11 +1,11 @@
 import InputError from "@/components/input-error";
-import { Category, TeacherRegisterProps } from "@/interfaces/shared";
+import { Category, CourseData } from "@/interfaces/shared";
 import { InertiaFormProps } from "@inertiajs/react";
 import { useState } from "react";
 
 interface CategoryProps {
   categories: Category[];
-  form: InertiaFormProps<Partial<TeacherRegisterProps>>;
+  form: InertiaFormProps<Partial<CourseData>>;
 }
 
 export default function CategoryForm({ categories, form }: CategoryProps) {
