@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { FaChevronDown, FaChevronUp, FaStar } from "react-icons/fa";
 import { FaTwitter, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { SquareArrowOutUpRight } from "lucide-react";
@@ -13,8 +13,11 @@ import { dummyTeachers } from "@/dummy-data/dummy-teacher";
 
 export default function InstituteDetailPage() {
   const { props } = usePage();
-  const instituteId = Number(props.instituteId); 
+  const instituteId = Number(props.instituteId);
   const institute = dummyInstitutions.find((i) => i.id === instituteId);
+
+  const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, "");
+
 
   if (!institute) {
     return (
@@ -123,7 +126,10 @@ export default function InstituteDetailPage() {
             <div className="flex gap-8 flex-wrap cursor-pointer">
               {relatedTeachers.map((teacher, idx) => (
                 <div key={idx} className="flex flex-col items-center text-center">
-                  <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center mb-2 overflow-hidden">
+                  <div
+                    className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center mb-2 overflow-hidden"
+                    onClick={() => router.get(route("detail-teacher", { teacherName: slugify(teacher.name) }))}
+                  >
                     {teacher.image ? (
                       <img
                         src={teacher.image}

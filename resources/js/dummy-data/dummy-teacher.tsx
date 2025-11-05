@@ -12,11 +12,13 @@ export const dummyTeachers: TeacherRegisterProps[] = [
     category: 3,
     graduates: [
       { id: 1, degree_title: "PhD in Computer Science", university_name: "MIT", degree_type: 1 },
+      { id: 2, degree_title: "PhD in Computer Science", university_name: "MIT", degree_type: 1 },
     ],
     works: [
       { id: 1, duration: 60, institution: "OpenAI", position: "AI Researcher" },
+      { id: 2, duration: 10, institution: "Google", position: "Full Stack Developer" },
     ],
-    certificates: [],
+    certificates: ["/images/certificate.jpg", "/images/certificate.jpg"],
   },
   {
     name: "Jane Smith",

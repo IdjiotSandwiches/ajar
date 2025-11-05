@@ -13,9 +13,16 @@ Route::get('detail-institute/{id}', function ($id) {
     ]);
 })->name('detail-institute');
 
+
+
 Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::get('list-course', fn() => Inertia::render('courses/list-courses'))->name('list-course');
+        Route::get('detail-teacher/{teacherName}', function ($teacherName) {
+            return Inertia::render('teacher/detail', [
+                'teacherName' => $teacherName,
+            ]);
+        })->name('detail-teacher');
     });
 
 Route::middleware(['auth', 'verified', 'role:Admin'])
