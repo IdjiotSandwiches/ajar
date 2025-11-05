@@ -11,8 +11,8 @@ import InputError from "@/components/input-error";
 import { CirclePlus } from "lucide-react";
 
 export default function EditCoursePage({ categories }: { categories: Category[] }) {
-    const { props } = usePage<{ courseId: number }>();
-    const { courseId } = props;
+    const { props } = usePage();
+    const courseId = props.courseId as number;
 
     const courseData = dummyCourses.find((c) => c.id === Number(courseId));
 

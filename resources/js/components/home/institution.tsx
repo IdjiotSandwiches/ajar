@@ -30,7 +30,7 @@ export default function InstitutionSection() {
                 src={inst.logo}
                 alt={inst.name}
                 className="w-full h-full object-cover cursor-pointer"
-                onClick={() => router.get(route('detail-institute'))}
+                onClick={() => router.get(route("detail-institute", { id: index+1 }))}
               />
             </div>
             <p className="mt-3 text-gray-600 text-sm text-center">{inst.name}</p>

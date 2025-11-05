@@ -3,10 +3,10 @@ import { CourseData } from "@/interfaces/shared";
 import CourseCard from "@/components/ui/course-card";
 import FilterStudent from "@/components/filter/student";
 import FilterTeacher from "@/components/filter/teacher";
-import { dummyCourse } from "@/dummy-data/dummy-course";
 import AppLayout from "@/layouts/app-layout";
 import { Search } from "lucide-react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { dummyCourses } from "@/dummy-data/dummy-course";
 
 const user = {
   role: "student",
@@ -20,7 +20,7 @@ export default function CourseListPage() {
   );
 
   useEffect(() => {
-    setCourses(dummyCourse);
+    setCourses(dummyCourses);
   }, []);
 
   const filteredCourses = courses.filter(

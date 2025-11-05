@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { usePage } from '@inertiajs/react';
+import { TeacherRegisterProps } from "@/interfaces/shared";
 
 // interface CourseCardProps {
 //   course: CourseData;
@@ -8,12 +9,12 @@ import { usePage } from '@inertiajs/react';
 // }
 
 export default function CourseCard({ course }: { course: any }) {
-//   const image =
-//     typeof course.course_images?.[0] === "string"
-//       ? course.course_images[0]
-//       : course.course_images?.[0]
-//         ? URL.createObjectURL(course.course_images[0])
-//         : "/images/placeholder-course.png";
+  // const image =
+  //   typeof course.course_images?.[0] === "string"
+  //     ? course.course_images[0]
+  //     : course.course_images?.[0]
+  //       ? URL.createObjectURL(course.course_images[0])
+  //       : "/images/placeholder-course.png";
 
 //   const avgRating =
 //     course.ratings && course.ratings.length > 0
@@ -28,8 +29,8 @@ export default function CourseCard({ course }: { course: any }) {
 //     : "";
 //   const langIconPath = langKey ? `/images/${langKey}.png` : "";
 
-//   const teachers: TeacherRegisterProps[] = course.teacher || [];
-    const teachers = course.teachers;
+  const teachers: TeacherRegisterProps[] = course.teacher || [];
+    // const teachers = course.teachers;
     const [currentTeacherIndex, setCurrentTeacherIndex] = useState(0);
 
     // === auto-scroll guru ===
