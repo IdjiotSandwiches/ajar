@@ -9,6 +9,7 @@ import AppLayout from "@/layouts/app-layout";
 import { dummyCourses } from "@/dummy-data/dummy-course";
 import InputError from "@/components/input-error";
 import { CirclePlus } from "lucide-react";
+import TeacherListField from "@/components/ui/list-teacher-field";
 
 export default function EditCoursePage({ categories }: { categories: Category[] }) {
     const { props } = usePage();
@@ -539,10 +540,10 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
 
 
                     {/* Teachers */}
-                    {/* <TeacherListField
+                    <TeacherListField
                         selectedTeachers={form.data.teacher ?? []}
                         onChange={(updated) => form.setData("teacher", updated)}
-                    /> */}
+                    />
 
                     {/* Course Image */}
                     <div>
