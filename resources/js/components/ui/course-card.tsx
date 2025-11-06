@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { TeacherRegisterProps } from "@/interfaces/shared";
 
 // interface CourseCardProps {
@@ -16,45 +16,45 @@ export default function CourseCard({ course }: { course: any }) {
   //       ? URL.createObjectURL(course.course_images[0])
   //       : "/images/placeholder-course.png";
 
-//   const avgRating =
-//     course.ratings && course.ratings.length > 0
-//       ? (
-//         course.ratings.reduce((a, b) => a + b, 0) / course.ratings.length
-//       ).toFixed(1)
-//       : "0";
+  //   const avgRating =
+  //     course.ratings && course.ratings.length > 0
+  //       ? (
+  //         course.ratings.reduce((a, b) => a + b, 0) / course.ratings.length
+  //       ).toFixed(1)
+  //       : "0";
 
-//   const firstLang = course.programming_language?.[0]?.programming_language || "";
-//   const langKey = firstLang
-//     ? firstLang.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "")
-//     : "";
-//   const langIconPath = langKey ? `/images/${langKey}.png` : "";
+  //   const firstLang = course.programming_language?.[0]?.programming_language || "";
+  //   const langKey = firstLang
+  //     ? firstLang.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "")
+  //     : "";
+  //   const langIconPath = langKey ? `/images/${langKey}.png` : "";
 
   const teachers: TeacherRegisterProps[] = course.teacher || [];
-    // const teachers = course.teachers;
-    const [currentTeacherIndex, setCurrentTeacherIndex] = useState(0);
+  // const teachers = course.teachers;
+  const [currentTeacherIndex, setCurrentTeacherIndex] = useState(0);
 
-    // === auto-scroll guru ===
-    useEffect(() => {
-        if (teachers.length > 1) {
-            const interval = setInterval(() => {
-                setCurrentTeacherIndex((prev) => (prev + 1) % teachers.length);
-            }, 3000); // ganti setiap 3 detik
-            return () => clearInterval(interval);
-        }
-    }, [teachers.length]);
+  // === auto-scroll guru ===
+  useEffect(() => {
+    if (teachers.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentTeacherIndex((prev) => (prev + 1) % teachers.length);
+      }, 3000); // ganti setiap 3 detik
+      return () => clearInterval(interval);
+    }
+  }, [teachers.length]);
 
-    const teacher = teachers[currentTeacherIndex]?.user || null;
+  const teacher = teachers[currentTeacherIndex]?.user || null;
 
-    const teacherImage =
-        teacher?.profile_picture && teacher.profile_picture.length > 0
-        ? typeof teacher.profile_picture[0] === "string"
-            ? teacher.profile_picture[0]
-            : URL.createObjectURL(teacher.profile_picture[0])
-        : null;
+  const teacherImage =
+    teacher?.profile_picture && teacher.profile_picture.length > 0
+      ? typeof teacher.profile_picture[0] === "string"
+        ? teacher.profile_picture[0]
+        : URL.createObjectURL(teacher.profile_picture[0])
+      : null;
 
-    const { props } = usePage();
-    const user = props.auth?.user;
-    const roles = props.enums?.roles_enum;
+  const { props } = usePage();
+  const user = props.auth?.user;
+  const roles = props.enums?.roles_enum;
 
   return (
     <div className="bg-white border-2 border-[#3ABEFF]/20 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-200 min-w-[280px] max-w-[340px] flex-shrink-0 flex flex-col">
@@ -129,7 +129,10 @@ export default function CourseCard({ course }: { course: any }) {
             </p>
             <p className="text-gray-500 text-xs">{course.duration} Minutes</p>
           </div>
-          <button className="bg-[#3ABEFF] text-white text-sm px-4 py-1.5 rounded-full font-medium hover:bg-[#3ABEFF]/90 transition cursor-pointer">
+          <button
+            className="bg-[#3ABEFF] text-white text-sm px-4 py-1.5 rounded-full font-medium hover:bg-[#3ABEFF]/90 transition cursor-pointer"
+            onClick={() => router.get(route("detail-course", { id: course.id }))}
+          >
             See info →
           </button>
         </div>
