@@ -41,7 +41,7 @@ export default function CourseList() {
   };
 
   const handleEditClick = (courseId: number) => {
-    router.get(`/edit-course/${courseId}`);
+    router.get(`/institute/edit-course/${courseId}`);
   };
 
   return (
@@ -54,7 +54,7 @@ export default function CourseList() {
         {/* Tombol Create */}
         <div className="flex justify-end mb-6">
           <button
-            onClick={() => router.get("/create-course")}
+            onClick={() => router.get("create-course")}
             className="flex items-center gap-2 bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white text-sm px-4 py-2 rounded-md shadow transition font-medium cursor-pointer"
           >
             <Plus size={16} strokeWidth={3} /> Tambah Kursus

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { usePage } from '@inertiajs/react';
+import { TeacherRegisterProps } from "@/interfaces/shared";
 
 export default function CourseCard({ course }: { course: any }) {
     const teachers = course.teachers;

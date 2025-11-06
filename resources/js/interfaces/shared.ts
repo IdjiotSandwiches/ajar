@@ -142,6 +142,7 @@ export interface InstitutionData {
   banner: string;
   description: string;
   rating: number;
+  website: string;
   totalCourses: number;
   totalTeachers: number;
   category: string;
