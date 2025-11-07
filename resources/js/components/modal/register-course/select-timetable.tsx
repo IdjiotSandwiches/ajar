@@ -51,7 +51,7 @@ export default function TimeSelectModal({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm z-50 transition-opacity duration-200">
+    <div className="fixed inset-0 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm z-99 transition-opacity duration-200">
       <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative animate-fadeIn">
         <button
           onClick={onClose}
