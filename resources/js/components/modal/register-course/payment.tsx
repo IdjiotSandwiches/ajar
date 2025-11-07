@@ -27,11 +27,18 @@ export default function PaymentModal({
   const courseName = course?.name ?? "Pengembangan AI & Ilmu Data menggunakan Python";
   const duration = course?.duration ?? 2;
   const price = course?.price ?? 200000;
-  const date = schedule?.date ?? "15-04-2025";
+  const date = schedule?.date ?? "2025-04-15";
   const time = schedule?.time ?? "16:00";
 
+  // 🔹 Format tanggal menjadi "dd month yyyy"
+  const formattedDate = new Date(date).toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm z-99 transition-opacity duration-200">
+    <div className="fixed inset-0 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm z-50 transition-opacity duration-200">
       <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative animate-fadeIn">
         <button
           onClick={onClose}
@@ -56,7 +63,7 @@ export default function PaymentModal({
 
             <p className="mt-3">Date and Time</p>
             <p className="mt-3 text-right text-gray-800 font-medium">
-              {date} {time}
+              {formattedDate} {time}
             </p>
 
             <p className="mt-3">Duration</p>
