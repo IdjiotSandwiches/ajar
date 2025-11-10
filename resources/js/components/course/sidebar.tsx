@@ -24,7 +24,7 @@ export default function CourseSidebar({ teacher, institution }: any) {
       {/* Teacher Card */}
       <div>
         <h3 className="text-sm font-semibold text-gray-700 mb-2">Teachers</h3>
-        <TeacherProfileCard teacher={teacher}/>
+        {teacher === null ? <p className="font-medium">No teacher yet|</p> : <TeacherProfileCard teacher={teacher}/>}
       </div>
 
     </aside>

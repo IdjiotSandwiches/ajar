@@ -29,6 +29,7 @@ Route::get('detail-teacher/{teacherName}', function ($teacherName) {
 Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::get('list-course', fn() => Inertia::render('courses/list-courses'))->name('list-course');
+        Route::get('my-learning', fn() => Inertia::render('my-learning/app'))->name('my-learning');
     });
 
 Route::middleware(['auth', 'verified', 'role:Admin'])

@@ -34,7 +34,7 @@ export default function Navbar() {
           <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg" onClick={() => router.get(route('list-course'))}>
             Course
           </a>
-          <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg">
+          <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg" onClick={() => router.get(route('my-learning'))}>
             MyLearning
           </a>
         </div>
