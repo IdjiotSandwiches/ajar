@@ -45,7 +45,7 @@ export default function CourseList() {
   };
 
   return (
-    <div className="container min-h-screen bg-[#f9fdfd] flex flex-col">
+    <div className="min-h-screen bg-[#f9fdfd] flex flex-col">
       <div className="max-w-6xl mx-auto w-full px-6 py-10 bg-white/80 backdrop-blur-sm shadow-sm rounded-2xl mt-10">
         <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-10 cursor-default">
           My Courses
