@@ -30,10 +30,10 @@ Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::get('list-course', fn() => Inertia::render('courses/list-courses'))->name('list-course');
 
-        // ini role student & teacher
         Route::get('my-learning', fn() => Inertia::render('my-learning/app'))->name('my-learning');
 
         Route::get('profile', fn() => Inertia::render('student/edit-profile'))->name('profile-student');
+        Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
     });
     
     Route::middleware(['auth', 'verified', 'role:Admin'])
