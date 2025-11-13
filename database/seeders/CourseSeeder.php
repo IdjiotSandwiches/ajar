@@ -61,7 +61,7 @@ class CourseSeeder extends Seeder
         ];
 
         foreach ($courses as $course) {
-            Course::firstOrCreate($course);
+            Course::create($course);
         }
     }
 }
