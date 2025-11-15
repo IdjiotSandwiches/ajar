@@ -2,11 +2,15 @@ import { CategoryProps } from '@/interfaces/shared';
 import { useEffect, useRef, useState } from 'react';
 import HoverableIcon from '../ui/button-filter';
 
-export default function FilterTeacher(
-    { categories, activeSub, handleFilterChange }
-    :
-    { categories: CategoryProps[], activeSub: number[], handleFilterChange: (options: { category_id?: number; search?: string; enter?: boolean; sub?: number[] }) => void }
-) {
+export default function FilterTeacher({
+    categories,
+    activeSub,
+    handleFilterChange,
+}: {
+    categories: CategoryProps[];
+    activeSub: number[];
+    handleFilterChange: (options: { enter?: boolean; sub?: number[] }) => void;
+}) {
     const [showFilter, setShowFilter] = useState(false);
     const [selected, setSelected] = useState<number[]>([]);
     const filterRef = useRef<HTMLDivElement>(null);
@@ -56,7 +60,12 @@ export default function FilterTeacher(
                                     }`}
                                 >
                                     {selected.includes(category.id) && (
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-3 w-3 text-white"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                        >
                                             <path
                                                 fillRule="evenodd"
                                                 d="M16.707 5.293a1 1 0 010 1.414l-8.004 8.004a1 1 0 01-1.414 0L3.293 10.71a1 1 0 011.414-1.414l3.582 3.582 7.296-7.296a1 1 0 011.414 0z"
@@ -75,7 +84,7 @@ export default function FilterTeacher(
                         <p className="text-xs text-gray-600">{selected.length} selected</p>
                         <button
                             onClick={() => handleFilterChange({ sub: [...selected], enter: true })}
-                            className="rounded-full bg-[#3ABEFF] px-4 py-1.5 text-sm text-white transition hover:bg-[#3ABEFF]/90 cursor-pointer"
+                            className="cursor-pointer rounded-full bg-[#3ABEFF] px-4 py-1.5 text-sm text-white transition hover:bg-[#3ABEFF]/90"
                         >
                             Apply
                         </button>

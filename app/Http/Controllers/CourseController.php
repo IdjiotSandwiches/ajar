@@ -22,14 +22,23 @@ class CourseController extends Controller
         $filters['category_id'] ??= 1;
 
         $parentCategories = $this->service->getParentCategories();
-        [$courses, $subCategories] = $this->service->getCourses($filters);
+        [$courses, $subCategories, $minPrice, $maxPrice] = $this->service->getCourses($filters);
 
         return Inertia::render('courses/list-courses', [
-            'activeCategory' => $filters['category_id'],
             'parentCategories' => $parentCategories,
             'courses' => Inertia::scroll($courses),
             'subCategories' => $subCategories,
-            'activeSub' => $filters['sub'] ?? []
+            'activeCategory' => $filters['category_id'],
+            'activeSub' => $filters['sub'] ?? [],
+            'price' => [
+                'min' => $minPrice,
+                'max' => $maxPrice
+            ],
+            'studentFilter' => [
+                'rating' => $filters['rating'] ?? [],
+                'price_min' => $filters['price_min'] ?? null,
+                'price_max' => $filters['price_max'] ?? null
+            ]
         ]);
     }
 }

@@ -30,24 +30,34 @@ class FilterRequest extends FormRequest
             'search' => 'nullable|string',
         ]);
 
-        if ($user->role_id === RoleEnum::Student) {
-            $rules = $rules->merge([
+        $rules = $rules->merge(
+            $user->role_id === RoleEnum::Student
+            ? [
                 'rating' => 'nullable|array',
                 'rating.*' => 'numeric|min:1|max:5',
                 'price_min' => 'nullable|numeric|min:0',
                 'price_max' => 'nullable|numeric|min:0',
-            ]);
-        } else {
-            $rules = $rules->merge([
+            ]
+            : [
                 'sub' => 'nullable|array',
-                // 'sub.*' => [
-                //     'numeric',
-                //     Rule::exists('categories', 'id')->whereNotNull('parent_id'),
-                // ]
-                'sub.*' => 'numeric'
-            ]);
-        }
+                'sub.*' => [
+                    'numeric',
+                    Rule::exists('categories', 'id')->whereNotNull('parent_id'),
+                ],
+            ]
+        );
 
         return $rules->toArray();
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $data = parent::validated();
+
+        if ($this->user()->role_id === RoleEnum::Student) {
+            unset($data['sub']);
+        }
+
+        return $data;
     }
 }

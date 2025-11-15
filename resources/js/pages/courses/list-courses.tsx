@@ -1,28 +1,58 @@
-import React, { useState } from 'react';
-import { Search } from 'lucide-react';
-import { Head, InfiniteScroll, router, usePage } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
-import CourseCard from '@/components/ui/course-card';
 import FilterStudent from '@/components/filter/student';
 import FilterTeacher from '@/components/filter/teacher';
+import CourseCard from '@/components/ui/course-card';
 import { CategoryProps } from '@/interfaces/shared';
+import AppLayout from '@/layouts/app-layout';
+import { Head, InfiniteScroll, router, usePage } from '@inertiajs/react';
+import { Search } from 'lucide-react';
+import React, { useState } from 'react';
 
-export default function CourseListPage(
-    { activeCategory, parentCategories, courses, subCategories, activeSub }
-    :
-    { activeCategory: number, parentCategories: CategoryProps[], courses: any, subCategories: CategoryProps[], activeSub: number[] }
-) {
-    const [search, setSearch] = useState<string>('');
-    const handleFilterChange = (options: { category_id?: number; search?: string; enter?: boolean; sub?: number[] }) => {
-        const { category_id, search: s, enter, sub } = options;
+export default function CourseListPage({
+    activeCategory,
+    parentCategories,
+    courses,
+    subCategories,
+    activeSub,
+    studentFilter,
+    price
+}: {
+    activeCategory: number;
+    parentCategories: CategoryProps[];
+    courses: any;
+    subCategories: CategoryProps[];
+    activeSub: number[];
+    studentFilter: any;
+    price: any
+}) {
+    const [search, setSearch] = useState<string>();
+    const handleFilterChange = (options: {
+        category_id?: number;
+        search?: string;
+        enter?: boolean;
+        sub?: number[];
+        rating?: number[];
+        priceMin?: number;
+        priceMax?: number;
+    }) => {
+        const { category_id, search: s, enter, sub, rating, priceMin, priceMax } = options;
         if (s !== undefined) setSearch(s);
 
         let newSub: number[] | undefined;
+        let newRating: number[] | undefined;
+        let newPriceMin: number;
+        let newPriceMax: number;
 
         if (category_id !== undefined && category_id !== activeCategory) {
+            setSearch('');
             newSub = sub ?? [];
+            newRating = rating ?? [];
+            newPriceMin = priceMin ?? price.min;
+            newPriceMax = priceMax ?? price.max;
         } else {
             newSub = sub ?? activeSub;
+            newRating = rating ?? studentFilter.rating;
+            newPriceMin = priceMin ?? studentFilter.min;
+            newPriceMax = priceMax ?? studentFilter.max;
         }
 
         if (enter || category_id !== undefined) {
@@ -30,9 +60,12 @@ export default function CourseListPage(
                 data: {
                     category_id: category_id ?? activeCategory,
                     search: s ?? search,
-                    sub: newSub
+                    sub: newSub,
+                    rating: newRating,
+                    price_min: newPriceMin,
+                    price_max: newPriceMax
                 },
-                only: ['courses', 'activeCategory', 'subCategories', 'activeSub'],
+                only: ['courses', 'activeCategory', 'subCategories', 'activeSub', 'studentFilter'],
                 reset: ['courses'],
                 preserveScroll: true,
                 preserveState: true,
@@ -87,22 +120,25 @@ export default function CourseListPage(
                             />
                             <button
                                 onClick={() => handleFilterChange({ enter: true })}
-                                className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-[#3ABEFF] p-2 text-white transition hover:bg-[#3ABEFF]/90 cursor-pointer">
+                                className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-full bg-[#3ABEFF] p-2 text-white transition hover:bg-[#3ABEFF]/90"
+                            >
                                 <Search className="h-4 w-4" />
                             </button>
                         </div>
 
                         <div className="relative">
-                            {user?.role_id === roles.Student
-                                ? <FilterStudent />
-                                : <FilterTeacher categories={subCategories} activeSub={activeSub} handleFilterChange={handleFilterChange} />}
+                            {user?.role_id === roles.Student ? (
+                                <FilterStudent studentFilter={studentFilter} price={price} handleFilterChange={handleFilterChange} />
+                            ) : (
+                                <FilterTeacher categories={subCategories} activeSub={activeSub} handleFilterChange={handleFilterChange} />
+                            )}
                         </div>
                     </div>
                 </div>
 
                 <InfiniteScroll
                     buffer={1}
-                    loading={() => "Loading more courses..."}
+                    loading={() => 'Loading more courses...'}
                     data="courses"
                     className="mt-10 grid grid-cols-1 justify-items-center gap-6 transition-all duration-500 ease-in-out sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
                 >
