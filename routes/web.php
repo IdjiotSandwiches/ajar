@@ -14,29 +14,28 @@ Route::get('detail-institute/{id}', function ($id) {
     ]);
 })->name('detail-institute');
 
-Route::get('detail-course/{id}', function ($id) {
-    return Inertia::render('courses/detail', [
-        'courseId' => $id,
-    ]);
-})->name('detail-course');
-
 Route::get('detail-teacher/{teacherName}', function ($teacherName) {
     return Inertia::render('teacher/detail', [
         'teacherName' => $teacherName,
     ]);
 })->name('detail-teacher');
 
+Route::controller(CourseController::class)->group(function () {
+    Route::get('list-course', 'getCourseList')->name('list-course');
+    Route::get('detail-course/{id}', 'getCourseDetail')->name('detail-course');
+});
+
 
 Route::middleware(['auth', 'verified'])
     ->group(function () {
-        Route::get('list-course', [CourseController::class, 'getCourseList'])
-            ->name('list-course');
+        // Route::get('list-course', [CourseController::class, 'getCourseList'])
+        //     ->name('list-course');
 
-        Route::get('detail-teacher/{teacherName}', function ($teacherName) {
-            return Inertia::render('teacher/detail', [
-                'teacherName' => $teacherName,
-            ]);
-        })->name('detail-teacher');
+        // Route::get('detail-teacher/{teacherName}', function ($teacherName) {
+        //     return Inertia::render('teacher/detail', [
+        //         'teacherName' => $teacherName,
+        //     ]);
+        // })->name('detail-teacher');
 
         Route::get('my-learning', fn() => Inertia::render('my-learning/app'))->name('my-learning');
 

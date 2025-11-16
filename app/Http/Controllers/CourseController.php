@@ -30,6 +30,7 @@ class CourseController extends Controller
             'subCategories' => $subCategories,
             'activeCategory' => $filters['category_id'],
             'activeSub' => $filters['sub'] ?? [],
+            'search' => $filters['search'] ?? '',
             'price' => [
                 'min' => $minPrice,
                 'max' => $maxPrice
@@ -39,6 +40,15 @@ class CourseController extends Controller
                 'price_min' => $filters['price_min'] ?? null,
                 'price_max' => $filters['price_max'] ?? null
             ]
+        ]);
+    }
+
+    public function getCourseDetail(int $id)
+    {
+        [$course, $popularCourses] = $this->service->getCourseDetail($id);
+        return Inertia::render('courses/detail', [
+            'course' => $course,
+            'popularCourses' => $popularCourses
         ]);
     }
 }

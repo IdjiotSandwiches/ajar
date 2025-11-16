@@ -13,6 +13,7 @@ export default function CourseListPage({
     courses,
     subCategories,
     activeSub,
+    search,
     studentFilter,
     price
 }: {
@@ -21,10 +22,11 @@ export default function CourseListPage({
     courses: any;
     subCategories: CategoryProps[];
     activeSub: number[];
+    search: string;
     studentFilter: any;
     price: any
 }) {
-    const [search, setSearch] = useState<string>();
+    const [localSearch, setLocalSearch] = useState<string>(search ?? '');
     const handleFilterChange = (options: {
         category_id?: number;
         search?: string;
@@ -35,20 +37,23 @@ export default function CourseListPage({
         priceMax?: number;
     }) => {
         const { category_id, search: s, enter, sub, rating, priceMin, priceMax } = options;
-        if (s !== undefined) setSearch(s);
+        if (s !== undefined) setLocalSearch(s);
 
         let newSub: number[] | undefined;
         let newRating: number[] | undefined;
         let newPriceMin: number;
         let newPriceMax: number;
+        let newSearch: string;
 
         if (category_id !== undefined && category_id !== activeCategory) {
-            setSearch('');
+            setLocalSearch('');
+            newSearch = s ?? '';
             newSub = sub ?? [];
             newRating = rating ?? [];
             newPriceMin = priceMin ?? price.min;
             newPriceMax = priceMax ?? price.max;
         } else {
+            newSearch = localSearch ?? search;
             newSub = sub ?? activeSub;
             newRating = rating ?? studentFilter.rating;
             newPriceMin = priceMin ?? studentFilter.min;
@@ -59,7 +64,7 @@ export default function CourseListPage({
             router.visit(route('list-course'), {
                 data: {
                     category_id: category_id ?? activeCategory,
-                    search: s ?? search,
+                    search: newSearch,
                     sub: newSub,
                     rating: newRating,
                     price_min: newPriceMin,
@@ -112,7 +117,7 @@ export default function CourseListPage({
                         <div className="relative max-w-md flex-1">
                             <input
                                 type="text"
-                                value={search}
+                                value={localSearch}
                                 onChange={(e) => handleFilterChange({ search: e.target.value })}
                                 onKeyDown={(e) => e.key === 'Enter' && handleFilterChange({ enter: true })}
                                 placeholder={`Search courses...`}
@@ -127,10 +132,10 @@ export default function CourseListPage({
                         </div>
 
                         <div className="relative">
-                            {user?.role_id === roles.Student ? (
-                                <FilterStudent studentFilter={studentFilter} price={price} handleFilterChange={handleFilterChange} />
-                            ) : (
+                            {(user?.role_id === roles.Teacher || user?.role_id === roles.Institute) ? (
                                 <FilterTeacher categories={subCategories} activeSub={activeSub} handleFilterChange={handleFilterChange} />
+                            ) : (
+                                <FilterStudent studentFilter={studentFilter} price={price} handleFilterChange={handleFilterChange} />
                             )}
                         </div>
                     </div>

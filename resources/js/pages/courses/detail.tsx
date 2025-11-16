@@ -1,5 +1,3 @@
-import { dummyCourses } from "@/dummy-data/dummy-course";
-import { usePage } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import CourseHero from "@/components/course/hero-section";
 import { useEffect, useRef, useState } from "react";
@@ -7,12 +5,8 @@ import CourseSidebar from "@/components/course/sidebar";
 import ReviewSection from "@/components/course/review";
 import PopularCourses from "@/components/home/popular-courses";
 
-export default function CourseDetailPage() {
-    const { props } = usePage();
-    const courseId = props.courseId as number;
-
-    const course = dummyCourses.find((c) => c.id === Number(courseId));
-
+export default function CourseDetailPage({ course, popularCourses }: { course: any, popularCourses: any[] }) {
+    console.log(course);
     const [activeTab, setActiveTab] = useState("syllabus");
 
     const syllabusRef = useRef<HTMLHeadingElement | null>(null);
@@ -124,7 +118,7 @@ export default function CourseDetailPage() {
                             Learning Objectives
                         </h2>
                         <ul className="text-gray-600 list-disc ml-5 space-y-2">
-                            {course.learning_objectives?.map((item: any) => (
+                            {course.course_learning_objectives?.map((item: any) => (
                                 <li key={item.id}>{item.description}</li>
                             ))}
                         </ul>
@@ -152,7 +146,7 @@ export default function CourseDetailPage() {
                         </h2>
                         <ul className="text-gray-600 list-disc ml-5 space-y-2">
                             {course.course_skills?.map((item: any) => (
-                                <li key={item.id}>{item.name}</li>
+                                <li key={item.id}>{item.skill.name}</li>
                             ))}
                         </ul>
                     </section>
@@ -165,20 +159,21 @@ export default function CourseDetailPage() {
                         >
                             Testimonial
                         </h4>
-                        <ReviewSection />
+                        <ReviewSection reviews={course.course_reviews} />
                     </section>
                 </div>
 
                 {/* RIGHT SIDEBAR */}
                 <div className="lg:col-span-1">
                     <CourseSidebar
-                        institution={course.institution}
-                        teacher={course.teacher}
+                        institute={course.institute.user}
+                        teacher={course.teachers}
                     />
                 </div>
             </div>
+
             <div className="mx-auto px-10">
-                <PopularCourses courses={dummyCourses} />
+                <PopularCourses courses={popularCourses} />
             </div>
         </div>
     );

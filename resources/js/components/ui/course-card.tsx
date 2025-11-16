@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import TeacherList from "./teacher-list";
 
 export default function CourseCard({ course, isTag }: { course: any, isTag: boolean }) {
@@ -51,7 +51,9 @@ export default function CourseCard({ course, isTag }: { course: any, isTag: bool
                         </p>
                         <p className="text-gray-500 text-xs">{course.duration} Minutes</p>
                     </div>
-                    <button className="bg-[#3ABEFF] text-white text-sm px-4 py-1.5 rounded-full font-medium hover:bg-[#3ABEFF]/90 transition cursor-pointer">
+                    <button
+                        onClick={() => router.get(route('detail-course', course.id))}
+                        className="bg-[#3ABEFF] text-white text-sm px-4 py-1.5 rounded-full font-medium hover:bg-[#3ABEFF]/90 transition cursor-pointer">
                         See info →
                     </button>
                 </div>

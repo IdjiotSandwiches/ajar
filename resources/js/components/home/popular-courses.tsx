@@ -6,7 +6,7 @@ export default function PopularCourses({ courses }: { courses: any[] }) {
         <section className="bg-[#F7FDFD] px-6 py-16 md:px-12">
             <div className="mb-8 flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-gray-800 md:text-xl">Popular Courses</h2>
-                <button className="text-sm font-medium text-[#3ABEFF] hover:underline" onClick={() => router.get(route('list-course'))}>
+                <button className="cursor-pointer text-sm font-medium text-[#3ABEFF] hover:underline" onClick={() => router.get(route('list-course'))}>
                     View All Courses →
                 </button>
             </div>
