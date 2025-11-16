@@ -7,10 +7,9 @@ import PopularCourses from '@/components/home/popular-courses';
 import BecomeTeacherSection from '@/components/home/register-teacher';
 import ReviewSection from '@/components/home/review';
 import Navbar from '@/components/navbar';
-import { Head, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 
-export default function HomePage() {
-    const { courses, institutes } = usePage().props;
+export default function HomePage({ courses, institutes }: { courses: any[]; institutes: any[] }) {
     return (
         <>
             <Head title="Home" />
@@ -18,8 +17,8 @@ export default function HomePage() {
                 <Navbar />
                 <main className="flex-1">
                     <HeroSection />
-                    <PopularCourses courses={courses as any[]} />
-                    <InstitutionSection institutes={institutes as any[]} />
+                    <PopularCourses courses={courses} />
+                    <InstitutionSection institutes={institutes} />
                     <LearningToTeachSection />
                     <TechDesignCourseSection />
                     <BecomeTeacherSection />

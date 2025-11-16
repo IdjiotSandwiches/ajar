@@ -12,16 +12,14 @@ class HomeService
         $courses = Course::with([
             'teachers.user',
             'institute.user',
-            'courseSkills.skill',
+            'courseSkills.skill'
         ])
+            ->withCount('courseSchedules')
             ->withAvg('courseReviews', 'rating')
+            ->orderByDesc('course_schedules_count')
+            ->inRandomOrder()
             ->limit(10)
-            ->get()
-            ->map(function ($course) {
-                $course->average_rating = $course->course_reviews_avg_rating ?? 0;
-                unset($course->course_reviews_avg_rating);
-                return $course;
-            });
+            ->get();
 
         return $courses;
     }
