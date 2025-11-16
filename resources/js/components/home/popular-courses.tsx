@@ -14,7 +14,7 @@ export default function PopularCourses({ courses }: { courses: any[] }) {
             {/* Scrollable horizontal */}
             <div className="scrollbar-thin scrollbar-thumb-[#3ABEFF]/30 scrollbar-track-transparent flex gap-6 overflow-x-auto pb-4">
                 {courses.map((course: any, index: number) => {
-                    return <CourseCard key={index} course={course} />;
+                    return <CourseCard key={index} course={course} isTag={true} />;
                 })}
             </div>
         </section>
