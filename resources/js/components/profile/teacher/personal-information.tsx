@@ -1,0 +1,118 @@
+import React from "react";
+import { InertiaFormProps } from "@inertiajs/react";
+import InputError from "@/components/input-error";
+import DetailInput from "../../detail-input";
+
+interface ProfilePersonalFormProps {
+    form: InertiaFormProps<any>;
+}
+
+const ProfilePersonalForm: React.FC<ProfilePersonalFormProps> = ({ form }) => {
+    const getError = (field: string) => (form.errors as Record<string, string>)[field];
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("Form data:", form.data);
+        // form.post(route("profile.personal.update"));
+    };
+
+    return (
+        <div className="bg-white shadow-sm rounded-2xl p-8">
+            <h3 className="text-2xl font-semibold text-center text-[#3ABEFF] mb-8">
+                Personal Information
+            </h3>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <div>
+                    <DetailInput
+                        type="text"
+                        name="name"
+                        id="name"
+                        title="Full Name"
+                        value={form.data.name ?? ""}
+                        onChange={(e) => form.setData("name", e.target.value)}
+                    />
+                    <div className={getError("name") ? "h-5" : ""}>
+                        <InputError message={getError("name")} />
+                    </div>
+                </div>
+                <div>
+                    <DetailInput
+                        type="text"
+                        name="phone_number"
+                        id="phone_number"
+                        title="Phone Number"
+                        value={form.data.phone_number ?? ""}
+                        onChange={(e) => form.setData("phone_number", e.target.value)}
+                    />
+                    <div className={getError("phone_number") ? "h-5" : ""}>
+                        <InputError message={getError("phone_number")} />
+                    </div>
+                </div>
+                <div>
+                    <DetailInput
+                        type="email"
+                        name="email"
+                        id="email"
+                        title="Email"
+                        value={form.data.email ?? ""}
+                        onChange={(e) => form.setData("email", e.target.value)}
+                    />
+                    <div className={getError("email") ? "h-5" : ""}>
+                        <InputError message={getError("email")} />
+                    </div>
+                </div>
+                <div>
+                    <DetailInput
+                        type="text"
+                        name="insta_link"
+                        id="insta_link"
+                        title="Instagram Link"
+                        value={form.data.insta_link ?? ""}
+                        onChange={(e) => form.setData("insta_link", e.target.value)}
+                    />
+                    <div className={getError("insta_link") ? "h-5" : ""}>
+                        <InputError message={getError("insta_link")} />
+                    </div>
+                </div>
+                <div>
+                    <DetailInput
+                        type="text"
+                        name="linkedin_link"
+                        id="linkedin_link"
+                        title="LinkedIn Link"
+                        value={form.data.insta_link ?? ""}
+                        onChange={(e) => form.setData("linkedin_link", e.target.value)}
+                    />
+                    <div className={getError("linkedin_link") ? "h-5" : ""}>
+                        <InputError message={getError("linkedin_link")} />
+                    </div>
+                </div>
+                <div>
+                    <DetailInput
+                        type="text"
+                        name="github_link"
+                        id="github_link"
+                        title="Github Link"
+                        value={form.data.insta_link ?? ""}
+                        onChange={(e) => form.setData("github_link", e.target.value)}
+                    />
+                    <div className={getError("github_link") ? "h-5" : ""}>
+                        <InputError message={getError("github_link")} />
+                    </div>
+                </div>
+
+                <div className="mt-6">
+                    <button
+                        type="submit"
+                        className="w-full bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white font-semibold py-2.5 rounded-lg transition"
+                    >
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
+};
+
+export default ProfilePersonalForm;
