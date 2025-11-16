@@ -1,8 +1,13 @@
-export interface RoleEnums {
-    enums: {
-        roles_enum: Record<string, number>;
-    };
-    [key: string]: any;
+// export interface RoleEnums {
+//     enums: {
+//         roles_enum: Record<string, number>;
+//     };
+//     [key: string]: any;
+// }
+
+export interface CategoryProps {
+  id: number,
+  name: string,
 }
 
 export interface DegreeTypeEnums {
@@ -37,17 +42,22 @@ export interface GraduateProps {
 
 export interface WorkProps {
     id: number;
-    position: string;
-    institution: string;
     duration: number;
+    institution: string;
+    position: string;
 }
 
-export interface TeacherRegisterProps {
-    description: string;
+export interface CertificateProps {
+    image: File | string;
+}
+
+export interface TeacherRegisterProps extends RegisterFormProps {
+    description: string | number;
     category: number | null;
     graduates: any[];
     works: any[];
-    certificates: File[];
+    certificates: File[] | string[];
+    image?: File[] | string[];
 }
 
 export interface Category {
@@ -55,4 +65,93 @@ export interface Category {
     name: string;
     parent_id?: number | null;
     children?: Category[];
+}
+
+export interface LearnObjProps {
+    id: number;
+    description: string;
+    course_id?: number;
+}
+
+export interface BenefitStudentProps {
+    id: number;
+    description: string;
+    course_id?: number;
+}
+
+export interface BenefitTeacherProps {
+    id: number;
+    description: string;
+    course_id?: number;
+}
+
+export interface CourseOverviewProps {
+    id: number;
+    description: string;
+    course_id?: number;
+}
+
+export interface ProgrammingLanguageProps {
+    id: number;
+    programming_language: string;
+}
+
+export interface CourseSkillProps {
+  id: number;
+  course_id: number;
+  skill_id: number;
+  course?: CourseData;
+  skill?: SkillProps;
+}
+
+
+export interface CourseData {
+    [key: string]: any;
+    id?: number
+    name: string;
+    description: string;
+    price: number;
+    duration: number;
+    discount?: number;
+
+    category: number | null;
+
+    learning_objectives?: LearnObjProps[];
+    benefit_for_students?: BenefitStudentProps[];
+    benefit_for_teachers?: BenefitTeacherProps[];
+    course_overviews?: CourseOverviewProps[];
+    course_skills?: SkillProps[];
+
+    course_images?: (File | string)[];
+
+    teacher?: TeacherRegisterProps[];
+    institution?: string | InstitutionData | null;
+
+    ratings?: number[];
+    reviews?: string[];
+
+    teacher_salary: number;
+}
+
+export interface DeleteConfirmationModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+    description: string;
+}
+
+export interface InstitutionData {
+  id: number;
+  name: string;
+  logo: string;
+  banner: string;
+  description: string;
+  rating: number;
+  website: string;
+  totalCourses: number;
+  totalTeachers: number;
+  category: string;
+  location: string;
+  contactEmail: string;
+  reviews?: string[];
 }

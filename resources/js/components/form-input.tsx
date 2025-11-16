@@ -36,13 +36,15 @@ export default function FormInput({
                             id={c}
                             type={inputType[c]}
                             required
-                            autoFocus
+                            // autoFocus
+                            label={separateWords(c)}
+                            name={c}
                             tabIndex={1}
                             autoComplete={c}
                             value={form.data[c]}
                             onChange={(e) => form.setData(c, e.target.value)}
                             disabled={form.processing}
-                            placeholder={separateWords(c)}
+                            // placeholder={separateWords(c)}
                         />
                         <InputError message={form.errors[c]} />
                     </div>

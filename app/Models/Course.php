@@ -21,6 +21,7 @@ class Course extends Model
         'description',
         'price',
         'duration',
+        'image',
         'category_id',
         'institute_id'
     ];
@@ -104,5 +105,17 @@ class Course extends Model
     public function courseSchedules(): HasMany
     {
         return $this->hasMany(CourseSchedule::class);
+    }
+
+    public function teachers()
+    {
+        return $this->hasManyThrough(
+            Teacher::class,
+            CourseSchedule::class,
+            'course_id',
+            'user_id',
+            'id',
+            'teacher_id'
+        )->distinct();
     }
 }

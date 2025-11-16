@@ -51,13 +51,32 @@ export default function RegisterLayout({ steps, role_config, form }: RegisterLay
                 <div className="grid gap-4">{steps[currentStep - 1].component}</div>
 
                 <div className="mt-4 flex justify-end gap-2">
-                    {currentStep - 1 !== 0 && (
-                        <Button type="button" variant="ghost" onClick={back} className="rounded-full">
-                            Back
+                    {/* {currentStep - 1 !== 0 && (
+                        <Button type="button" variant="ghost" onClick={back} className="rounded-full hover:bg-[#3ABEFF]/10">
+                            <p className="hover:text-[#3ABEFF]">Back</p>
+                        </Button>
+                    )} */}
+                    {currentStep === 1 ? (
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={() => router.get(route('login'))}
+                            className="rounded-full hover:bg-[#3ABEFF]/10"
+                        >
+                            <p className="hover:text-[#3ABEFF]">Login</p>
+                        </Button>
+                    ) : (
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={back}
+                            className="rounded-full hover:bg-[#3ABEFF]/10"
+                        >
+                            <p className="hover:text-[#3ABEFF]">Back</p>
                         </Button>
                     )}
 
-                    <Button type="button" onClick={currentStep === steps.length ? submit : next} className="rounded-full">
+                    <Button type="button" onClick={currentStep === steps.length ? submit : next} className="rounded-full bg-[#3ABEFF] hover:bg-[#3ABEFF]/90">
                         {currentStep === steps.length ? (
                             <>
                                 {form.processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
