@@ -46,7 +46,7 @@ export default function AppNavbarLayout({
 
       {/* Konten utama */}
       <main
-        className={`flex-1 py-8 ${
+        className={`flex-1 ${
           useContainer ? "container mx-auto" : "w-full"
         }`}
       >

@@ -22,7 +22,6 @@ class CourseService
     public function getCourses($filters)
     {
         $user = Auth::user();
-
         $categories = Category::with('children')
             ->where('parent_id', $filters['category_id'])
             ->select(['id', 'name'])
@@ -34,18 +33,15 @@ class CourseService
 
         $categoryIds = $categories->pluck('id');
         $baseQuery = Course::query()
-            ->when($user->role_id != RoleEnum::Student, fn($q) => $q->with('teachers.user'))
+            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachers.user'))
             ->when($filters['search'] ?? null, fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
             ->with(['institute.user'])
             ->withAvg('courseReviews', 'rating')
             ->withCount('courseReviews');
 
-        switch ($user->role_id)
-        {
-            case RoleEnum::Student:
-                $baseQuery->whereIn('category_id', $categoryIds);
-                break;
-            default:
+        switch ($user?->role_id) {
+            case RoleEnum::Teacher:
+            case RoleEnum::Institute:
                 $baseQuery->when(!empty($filters['sub']), function ($q) use ($filters, $categories) {
                     $subIds = $categories->whereIn('id', $filters['sub'])->pluck('id');
                     $q->whereIn('category_id', $subIds);
@@ -55,15 +51,20 @@ class CourseService
                     $q->whereIn('category_id', $categoryIds);
                 });
                 break;
+            default:
+                $baseQuery->whereIn('category_id', $categoryIds);
+                break;
         }
 
         $minPrice = (clone $baseQuery)->min('price');
         $maxPrice = (clone $baseQuery)->max('price');
 
         $filteredQuery = (clone $baseQuery);
-        switch ($user->role_id)
-        {
-            case RoleEnum::Student:
+        switch ($user?->role_id) {
+            case RoleEnum::Teacher:
+            case RoleEnum::Institute:
+                break;
+            default:
                 $filteredQuery->when(!empty($filters['rating']), function ($q) use ($filters) {
                     $ratings = (array) $filters['rating'];
 
@@ -108,11 +109,70 @@ class CourseService
                     $q->where('price', '<=', $filters['price_max']);
                 });
                 break;
-            default:
-                break;
         }
 
         $courses = $filteredQuery->paginate(10);
         return [$courses, $categories, $minPrice, $maxPrice];
+    }
+
+    public function getCourseDetail($id)
+    {
+        $user = Auth::user();
+        $query = Course::with(
+            [
+                'institute.user',
+                'courseReviews.reviewer',
+                'courseSkills.skill',
+                'courseLearningObjectives',
+                'courseOverviews',
+                'courseSchedules',
+                'teachers.user'
+            ])
+            ->withAvg('courseReviews', 'rating')
+            ->withCount('courseReviews');
+
+        $course = $query->find($id);
+        if (\in_array($user?->role_id, [RoleEnum::Teacher, RoleEnum::Institute])) {
+            $course->setRelation('benefits', $course->courseTeacherBenefits);
+        } else {
+            $course->setRelation('benefits', $course->courseStudentBenefits);
+        }
+
+        $popularCourses = $this->getPopularCourseByCategory($course->category_id, $course->id);
+        return [$course, $popularCourses];
+    }
+
+    public function getPopularCourseByCategory($categoryId, $currentCourseId)
+    {
+        $count = 10;
+
+        $user = Auth::user();
+        $courses = Course::with(['institute.user', 'courseSkills.skill', 'category.parent'])
+            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachers.user'))
+            ->withAvg('courseReviews', 'rating')
+            ->limit(10)
+            ->where('category_id', $categoryId)
+            ->whereNotIn('id', [$currentCourseId])
+            ->get();
+
+        $coursesCount = $courses->count();
+        if ($coursesCount < $count) {
+            $parentCategory = Category::whereNotNull('parent_id')
+                ->where('id', $categoryId)
+                ->value('parent_id');
+
+            $filteredCourseIds = $courses->pluck('id');
+            $moreCourses = Course::with(['institute.user', 'courseSkills.skill', 'category.parent'])
+                ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachers.user'))
+                ->withAvg('courseReviews', 'rating')
+                ->limit($count - $coursesCount)
+                ->whereRelation('category.parent', 'id', $parentCategory)
+                ->whereNotIn('id', $filteredCourseIds->merge($currentCourseId))
+                ->get();
+
+            $courses = $courses->merge($moreCourses);
+        }
+
+        return $courses;
     }
 }

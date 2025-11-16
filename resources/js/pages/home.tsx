@@ -11,7 +11,6 @@ import { Head, usePage } from '@inertiajs/react';
 
 export default function HomePage() {
     const { courses, institutes } = usePage().props;
-    console.log(institutes);
     return (
         <>
             <Head title="Home" />

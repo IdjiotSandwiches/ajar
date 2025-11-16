@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { router } from "@inertiajs/react";
-import DeleteConfirmationModal from "@/components/modal/delete-confirmation";
 import AppLayout from "@/layouts/app-layout";
 import { CourseData } from "@/interfaces/shared";
 import { dummyCourses } from "@/dummy-data/dummy-course";
+import DynamicModal from "@/components/modal/modal";
 
 export default function CourseList() {
   const [courses, setCourses] = useState<CourseData[]>([]);
@@ -45,7 +45,7 @@ export default function CourseList() {
   };
 
   return (
-    <div className="container min-h-screen bg-[#f9fdfd] flex flex-col">
+    <div className="min-h-screen bg-[#f9fdfd] flex flex-col">
       <div className="max-w-6xl mx-auto w-full px-6 py-10 bg-white/80 backdrop-blur-sm shadow-sm rounded-2xl mt-10">
         <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-10 cursor-default">
           My Courses
@@ -83,9 +83,8 @@ export default function CourseList() {
                 {courses.map((course, index) => (
                   <tr
                     key={course.id}
-                    className={`border-b hover:bg-[#42C2FF]/10 transition ${
-                      index % 2 === 0 ? "bg-[#f9fcff]" : "bg-white"
-                    }`}
+                    className={`border-b hover:bg-[#42C2FF]/10 transition ${index % 2 === 0 ? "bg-[#f9fcff]" : "bg-white"
+                      }`}
                   >
                     {/* Course Info */}
                     <td className="py-3 px-4 flex items-center gap-3">
@@ -143,7 +142,8 @@ export default function CourseList() {
       </div>
 
       {/* ===== Modal Konfirmasi Delete ===== */}
-      <DeleteConfirmationModal
+      <DynamicModal
+        type="confirmation"
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleConfirmDelete}

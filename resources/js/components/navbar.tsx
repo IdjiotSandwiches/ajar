@@ -27,7 +27,6 @@ export default function Navbar() {
                 <div className="flex items-center">
                     <span className="text-3xl font-bold text-[#3ABEFF]">Ajar</span>
                 </div>
-
                 {/* === Middle: Navigation benar-benar di tengah === */}
                 <div className="absolute left-1/2 flex -translate-x-1/2 transform items-center space-x-12 font-medium text-[#3ABEFF]">
                     <a href="#" className="text-lg transition-colors hover:text-[#1AAAE3]" onClick={() => router.get(route('home'))}>
@@ -36,7 +35,7 @@ export default function Navbar() {
                     <a href="#" className="text-lg transition-colors hover:text-[#1AAAE3]" onClick={() => router.get(route('list-course'))}>
                         Course
                     </a>
-                    <a href="#" className="text-lg transition-colors hover:text-[#1AAAE3]">
+                    <a href="#" className="text-lg transition-colors hover:text-[#1AAAE3]" onClick={() => router.get(route('my-learning'))}>
                         MyLearning
                     </a>
                 </div>

@@ -28,7 +28,7 @@ export default function GraduateForm({ form }: { form: InertiaFormProps<Partial<
 
     return (
         <div className="w-full">
-            <h3 className="font-medium text-gray-800">Graduate</h3>
+            <h3 className="font-medium text-gray-800 mb-5">Graduate</h3>
             {(form.data.graduates as GraduateProps[])?.map((g, idx) => {
                 {
                     return (

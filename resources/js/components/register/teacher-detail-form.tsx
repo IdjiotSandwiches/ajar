@@ -15,7 +15,6 @@ interface TeacherDetailFormProps {
   form: InertiaFormProps<Partial<TeacherRegisterProps>>;
   categories: Category[];
   onNext?: () => void;
-
 }
 
 const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
