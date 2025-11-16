@@ -18,12 +18,10 @@ export default function CourseCard({ course, isTag }: { course: any, isTag: bool
                 )}
             </div>
 
-            {/* === Info Guru === */}
             {(user !== null && user?.role_id !== roles.Student) && (
                 <TeacherList teachers={course.teachers} />
             )}
 
-            {/* === Konten Utama === */}
             <div className="p-4 flex flex-col justify-between flex-grow cursor-default">
                 <div>
                     <h3 className="text-gray-800 font-semibold text-base leading-tight mb-1">
@@ -38,11 +36,10 @@ export default function CourseCard({ course, isTag }: { course: any, isTag: bool
                         {course.description}
                     </p>
 
-                    {/* Rating */}
                     <div className="flex items-center text-sm text-yellow-500 mb-2">
                         <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400 mr-1" />
                         <span className="text-gray-400 ml-1 text-xs">
-                        • {course.average_rating} review
+                        • {course.average_rating ?? 0} reviews
                         </span>
                     </div>
                 </div>
