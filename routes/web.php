@@ -28,15 +28,6 @@ Route::controller(CourseController::class)->group(function () {
 
 Route::middleware(['auth', 'verified'])
     ->group(function () {
-        // Route::get('list-course', [CourseController::class, 'getCourseList'])
-        //     ->name('list-course');
-
-        // Route::get('detail-teacher/{teacherName}', function ($teacherName) {
-        //     return Inertia::render('teacher/detail', [
-        //         'teacherName' => $teacherName,
-        //     ]);
-        // })->name('detail-teacher');
-
         Route::get('my-learning', fn() => Inertia::render('my-learning/app'))->name('my-learning');
 
         Route::get('profile', fn() => Inertia::render('student/edit-profile'))->name('profile-student');
