@@ -51,7 +51,6 @@ export default function CourseList() {
           My Courses
         </h1>
 
-        {/* Tombol Create */}
         <div className="flex justify-end mb-6">
           <button
             onClick={() => router.get("create-course")}
@@ -61,7 +60,6 @@ export default function CourseList() {
           </button>
         </div>
 
-        {/* ===== Loading & Tabel ===== */}
         {loading ? (
           <div className="text-center text-gray-500 py-10">Loading...</div>
         ) : courses.length === 0 ? (
@@ -86,7 +84,6 @@ export default function CourseList() {
                     className={`border-b hover:bg-[#42C2FF]/10 transition ${index % 2 === 0 ? "bg-[#f9fcff]" : "bg-white"
                       }`}
                   >
-                    {/* Course Info */}
                     <td className="py-3 px-4 flex items-center gap-3">
                       <img
                         src={
@@ -99,7 +96,6 @@ export default function CourseList() {
                       <p className="font-bold cursor-default">{course.name}</p>
                     </td>
 
-                    {/* Duration */}
                     <td className="py-3 px-4 cursor-default">
                       <div className="flex items-center gap-1">
                         <p className="font-bold">{course.duration}</p>
@@ -107,7 +103,6 @@ export default function CourseList() {
                       </div>
                     </td>
 
-                    {/* Price */}
                     <td className="py-3 px-4 font-bold cursor-default">
                       {course.price.toLocaleString("id-ID", {
                         style: "currency",
@@ -115,8 +110,6 @@ export default function CourseList() {
                         maximumFractionDigits: 0,
                       })}
                     </td>
-
-                    {/* Actions */}
                     <td className="py-3 px-4 text-center">
                       <div className="flex items-center justify-center gap-2">
                         <button
@@ -140,8 +133,6 @@ export default function CourseList() {
           </div>
         )}
       </div>
-
-      {/* ===== Modal Konfirmasi Delete ===== */}
       <DynamicModal
         type="confirmation"
         isOpen={showModal}
