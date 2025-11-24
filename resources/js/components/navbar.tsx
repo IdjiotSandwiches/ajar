@@ -1,109 +1,105 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Bell } from "lucide-react";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
+
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-
-  // Tutup dropdown jika klik di luar area
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setOpenDropdown(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const { auth } = usePage().props;
+  const user = auth?.user;
+  const [isLoggedIn, setIsLoggedIn] = useState(!!user);
 
   return (
     <nav className="w-full bg-white shadow-sm sticky top-0 z-99">
       <div className="relative flex items-center justify-between px-8 py-4 max-w-[1870px] mx-auto">
-        {/* === Left: Logo (pojok kiri) === */}
         <div className="flex items-center">
-          <span className="text-3xl font-bold text-[#3ABEFF]">Ajar</span>
+          <span
+            className="text-3xl font-bold text-[#3ABEFF] cursor-pointer"
+            onClick={() => router.get(route("home"))}>Ajar</span>
         </div>
 
-        {/* === Middle: Navigation benar-benar di tengah === */}
         <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-12 text-[#3ABEFF] font-medium">
-          <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg" onClick={() => router.get(route('home'))}>
+          <a
+            href="#"
+            className="hover:text-[#1AAAE3] transition-colors text-lg"
+            onClick={() => router.get(route("home"))}
+          >
             Home
           </a>
-          <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg" onClick={() => router.get(route('list-course'))}>
+          <a
+            href="#"
+            className="hover:text-[#1AAAE3] transition-colors text-lg"
+            onClick={() => router.get(route("list-course"))}
+          >
             Course
           </a>
-          <a href="#" className="hover:text-[#1AAAE3] transition-colors text-lg" onClick={() => router.get(route('my-learning'))}>
+          <a
+            href="#"
+            className="hover:text-[#1AAAE3] transition-colors text-lg"
+            onClick={() => router.get(route("my-learning"))}
+          >
             MyLearning
           </a>
         </div>
 
-        {/* === Right: Notification + Hello + Avatar (pojok kanan) === */}
-        <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
-          {/* Notification Icon */}
+        <div className="flex items-center space-x-4 relative">
           <div className="relative">
             <Bell size={22} color="#3ABEFF" />
             <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
           </div>
 
-          {/* Hello Text */}
-          <span className="text-[#3ABEFF] font-medium hidden md:inline">Hello, Human</span>
+          <span className="text-[#3ABEFF] font-medium hidden md:inline">
+            Hello, {user?.name ?? "Guest"}
+          </span>
 
-          {/* Avatar (trigger dropdown) */}
-          <div className="relative">
-            <button
-              onClick={() => setOpenDropdown((prev) => !prev)}
-              className="flex items-center focus:outline-none"
-            >
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="focus:outline-none rounded-full">
               <img
                 src="/images/image-1.jpg"
                 alt="Avatar"
-                className="w-10 h-10 rounded-full object-cover border-2 border-[#3ABEFF]"
+                className="w-10 h-10 rounded-full object-cover border"
               />
-              {/* <ChevronDown
-                size={18}
-                className={`ml-1 text-[#3ABEFF] transition-transform ${
-                  openDropdown ? "rotate-180" : ""
-                }`}
-              /> */}
-            </button>
+            </DropdownMenuTrigger>
 
-            {/* === Dropdown Menu === */}
-            {openDropdown && (
-              <div className="absolute right-0 top-14 bg-white border shadow-lg rounded-xl w-40 py-2">
-                {isLoggedIn ? (
-                  <>
-                    <a
-                      href="#profile"
-                      className="block px-4 py-2 text-gray-700 hover:bg-[#EAF8FE] hover:text-[#3ABEFF]"
-                    >
-                      Profile
-                    </a>
-                    <button
-                      onClick={() => {
-                        setIsLoggedIn(false);
-                        setOpenDropdown(false);
-                      }}
-                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-[#EAF8FE] hover:text-[#3ABEFF]"
-                    >
-                      Logout
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setIsLoggedIn(true);
-                      setOpenDropdown(false);
-                    }}
-                    className="w-full text-left px-4 py-2 text-gray-700 hover:bg-[#EAF8FE] hover:text-[#3ABEFF]"
+            <DropdownMenuContent
+              className="w-48 mr-1 mt-2 rounded-md border bg-white shadow-md z-999"
+              align="end"
+            >
+              {isLoggedIn ? (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => router.get(route("profile"))}
+                    className="cursor-pointer"
                   >
-                    Login
-                  </button>
-                )}
-              </div>
-            )}
-          </div>
+                    Profile
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator />
+
+                  <DropdownMenuItem
+                    onClick={() => setIsLoggedIn(false)}
+                    className="cursor-pointer text-red-500"
+                  >
+                    Logout
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <DropdownMenuItem
+                  onClick={() => setIsLoggedIn(true)}
+                  className="cursor-pointer"
+                >
+                  Login
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </nav>
