@@ -65,7 +65,7 @@ export default function Navbar() {
               <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
             </div>
 
-            <span className="text-[#42C2FF] font-medium">
+            <span className="text-[#42C2FF] font-medium hidden md:inline">
               Hello, {user?.name ?? "Guest"}
             </span>
 
