@@ -26,7 +26,7 @@ export default function HeroSection() {
         <img
           src="/images/hero-img.png"
           alt="Hero"
-          className="rounded-full w-100 h-100 object-cover"
+          className="rounded-full w-80 h-80 md:w-100 md:h-100 object-cover"
         />
       </div>
     </section>

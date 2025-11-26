@@ -7,18 +7,20 @@ interface AuthLayoutProps {
   step?: number;
 }
 
-export default function AuthSimpleLayout({ children, title, step = 0 }: PropsWithChildren<AuthLayoutProps>) {
-  const isFullPage = step > 2; 
+export default function AuthSimpleLayout({
+  children,
+  title,
+  step = 0,
+}: PropsWithChildren<AuthLayoutProps>) {
+  const isFullPage = step > 2;
 
   return (
-    <div className="flex flex-col items-start min-h-screen bg-[#F8FEFF] p-6">
-      {/* <BackButton className="m-4" label="Back" /> */}
-
-      <div className="flex flex-1 w-full items-center justify-center"> 
+    <div className="min-h-screen bg-[#F8FEFF] flex flex-col">
+      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-8">
         {!isFullPage ? (
-          <div className="bg-white flex w-[70%] max-w-5xl rounded-2xl shadow-sm overflow-hidden">
-            {/* Left section */}
-            <div className="w-1/2 flex flex-col items-center justify-center p-10 text-center">
+          <div className="bg-white w-full max-w-4xl rounded-2xl shadow-sm overflow-hidden flex flex-col lg:flex-row">
+            <div className="lg:w-1/2 w-full flex flex-col items-center 
+                            justify-center p-8 sm:p-10 text-center">
               <div className="text-[#3ABEFF] mb-4">
                 <svg
                   width="64"
@@ -33,22 +35,28 @@ export default function AuthSimpleLayout({ children, title, step = 0 }: PropsWit
                   />
                 </svg>
               </div>
-              <h2 className="text-2xl font-semibold text-[#3ABEFF] mb-2">Technology</h2>
+
+              <h2 className="text-2xl font-semibold text-[#3ABEFF] mb-2">
+                Technology
+              </h2>
+
               <p className="text-[#3ABEFF] text-sm leading-relaxed max-w-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna.
               </p>
             </div>
-
-            {/* Right section */}
-            <div className="w-1/2 flex flex-col justify-center px-12 py-10 max-w-md">
-              <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">{title}</h1>
+            <div className="lg:w-1/2 w-full flex flex-col justify-center px-6 sm:px-10 py-10">
+              <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">
+                {title}
+              </h1>
               {children}
             </div>
           </div>
         ) : (
-          // === FULL PAGE MODE ===
-          <div className="bg-white w-[85%] max-w-6xl rounded-2xl shadow-sm px-16 py-12">
-            <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">{title}</h1>
+          <div className="bg-white w-full max-w-4xl rounded-2xl shadow-sm px-6 sm:px-12 py-10">
+            <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">
+              {title}
+            </h1>
             {children}
           </div>
         )}

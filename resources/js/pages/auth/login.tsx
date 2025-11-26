@@ -22,13 +22,16 @@ interface LoginProps {
 }
 
 export default function Login({ status, canResetPassword }: LoginProps) {
-    const { data, setData, post, processing, errors, reset } = useForm<Required<LoginForm>>({
-        email: '',
-        password: '',
-        remember: false,
-    });
+    const { data, setData, post, processing, errors, reset } =
+        useForm<Required<LoginForm>>({
+            email: '',
+            password: '',
+            remember: false,
+        });
 
-    const [visibleStatus, setVisibleStatus] = useState<string | null>(status || null);
+    const [visibleStatus, setVisibleStatus] = useState<string | null>(
+        status || null,
+    );
 
     useEffect(() => {
         if (status) {
@@ -50,7 +53,6 @@ export default function Login({ status, canResetPassword }: LoginProps) {
     return (
         <AuthLayout title="Login">
             <Head title="Log in" />
-
             <form className="flex flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6">
                     <div className="grid gap-2">
@@ -67,7 +69,6 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         />
                         <InputError message={errors.email} />
                     </div>
-
                     <div className="grid gap-2">
                         <Input
                             id="password"
@@ -82,40 +83,63 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         />
                         <InputError message={errors.password} />
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between flex-wrap gap-3">
                         <div className="flex items-center space-x-3">
                             <Checkbox
                                 id="remember"
                                 name="remember"
                                 checked={data.remember}
-                                onClick={() => setData('remember', !data.remember)}
+                                onClick={() =>
+                                    setData('remember', !data.remember)
+                                }
                                 tabIndex={3}
                                 className="data-[state=checked]:bg-[#3ABEFF] data-[state=checked]:border-[#3ABEFF]"
                             />
                             <Label htmlFor="remember">Remember me</Label>
                         </div>
-                        <div className="flex items-center">
-                            {canResetPassword && (
-                                <TextLink href={route('password.request')} className="ml-auto text-sm text-gray-600 hover:text-[#3ABEFF] transition-colors" tabIndex={5}>
-                                    Forgot password?
-                                </TextLink>
-                            )}
-                        </div>
-                    </div>
 
-                    <div className="mt-4 flex justify-end gap-2">
-                        <Button type="button" variant="ghost" onClick={() => router.get(route('register.student'))} className="rounded-full hover:bg-[#3ABEFF]/10">
-                            <p className="hover:text-[#3ABEFF]">Create Account</p>
+                        {canResetPassword && (
+                            <TextLink
+                                href={route('password.request')}
+                                className="text-sm text-gray-600 hover:text-[#3ABEFF] transition-colors"
+                                tabIndex={5}
+                            >
+                                Forgot password?
+                            </TextLink>
+                        )}
+                    </div>  
+                    <div className="mt-4 flex flex-col sm:flex-row justify-end gap-3">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={() =>
+                                router.get(route('register.student'))
+                            }
+                            className="rounded-full hover:bg-[#3ABEFF]/10 w-full sm:w-auto"
+                        >
+                            <p className="hover:text-[#3ABEFF]">
+                                Create Account
+                            </p>
                         </Button>
-                        <Button type="submit" className="rounded-full bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white" disabled={processing}>
-                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                        <Button
+                            type="submit"
+                            className="rounded-full bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white w-full sm:w-auto"
+                            disabled={processing}
+                        >
+                            {processing && (
+                                <LoaderCircle className="h-4 w-4 animate-spin" />
+                            )}
                             Log in
                         </Button>
                     </div>
                 </div>
             </form>
 
-            {visibleStatus  && <div className="mb-4 text-center text-sm font-medium text-green-600">{visibleStatus}</div>}
+            {visibleStatus && (
+                <div className="mb-4 text-center text-sm font-medium text-green-600">
+                    {visibleStatus}
+                </div>
+            )}
         </AuthLayout>
     );
 }
