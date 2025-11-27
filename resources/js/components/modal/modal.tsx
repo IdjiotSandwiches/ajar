@@ -58,10 +58,10 @@ const DynamicModal: React.FC<DynamicModalProps> = ({
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-[#42C2FF]/40 backdrop-blur-sm z-99">
-      <div className="bg-white w-[380px] rounded-2xl shadow-2xl p-6 relative text-center animate-fadeIn">
+      <div className="bg-white w-[380px] rounded-2xl shadow-2xl p-6 relative text-center animate-fadeIn mx-4">
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+          className="absolute top-3 right-3 text-gray-400 hover:text-[#42C2FF]"
         >
           <X size={18} />
         </button>
@@ -89,11 +89,12 @@ const DynamicModal: React.FC<DynamicModalProps> = ({
           {onConfirm && (
             <button
               onClick={onConfirm}
-              className="px-8 py-2 text-white rounded-lg text-sm font-medium"
+              className="px-8 py-2 text-white rounded-lg text-sm font-medium transition-all duration-200 hover:opacity-90"
               style={{ backgroundColor: iconColor }}
             >
               {finalConfirmText}
             </button>
+
           )}
         </div>
       </div>
