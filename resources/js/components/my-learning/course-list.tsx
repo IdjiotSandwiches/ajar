@@ -19,7 +19,7 @@ export default function CourseList({
   onAddReview,
 }: CourseListProps) {
   return (
-    <div className="col-span-7 space-y-5">
+    <div className="col-span-7 lg:col-span-7 xl:col-span-7 space-y-5">
       {courses
         .filter((c) => c.status === tab)
         .map((course) => (

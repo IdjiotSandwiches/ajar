@@ -31,7 +31,7 @@ export default function CalendarSection({
   const filteredCourses = courses.filter((item) => item.date === selectedDate);
 
   return (
-    <div className="col-span-3 bg-white border border-gray-200 rounded-xl p-5 shadow-sm h-fit">
+    <div className="col-span-3 lg:col-span-4 xl:col-span-4 2xl:col-span-3 bg-white border border-gray-200 rounded-xl p-5 shadow-sm h-fit">
       <h3 className="font-semibold text-gray-700 mb-3">My Learning Schedule</h3>
       <p className="text-sm text-gray-500 mb-4">
         {filteredCourses.length} class
@@ -44,8 +44,6 @@ export default function CalendarSection({
               year: "numeric",
             })}
       </p>
-
-      {/* Calendar Grid */}
       <div className="rounded-2xl mb-6">
         <div className="flex justify-between items-center text-[#3ABEFF] mb-3">
           <button
@@ -100,9 +98,7 @@ export default function CalendarSection({
           })}
         </div>
       </div>
-
-      {/* Today's Schedule */}
-      <div className="border-t pt-4">
+      <div className="border-t pt-2">
         {filteredCourses.length > 0 ? (
           filteredCourses.map((item) => (
             <div
