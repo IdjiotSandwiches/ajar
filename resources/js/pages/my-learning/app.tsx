@@ -168,7 +168,7 @@ export default function MyLearningPage() {
 
       {showCalendarModal && isMedium && (
         <div
-          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-[#42C2FF]/40 backdrop-blur-sm  flex items-center justify-center z-50"
           onClick={() => setShowCalendarModal(false)}
         >
           <div
