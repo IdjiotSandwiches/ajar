@@ -23,11 +23,12 @@ export default function NavigationList({ role }: NavigationListProps) {
                     { label: "Finish a Course", route: "teacher.finish-course" },
                     { label: "Student Chats", route: "teacher.chat" },
                 ]
-                : role === "admin" 
+                : role === "admin"
                     ? [
                         { label: "Course Completion", route: "admin.course-completion" },
                         { label: "Teacher Management", route: "admin.teacher-management" },
-                    ] : [];
+                    ]
+                    : [];
 
     useEffect(() => {
         function handleClickOutside(e: MouseEvent) {
@@ -39,6 +40,17 @@ export default function NavigationList({ role }: NavigationListProps) {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
+    useEffect(() => {
+        const handleScroll = () => setOpen(false);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    const handleNavigation = (routeName: string) => {
+        setOpen(false);
+        router.get(route(routeName)); 
+    };
 
     return (
         <div ref={wrapperRef} className="fixed top-22 right-6 z-49">
@@ -58,7 +70,7 @@ export default function NavigationList({ role }: NavigationListProps) {
                     {navItems.map((item, idx) => (
                         <p
                             key={idx}
-                            onClick={() => router.get(route(item.route))}
+                            onClick={() => handleNavigation(item.route)}
                             className="block px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium text-gray-700 cursor-pointer"
                         >
                             {item.label}
