@@ -9,7 +9,6 @@ export default function TechDesignCourseSection() {
   return (
     <section className="pt-8 pb-16 px-6 md:px-12 bg-white">
       <div className="grid md:grid-cols-2 gap-8">
-        {/* Technology */}
         <div className="p-6 border rounded-lg shadow-sm bg-[#42C2FF]/5">
           <h4 className="text-[#42C2FF] font-semibold mb-2">Technology Course</h4>
           <p className="font-medium mb-2">
@@ -26,8 +25,6 @@ export default function TechDesignCourseSection() {
             Furthermore...
           </button>
         </div>
-
-        {/* Design */}
         <div className="p-6 border rounded-lg shadow-sm bg-[#42C2FF]/5">
           <h4 className="text-[#42C2FF] font-semibold mb-2">Design Course</h4>
           <p className="font-medium mb-2">

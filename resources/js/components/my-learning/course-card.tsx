@@ -52,8 +52,6 @@ export default function CourseCard({
 
   return (
     <div className="flex flex-col sm:flex-row border border-[#3ABEFF]/40 bg-white rounded-xl p-3 gap-4 shadow-sm">
-
-      {/* IMAGE */}
       <img
         src={image}
         className="
@@ -62,8 +60,6 @@ export default function CourseCard({
         "
         alt={title}
       />
-
-      {/* CONTENT */}
       <div className="flex flex-col justify-between flex-grow">
 
         <div>
@@ -84,8 +80,6 @@ export default function CourseCard({
             </span>
           </p>
         </div>
-
-        {/* BUTTON — always stays bottom right */}
         <div className="flex justify-end mt-2">
           {status === "completed" ? (
             role === "student" ? (

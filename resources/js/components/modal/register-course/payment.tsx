@@ -29,8 +29,6 @@ export default function PaymentModal({
   const price = course?.price ?? 200000;
   const date = schedule?.date ?? "2025-04-15";
   const time = schedule?.time ?? "16:00";
-
-  // 🔹 Format tanggal menjadi "dd month yyyy"
   const formattedDate = new Date(date).toLocaleDateString("id-ID", {
     day: "2-digit",
     month: "long",

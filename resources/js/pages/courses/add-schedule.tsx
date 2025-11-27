@@ -131,10 +131,7 @@ export default function AddSchedulePage() {
 
                     </div>
                 </div>
-
-                {/* === Layout: Teacher List + Schedule Table === */}
                 <div className="grid grid-cols-4 gap-8">
-                    {/* LEFT: Teacher List */}
                     <div className="col-span-1 bg-white p-6 rounded-2xl shadow">
                         <h2 className="font-semibold text-lg mb-4 text-left text-[#3ABEFF]">Teachers</h2>
                         <div className="space-y-4">
@@ -153,8 +150,6 @@ export default function AddSchedulePage() {
                             ))}
                         </div>
                     </div>
-
-                    {/* RIGHT: Schedule Table */}
                     <div className="col-span-3 bg-white p-6 rounded-2xl shadow">
                         <h2 className="font-semibold text-lg mb-4 text-[#3ABEFF]">Schedule</h2>
                         <div className="overflow-x-auto">

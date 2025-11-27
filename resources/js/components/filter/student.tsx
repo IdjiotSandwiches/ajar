@@ -62,8 +62,6 @@ export default function FilterStudent() {
         >
           <p className="font-semibold mb-3 text-gray-700 max-sm:text-sm">Filter</p>
           <hr className="mb-3" />
-
-          {/* === Rating === */}
           <div className="mb-5">
             <p className="text-sm text-gray-600 mb-2">Rating</p>
 
@@ -106,8 +104,6 @@ export default function FilterStudent() {
               </label>
             ))}
           </div>
-
-          {/* === Price === */}
           <div className="mb-4">
             <p className="text-sm text-gray-600 mb-2">Price</p>
             <div className="flex gap-2 mb-2">

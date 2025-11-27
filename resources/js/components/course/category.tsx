@@ -44,8 +44,6 @@ export default function CategoryForm({ categories, form }: CategoryProps) {
       <label className="text-sm font-medium text-gray-700 mb-2 block">
         Category
       </label>
-
-      {/* Parent Category */}
       <div className="flex gap-6 mb-4 flex-wrap">
         {categories.map((parent) => (
           <label
@@ -74,8 +72,6 @@ export default function CategoryForm({ categories, form }: CategoryProps) {
           </label>
         ))}
       </div>
-
-      {/* Subcategory */}
       {selectedParent && (
         <div className="ml-2 flex flex-col gap-1">
           {categories

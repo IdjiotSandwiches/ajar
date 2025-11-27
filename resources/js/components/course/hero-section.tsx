@@ -14,10 +14,7 @@ export default function CourseHero({ course }: { course: any }) {
     return (
         <section className="w-full bg-white py-10 border-b border-gray-200">
             <div className="mx-auto px-20 grid grid-cols-1 lg:grid-cols-3 gap-10 items-start mt-8">
-
-                {/* LEFT SIDE */}
                 <div className="lg:col-span-2">
-                    {/* Rating */}
                     <div className="flex items-center gap-2 text-sm mb-3">
                         <div className="flex text-yellow-400">
                             {[...Array(5)].map((_, i) => (
@@ -27,23 +24,15 @@ export default function CourseHero({ course }: { course: any }) {
                         <span className="font-semibold text-gray-800">{avgRating}</span>
                         <span className="text-[#3ABEFF]">(23 reviews)</span>
                     </div>
-
-                    {/* Title */}
                     <h1 className="text-3xl font-bold text-gray-800 leading-snug mb-3">
                         {course.name}
                     </h1>
-
-                    {/* Duration */}
                     <p className="text-gray-700 mb-4">
                         <span className="font-semibold">Duration:</span> {course.duration} Jam
                     </p>
-
-                    {/* Description */}
                     <p className="text-gray-600 leading-relaxed max-w-2xl mb-6">
                         {course.description}
                     </p>
-
-                    {/* Check List */}
                     <div className="grid grid-cols-3 gap-y-3 gap-x-6 mb-8 text-gray-700">
                         {course.learning_objectives?.map((item: any) => (
                             <p key={item.id} className="flex items-center gap-2 text-sm">
@@ -51,8 +40,6 @@ export default function CourseHero({ course }: { course: any }) {
                             </p>
                         ))}
                     </div>
-
-                    {/* Price + Button */}
                     <div className="flex items-center gap-6 mt-4">
                         <button
                             className="bg-[#3ABEFF] text-white px-7 py-3 rounded-lg font-medium hover:bg-[#2fa5d8] transition"
@@ -71,8 +58,6 @@ export default function CourseHero({ course }: { course: any }) {
                         </div>
                     </div>
                 </div>
-
-                {/* RIGHT SIDE IMAGE */}
                 <div className="flex justify-center lg:col-span-1">
                     <img
                         src="/images/review.jpg"

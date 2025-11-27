@@ -4,8 +4,6 @@ import TeacherProfileCard from "../teacher/card";
 export default function CourseSidebar({ teacher, institution }: any) {
   return (
     <aside className="space-y-6">
-
-      {/* Institution */}
       <div>
         <h3 className="text-sm font-semibold text-gray-700 mb-2">Institution</h3>
         <div
@@ -20,8 +18,6 @@ export default function CourseSidebar({ teacher, institution }: any) {
           </div>
         </div>
       </div>
-
-      {/* Teacher Card */}
       <div>
         <h3 className="text-sm font-semibold text-gray-700 mb-2">Teachers</h3>
         {teacher === null ? <p className="font-medium">No teacher yet|</p> : <TeacherProfileCard teacher={teacher}/>}

@@ -71,8 +71,6 @@ const ProfileTeacherForm: React.FC<ProfileTeacherFormProps> = ({
             onFilesChange={handleCertificatesChange}
           />
         </div>
-
-        {/* Save Button */}
         <div className="mt-6">
           <button
             type="submit"

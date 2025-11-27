@@ -41,20 +41,15 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm z-999 transition-opacity duration-200">
       <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative animate-fadeIn">
-        {/* Tombol Close */}
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
         >
           <X size={20} />
         </button>
-
-        {/* Judul */}
         <h2 className="text-lg font-semibold text-gray-800 mb-4 text-center">
           Select a Teacher
         </h2>
-
-        {/* List Teacher */}
         <div className="flex flex-col gap-3 max-h-80 overflow-y-auto pr-1">
           {currentTeachers.map((teacher) => (
             <div
@@ -82,8 +77,6 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
                   <p className="text-sm text-gray-500">{teacher.description}</p>
                 </div>
               </div>
-
-              {/* Tombol Detail */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -100,8 +93,6 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
             <p className="text-gray-500 text-center py-4">No teachers found</p>
           )}
         </div>
-
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex justify-center items-center gap-2 mt-4">
             <button
@@ -138,8 +129,6 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
             </button>
           </div>
         )}
-
-        {/* Tombol Select */}
         <div className="flex justify-center mt-5">
           <button
             onClick={handleSelect}

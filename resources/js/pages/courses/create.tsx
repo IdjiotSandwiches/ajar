@@ -37,8 +37,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
         reviews: []
     });
 
-
-    // ---- Learning Objectives ----
     const handleAddLearnObj = () => {
         form.setData("learning_objectives", [
             ...(form.data.learning_objectives ?? []),
@@ -56,8 +54,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
         );
     };
 
-
-    // ---- Benefit for Student ----
     const handleAddBenefitStudent = () => {
         form.setData("benefit_for_students", [
             ...(form.data.benefit_for_students ?? []),
@@ -75,8 +71,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
         );
     };
 
-
-    // ---- Benefit for Teacher ----
     const handleAddBenefitTeacher = () => {
         form.setData("benefit_for_teachers", [
             ...(form.data.benefit_for_teachers ?? []),
@@ -94,8 +88,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
         );
     };
 
-
-    // ---- Course Overview ----
     const handleAddCourseOverview = () => {
         form.setData("course_overviews", [
             ...(form.data.course_overviews ?? []),
@@ -113,8 +105,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
         );
     };
 
-
-    // ---- Programming Language ----
     const handleAddCourseSkill = () => {
         form.setData("course_skills", [
             ...(form.data.course_skills ?? []),
@@ -132,8 +122,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
         );
     };
 
-
-    // ---- Course Image ----
     const handleImageChange = (files: File[]) => {
         form.setData("course_images", files);
     };
@@ -290,9 +278,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                             );
                         })}
                     </div>
-
-
-                    {/* Benefit for Teachers*/}
                     <div>
                         <h3 className="text-sm font-medium text-gray-800 mb-3">Benefit for Teachers</h3>
                         {(form.data.benefit_for_teachers ?? []).map((bst: BenefitTeacherProps, index: number) => {
@@ -344,9 +329,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                             );
                         })}
                     </div>
-
-
-                    {/* Course Overview */}
                     <div>
                         <h3 className="text-sm font-medium text-gray-800 mb-3">Course Overview</h3>
                         {(form.data.course_overviews ?? []).map((cop: CourseOverviewProps, index: number) => {
@@ -398,9 +380,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                             );
                         })}
                     </div>
-
-
-                    {/* Course Skills */}
                     <div>
                         <h3 className="text-sm font-medium text-gray-800 mb-3">Course Skills</h3>
                         {(form.data.course_skills ?? []).map((pl: SkillProps, index: number) => {
@@ -452,8 +431,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                             );
                         })}
                     </div>
-
-                    {/* Duration */}
                     <DetailInput
                         type="number"
                         min={0}
@@ -464,8 +441,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                         onChange={(e) => form.setData("duration", Number(e.target.value))}
                     />
 
-
-                    {/* Price for Student */}
                     <DetailInput
                         type="number"
                         min={0}
@@ -476,8 +451,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                         onChange={(e) => form.setData("price", Number(e.target.value))}
                     />
 
-
-                    {/* Discount */}
                     <DetailInput
                         type="number"
                         min={0}
@@ -488,8 +461,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                         onChange={(e) => form.setData("discount", Number(e.target.value))}
                     />
 
-
-                    {/* Teacher Salary */}
                     <DetailInput
                         type="number"
                         min={0}
@@ -500,7 +471,6 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                         onChange={(e) => form.setData("teacher_salary", Number(e.target.value))}
                     />
 
-                    {/* Course Image */}
                     <div>
                         <h3 className="text-sm font-medium text-gray-800 mb-3">Course Image</h3>
                         <DetailImage

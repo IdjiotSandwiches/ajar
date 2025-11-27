@@ -38,7 +38,6 @@ export default function TeacherDetailPage() {
         <>
             <div className="w-full min-h-screen bg-[#F9FCFF] pb-20">
                 <div className="max-w-7xl mx-auto px-6 pt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* LEFT PROFILE CARD */}
                     <div>
                         <TeacherProfileCard teacher={teacher} />
                         <div className="w-full flex flex-col mt-6">
@@ -50,21 +49,13 @@ export default function TeacherDetailPage() {
                             </button>
                         </div>
                     </div>
-
-                    {/* RIGHT MAIN CONTENT */}
                     <div className="md:col-span-2 space-y-8">
-                        {/* === DETAIL INFORMATION BOX === */}
                         <div className="border border-gray-200 bg-white shadow rounded-xl p-6 w-full">
-
-                            {/* === GRADUATE === */}
                             <div className="grid grid-cols-3 gap-4 mb-6">
-                                {/* Left Label */}
                                 <div className="flex items-start gap-2">
                                     <GraduationCap size={24} className="text-[#3ABEFF]" />
                                     <h3 className="text-gray-700 font-semibold">Graduate</h3>
                                 </div>
-
-                                {/* Right Data */}
                                 <div className="col-span-2 space-y-2 text-gray-600">
                                     {teacher.graduates?.map((item, index) => (
                                         <div key={index}>
@@ -77,15 +68,11 @@ export default function TeacherDetailPage() {
 
                             <hr className="border-[#3ABEFF]/30 my-6" />
 
-                            {/* === WORK EXPERIENCE === */}
                             <div className="grid grid-cols-3 gap-4 mb-6">
-                                {/* Left Label */}
                                 <div className="flex items-start gap-2">
                                     <BriefcaseBusiness size={24} className="text-[#3ABEFF]" />
                                     <h3 className="text-gray-700 font-semibold">Work Experience</h3>
                                 </div>
-
-                                {/* Right Data */}
                                 <div className="col-span-2 space-y-3 text-gray-600">
                                     {teacher.works?.map((item, index) => (
                                         <div key={index}>
@@ -98,15 +85,11 @@ export default function TeacherDetailPage() {
 
                             <hr className="border-[#3ABEFF]/30 my-6" />
 
-                            {/* === CERTIFICATE === */}
                             <div className="grid grid-cols-3 gap-4">
-                                {/* Left Label */}
                                 <div className="flex items-start gap-2">
                                     <FileBadge size={24} className="text-[#3ABEFF]" />
                                     <h3 className="text-gray-700 font-semibold">Certificate</h3>
                                 </div>
-
-                                {/* Right Data */}
                                 <div className="col-span-2 flex flex-col gap-3">
                                     {teacher.certificates?.map((item, index) => (
                                         <button
@@ -131,9 +114,6 @@ export default function TeacherDetailPage() {
 
                         </div>
 
-
-
-                        {/* Courses Taught */}
                         <div className="bg-white rounded-xl shadow border border-gray-200 p-6">
                             <div className="flex gap-2 mb-4">
                                 <Album size={24} className="text-[#3ABEFF]" />
@@ -145,8 +125,6 @@ export default function TeacherDetailPage() {
                                 })}
                             </div>
                         </div>
-
-                        {/* Reviews */}
                         <div className="bg-white rounded-xl shadow border border-gray-200 p-6">
                             <div className="flex gap-2 mb-4">
                                 <Star size={24} className="text-[#3ABEFF]" />

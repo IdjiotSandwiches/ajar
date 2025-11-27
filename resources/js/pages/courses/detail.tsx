@@ -72,10 +72,7 @@ export default function CourseDetailPage() {
 
     return (
         <div className="min-h-screen bg-[#F8FCFF]">
-            {/* === HERO === */}
             <CourseHero course={course} />
-
-            {/* === FLOATING TABS === */}
             <div className="flex justify-center -mt-8 mb-10 relative z-20">
                 <div className="bg-white rounded-full shadow-md border flex gap-2 px-2 py-1">
                     <button
@@ -107,12 +104,8 @@ export default function CourseDetailPage() {
                     </button>
                 </div>
             </div>
-
-            {/* === MAIN CONTENT === */}
             <div className="mx-auto px-20 grid grid-cols-1 lg:grid-cols-4 gap-10">
-                {/* LEFT CONTENT */}
                 <div className="lg:col-span-3 space-y-10">
-                    {/* --- SYLLABUS --- */}
                     <section>
                         <h4
                             ref={syllabusRef}
@@ -138,8 +131,6 @@ export default function CourseDetailPage() {
                             ))}
                         </ul>
                     </section>
-
-                    {/* --- COURSE INFO --- */}
                     <section>
                         <h4
                             ref={infoRef}
@@ -156,8 +147,6 @@ export default function CourseDetailPage() {
                             ))}
                         </ul>
                     </section>
-
-                    {/* --- TESTIMONIAL --- */}
                     <section>
                         <h4
                             ref={testimonialRef}
@@ -168,8 +157,6 @@ export default function CourseDetailPage() {
                         <ReviewSection />
                     </section>
                 </div>
-
-                {/* RIGHT SIDEBAR */}
                 <div className="lg:col-span-1">
                     <CourseSidebar
                         institution={course.institution}

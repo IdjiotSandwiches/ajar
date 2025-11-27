@@ -122,8 +122,6 @@ export default function TimeSelectModal({
             ))}
           </div>
         </div>
-
-        {/* Tombol Aksi */}
         <div className="flex gap-4 mt-6">
           <button
             onClick={onPrevious}
