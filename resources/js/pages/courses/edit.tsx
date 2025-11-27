@@ -171,7 +171,7 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
 
     return (
         <div className="min-h-screen bg-[#F7FDFF]">
-            <div className="max-w-4xl mx-auto p-8 bg-white mt-12 rounded-2xl shadow-sm">
+            <div className="max-w-4xl mx-auto p-8 bg-white MD:mt-12 rounded-2xl shadow-sm">
                 <h1 className="text-3xl font-semibold text-center text-[#42C2FF] mb-8">
                     Edit Course
                 </h1>
