@@ -47,14 +47,14 @@ export default function CourseList() {
   return (
     <div className="min-h-screen bg-[#f9fdfd] flex flex-col">
       <div className="max-w-6xl mx-auto w-full px-6 py-10 bg-white/80 backdrop-blur-sm shadow-sm rounded-2xl mt-10">
-        <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-10 cursor-default">
+        <h1 className="text-3xl font-semibold text-center text-[#42C2FF] mb-10 cursor-default">
           My Courses
         </h1>
 
         <div className="flex justify-end mb-6">
           <button
             onClick={() => router.get("create-course")}
-            className="flex items-center gap-2 bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white text-sm px-4 py-2 rounded-md shadow transition font-medium cursor-pointer"
+            className="flex items-center gap-2 bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white text-sm px-4 py-2 rounded-md shadow transition font-medium cursor-pointer"
           >
             <Plus size={16} strokeWidth={3} /> Tambah Kursus
           </button>

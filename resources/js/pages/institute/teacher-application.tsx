@@ -47,7 +47,7 @@ export default function TeacherApplicationsPage() {
     return (
         <div className="min-h-screen bg-[#f9fdfd] flex flex-col">
             <div className="max-w-6xl mx-auto w-full px-6 py-10 bg-white/80 backdrop-blur-sm shadow-sm rounded-2xl mt-10">
-                <h1 className="text-2xl font-semibold text-center text-[#3ABEFF] mb-10 cursor-default">
+                <h1 className="text-2xl font-semibold text-center text-[#42C2FF] mb-10 cursor-default">
                     Teacher Applications
                 </h1>
 
@@ -100,7 +100,7 @@ export default function TeacherApplicationsPage() {
                                         <div className="flex items-center justify-center gap-2">
                                             <button
                                                 onClick={() => handleAction("accept", app.name)}
-                                                className="p-2 bg-[#42C2FF] hover:bg-[#2fa5d8] text-white rounded-md shadow-sm transition"
+                                                className="p-2 bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white rounded-md shadow-sm transition"
                                             >
                                                 <Check size={16} strokeWidth={2.5} />
                                             </button>

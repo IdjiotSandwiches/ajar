@@ -21,7 +21,7 @@ export default function AuthSimpleLayout({
           <div className="bg-white w-full max-w-4xl rounded-2xl shadow-sm overflow-hidden flex flex-col lg:flex-row">
             <div className="lg:w-1/2 w-full flex flex-col items-center 
                             justify-center p-8 sm:p-10 text-center">
-              <div className="text-[#3ABEFF] mb-4">
+              <div className="text-[#42C2FF] mb-4">
                 <svg
                   width="64"
                   height="64"
@@ -36,17 +36,17 @@ export default function AuthSimpleLayout({
                 </svg>
               </div>
 
-              <h2 className="text-2xl font-semibold text-[#3ABEFF] mb-2">
+              <h2 className="text-2xl font-semibold text-[#42C2FF] mb-2">
                 Technology
               </h2>
 
-              <p className="text-[#3ABEFF] text-sm leading-relaxed max-w-sm">
+              <p className="text-[#42C2FF] text-sm leading-relaxed max-w-sm">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna.
               </p>
             </div>
             <div className="lg:w-1/2 w-full flex flex-col justify-center px-6 sm:px-10 py-10">
-              <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">
+              <h1 className="text-3xl font-semibold text-center text-[#42C2FF] mb-8">
                 {title}
               </h1>
               {children}
@@ -54,7 +54,7 @@ export default function AuthSimpleLayout({
           </div>
         ) : (
           <div className="bg-white w-full max-w-4xl rounded-2xl shadow-sm px-6 sm:px-12 py-10">
-            <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">
+            <h1 className="text-3xl font-semibold text-center text-[#42C2FF] mb-8">
               {title}
             </h1>
             {children}

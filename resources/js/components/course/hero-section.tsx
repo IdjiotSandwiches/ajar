@@ -22,7 +22,7 @@ export default function CourseHero({ course }: { course: any }) {
                             ))}
                         </div>
                         <span className="font-semibold text-gray-800">{avgRating}</span>
-                        <span className="text-[#3ABEFF]">(23 reviews)</span>
+                        <span className="text-[#42C2FF]">(23 reviews)</span>
                     </div>
                     <h1 className="text-3xl font-bold text-gray-800 leading-snug mb-3">
                         {course.name}
@@ -36,20 +36,20 @@ export default function CourseHero({ course }: { course: any }) {
                     <div className="grid grid-cols-3 gap-y-3 gap-x-6 mb-8 text-gray-700">
                         {course.learning_objectives?.map((item: any) => (
                             <p key={item.id} className="flex items-center gap-2 text-sm">
-                                <FaCheck className="text-[#3ABEFF]" /> {item.description}
+                                <FaCheck className="text-[#42C2FF]" /> {item.description}
                             </p>
                         ))}
                     </div>
                     <div className="flex items-center gap-6 mt-4">
                         <button
-                            className="bg-[#3ABEFF] text-white px-7 py-3 rounded-lg font-medium hover:bg-[#2fa5d8] transition"
+                            className="bg-[#42C2FF] text-white px-7 py-3 rounded-lg font-medium hover:bg-[#42C2FF]/90 transition"
                             onClick={() => setIsRegisterOpen(true)}
                         >
                             Register Now
                         </button>
 
                         <div className="flex items-center gap-2">
-                            <p className="text-xl font-bold text-[#3ABEFF]">Rp{course.price.toLocaleString()}</p>
+                            <p className="text-xl font-bold text-[#42C2FF]">Rp{course.price.toLocaleString()}</p>
                             {course.discount && (
                                 <p className="text-sm line-through text-gray-400">
                                     Rp{(course.price + (course.price * course.discount) / 100).toLocaleString()}

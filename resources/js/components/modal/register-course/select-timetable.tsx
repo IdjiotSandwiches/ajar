@@ -51,7 +51,7 @@ export default function TimeSelectModal({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm z-99 transition-opacity duration-200">
+    <div className="fixed inset-0 flex items-center justify-center bg-[#42C2FF]/40 backdrop-blur-sm z-99 transition-opacity duration-200">
       <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative animate-fadeIn">
         <button
           onClick={onClose}
@@ -66,8 +66,8 @@ export default function TimeSelectModal({
         </p>
 
         <div className="grid grid-cols-3 border rounded-2xl overflow-hidden">
-          <div className="col-span-2 bg-[#3ABEFF]/10 p-4 flex flex-col h-[300px]">
-            <div className="flex justify-between items-center text-[#3ABEFF] mb-3">
+          <div className="col-span-2 bg-[#42C2FF]/10 p-4 flex flex-col h-[300px]">
+            <div className="flex justify-between items-center text-[#42C2FF] mb-3">
               <button onClick={prevMonth} className="hover:bg-white rounded-full p-1">
                 <ChevronLeft size={18} />
               </button>
@@ -95,7 +95,7 @@ export default function TimeSelectModal({
                     onClick={() => setSelectedDate(val)}
                     className={`py-1 rounded-full transition-all ${
                       selectedDate === val
-                        ? "bg-[#3ABEFF] text-white"
+                        ? "bg-[#42C2FF] text-white"
                         : "hover:bg-white"
                     }`}
                   >
@@ -106,14 +106,14 @@ export default function TimeSelectModal({
             </div>
           </div>
 
-          <div className="bg-[#3ABEFF]/10 p-4 flex flex-col gap-2 overflow-y-auto h-[300px] border-l">
+          <div className="bg-[#42C2FF]/10 p-4 flex flex-col gap-2 overflow-y-auto h-[300px] border-l">
             {times.map((time) => (
               <button
                 key={time}
                 onClick={() => setSelectedTime(time)}
                 className={`py-1.5 px-2 text-xs rounded-lg text-left transition-all ${
                   selectedTime === time
-                    ? "bg-[#3ABEFF] text-white"
+                    ? "bg-[#42C2FF] text-white"
                     : "hover:bg-white"
                 }`}
               >
@@ -134,7 +134,7 @@ export default function TimeSelectModal({
             disabled={!selectedDate || !selectedTime}
             className={`w-1/2 py-3 rounded-xl text-white font-medium ${
               selectedDate && selectedTime
-                ? "bg-[#3ABEFF] hover:bg-[#32A7D8]"
+                ? "bg-[#42C2FF] hover:bg-[#42C2FF]/90"
                 : "bg-gray-300 cursor-not-allowed"
             }`}
           >

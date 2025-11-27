@@ -17,7 +17,7 @@ export default function AddLinkModal({
   const [value, setValue] = useState("");
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-[#3ABEFF]/40 backdrop-blur-sm z-99">
+    <div className="fixed inset-0 flex justify-center items-center bg-[#42C2FF]/40 backdrop-blur-sm z-99">
       <div className="bg-[#FFF9F7] w-[400px] rounded-2xl shadow-xl p-6 relative text-center">
         <button
           onClick={onClose}
@@ -39,7 +39,7 @@ export default function AddLinkModal({
           placeholder={placeholder}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm mb-5 focus:outline-none focus:ring-2 focus:ring-[#3ABEFF]"
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm mb-5 focus:outline-none focus:ring-2 focus:ring-[#42C2FF]"
         />
 
         <button
@@ -49,7 +49,7 @@ export default function AddLinkModal({
               setValue("");
             }
           }}
-          className="w-full bg-[#3ABEFF] hover:bg-[#2fa5d8] text-white py-2 rounded-lg font-medium transition"
+          className="w-full bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white py-2 rounded-lg font-medium transition"
         >
           Submit
         </button>

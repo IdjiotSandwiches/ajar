@@ -43,7 +43,7 @@ const DynamicModal: React.FC<DynamicModalProps> = ({
     },
     confirmation: {
       icon: <HelpCircle size={28} />,
-      iconColor: "#3ABEFF",
+      iconColor: "#42C2FF",
       bgColor: "#E0F7FF",
       title: title || "Are you sure?",
       confirmText: confirmText || "Confirm",
@@ -57,7 +57,7 @@ const DynamicModal: React.FC<DynamicModalProps> = ({
   const finalCancelText = cancelText || modalStyles[type].cancelText;
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-[#3ABEFF]/40 backdrop-blur-sm z-99">
+    <div className="fixed inset-0 flex justify-center items-center bg-[#42C2FF]/40 backdrop-blur-sm z-99">
       <div className="bg-white w-[380px] rounded-2xl shadow-2xl p-6 relative text-center animate-fadeIn">
         <button
           onClick={onClose}

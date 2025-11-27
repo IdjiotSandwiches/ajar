@@ -43,7 +43,7 @@ export default function ReviewSection() {
                 : "hover:bg-gray-100"
             }`}
           >
-            <ChevronLeft className="w-5 h-5 text-[#3ABEFF]" />
+            <ChevronLeft className="w-5 h-5 text-[#42C2FF]" />
           </button>
           <div
             ref={containerRef}
@@ -58,7 +58,7 @@ export default function ReviewSection() {
                 <div
                   key={review.id}
                   data-card
-                  className="bg-white border rounded-lg shadow-sm p-8 flex flex-col justify-between flex-shrink-0 w-full hover:shadow-md transition-all border-[#3ABEFF]"
+                  className="bg-white border rounded-lg shadow-sm p-8 flex flex-col justify-between flex-shrink-0 w-full hover:shadow-md transition-all border-[#42C2FF]"
                 >
                   <div>
                     <div className="flex items-center gap-3 mb-3">
@@ -93,7 +93,7 @@ export default function ReviewSection() {
                         className="w-10 h-10 rounded-lg object-cover"
                       />
                       <div>
-                        <p className="text-[#3ABEFF] font-medium text-sm">
+                        <p className="text-[#42C2FF] font-medium text-sm">
                           {review.review_to.teacher.name}
                         </p>
                         <p className="text-xs text-gray-500">
@@ -115,7 +115,7 @@ export default function ReviewSection() {
                 : "hover:bg-gray-100"
             }`}
           >
-            <ChevronRight className="w-5 h-5 text-[#3ABEFF]" />
+            <ChevronRight className="w-5 h-5 text-[#42C2FF]" />
           </button>
         </div>
       </div>

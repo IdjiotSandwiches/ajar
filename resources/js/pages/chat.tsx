@@ -222,7 +222,7 @@ export default function ChatPage() {
               />
               <button
                 onClick={handleSend}
-                className="ml-2 bg-[#42C2FF] text-white p-2 rounded-xl hover:bg-[#30b3f2]"
+                className="ml-2 bg-[#42C2FF] text-white p-2 rounded-xl hover:bg-[#42C2FF]/90"
               >
                 <Send size={20} />
               </button>

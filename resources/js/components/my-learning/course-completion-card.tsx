@@ -40,7 +40,7 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
   });
 
   return (
-    <div className="border border-[#3ABEFF]/50 bg-white rounded-xl p-4 mb-5 flex gap-4 shadow-sm hover:shadow-md transition">
+    <div className="border border-[#42C2FF]/50 bg-white rounded-xl p-4 mb-5 flex gap-4 shadow-sm hover:shadow-md transition">
       <img
         src={image}
         alt={title}
@@ -79,7 +79,7 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
                     href={recordingLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#3ABEFF] hover:underline break-all col-span-7 font-medium"
+                    className="text-[#42C2FF] hover:underline break-all col-span-7 font-medium"
                   >
                     {recordingLink}
                   </a>
@@ -92,7 +92,7 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
         <div className="flex justify-end mt-3">
           <button
             onClick={onCompleteClick}
-            className="px-5 py-2 text-sm bg-[#3ABEFF] hover:bg-[#2fa5d8] text-white rounded-lg transition"
+            className="px-5 py-2 text-sm bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white rounded-lg transition"
           >
             Complete
           </button>

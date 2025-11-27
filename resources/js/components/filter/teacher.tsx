@@ -77,7 +77,7 @@ export default function FilterTeacher() {
                     <span
                       className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
                         selected.includes(item)
-                          ? "bg-[#3ABEFF] border-[#3ABEFF]"
+                          ? "bg-[#42C2FF] border-[#42C2FF]"
                           : "border-gray-400 bg-white"
                       }`}
                     >
@@ -111,7 +111,7 @@ export default function FilterTeacher() {
             <p className="text-xs text-gray-600">{selected.length} selected</p>
             <button
               onClick={() => console.log("Selected:", selected)}
-              className="bg-[#3ABEFF] text-white px-4 py-1.5 rounded-full text-sm hover:bg-[#3ABEFF]/90 transition"
+              className="bg-[#42C2FF] text-white px-4 py-1.5 rounded-full text-sm hover:bg-[#42C2FF]/90 transition"
             >
               Apply
             </button>

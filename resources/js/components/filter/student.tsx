@@ -79,7 +79,7 @@ export default function FilterStudent() {
                 <span
                   className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
                     selectedRatings.includes(r)
-                      ? "bg-[#3ABEFF] border-[#3ABEFF]"
+                      ? "bg-[#42C2FF] border-[#42C2FF]"
                       : "border-gray-400 bg-white"
                   }`}
                 >
@@ -110,14 +110,14 @@ export default function FilterStudent() {
               <input
                 type="number"
                 placeholder="From"
-                className="w-1/2 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-[#3ABEFF]"
+                className="w-1/2 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-[#42C2FF]"
                 value={priceRange[0]}
                 onChange={(e) => handlePriceChange(0, Number(e.target.value))}
               />
               <input
                 type="number"
                 placeholder="To"
-                className="w-1/2 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-[#3ABEFF]"
+                className="w-1/2 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-[#42C2FF]"
                 value={priceRange[1]}
                 onChange={(e) => handlePriceChange(1, Number(e.target.value))}
               />
@@ -131,7 +131,7 @@ export default function FilterStudent() {
                 step="1000"
                 value={priceRange[0]}
                 onChange={(e) => handlePriceChange(0, Number(e.target.value))}
-                className="accent-[#3ABEFF] mb-1"
+                className="accent-[#42C2FF] mb-1"
               />
               <input
                 type="range"
@@ -140,7 +140,7 @@ export default function FilterStudent() {
                 step="1000"
                 value={priceRange[1]}
                 onChange={(e) => handlePriceChange(1, Number(e.target.value))}
-                className="accent-[#3ABEFF]"
+                className="accent-[#42C2FF]"
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>0</span>
@@ -160,7 +160,7 @@ export default function FilterStudent() {
                   priceRange,
                 })
               }
-              className="bg-[#3ABEFF] text-white px-4 py-1.5 rounded-full text-sm hover:bg-[#3ABEFF]/90 transition"
+              className="bg-[#42C2FF] text-white px-4 py-1.5 rounded-full text-sm hover:bg-[#42C2FF]/90 transition"
             >
               Apply
             </button>

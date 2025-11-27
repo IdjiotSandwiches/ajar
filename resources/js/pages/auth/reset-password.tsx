@@ -82,7 +82,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                         <InputError message={errors.password_confirmation} className="mt-2" />
                     </div>
 
-                    <Button type="submit" className="mt-4 w-full bg-[#3ABEFF] hover:bg-[#3ABEFF]/90" disabled={processing}>
+                    <Button type="submit" className="mt-4 w-full bg-[#42C2FF] hover:bg-[#42C2FF]/90" disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                         Reset password
                     </Button>

@@ -42,7 +42,7 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
                    ${
                      disabled
                        ? "border-gray-200 text-gray-400 cursor-not-allowed"
-                       : "border-gray-300 dark:border-gray-600 focus:border-[#3ABEFF]"
+                       : "border-gray-300 dark:border-gray-600 focus:border-[#42C2FF]"
                    }`}
       >
         <option value="" disabled hidden >
@@ -65,7 +65,7 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
                     }
                     ${
                       focused
-                        ? "text-[#3ABEFF]"
+                        ? "text-[#42C2FF]"
                         : "text-gray-500 dark:text-gray-400"
                     }`}
       >

@@ -60,12 +60,12 @@ export default function CategoryForm({ categories, form }: CategoryProps) {
             <span
               className={`w-4 h-4 rounded-full border-2 ${
                 selectedParent === parent.name
-                  ? "border-[#3ABEFF]/70 bg-[#3ABEFF]/70"
+                  ? "border-[#42C2FF]/70 bg-[#42C2FF]/70"
                   : "border-gray-400"
               } flex items-center justify-center transition-all`}
             >
               {selectedParent === parent.name && (
-                <span className="w-2 h-2 bg-[#3ABEFF] rounded-full"></span>
+                <span className="w-2 h-2 bg-[#42C2FF] rounded-full"></span>
               )}
             </span>
             <span className="select-none">{parent.name}</span>
@@ -90,7 +90,7 @@ export default function CategoryForm({ categories, form }: CategoryProps) {
                 <span
                   className={`w-4 h-4 rounded border flex items-center justify-center ${
                     category === sub.id
-                      ? "bg-[#3ABEFF] border-[#3ABEFF]"
+                      ? "bg-[#42C2FF] border-[#42C2FF]"
                       : "border-gray-400 bg-white"
                   } transition-all`}
                 >

@@ -47,7 +47,7 @@ export default function ReviewSection() {
                 : "hover:bg-gray-100"
             }`}
           >
-            <ChevronLeft className="w-5 h-5 text-[#3ABEFF]" />
+            <ChevronLeft className="w-5 h-5 text-[#42C2FF]" />
           </button>
           <div
             ref={containerRef}
@@ -97,7 +97,7 @@ export default function ReviewSection() {
                         className="w-10 h-10 rounded-lg object-cover"
                       />
                       <div>
-                        <p className="text-[#3ABEFF] font-medium text-sm">
+                        <p className="text-[#42C2FF] font-medium text-sm">
                           {review.review_to.teacher.name}
                         </p>
                         <p className="text-xs text-gray-500">
@@ -119,7 +119,7 @@ export default function ReviewSection() {
                 : "hover:bg-gray-100"
             }`}
           >
-            <ChevronRight className="w-5 h-5 text-[#3ABEFF]" />
+            <ChevronRight className="w-5 h-5 text-[#42C2FF]" />
           </button>
         </div>
       </div>

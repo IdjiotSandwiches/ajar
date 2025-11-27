@@ -93,7 +93,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     setData('remember', !data.remember)
                                 }
                                 tabIndex={3}
-                                className="data-[state=checked]:bg-[#3ABEFF] data-[state=checked]:border-[#3ABEFF]"
+                                className="data-[state=checked]:bg-[#42C2FF] data-[state=checked]:border-[#42C2FF]"
                             />
                             <Label htmlFor="remember">Remember me</Label>
                         </div>
@@ -101,7 +101,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         {canResetPassword && (
                             <TextLink
                                 href={route('password.request')}
-                                className="text-sm text-gray-600 hover:text-[#3ABEFF] transition-colors"
+                                className="text-sm text-gray-600 hover:text-[#42C2FF] transition-colors"
                                 tabIndex={5}
                             >
                                 Forgot password?
@@ -115,15 +115,15 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             onClick={() =>
                                 router.get(route('register.student'))
                             }
-                            className="rounded-full hover:bg-[#3ABEFF]/10 w-full sm:w-auto"
+                            className="rounded-full hover:bg-[#42C2FF]/10 w-full sm:w-auto"
                         >
-                            <p className="hover:text-[#3ABEFF]">
+                            <p className="hover:text-[#42C2FF]">
                                 Create Account
                             </p>
                         </Button>
                         <Button
                             type="submit"
-                            className="rounded-full bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white w-full sm:w-auto"
+                            className="rounded-full bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white w-full sm:w-auto"
                             disabled={processing}
                         >
                             {processing && (

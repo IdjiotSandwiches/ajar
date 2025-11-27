@@ -51,7 +51,7 @@ export default function CourseCard({
   };
 
   return (
-    <div className="flex flex-col sm:flex-row border border-[#3ABEFF]/40 bg-white rounded-xl p-3 gap-4 shadow-sm">
+    <div className="flex flex-col sm:flex-row border border-[#42C2FF]/40 bg-white rounded-xl p-3 gap-4 shadow-sm">
       <img
         src={image}
         className="
@@ -85,7 +85,7 @@ export default function CourseCard({
             role === "student" ? (
               <button
                 onClick={onAddReview}
-                className="bg-[#3ABEFF] hover:bg-[#2fa5d8] text-white text-sm px-4 py-2 rounded-lg transition"
+                className="bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white text-sm px-4 py-2 rounded-lg transition"
               >
                 Add Review
               </button>
@@ -93,7 +93,7 @@ export default function CourseCard({
           ) : (
             <button
               onClick={handleButtonClick}
-              className="text-white text-sm px-4 py-2 rounded-lg transition bg-[#3ABEFF] hover:bg-[#2fa5d8]"
+              className="text-white text-sm px-4 py-2 rounded-lg transition bg-[#42C2FF] hover:bg-[#42C2FF]/90"
             >
               {role === "student"
                 ? "Join Meeting"

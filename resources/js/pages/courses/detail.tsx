@@ -78,7 +78,7 @@ export default function CourseDetailPage() {
                     <button
                         onClick={() => handleScrollTo(syllabusRef, "syllabus")}
                         className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "syllabus"
-                                ? "bg-[#3ABEFF] text-white"
+                                ? "bg-[#42C2FF] text-white"
                                 : "text-gray-600 hover:bg-gray-100"
                             }`}
                     >
@@ -87,7 +87,7 @@ export default function CourseDetailPage() {
                     <button
                         onClick={() => handleScrollTo(infoRef, "info")}
                         className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "info"
-                                ? "bg-[#3ABEFF] text-white"
+                                ? "bg-[#42C2FF] text-white"
                                 : "text-gray-600 hover:bg-gray-100"
                             }`}
                     >
@@ -96,7 +96,7 @@ export default function CourseDetailPage() {
                     <button
                         onClick={() => handleScrollTo(testimonialRef, "testimonial")}
                         className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "testimonial"
-                                ? "bg-[#3ABEFF] text-white"
+                                ? "bg-[#42C2FF] text-white"
                                 : "text-gray-600 hover:bg-gray-100"
                             }`}
                     >
@@ -109,7 +109,7 @@ export default function CourseDetailPage() {
                     <section>
                         <h4
                             ref={syllabusRef}
-                            className="text-xs text-[#3ABEFF] font-medium mb-2"
+                            className="text-xs text-[#42C2FF] font-medium mb-2"
                         >
                             Syllabus
                         </h4>
@@ -134,7 +134,7 @@ export default function CourseDetailPage() {
                     <section>
                         <h4
                             ref={infoRef}
-                            className="text-xs text-[#3ABEFF] font-medium mb-2"
+                            className="text-xs text-[#42C2FF] font-medium mb-2"
                         >
                             Course Information
                         </h4>
@@ -150,7 +150,7 @@ export default function CourseDetailPage() {
                     <section>
                         <h4
                             ref={testimonialRef}
-                            className="text-xs text-[#3ABEFF] font-medium mb-2"
+                            className="text-xs text-[#42C2FF] font-medium mb-2"
                         >
                             Testimonial
                         </h4>

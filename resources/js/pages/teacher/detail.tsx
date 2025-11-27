@@ -41,10 +41,10 @@ export default function TeacherDetailPage() {
                     <div>
                         <TeacherProfileCard teacher={teacher} />
                         <div className="w-full flex flex-col mt-6">
-                            <button className="w-full bg-[#3ABEFF] text-white py-2 rounded-lg font-medium mb-3 hover:bg-[#34a9dd] transition">
+                            <button className="w-full bg-[#42C2FF] text-white py-2 rounded-lg font-medium mb-3 hover:bg-[#34a9dd] transition">
                                 Accept
                             </button>
-                            <button className="w-full border border-[#3ABEFF] text-[#3ABEFF] py-2 rounded-lg font-medium hover:bg-[#3ABEFF]/10 transition">
+                            <button className="w-full border border-[#42C2FF] text-[#42C2FF] py-2 rounded-lg font-medium hover:bg-[#42C2FF]/10 transition">
                                 Reject
                             </button>
                         </div>
@@ -53,7 +53,7 @@ export default function TeacherDetailPage() {
                         <div className="border border-gray-200 bg-white shadow rounded-xl p-6 w-full">
                             <div className="grid grid-cols-3 gap-4 mb-6">
                                 <div className="flex items-start gap-2">
-                                    <GraduationCap size={24} className="text-[#3ABEFF]" />
+                                    <GraduationCap size={24} className="text-[#42C2FF]" />
                                     <h3 className="text-gray-700 font-semibold">Graduate</h3>
                                 </div>
                                 <div className="col-span-2 space-y-2 text-gray-600">
@@ -66,11 +66,11 @@ export default function TeacherDetailPage() {
                                 </div>
                             </div>
 
-                            <hr className="border-[#3ABEFF]/30 my-6" />
+                            <hr className="border-[#42C2FF]/30 my-6" />
 
                             <div className="grid grid-cols-3 gap-4 mb-6">
                                 <div className="flex items-start gap-2">
-                                    <BriefcaseBusiness size={24} className="text-[#3ABEFF]" />
+                                    <BriefcaseBusiness size={24} className="text-[#42C2FF]" />
                                     <h3 className="text-gray-700 font-semibold">Work Experience</h3>
                                 </div>
                                 <div className="col-span-2 space-y-3 text-gray-600">
@@ -83,11 +83,11 @@ export default function TeacherDetailPage() {
                                 </div>
                             </div>
 
-                            <hr className="border-[#3ABEFF]/30 my-6" />
+                            <hr className="border-[#42C2FF]/30 my-6" />
 
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="flex items-start gap-2">
-                                    <FileBadge size={24} className="text-[#3ABEFF]" />
+                                    <FileBadge size={24} className="text-[#42C2FF]" />
                                     <h3 className="text-gray-700 font-semibold">Certificate</h3>
                                 </div>
                                 <div className="col-span-2 flex flex-col gap-3">
@@ -100,7 +100,7 @@ export default function TeacherDetailPage() {
                                                     : URL.createObjectURL(item);
                                                 setPreviewImage(imageUrl);
                                             }}
-                                            className="flex items-center gap-3 bg-[#3ABEFF]/20 border border-[#3ABEFF]/40 rounded-lg px-3 py-2 text-left hover:bg-[#3ABEFF]/30 transition"
+                                            className="flex items-center gap-3 bg-[#42C2FF]/20 border border-[#42C2FF]/40 rounded-lg px-3 py-2 text-left hover:bg-[#42C2FF]/30 transition"
                                         >
                                             <img
                                                 src={item || "/images/certificate-placeholder.png"}
@@ -116,10 +116,10 @@ export default function TeacherDetailPage() {
 
                         <div className="bg-white rounded-xl shadow border border-gray-200 p-6">
                             <div className="flex gap-2 mb-4">
-                                <Album size={24} className="text-[#3ABEFF]" />
+                                <Album size={24} className="text-[#42C2FF]" />
                                 <h3 className="text-gray-700 font-semibold">Courses taught</h3>
                             </div>
-                            <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-[#3ABEFF]/30 scrollbar-track-transparent">
+                            <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-[#42C2FF]/30 scrollbar-track-transparent">
                                 {courses.map((course: any, index: number) => {
                                     return <CourseCard key={index} course={course} />
                                 })}
@@ -127,7 +127,7 @@ export default function TeacherDetailPage() {
                         </div>
                         <div className="bg-white rounded-xl shadow border border-gray-200 p-6">
                             <div className="flex gap-2 mb-4">
-                                <Star size={24} className="text-[#3ABEFF]" />
+                                <Star size={24} className="text-[#42C2FF]" />
                                 <h3 className="text-gray-700 font-semibold">Reviews</h3>
                             </div>
                             <ReviewSection />
@@ -148,7 +148,7 @@ export default function TeacherDetailPage() {
                         {/* Close Button */}
                         <button
                             onClick={() => setPreviewImage(null)}
-                            className="absolute -top-4 -right-4 bg-white rounded-full p-2 shadow text-gray-600 hover:bg-gray-100 hover:text-[#3ABEFF]"
+                            className="absolute -top-4 -right-4 bg-white rounded-full p-2 shadow text-gray-600 hover:bg-gray-100 hover:text-[#42C2FF]"
                         >
                             <X />
                         </button>

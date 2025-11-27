@@ -58,8 +58,8 @@ export default function CourseListPage() {
                   }
                   className={`relative text-lg md:text-xl font-semibold pb-2 transition-all ${
                     activeCategory === cat
-                      ? "text-[#3ABEFF]"
-                      : "text-gray-400 hover:text-[#3ABEFF]"
+                      ? "text-[#42C2FF]"
+                      : "text-gray-400 hover:text-[#42C2FF]"
                   }`}
                 >
                   {cat}
@@ -68,7 +68,7 @@ export default function CourseListPage() {
             ))}
 
             <span
-              className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-500 ease-in-out ${
+              className={`absolute bottom-0 h-[2px] bg-[#42C2FF] transition-all duration-500 ease-in-out ${
                 activeCategory === "Technology"
                   ? "left-0 w-1/2"
                   : "left-1/2 w-1/2"
@@ -81,9 +81,9 @@ export default function CourseListPage() {
             <input
               type="text"
               placeholder={`Search for ${activeCategory.toLowerCase()} courses...`}
-              className="w-full px-4 py-2 pr-10 rounded-full border border-[#D8F4FF] bg-white focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none shadow-sm text-sm text-gray-700 placeholder-gray-400"
+              className="w-full px-4 py-2 pr-10 rounded-full border border-[#D8F4FF] bg-white focus:ring-2 focus:ring-[#42C2FF] focus:outline-none shadow-sm text-sm text-gray-700 placeholder-gray-400"
             />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 p-2 rounded-full text-white transition">
+            <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#42C2FF] hover:bg-[#42C2FF]/90 p-2 rounded-full text-white transition">
               <Search className="w-4 h-4" />
             </button>
           </div>

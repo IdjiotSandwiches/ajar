@@ -39,7 +39,7 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm z-999 transition-opacity duration-200">
+    <div className="fixed inset-0 flex items-center justify-center bg-[#42C2FF]/40 backdrop-blur-sm z-999 transition-opacity duration-200">
       <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative animate-fadeIn">
         <button
           onClick={onClose}
@@ -56,8 +56,8 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
               key={teacher.name}
               onClick={() => setSelectedTeacher(teacher)}
               className={`flex justify-between items-center border rounded-xl p-3 cursor-pointer transition-all duration-200 ${selectedTeacher?.name === teacher.name
-                  ? "bg-[#3ABEFF]/10 border-[#3ABEFF]"
-                  : "border-gray-200 hover:border-[#3ABEFF]"
+                  ? "bg-[#42C2FF]/10 border-[#42C2FF]"
+                  : "border-gray-200 hover:border-[#42C2FF]"
                 }`}
             >
               <div className="flex items-center gap-3">
@@ -82,7 +82,7 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
                   e.stopPropagation();
                   handleViewDetail(teacher.name);
                 }}
-                className="text-[#3ABEFF] hover:text-[#35AEE0] text-sm font-medium"
+                className="text-[#42C2FF] hover:text-[#42C2FF]/90 text-sm font-medium"
               >
                 Detail
               </button>
@@ -99,7 +99,7 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               className={`px-3 py-1 rounded-lg text-sm border ${currentPage === 1
                   ? "text-gray-400 border-gray-200 cursor-not-allowed"
-                  : "text-[#3ABEFF] border-[#3ABEFF] hover:bg-[#3ABEFF]/10"
+                  : "text-[#42C2FF] border-[#42C2FF] hover:bg-[#42C2FF]/10"
                 }`}
             >
               Prev
@@ -110,7 +110,7 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
                 key={i}
                 onClick={() => setCurrentPage(i + 1)}
                 className={`px-3 py-1 rounded-lg text-sm border ${currentPage === i + 1
-                    ? "bg-[#3ABEFF] text-white border-[#3ABEFF]"
+                    ? "bg-[#42C2FF] text-white border-[#42C2FF]"
                     : "border-gray-200 text-gray-600 hover:bg-gray-100"
                   }`}
               >
@@ -122,7 +122,7 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               className={`px-3 py-1 rounded-lg text-sm border ${currentPage === totalPages
                   ? "text-gray-400 border-gray-200 cursor-not-allowed"
-                  : "text-[#3ABEFF] border-[#3ABEFF] hover:bg-[#3ABEFF]/10"
+                  : "text-[#42C2FF] border-[#42C2FF] hover:bg-[#42C2FF]/10"
                 }`}
             >
               Next
@@ -134,7 +134,7 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
             onClick={handleSelect}
             disabled={!selectedTeacher}
             className={`px-6 py-2 rounded-lg text-sm font-medium transition ${selectedTeacher
-                ? "bg-[#3ABEFF] text-white hover:bg-[#3ABEFF]/90"
+                ? "bg-[#42C2FF] text-white hover:bg-[#42C2FF]/90"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
           >

@@ -136,7 +136,7 @@ export default function CreateCoursePage({ categories }: { categories: Category[
     return (
         <div className="min-h-screen bg-[#F7FDFF]">
             <div className="max-w-4xl mx-auto p-8 bg-white mt-12 rounded-2xl shadow-sm">
-                <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">
+                <h1 className="text-3xl font-semibold text-center text-[#42C2FF] mb-8">
                     Create Course
                 </h1>
 
@@ -207,7 +207,7 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                                             <button
                                                 type="button"
                                                 onClick={handleAddLearnObj}
-                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#42C2FF] p-2 rounded-full"
                                             >
                                                 <CirclePlus size={18} />
                                             </button>
@@ -260,7 +260,7 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                                             <button
                                                 type="button"
                                                 onClick={handleAddBenefitStudent}
-                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#42C2FF] p-2 rounded-full"
                                             >
                                                 <CirclePlus size={18} />
                                             </button>
@@ -311,7 +311,7 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                                             <button
                                                 type="button"
                                                 onClick={handleAddBenefitTeacher}
-                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#42C2FF] p-2 rounded-full"
                                             >
                                                 <CirclePlus size={18} />
                                             </button>
@@ -362,7 +362,7 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                                             <button
                                                 type="button"
                                                 onClick={handleAddCourseOverview}
-                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#42C2FF] p-2 rounded-full"
                                             >
                                                 <CirclePlus size={18} />
                                             </button>
@@ -413,7 +413,7 @@ export default function CreateCoursePage({ categories }: { categories: Category[
                                             <button
                                                 type="button"
                                                 onClick={handleAddCourseSkill}
-                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#42C2FF] p-2 rounded-full"
                                             >
                                                 <CirclePlus size={18} />
                                             </button>
@@ -483,7 +483,7 @@ export default function CreateCoursePage({ categories }: { categories: Category[
 
                     <button
                         type="submit"
-                        className="bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white font-semibold py-2 rounded-lg transition-all"
+                        className="bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white font-semibold py-2 rounded-lg transition-all"
                     >
                         Submit
                     </button>

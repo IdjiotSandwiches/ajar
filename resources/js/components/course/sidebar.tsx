@@ -7,11 +7,11 @@ export default function CourseSidebar({ teacher, institution }: any) {
       <div>
         <h3 className="text-sm font-semibold text-gray-700 mb-2">Institution</h3>
         <div
-          className="bg-[#3ABEFF] rounded-2xl shadow-lg p-1 cursor-pointer"
+          className="bg-[#42C2FF] rounded-2xl shadow-lg p-1 cursor-pointer"
           onClick={() => router.get(route("detail-institute", { id: institution.id }))}
         >
           <div className="bg-white p-0.5 rounded-2xl">
-            <div className="bg-[#3ABEFF] rounded-2xl p-2 flex items-center text-center relative overflow-hidden gap-4">
+            <div className="bg-[#42C2FF] rounded-2xl p-2 flex items-center text-center relative overflow-hidden gap-4">
               <img src="/images/image-1.jpg" alt="ins" className="w-12 h-12 rounded-full border-2" />
               <span className="font-medium text-white">{institution.name}</span>
             </div>

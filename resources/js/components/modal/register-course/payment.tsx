@@ -36,7 +36,7 @@ export default function PaymentModal({
   });
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm z-99 transition-opacity duration-200">
+    <div className="fixed inset-0 flex items-center justify-center bg-[#42C2FF]/40 backdrop-blur-sm z-99 transition-opacity duration-200">
       <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative animate-fadeIn">
         <button
           onClick={onClose}
@@ -92,7 +92,7 @@ export default function PaymentModal({
           </button>
           <button
             onClick={onPay}
-            className="w-1/2 py-3 rounded-xl bg-[#3ABEFF] hover:bg-[#32A7D8] text-white font-medium"
+            className="w-1/2 py-3 rounded-xl bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white font-medium"
           >
             Pay
           </button>
