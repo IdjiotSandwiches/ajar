@@ -170,9 +170,9 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
     }, [courseData]);
 
     return (
-        <div className="min-h-screen bg-[#F7FDFF]">
-            <div className="max-w-4xl mx-auto p-8 bg-white MD:mt-12 rounded-2xl shadow-sm">
-                <h1 className="text-3xl font-semibold text-center text-[#42C2FF] mb-8">
+        <div className="min-h-screen bg-[#F7FDFF] flex justify-center px-4 py-8">
+            <div className="w-full bg-white rounded-2xl shadow-sm border p-6 sm:p-8 max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
+                <h1 className="text-xl sm:text-2xl font-semibold text-center text-[#42C2FF] mb-6 sm:mb-10 cursor-default">
                     Edit Course
                 </h1>
 
@@ -513,7 +513,7 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
                         selectedTeachers={form.data.teacher ?? []}
                         onChange={(updated) => form.setData("teacher", updated)}
                     />
-                    
+
                     <div>
                         <h3 className="text-sm font-medium text-gray-800 mb-3">Course Image</h3>
                         <DetailImage
