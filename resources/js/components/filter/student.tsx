@@ -54,8 +54,13 @@ export default function FilterStudent() {
       </div>
 
       {showFilter && (
-        <div className="absolute right-0 mt-2 w-72 bg-white border rounded-xl shadow-lg p-4 z-50">
-          <p className="font-semibold mb-3 text-gray-700">Filter</p>
+        <div
+          className="
+            absolute right-0 mt-2 w-72 bg-white border rounded-xl shadow-lg p-4 z-49
+            max-sm:w-60 max-sm:p-3
+          "
+        >
+          <p className="font-semibold mb-3 text-gray-700 max-sm:text-sm">Filter</p>
           <hr className="mb-3" />
 
           {/* === Rating === */}
@@ -63,7 +68,10 @@ export default function FilterStudent() {
             <p className="text-sm text-gray-600 mb-2">Rating</p>
 
             {[5, 4, 3, 2, 1].map((r) => (
-              <label key={r} className="flex items-center gap-2 cursor-pointer mb-1">
+              <label
+                key={r}
+                className="flex items-center gap-2 cursor-pointer mb-1"
+              >
                 <input
                   type="checkbox"
                   checked={selectedRatings.includes(r)}
@@ -119,8 +127,7 @@ export default function FilterStudent() {
               />
             </div>
 
-            {/* Range Slider */}
-            <div className="flex flex-col ">
+            <div className="flex flex-col">
               <input
                 type="range"
                 min="0"
@@ -128,7 +135,7 @@ export default function FilterStudent() {
                 step="1000"
                 value={priceRange[0]}
                 onChange={(e) => handlePriceChange(0, Number(e.target.value))}
-                className="accent-[#3ABEFF] mb-1 "
+                className="accent-[#3ABEFF] mb-1"
               />
               <input
                 type="range"
@@ -148,12 +155,11 @@ export default function FilterStudent() {
 
           <hr className="my-3" />
 
-          {/* Selected info & Apply button */}
           <div className="flex justify-between items-center">
             <p className="text-xs text-gray-600">{selectedCount} selected</p>
             <button
               onClick={() =>
-                console.log("Applied filters:", {
+                console.log("Applied:", {
                   selectedRatings,
                   priceRange,
                 })

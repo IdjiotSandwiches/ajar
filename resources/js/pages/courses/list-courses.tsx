@@ -30,10 +30,13 @@ export default function CourseListPage() {
     setActiveCategory(initialCategory as "Technology" | "Design");
   }, [initialCategory]);
 
+  const categoryMap = {
+    Technology: [2, 3, 4, 6],
+    Design: [5],
+  };
 
   const filteredCourses = courses.filter(
-    (course) =>
-      course.parent_category?.toLowerCase() === activeCategory.toLowerCase()
+    (course) => categoryMap[activeCategory].includes(course.category)
   );
 
   const coursesPerRow = 5;
@@ -46,16 +49,18 @@ export default function CourseListPage() {
       <div className="pt-12 flex flex-col items-center w-full">
         <div className="flex flex-col items-center mb-8 w-[240px] relative">
           <div className="absolute bottom-0 left-0 w-full h-[2px] bg-[#D8F4FF]" />
-
           <div className="flex justify-between w-full relative">
             {["Technology", "Design"].map((cat) => (
               <div key={cat} className="w-1/2 flex justify-center relative">
                 <button
-                  onClick={() => setActiveCategory(cat as "Technology" | "Design")}
-                  className={`relative text-lg md:text-xl font-semibold pb-2 transition-all ${activeCategory === cat
-                    ? "text-[#3ABEFF]"
-                    : "text-gray-400 hover:text-[#3ABEFF]"
-                    }`}
+                  onClick={() =>
+                    setActiveCategory(cat as "Technology" | "Design")
+                  }
+                  className={`relative text-lg md:text-xl font-semibold pb-2 transition-all ${
+                    activeCategory === cat
+                      ? "text-[#3ABEFF]"
+                      : "text-gray-400 hover:text-[#3ABEFF]"
+                  }`}
                 >
                   {cat}
                 </button>
@@ -63,14 +68,14 @@ export default function CourseListPage() {
             ))}
 
             <span
-              className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-500 ease-in-out ${activeCategory === "Technology"
-                ? "left-0 w-1/2"
-                : "left-1/2 w-1/2"
-                }`}
+              className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-500 ease-in-out ${
+                activeCategory === "Technology"
+                  ? "left-0 w-1/2"
+                  : "left-1/2 w-1/2"
+              }`}
             />
           </div>
         </div>
-
         <div className="flex items-center gap-3 w-full max-w-3xl justify-center">
           <div className="relative flex-1 max-w-md">
             <input
@@ -82,12 +87,13 @@ export default function CourseListPage() {
               <Search className="w-4 h-4" />
             </button>
           </div>
+
           <div className="relative">
             {user.role === "student" ? <FilterStudent /> : <FilterTeacher />}
           </div>
         </div>
       </div>
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 justify-items-center transition-all duration-500 ease-in-out">
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 w-full">
         {visibleCourses.length > 0 ? (
           visibleCourses.map((course) => (
             <CourseCard key={course.id} course={course} userRole={user.role} />
@@ -98,7 +104,6 @@ export default function CourseListPage() {
           </p>
         )}
       </div>
-
       {filteredCourses.length > coursesPerRow * 2 && (
         <div className="flex justify-center mt-10">
           <button

@@ -41,12 +41,17 @@ export default function FilterTeacher() {
       </div>
 
       {showFilter && (
-        <div className="absolute right-0 mt-2 w-72 bg-white border rounded-xl shadow-lg p-4 z-50">
-          {/* Header */}
-          <p className="font-semibold text-gray-800 text-base mb-3">Filter</p>
+        <div
+          className="
+            absolute right-0 mt-2 w-72 bg-white border rounded-xl shadow-lg p-4 z-49
+            max-sm:w-60 max-sm:p-3
+          "
+        >
+          <p className="font-semibold text-gray-800 text-base mb-3 max-sm:text-sm">
+            Filter
+          </p>
           <hr className="border-gray-200 mb-4" />
 
-          {/* Sub Category Section */}
           <div className="mb-5">
             <p className="font-semibold text-gray-700 text-sm mb-3">
               Sub Category
@@ -102,11 +107,8 @@ export default function FilterTeacher() {
 
           <hr className="my-3 border-gray-200" />
 
-          {/* Footer */}
           <div className="flex justify-between items-center">
-            <p className="text-xs text-gray-600">
-              {selected.length} selected
-            </p>
+            <p className="text-xs text-gray-600">{selected.length} selected</p>
             <button
               onClick={() => console.log("Selected:", selected)}
               className="bg-[#3ABEFF] text-white px-4 py-1.5 rounded-full text-sm hover:bg-[#3ABEFF]/90 transition"

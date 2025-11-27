@@ -193,4 +193,42 @@ export const dummyCourses: CourseData[] = [
     reviews: ["Extremely informative!", "Perfect intro to cybersecurity!"],
     teacher_salary: 4500000,
   },
+  {
+    id: 6,
+    name: "Introduction to Web Development",
+    description: "Learn the fundamentals of HTML, CSS, and JavaScript to build your first website.",
+    price: 499000,
+    duration: 120,
+    discount: 10,
+    category: 2,
+    learning_objectives: [
+      { id: 1, description: "Understand HTML structure", course_id: 1 },
+      { id: 2, description: "Style pages with CSS", course_id: 1 },
+      { id: 3, description: "Create interactive features using JavaScript", course_id: 1 },
+    ],
+    benefit_for_students: [
+      { id: 1, description: "Build real web projects", course_id: 1 },
+      { id: 2, description: "Understand the fundamentals of web technology", course_id: 1 },
+    ],
+    benefit_for_teachers: [
+      { id: 1, description: "Enhance teaching portfolio with web development expertise" },
+      { id: 2, description: "Expand professional network among web developers" },
+      { id: 3, description: "Receive recognition as a certified web instructor" },
+    ],
+    course_overviews: [
+      { id: 1, description: "Module 1: HTML Basics", course_id: 1 },
+      { id: 2, description: "Module 2: CSS Layouts", course_id: 1 },
+    ],
+    course_skills: [
+      { id: 1, name: "HTML" },
+      { id: 2, name: "CSS" },
+      { id: 3, name: "JavaScript" },
+    ],
+    course_images: ["images/regis-teacher.jpg"],
+    teacher: [dummyTeachers[0]],
+    institution: dummyInstitutions[0],
+    ratings: [5, 4, 5],
+    reviews: ["Great course!", "Very beginner friendly."],
+    teacher_salary: 2500000,
+  },
 ];
