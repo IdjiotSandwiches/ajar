@@ -44,10 +44,10 @@ export default function CourseList() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9fdfd] flex flex-col">
-      <div className="max-w-6xl mx-auto w-full px-6 py-10 bg-white/80 backdrop-blur-sm shadow-sm rounded-2xl md:mt-10">
+    <div className="min-h-screen bg-[#f9fdfd] flex flex-col px-3 sm:px-6 py-6">
+      <div className="max-w-6xl mx-auto w-full bg-white/80 backdrop-blur-sm shadow-sm rounded-2xl p-4 sm:p-6 md:p-10 mt-4 sm:mt-10">
 
-        <h1 className="text-3xl font-semibold text-center text-[#42C2FF] mb-10 cursor-default">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-center text-[#42C2FF] mb-6 sm:mb-10 cursor-default">
           My Courses
         </h1>
         <div className="flex justify-end mb-6">
@@ -61,9 +61,7 @@ export default function CourseList() {
         {loading ? (
           <div className="text-center text-gray-500 py-10">Loading...</div>
         ) : courses.length === 0 ? (
-          <div className="text-center text-gray-500 py-10">
-            Belum ada kursus.
-          </div>
+          <div className="text-center text-gray-500 py-10">Belum ada kursus.</div>
         ) : (
           <>
             <div className="hidden md:block overflow-x-auto">
@@ -76,6 +74,7 @@ export default function CourseList() {
                     <th className="py-3 px-4 text-center font-medium">Actions</th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {courses.map((course, index) => (
                     <tr
@@ -93,9 +92,7 @@ export default function CourseList() {
                           alt={course.name}
                           className="w-16 h-16 object-cover rounded-md"
                         />
-                        <p className="font-bold cursor-default">
-                          {course.name}
-                        </p>
+                        <p className="font-bold cursor-default">{course.name}</p>
                       </td>
 
                       <td className="py-3 px-4 cursor-default">
@@ -117,13 +114,14 @@ export default function CourseList() {
                         <div className="flex items-center justify-center gap-2">
                           <button
                             onClick={() => handleEditClick(course.id!)}
-                            className="p-2 bg-[#42C2FF] hover:bg-[#42C2FF]/90 rounded-md text-white cursor-pointer"
+                            className="p-2 bg-[#42C2FF] hover:bg-[#42C2FF]/90 rounded-md text-white"
                           >
                             <Pencil size={16} strokeWidth={2} />
                           </button>
+
                           <button
                             onClick={() => handleDeleteClick(course)}
-                            className="p-2 bg-[#FF1818] hover:bg-[#FF1818]/90 rounded-md text-white cursor-pointer"
+                            className="p-2 bg-[#FF1818] hover:bg-[#FF1818]/90 rounded-md text-white"
                           >
                             <Trash2 size={16} strokeWidth={2} />
                           </button>
@@ -149,12 +147,12 @@ export default function CourseList() {
                       alt={course.name}
                       className="w-20 h-20 rounded-md object-cover"
                     />
+
                     <div className="flex flex-col justify-between flex-grow">
                       <p className="font-bold text-gray-800">{course.name}</p>
 
                       <p className="text-sm text-gray-600 mt-1">
-                        Duration:{" "}
-                        <span className="font-bold">{course.duration} mins</span>
+                        Duration: <span className="font-bold">{course.duration} mins</span>
                       </p>
 
                       <p className="text-sm text-gray-700 font-bold mt-1">
