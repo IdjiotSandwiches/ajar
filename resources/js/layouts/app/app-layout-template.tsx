@@ -21,7 +21,7 @@ export default function AppLayout({
       <Navbar />
 
       {showBackButton && (
-        <div className="absolute top-24 left-6 z-20">
+        <div className="absolute top-24 left-6 z-20 hidden md:inline">
           <BackButton label="Back" />
         </div>
       )}
