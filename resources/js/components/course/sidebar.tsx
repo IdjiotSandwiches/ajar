@@ -1,9 +1,32 @@
+import { useEffect, useRef } from "react";
 import { router } from "@inertiajs/react";
 import TeacherProfileCard from "../teacher/card";
 
 export default function CourseSidebar({ teacher, institution }: any) {
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const teachers = Array.isArray(teacher) ? teacher : [teacher].filter(Boolean);
+
+  // AUTO SLIDE
+  useEffect(() => {
+    if (!sliderRef.current || teachers.length <= 1) return;
+
+    const slider = sliderRef.current;
+    let index = 0;
+
+    const interval = setInterval(() => {
+      index = (index + 1) % teachers.length;
+      slider.scrollTo({
+        left: slider.clientWidth * index,
+        behavior: "smooth",
+      });
+    }, 3000); // 3 detik
+
+    return () => clearInterval(interval);
+  }, [teachers.length]);
+
   return (
     <aside className="space-y-6">
+      {/* Institution */}
       <div>
         <h3 className="text-sm font-semibold text-gray-700 mb-2">Institution</h3>
         <div
@@ -18,11 +41,30 @@ export default function CourseSidebar({ teacher, institution }: any) {
           </div>
         </div>
       </div>
+
+      {/* Teachers */}
       <div>
         <h3 className="text-sm font-semibold text-gray-700 mb-2">Teachers</h3>
-        {teacher === null ? <p className="font-medium">No teacher yet|</p> : <TeacherProfileCard teacher={teacher}/>}
-      </div>
 
+        {teachers.length === 0 ? (
+          <p className="font-medium">No teacher yet</p>
+        ) : (
+          <div
+            ref={sliderRef}
+            className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-3 no-scrollbar"
+            style={{ scrollBehavior: "smooth" }}
+          >
+            {teachers.map((t: any, index: number) => (
+              <div
+                key={index}
+                className="snap-center flex-shrink-0 w-full"
+              >
+                <TeacherProfileCard teacher={t} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </aside>
   );
 }

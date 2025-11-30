@@ -25,7 +25,7 @@ export default function CourseDetailPage() {
     ) => {
         setActiveTab(tab);
         if (ref.current) {
-            const yOffset = -100;
+            const yOffset = -80;
             const y =
                 ref.current.getBoundingClientRect().top + window.scrollY + yOffset;
             window.scrollTo({ top: y, behavior: "smooth" });
@@ -73,49 +73,45 @@ export default function CourseDetailPage() {
     return (
         <div className="min-h-screen bg-[#F8FCFF]">
             <CourseHero course={course} />
-            <div className="flex justify-center -mt-8 mb-10 relative z-20">
-                <div className="bg-white rounded-full shadow-md border flex gap-2 px-2 py-1">
-                    <button
-                        onClick={() => handleScrollTo(syllabusRef, "syllabus")}
-                        className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "syllabus"
-                                ? "bg-[#42C2FF] text-white"
-                                : "text-gray-600 hover:bg-gray-100"
+            <div className="block lg:hidden px-4 mt-4">
+                <CourseSidebar
+                    institution={course.institution}
+                    teacher={course.teacher}
+                    compactMode={true}
+                />
+            </div>
+            <div className="flex justify-center mt-6 md:-mt-6 mb-8 relative z-20 px-3">
+                <div className="bg-white rounded-full shadow-md border flex gap-4 px-6 py-1 overflow-x-auto scrollbar-hide max-w-full"> 
+                    {[
+                        { id: "syllabus", label: "Syllabus", ref: syllabusRef },
+                        { id: "info", label: "Course Information", ref: infoRef },
+                        { id: "testimonial", label: "Testimonial", ref: testimonialRef }
+                    ].map((tab) => (
+                        <button
+                            key={tab.id}
+                            onClick={() => handleScrollTo(tab.ref, tab.id)}
+                            className={`px-3 md:px-5 py-1.5 md:py-2 whitespace-nowrap rounded-full text-xs md:text-sm font-medium transition-all 
+                            ${
+                                activeTab === tab.id
+                                    ? "bg-[#42C2FF] text-white"
+                                    : "text-gray-600 hover:bg-gray-100"
                             }`}
-                    >
-                        Syllabus
-                    </button>
-                    <button
-                        onClick={() => handleScrollTo(infoRef, "info")}
-                        className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "info"
-                                ? "bg-[#42C2FF] text-white"
-                                : "text-gray-600 hover:bg-gray-100"
-                            }`}
-                    >
-                        Course Information
-                    </button>
-                    <button
-                        onClick={() => handleScrollTo(testimonialRef, "testimonial")}
-                        className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "testimonial"
-                                ? "bg-[#42C2FF] text-white"
-                                : "text-gray-600 hover:bg-gray-100"
-                            }`}
-                    >
-                        Testimonial
-                    </button>
+                        >
+                            {tab.label}
+                        </button>
+                    ))}
                 </div>
             </div>
-            <div className="mx-auto px-20 grid grid-cols-1 lg:grid-cols-4 gap-10">
-                <div className="lg:col-span-3 space-y-10">
+            <div className="mx-auto px-4 md:px-10 lg:px-20 grid grid-cols-1 lg:grid-cols-6 gap-10">
+                <div className="lg:col-span-4 space-y-10">
                     <section>
-                        <h4
-                            ref={syllabusRef}
-                            className="text-xs text-[#42C2FF] font-medium mb-2"
-                        >
+                        <h4 ref={syllabusRef} className="text-xs text-[#42C2FF] font-medium mb-2">
                             Syllabus
                         </h4>
                         <h2 className="text-lg font-semibold text-gray-800 mb-4">
                             Learning Objectives
                         </h2>
+
                         <ul className="text-gray-600 list-disc ml-5 space-y-2">
                             {course.learning_objectives?.map((item: any) => (
                                 <li key={item.id}>{item.description}</li>
@@ -132,15 +128,13 @@ export default function CourseDetailPage() {
                         </ul>
                     </section>
                     <section>
-                        <h4
-                            ref={infoRef}
-                            className="text-xs text-[#42C2FF] font-medium mb-2"
-                        >
+                        <h4 ref={infoRef} className="text-xs text-[#42C2FF] font-medium mb-2">
                             Course Information
                         </h4>
                         <h2 className="text-lg font-semibold text-gray-800 mb-4">
                             Skills to be Learned
                         </h2>
+
                         <ul className="text-gray-600 list-disc ml-5 space-y-2">
                             {course.course_skills?.map((item: any) => (
                                 <li key={item.id}>{item.name}</li>
@@ -148,23 +142,18 @@ export default function CourseDetailPage() {
                         </ul>
                     </section>
                     <section>
-                        <h4
-                            ref={testimonialRef}
-                            className="text-xs text-[#42C2FF] font-medium mb-2"
-                        >
+                        <h4 ref={testimonialRef} className="text-xs text-[#42C2FF] font-medium mb-2">
                             Testimonial
                         </h4>
                         <ReviewSection />
                     </section>
                 </div>
-                <div className="lg:col-span-1">
-                    <CourseSidebar
-                        institution={course.institution}
-                        teacher={course.teacher}
-                    />
+                <div className="hidden lg:block lg:col-span-2">
+                    <CourseSidebar institution={course.institution} teacher={course.teacher} />
                 </div>
             </div>
-            <div className="mx-auto px-10">
+
+            <div className="mx-auto md:px-10">
                 <PopularCourses courses={dummyCourses} />
             </div>
         </div>
