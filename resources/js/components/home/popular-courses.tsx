@@ -1,26 +1,22 @@
-import CourseCard from "../ui/course-card";
-import { router } from "@inertiajs/react";
+import { router } from '@inertiajs/react';
+import CourseCard from '../ui/course-card';
 
 export default function PopularCourses({ courses }: { courses: any[] }) {
-  return (
-    <section className="py-16 bg-[#F7FDFD] px-6 md:px-12">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-lg md:text-xl font-semibold text-gray-800">
-          Popular Courses
-        </h2>
-        <button
-          className="text-[#42C2FF] font-medium hover:underline text-sm"
-          onClick={() => router.get(route('list-course'))}
-        >
-          View All Courses →
-        </button>
-      </div>
+    return (
+        <section className="bg-[#F7FDFD] px-6 py-16 md:px-12">
+            <div className="mb-8 flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-gray-800 md:text-xl">Popular Courses</h2>
+                <button className="cursor-pointer text-sm font-medium text-[#3ABEFF] hover:underline" onClick={() => router.get(route('list-course'))}>
+                    View All Courses →
+                </button>
+            </div>
 
-      <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-[#42C2FF]/30 scrollbar-track-transparent">
-        {courses.map((course: any, index: number) => {
-          return <CourseCard key={index} course={course} />
-        })}
-      </div>
-    </section>
-  );
+            {/* Scrollable horizontal */}
+            <div className="scrollbar-thin scrollbar-thumb-[#3ABEFF]/30 scrollbar-track-transparent flex gap-6 overflow-x-auto pb-4">
+                {courses.map((course: any, index: number) => {
+                    return <CourseCard key={index} course={course} isTag={true} />;
+                })}
+            </div>
+        </section>
+    );
 }

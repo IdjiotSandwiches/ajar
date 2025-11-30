@@ -1,131 +1,159 @@
-import React, { useEffect, useState } from "react";
-import { CourseData } from "@/interfaces/shared";
-import CourseCard from "@/components/ui/course-card";
-import FilterStudent from "@/components/filter/student";
-import FilterTeacher from "@/components/filter/teacher";
-import AppLayout from "@/layouts/app-layout";
-import { Search } from "lucide-react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { dummyCourses } from "@/dummy-data/dummy-course";
+import FilterStudent from '@/components/filter/student';
+import FilterTeacher from '@/components/filter/teacher';
+import CourseCard from '@/components/ui/course-card';
+import { CategoryProps } from '@/interfaces/shared';
+import AppLayout from '@/layouts/app-layout';
+import { Head, InfiniteScroll, router, usePage } from '@inertiajs/react';
+import { Search } from 'lucide-react';
+import React, { useState } from 'react';
 
-const user = {
-  role: "student",
-};
+export default function CourseListPage({
+    activeCategory,
+    parentCategories,
+    courses,
+    subCategories,
+    activeSub,
+    search,
+    studentFilter,
+    price
+}: {
+    activeCategory: number;
+    parentCategories: CategoryProps[];
+    courses: any;
+    subCategories: CategoryProps[];
+    activeSub: number[];
+    search: string;
+    studentFilter: any;
+    price: any
+}) {
+    const [localSearch, setLocalSearch] = useState<string>(search ?? '');
+    const handleFilterChange = (options: {
+        category_id?: number;
+        search?: string;
+        enter?: boolean;
+        sub?: number[];
+        rating?: number[];
+        priceMin?: number;
+        priceMax?: number;
+    }) => {
+        const { category_id, search: s, enter, sub, rating, priceMin, priceMax } = options;
+        if (s !== undefined) setLocalSearch(s);
 
-export default function CourseListPage() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const initialCategory = searchParams.get("category") || "Technology";
+        let newSub: number[] | undefined;
+        let newRating: number[] | undefined;
+        let newPriceMin: number;
+        let newPriceMax: number;
+        let newSearch: string;
 
-  const [courses, setCourses] = useState<CourseData[]>([]);
-  const [showAll, setShowAll] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<"Technology" | "Design">(
-    initialCategory as "Technology" | "Design"
-  );
+        if (category_id !== undefined && category_id !== activeCategory) {
+            setLocalSearch('');
+            newSearch = s ?? '';
+            newSub = sub ?? [];
+            newRating = rating ?? [];
+            newPriceMin = priceMin ?? price.min;
+            newPriceMax = priceMax ?? price.max;
+        } else {
+            newSearch = localSearch ?? search;
+            newSub = sub ?? activeSub;
+            newRating = rating ?? studentFilter.rating;
+            newPriceMin = priceMin ?? studentFilter.min;
+            newPriceMax = priceMax ?? studentFilter.max;
+        }
 
-  useEffect(() => {
-    setCourses(dummyCourses);
-  }, []);
+        if (enter || category_id !== undefined) {
+            router.visit(route('list-course'), {
+                data: {
+                    category_id: category_id ?? activeCategory,
+                    search: newSearch,
+                    sub: newSub,
+                    rating: newRating,
+                    price_min: newPriceMin,
+                    price_max: newPriceMax
+                },
+                only: ['courses', 'activeCategory', 'subCategories', 'activeSub', 'studentFilter'],
+                reset: ['courses'],
+                preserveScroll: true,
+                preserveState: true,
+                replace: true,
+            });
+        }
+    };
 
-  useEffect(() => {
-    setActiveCategory(initialCategory as "Technology" | "Design");
-  }, [initialCategory]);
+    const { props } = usePage();
+    const user = props.auth?.user;
+    const roles = props.enums?.roles_enum;
 
-  const categoryMap = {
-    Technology: [2, 3, 4, 6],
-    Design: [5],
-  };
+    return (
+        <>
+            <Head title="Course List" />
+            <section className="min-h-screen bg-[#F7FDFD] px-6 pb-24 md:px-12">
+                <div className="flex w-full flex-col items-center pt-12">
+                    <div className="relative mb-8 flex w-[240px] flex-col items-center">
+                        <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#D8F4FF]" />
 
-  const filteredCourses = courses.filter(
-    (course) => categoryMap[activeCategory].includes(course.category)
-  );
+                        <div className="relative flex w-full justify-between">
+                            {parentCategories.map((cat) => (
+                                <div key={cat.id} className="relative flex w-1/2 justify-center">
+                                    <button
+                                        onClick={() => handleFilterChange({ category_id: cat.id })}
+                                        className={`relative pb-2 text-lg font-semibold transition-all md:text-xl ${
+                                            Number(activeCategory) === cat.id ? 'text-[#3ABEFF]' : 'text-gray-400 hover:text-[#3ABEFF]'
+                                        }`}
+                                    >
+                                        {cat.name}
+                                    </button>
+                                </div>
+                            ))}
 
-  const coursesPerRow = 5;
-  const visibleCourses = showAll
-    ? filteredCourses
-    : filteredCourses.slice(0, coursesPerRow * 2);
+                            <span
+                                className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-500 ease-in-out ${
+                                    Number(activeCategory) === parentCategories[0].id ? 'left-0 w-1/2' : 'left-1/2 w-1/2'
+                                }`}
+                            />
+                        </div>
+                    </div>
 
-  return (
-    <section className="bg-[#F7FDFD] min-h-screen pb-24 px-6 md:px-12">
-      <div className="pt-12 flex flex-col items-center w-full">
-        <div className="flex flex-col items-center mb-8 w-[240px] relative">
-          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-[#D8F4FF]" />
-          <div className="flex justify-between w-full relative">
-            {["Technology", "Design"].map((cat) => (
-              <div key={cat} className="w-1/2 flex justify-center relative">
-                <button
-                  onClick={() =>
-                    setActiveCategory(cat as "Technology" | "Design")
-                  }
-                  className={`relative text-lg md:text-xl font-semibold pb-2 transition-all ${
-                    activeCategory === cat
-                      ? "text-[#42C2FF]"
-                      : "text-gray-400 hover:text-[#42C2FF]"
-                  }`}
+                    <div className="flex w-full max-w-3xl items-center justify-center gap-3">
+                        <div className="relative max-w-md flex-1">
+                            <input
+                                type="text"
+                                value={localSearch}
+                                onChange={(e) => handleFilterChange({ search: e.target.value })}
+                                onKeyDown={(e) => e.key === 'Enter' && handleFilterChange({ enter: true })}
+                                placeholder={`Search courses...`}
+                                className="w-full rounded-full border border-[#D8F4FF] bg-white px-4 py-2 pr-10 text-sm text-gray-700 placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none"
+                            />
+                            <button
+                                onClick={() => handleFilterChange({ enter: true })}
+                                className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-full bg-[#3ABEFF] p-2 text-white transition hover:bg-[#3ABEFF]/90"
+                            >
+                                <Search className="h-4 w-4" />
+                            </button>
+                        </div>
+
+                        <div className="relative">
+                            {(user?.role_id === roles.Teacher || user?.role_id === roles.Institute) ? (
+                                <FilterTeacher categories={subCategories} activeSub={activeSub} handleFilterChange={handleFilterChange} />
+                            ) : (
+                                <FilterStudent studentFilter={studentFilter} price={price} handleFilterChange={handleFilterChange} />
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <InfiniteScroll
+                    buffer={1}
+                    loading={() => 'Loading more courses...'}
+                    data="courses"
+                    className="mt-10 grid grid-cols-1 justify-items-center gap-6 transition-all duration-500 ease-in-out sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
                 >
-                  {cat}
-                </button>
-              </div>
-            ))}
-
-            <span
-              className={`absolute bottom-0 h-[2px] bg-[#42C2FF] transition-all duration-500 ease-in-out ${
-                activeCategory === "Technology"
-                  ? "left-0 w-1/2"
-                  : "left-1/2 w-1/2"
-              }`}
-            />
-          </div>
-        </div>
-        <div className="flex items-center gap-3 w-full max-w-3xl justify-center">
-          <div className="relative flex-1 max-w-md">
-            <input
-              type="text"
-              placeholder={`Search for ${activeCategory.toLowerCase()} courses...`}
-              className="w-full px-4 py-2 pr-10 rounded-full border border-[#D8F4FF] bg-white focus:ring-2 focus:ring-[#42C2FF] focus:outline-none shadow-sm text-sm text-gray-700 placeholder-gray-400"
-            />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#42C2FF] hover:bg-[#42C2FF]/90 p-2 rounded-full text-white transition">
-              <Search className="w-4 h-4" />
-            </button>
-          </div>
-
-          <div className="relative">
-            {user.role === "student" ? <FilterStudent /> : <FilterTeacher />}
-          </div>
-        </div>
-      </div>
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 w-full">
-        {visibleCourses.length > 0 ? (
-          visibleCourses.map((course) => (
-            <CourseCard key={course.id} course={course} userRole={user.role} />
-          ))
-        ) : (
-          <p className="text-gray-500 text-center col-span-full">
-            No {activeCategory} courses available yet.
-          </p>
-        )}
-      </div>
-      {filteredCourses.length > coursesPerRow * 2 && (
-        <div className="flex justify-center mt-10">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="px-6 py-2 text-[#42C2FF] rounded-full font-medium hover:text-[#42C2FF]/90 transition"
-          >
-            {showAll ? (
-              <div className="flex items-center gap-2">
-                See Less <FaChevronUp className="text-sm" />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                See More <FaChevronDown className="text-sm" />
-              </div>
-            )}
-          </button>
-        </div>
-      )}
-    </section>
-  );
+                    {courses.data.map((course: any, index: number) => (
+                        <CourseCard key={index} course={course} isTag={false} />
+                    ))}
+                </InfiniteScroll>
+            </section>
+        </>
+    );
 }
 
-CourseListPage.layout = (page: React.ReactNode) => (
-  <AppLayout useContainer={false}>{page}</AppLayout>
-);
+CourseListPage.layout = (page: React.ReactNode) => <AppLayout useContainer={false}>{page}</AppLayout>;

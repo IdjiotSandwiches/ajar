@@ -19,7 +19,7 @@ export default function AuthSimpleLayout({
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-8">
         {!isFullPage ? (
           <div className="bg-white w-full max-w-4xl rounded-2xl shadow-sm overflow-hidden flex flex-col lg:flex-row">
-            <div className="lg:w-1/2 w-full flex flex-col items-center 
+            <div className="lg:w-1/2 w-full flex flex-col items-center
                             justify-center p-8 sm:p-10 text-center">
               <div className="text-[#42C2FF] mb-4">
                 <svg

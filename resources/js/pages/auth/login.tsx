@@ -1,6 +1,7 @@
 import { Head, router, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -59,7 +60,9 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         <Input
                             id="email"
                             name="email"
+                            name="email"
                             type="email"
+                            label="Email"
                             label="Email"
                             required
                             tabIndex={1}
@@ -73,7 +76,9 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         <Input
                             id="password"
                             name="password"
+                            name="password"
                             type="password"
+                            label="Password"
                             label="Password"
                             required
                             tabIndex={2}
@@ -107,7 +112,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                 Forgot password?
                             </TextLink>
                         )}
-                    </div>  
+                    </div>
                     <div className="mt-4 flex flex-col sm:flex-row justify-end gap-3">
                         <Button
                             type="button"

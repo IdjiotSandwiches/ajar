@@ -70,7 +70,7 @@ export default function ChatPage() {
       (a, b) => new Date(a.lastMessageTime).getTime() - new Date(b.lastMessageTime).getTime()
     );
     setSortedUsers(sorted);
-  }, []); 
+  }, []);
 
   const getCurrentTime = () => {
     const now = new Date();

@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function HoverableIcon({onClick}) {
+export default function HoverableIcon({ onClick } : { onClick: any }) {
   return (
     <button
-      className="group transition-all duration-300"
+      className="group transition-all duration-300 cursor-pointer"
       aria-label="Hoverable Icon"
       onClick={onClick}
     >

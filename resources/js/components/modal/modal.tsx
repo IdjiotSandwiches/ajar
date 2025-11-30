@@ -94,7 +94,6 @@ const DynamicModal: React.FC<DynamicModalProps> = ({
             >
               {finalConfirmText}
             </button>
-
           )}
         </div>
       </div>
