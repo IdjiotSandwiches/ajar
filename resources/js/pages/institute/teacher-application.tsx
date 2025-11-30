@@ -46,7 +46,7 @@ export default function TeacherApplicationsPage() {
     return (
         <div className="min-h-screen bg-[#f9fdfd] flex flex-col px-3 sm:px-6 py-6">
             <div className="max-w-6xl mx-auto w-full bg-white/80 backdrop-blur-sm shadow-sm rounded-2xl p-4 sm:p-6 md:p-10 mt-4 sm:mt-10">
-                
+
                 <h1 className="text-xl sm:text-2xl font-semibold text-center text-[#42C2FF] mb-6 sm:mb-10 cursor-default">
                     Teacher Applications
                 </h1>

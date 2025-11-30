@@ -1,5 +1,3 @@
-import { dummyCourses } from "@/dummy-data/dummy-course";
-import { usePage } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import CourseHero from "@/components/course/hero-section";
 import { useEffect, useRef, useState } from "react";
@@ -7,12 +5,8 @@ import CourseSidebar from "@/components/course/sidebar";
 import ReviewSection from "@/components/course/review";
 import PopularCourses from "@/components/home/popular-courses";
 
-export default function CourseDetailPage() {
-    const { props } = usePage();
-    const courseId = props.courseId as number;
-
-    const course = dummyCourses.find((c) => c.id === Number(courseId));
-
+export default function CourseDetailPage({ course, popularCourses }: { course: any, popularCourses: any[] }) {
+    console.log(course);
     const [activeTab, setActiveTab] = useState("syllabus");
 
     const syllabusRef = useRef<HTMLHeadingElement | null>(null);
@@ -25,7 +19,7 @@ export default function CourseDetailPage() {
     ) => {
         setActiveTab(tab);
         if (ref.current) {
-            const yOffset = -80;
+            const yOffset = -100;
             const y =
                 ref.current.getBoundingClientRect().top + window.scrollY + yOffset;
             window.scrollTo({ top: y, behavior: "smooth" });
@@ -75,13 +69,12 @@ export default function CourseDetailPage() {
             <CourseHero course={course} />
             <div className="block lg:hidden px-4 mt-4">
                 <CourseSidebar
-                    institution={course.institution}
+                    institute={course.institute}
                     teacher={course.teacher}
-                    compactMode={true}
                 />
             </div>
             <div className="flex justify-center mt-6 md:-mt-6 mb-8 relative z-20 px-3">
-                <div className="bg-white rounded-full shadow-md border flex gap-4 px-6 py-1 overflow-x-auto scrollbar-hide max-w-full"> 
+                <div className="bg-white rounded-full shadow-md border flex gap-4 px-6 py-1 overflow-x-auto scrollbar-hide max-w-full">
                     {[
                         { id: "syllabus", label: "Syllabus", ref: syllabusRef },
                         { id: "info", label: "Course Information", ref: infoRef },
@@ -90,7 +83,7 @@ export default function CourseDetailPage() {
                         <button
                             key={tab.id}
                             onClick={() => handleScrollTo(tab.ref, tab.id)}
-                            className={`px-3 md:px-5 py-1.5 md:py-2 whitespace-nowrap rounded-full text-xs md:text-sm font-medium transition-all 
+                            className={`px-3 md:px-5 py-1.5 md:py-2 whitespace-nowrap rounded-full text-xs md:text-sm font-medium transition-all
                             ${
                                 activeTab === tab.id
                                     ? "bg-[#42C2FF] text-white"
@@ -134,27 +127,32 @@ export default function CourseDetailPage() {
                         <h2 className="text-lg font-semibold text-gray-800 mb-4">
                             Skills to be Learned
                         </h2>
-
                         <ul className="text-gray-600 list-disc ml-5 space-y-2">
                             {course.course_skills?.map((item: any) => (
-                                <li key={item.id}>{item.name}</li>
+                                <li key={item.id}>{item.skill.name}</li>
                             ))}
                         </ul>
                     </section>
                     <section>
-                        <h4 ref={testimonialRef} className="text-xs text-[#42C2FF] font-medium mb-2">
+                        <h4
+                            ref={testimonialRef}
+                            className="text-xs text-[#3ABEFF] font-medium mb-2"
+                        >
                             Testimonial
                         </h4>
-                        <ReviewSection />
+                        <ReviewSection reviews={course.course_reviews} />
                     </section>
                 </div>
-                <div className="hidden lg:block lg:col-span-2">
-                    <CourseSidebar institution={course.institution} teacher={course.teacher} />
+                <div className="lg:col-span-1">
+                    <CourseSidebar
+                        institute={course.institute.user}
+                        teacher={course.teachers}
+                    />
                 </div>
             </div>
 
-            <div className="mx-auto md:px-10">
-                <PopularCourses courses={dummyCourses} />
+            <div className="mx-auto px-10">
+                <PopularCourses courses={popularCourses} />
             </div>
         </div>
     );

@@ -5,6 +5,11 @@
 //     [key: string]: any;
 // }
 
+export interface CategoryProps {
+  id: number,
+  name: string,
+}
+
 export interface DegreeTypeEnums {
     enums: {
         degree_type_enum: Record<string, number>;

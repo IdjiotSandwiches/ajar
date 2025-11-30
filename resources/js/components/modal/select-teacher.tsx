@@ -55,7 +55,7 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
             <div
               key={teacher.name}
               onClick={() => setSelectedTeacher(teacher)}
-              className={`flex justify-between items-center border rounded-xl p-3 cursor-pointer 
+              className={`flex justify-between items-center border rounded-xl p-3 cursor-pointer
                 ${selectedTeacher?.name === teacher.name
                   ? "bg-[#42C2FF]/10 border-[#42C2FF]"
                   : "border-gray-200 hover:border-[#42C2FF]"

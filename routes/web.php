@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,26 +26,30 @@ Route::get('detail-teacher/{teacherName}', function ($teacherName) {
     ]);
 })->name('detail-teacher');
 
-Route::get('list-institute', fn() => Inertia::render('institute/list-institute'))->name('list-institute');
+Route::get('list-institute', fn() => Inertia::render('institute/list-institute'))
+    ->name('list-institute');
+
+
+Route::controller(CourseController::class)->group(function () {
+    Route::get('list-course', 'getCourseList')->name('list-course');
+    Route::get('detail-course/{id}', 'getCourseDetail')->name('detail-course');
+});
 
 
 Route::middleware(['auth', 'verified'])
     ->group(function () {
-        Route::get('list-course', fn() => Inertia::render('courses/list-courses'))->name('list-course');
-
         Route::get('my-learning', fn() => Inertia::render('my-learning/app'))->name('my-learning');
-
         Route::get('profile', fn() => Inertia::render('student/edit-profile'))->name('profile-student');
         Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
     });
-    
-    Route::middleware(['auth', 'verified', 'role:Admin'])
+
+Route::middleware(['auth', 'verified', 'role:Admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
     });
-    
+
     Route::middleware(['auth', 'verified', 'role:Teacher'])
     ->prefix('teacher')
     ->name('teacher.')
@@ -66,7 +71,6 @@ Route::middleware(['auth', 'verified', 'role:Institute'])
         })->name('edit-course');
         Route::get('teacher-application', fn() => Inertia::render('institute/teacher-application'))->name('teacher-application');
         Route::get('profile', fn() => Inertia::render('institute/edit-profile'))->name('profile-institute');
-        Route::get('courses-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
     });
 
 // Route::middleware(['auth', 'verified', 'role:Institute,Teacher'])

@@ -107,7 +107,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                 Forgot password?
                             </TextLink>
                         )}
-                    </div>  
+                    </div>
                     <div className="mt-4 flex flex-col sm:flex-row justify-end gap-3">
                         <Button
                             type="button"

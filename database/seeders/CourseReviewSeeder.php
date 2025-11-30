@@ -34,15 +34,15 @@ class CourseReviewSeeder extends Seeder
 
             switch ($target) {
                 case 1:
-                    $review['course_id'] = $faker->numberBetween(1, 10); 
+                    $review['course_id'] = $faker->numberBetween(1, 10);
                     break;
 
                 case 2:
-                    $review['teacher_id'] = $faker->numberBetween(11, 20); 
+                    $review['teacher_id'] = $faker->numberBetween(11, 20);
                     break;
 
                 case 3:
-                    $review['institute_id'] = $faker->numberBetween(11, 20); 
+                    $review['institute_id'] = $faker->numberBetween(11, 20);
                     break;
             }
 

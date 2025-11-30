@@ -83,7 +83,7 @@ export default function Navbar() {
                     <>
                       <button
                         onClick={() => router.get(route("profile"))}
-                        className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium text-gray-700"
+                        className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium text-gray-700 cursor-pointer"
                       >
                         Profile
                       </button>
@@ -92,7 +92,7 @@ export default function Navbar() {
 
                       <button
                         onClick={() => router.get(route("logout"))}
-                        className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium text-red-500"
+                        className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium text-red-500 cursor-pointer"
                       >
                         Logout
                       </button>
@@ -100,7 +100,7 @@ export default function Navbar() {
                   ) : (
                     <button
                       onClick={() => router.get(route("login"))}
-                      className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium"
+                      className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium cursor-pointer"
                     >
                       Login
                     </button>

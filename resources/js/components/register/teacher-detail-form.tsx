@@ -43,11 +43,8 @@ const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
         </div>
       </div>
       <CategoryForm form={form} categories={categories}  />
-
       <GraduateForm form={form} />
-
       <WorkForm form={form} />
-
       <div>
         <h3 className="font-medium text-gray-800 mb-3">Certificates</h3>
         <DetailImage

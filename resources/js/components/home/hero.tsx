@@ -8,7 +8,7 @@ export default function HeroSection() {
           Learning, Teaching <br /> Technology and Design
         </h1>
         <p className="text-gray-600">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate id, necessitatibus obcaecati incidunt eos soluta nesciunt molestiae excepturi dolorem quibusdam porro at quas deleniti, explicabo veniam aut dolorum numquam. Dolor, eveniet voluptatum neque saepe nostrum itaque at! Esse optio eaque nisi quaerat dolor sapiente? Error esse ex commodi adipisci distinctio. 
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate id, necessitatibus obcaecati incidunt eos soluta nesciunt molestiae excepturi dolorem quibusdam porro at quas deleniti, explicabo veniam aut dolorum numquam. Dolor, eveniet voluptatum neque saepe nostrum itaque at! Esse optio eaque nisi quaerat dolor sapiente? Error esse ex commodi adipisci distinctio.
         </p>
         <div className="flex w-full max-w-md bg-[#42C2FF]/50 rounded-lg shadow-sm overflow-hidden">
           <input

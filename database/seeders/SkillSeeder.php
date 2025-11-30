@@ -20,7 +20,7 @@ class SkillSeeder extends Seeder
             ['name' => 'CSS3'],
             ['name' => 'SQL'],
             ['name' => 'C++'],
-            
+
             ['name' => 'Artificial Intelligence'],
             ['name' => 'Machine Learning'],
             ['name' => 'Deep Learning'],
@@ -33,7 +33,7 @@ class SkillSeeder extends Seeder
             ['name' => 'Prompt Engineering'],
             ['name' => 'Tableau'],
             ['name' => 'Pandas'],
-            
+
             ['name' => 'Networking'],
             ['name' => 'TCP/IP'],
             ['name' => 'Cisco IOS'],
@@ -46,7 +46,7 @@ class SkillSeeder extends Seeder
             ['name' => 'Wireshark'],
             ['name' => 'Cryptography'],
             ['name' => 'Wireless Security'],
-            
+
             ['name' => 'Cloud Computing'],
             ['name' => 'AWS'],
             ['name' => 'Google Cloud Platform'],
@@ -57,7 +57,7 @@ class SkillSeeder extends Seeder
             ['name' => 'Terraform'],
             ['name' => 'Virtualization'],
             ['name' => 'Linux Administration'],
-            
+
             ['name' => 'Web Development'],
             ['name' => 'Frontend Development'],
             ['name' => 'Backend Development'],
@@ -66,7 +66,7 @@ class SkillSeeder extends Seeder
             ['name' => 'Tailwind CSS'],
             ['name' => 'REST API'],
             ['name' => 'Fullstack Development'],
-            
+
             ['name' => 'Graphic Design'],
             ['name' => 'Adobe Photoshop'],
             ['name' => 'Adobe Illustrator'],
@@ -75,14 +75,14 @@ class SkillSeeder extends Seeder
             ['name' => 'Logo Design'],
             ['name' => 'Digital Painting'],
             ['name' => 'Typography'],
-            
+
             ['name' => '3D Modeling'],
             ['name' => 'Blender'],
             ['name' => '3D Animation'],
             ['name' => 'Sculpting'],
             ['name' => 'VFX'],
             ['name' => 'Game Asset Creation'],
-            
+
             ['name' => 'UI/UX Design'],
             ['name' => 'Figma'],
             ['name' => 'Prototyping'],
