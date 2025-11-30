@@ -31,7 +31,7 @@ class FilterRequest extends FormRequest
         ]);
 
         $rules = $rules->merge(
-            $user?->role_id === RoleEnum::Student
+            $user?->role_id === RoleEnum::Student || $user == null
             ? [
                 'rating' => 'nullable|array',
                 'rating.*' => 'numeric|min:1|max:5',

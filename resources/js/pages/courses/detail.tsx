@@ -69,9 +69,8 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
             <CourseHero course={course} />
             <div className="block lg:hidden px-4 mt-4">
                 <CourseSidebar
-                    institution={course.institution}
+                    institute={course.institute}
                     teacher={course.teacher}
-                    compactMode={true}
                 />
             </div>
             <div className="flex justify-center mt-6 md:-mt-6 mb-8 relative z-20 px-3">
