@@ -25,6 +25,8 @@ Route::get('detail-teacher/{teacherName}', function ($teacherName) {
     ]);
 })->name('detail-teacher');
 
+Route::get('list-institute', fn() => Inertia::render('institute/list-institute'))->name('list-institute');
+
 
 Route::middleware(['auth', 'verified'])
     ->group(function () {
