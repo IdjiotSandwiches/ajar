@@ -143,7 +143,7 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
                         <ReviewSection reviews={course.course_reviews} />
                     </section>
                 </div>
-                <div className="lg:col-span-1 2xl:col-span-2">
+                <div className="lg:col-span-1 lg:col-span-2 2xl:col-span-2">
                     <CourseSidebar
                         institute={course.institute.user}
                         teacher={course.teachers}
