@@ -15,7 +15,7 @@ export default function NavigationList({ role }: NavigationListProps) {
             ? [
                 { label: "My Courses", route: "institute.my-courses" },
                 { label: "Teacher Applications", route: "institute.teacher-application" },
-                { label: "On Going Course", route: "institute.on-going-course" },
+                { label: "Courses Taken", route: "institute.courses-taken" },
             ]
             : role === "teacher"
                 ? [

@@ -66,6 +66,7 @@ Route::middleware(['auth', 'verified', 'role:Institute'])
         })->name('edit-course');
         Route::get('teacher-application', fn() => Inertia::render('institute/teacher-application'))->name('teacher-application');
         Route::get('profile', fn() => Inertia::render('institute/edit-profile'))->name('profile-institute');
+        Route::get('courses-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
     });
 
 // Route::middleware(['auth', 'verified', 'role:Institute,Teacher'])
