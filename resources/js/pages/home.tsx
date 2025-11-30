@@ -11,7 +11,7 @@ import NavigationList from '@/components/navigation-list';
 import { Head, usePage } from '@inertiajs/react';
 
 export default function HomePage() {
-    const { courses } = usePage().props;
+    const { courses, institutes } = usePage().props;
     const role = "institute"
 
     return (
@@ -25,7 +25,7 @@ export default function HomePage() {
                 <main className="flex-1">
                     <HeroSection />
                     <PopularCourses courses={courses as any[]} />
-                    <InstitutionSection />
+                    <InstitutionSection institutes={institutes as any[]} />
                     <LearningToTeachSection />
                     <TechDesignCourseSection />
                     <BecomeTeacherSection />
