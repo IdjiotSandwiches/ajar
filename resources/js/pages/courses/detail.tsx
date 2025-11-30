@@ -102,8 +102,8 @@ export default function CourseDetailPage() {
                     ))}
                 </div>
             </div>
-            <div className="mx-auto px-4 md:px-10 lg:px-20 grid grid-cols-1 lg:grid-cols-6 gap-10">
-                <div className="lg:col-span-4 space-y-10">
+            <div className="mx-auto px-4 md:px-10 lg:px-20 grid grid-cols-1 lg:grid-cols-6 2xl:grid-cols-8 gap-10">
+                <div className="lg:col-span-4 2xl:col-span-6 space-y-10">
                     <section>
                         <h4 ref={syllabusRef} className="text-xs text-[#42C2FF] font-medium mb-2">
                             Syllabus
