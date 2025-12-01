@@ -70,7 +70,7 @@ export default function ChatPage() {
       (a, b) => new Date(a.lastMessageTime).getTime() - new Date(b.lastMessageTime).getTime()
     );
     setSortedUsers(sorted);
-  }, []); 
+  }, []);
 
   const getCurrentTime = () => {
     const now = new Date();
@@ -136,7 +136,6 @@ export default function ChatPage() {
 
   return (
     <div className="flex max-h-[80vh] bg-[#F9FEFF] my-16">
-      {/* Sidebar kiri */}
       <div className="border-r bg-white rounded-2xl shadow-sm">
         <div className="flex items-center gap-2 px-4 py-3 border-b">
           <h2 className="text-lg font-semibold text-gray-700">Chats</h2>
@@ -167,12 +166,9 @@ export default function ChatPage() {
           ))}
         </div>
       </div>
-
-      {/* Area chat kanan */}
       <div className="flex-1 flex flex-col bg-white rounded-l-2xl shadow-sm mx-4 p-6">
         {selectedUser ? (
           <>
-            {/* Header chat */}
             <div
               className="flex items-center gap-3 border-b pb-3 cursor-pointer"
               onClick={() =>
@@ -189,8 +185,6 @@ export default function ChatPage() {
                 <p className="text-sm text-gray-500">{selectedUser.role}</p>
               </div>
             </div>
-
-            {/* Chat messages */}
             <div className="flex-1 overflow-y-auto py-6 space-y-3">
               {messages.map((msg) => (
                 <div
@@ -215,8 +209,6 @@ export default function ChatPage() {
               ))}
               <div ref={messagesEndRef} />
             </div>
-
-            {/* Input pesan */}
             <div className="flex items-end border-t pt-3">
               <textarea
                 ref={textareaRef}
@@ -226,11 +218,11 @@ export default function ChatPage() {
                 placeholder="Type message..."
                 rows={1}
                 className="flex-1 border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#42C2FF] resize-none overflow-y-auto"
-                style={{ maxHeight: "120px" }} // batas tinggi sebelum scroll muncul
+                style={{ maxHeight: "120px" }}
               />
               <button
                 onClick={handleSend}
-                className="ml-2 bg-[#42C2FF] text-white p-2 rounded-xl hover:bg-[#30b3f2]"
+                className="ml-2 bg-[#42C2FF] text-white p-2 rounded-xl hover:bg-[#42C2FF]/90"
               >
                 <Send size={20} />
               </button>

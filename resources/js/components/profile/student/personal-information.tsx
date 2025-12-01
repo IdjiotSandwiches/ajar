@@ -18,7 +18,7 @@ const ProfilePersonalForm: React.FC<ProfilePersonalFormProps> = ({ form }) => {
 
     return (
         <div className="bg-white shadow-sm rounded-2xl p-8">
-            <h3 className="text-2xl font-semibold text-center text-[#3ABEFF] mb-8">
+            <h3 className="text-2xl font-semibold text-center text-[#42C2FF] mb-8">
                 Personal Information
             </h3>
 

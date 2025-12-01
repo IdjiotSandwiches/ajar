@@ -70,7 +70,7 @@ const DetailImage: React.FC<DetailImageProps> = ({
         <button
           type="button"
           onClick={() => document.getElementById(inputId)?.click()}
-          className="text-white bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 focus:ring-4 focus:outline-none focus:ring-[#3ABEFF] font-medium rounded-lg text-sm px-5 py-2.5"
+          className="text-white bg-[#42C2FF] hover:bg-[#42C2FF]/90 focus:ring-4 focus:outline-none focus:ring-[#42C2FF] font-medium rounded-lg text-sm px-5 py-2.5"
         >
           Upload a file
         </button>

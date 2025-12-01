@@ -31,7 +31,7 @@ export default function CalendarSection({
   const filteredCourses = courses.filter((item) => item.date === selectedDate);
 
   return (
-    <div className="col-span-3 bg-white border border-gray-200 rounded-xl p-5 shadow-sm h-fit">
+    <div className="col-span-3 lg:col-span-4 xl:col-span-4 2xl:col-span-3 bg-white border border-gray-200 rounded-xl p-5 shadow-sm h-fit">
       <h3 className="font-semibold text-gray-700 mb-3">My Learning Schedule</h3>
       <p className="text-sm text-gray-500 mb-4">
         {filteredCourses.length} class
@@ -44,10 +44,8 @@ export default function CalendarSection({
               year: "numeric",
             })}
       </p>
-
-      {/* Calendar Grid */}
       <div className="rounded-2xl mb-6">
-        <div className="flex justify-between items-center text-[#3ABEFF] mb-3">
+        <div className="flex justify-between items-center text-[#42C2FF] mb-3">
           <button
             onClick={() => {
               if (month === 0) {
@@ -91,7 +89,7 @@ export default function CalendarSection({
                 key={day}
                 onClick={() => setSelectedDate(val)}
                 className={`py-1 rounded-full w-8 h-8 mx-auto transition-all ${
-                  isSelected ? "bg-[#3ABEFF] text-white" : "hover:bg-gray-50"
+                  isSelected ? "bg-[#42C2FF] text-white" : "hover:bg-gray-50"
                 }`}
               >
                 {day}
@@ -100,14 +98,12 @@ export default function CalendarSection({
           })}
         </div>
       </div>
-
-      {/* Today's Schedule */}
-      <div className="border-t pt-4">
+      <div className="border-t pt-2">
         {filteredCourses.length > 0 ? (
           filteredCourses.map((item) => (
             <div
               key={item.id}
-              className="border-l-2 border-[#3ABEFF] text-sm text-gray-600 px-3 mb-2"
+              className="border-l-2 border-[#42C2FF] text-sm text-gray-600 px-3 mb-2"
             >
               <p className="font-medium text-gray-800">{item.title}</p>
               <p>Duration: {item.duration}</p>

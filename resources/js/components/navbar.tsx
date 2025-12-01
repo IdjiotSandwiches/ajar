@@ -1,102 +1,154 @@
-import { router, usePage } from '@inertiajs/react';
-import { Bell } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useState, useRef, useEffect } from "react";
+import { Bell, Home, Book, GraduationCap } from "lucide-react";
+import { router, usePage } from "@inertiajs/react";
 
 export default function Navbar() {
-    const [openDropdown, setOpenDropdown] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const { auth } = usePage().props;
+  const user = auth?.user;
+  const isLoggedIn = !!user;
 
-    // Tutup dropdown jika klik di luar area
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setOpenDropdown(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const { props } = usePage();
-    const user = props.auth?.user;
+  const currentRoute = route().current();
 
-    return (
-        <nav className="sticky top-0 z-99 w-full bg-white shadow-sm">
-            <div className="relative mx-auto flex max-w-[1870px] items-center justify-between px-8 py-4">
-                {/* === Left: Logo (pojok kiri) === */}
-                <div className="flex items-center">
-                    <span className="text-3xl font-bold text-[#3ABEFF]">Ajar</span>
-                </div>
-                {/* === Middle: Navigation benar-benar di tengah === */}
-                <div className="absolute left-1/2 flex -translate-x-1/2 transform items-center space-x-12 font-medium text-[#3ABEFF]">
-                    <a href="#" className="text-lg transition-colors hover:text-[#1AAAE3]" onClick={() => router.get(route('home'))}>
-                        Home
-                    </a>
-                    <a href="#" className="text-lg transition-colors hover:text-[#1AAAE3]" onClick={() => router.get(route('list-course'))}>
-                        Course
-                    </a>
-                    <a href="#" className="text-lg transition-colors hover:text-[#1AAAE3]" onClick={() => router.get(route('my-learning'))}>
-                        MyLearning
-                    </a>
-                </div>
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-                {/* === Right: Notification + Hello + Avatar (pojok kanan) === */}
-                <div className="relative flex items-center space-x-4" ref={dropdownRef}>
-                    {/* Notification Icon */}
-                    <div className="relative">
-                        <Bell size={22} color="#3ABEFF" />
-                        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500"></span>
-                    </div>
+  return (
+    <>
+      <nav className="w-full bg-white shadow-sm sticky top-0 z-50">
+        <div className="relative flex items-center justify-between px-8 py-4 max-w-[1870px] mx-auto">
 
-                    {/* Hello Text */}
-                    <span className="hidden font-medium text-[#3ABEFF] md:inline">Hello, {user !== null ? user?.name : 'Human'}</span>
+          <div className="flex items-center">
+            <span
+              className="text-3xl font-bold text-[#42C2FF] cursor-pointer"
+              onClick={() => router.get(route("home"))}
+            >
+              Ajar
+            </span>
+          </div>
 
-                    {/* Avatar (trigger dropdown) */}
-                    <div className="relative">
-                        <button onClick={() => setOpenDropdown((prev) => !prev)} className="flex items-center focus:outline-none">
-                            <img src="/images/image-1.jpg" alt="Avatar" className="h-10 w-10 rounded-full border-2 border-[#3ABEFF] object-cover" />
-                            {/* <ChevronDown
-                size={18}
-                className={`ml-1 text-[#3ABEFF] transition-transform ${
-                  openDropdown ? "rotate-180" : ""
-                }`}
-              /> */}
-                        </button>
+          <div className="absolute left-1/2 transform -translate-x-1/2 items-center text-[#42C2FF] font-medium hidden md:flex space-x-12 lg:text-lg md:space-x-6 md:text-base max-w-[500px] md:max-w-[350px] sm:max-w-[250px]">
+            <span
+              className="hover:text-[#1AAAE3] transition-colors cursor-pointer"
+              onClick={() => router.get(route("home"))}
+            >
+              Home
+            </span>
 
-                        {/* === Dropdown Menu === */}
-                        {openDropdown && (
-                            <div className="absolute top-14 right-0 w-40 rounded-xl border bg-white py-2 shadow-lg">
-                                {user !== null ? (
-                                    <>
-                                        <a href="#profile" className="block px-4 py-2 text-gray-700 hover:bg-[#EAF8FE] hover:text-[#3ABEFF]">
-                                            Profile
-                                        </a>
-                                        <button
-                                            onClick={() => {
-                                                router.post('logout');
-                                                setOpenDropdown(false);
-                                            }}
-                                            className="w-full px-4 py-2 text-left text-gray-700 hover:bg-[#EAF8FE] hover:text-[#3ABEFF]"
-                                        >
-                                            Logout
-                                        </button>
-                                    </>
-                                ) : (
-                                    <button
-                                        onClick={() => {
-                                            router.get('login');
-                                            setOpenDropdown(false);
-                                        }}
-                                        className="w-full px-4 py-2 text-left text-gray-700 hover:bg-[#EAF8FE] hover:text-[#3ABEFF]"
-                                    >
-                                        Login
-                                    </button>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </div>
+            <span
+              className="hover:text-[#1AAAE3] transition-colors cursor-pointer"
+              onClick={() => router.get(route("list-course"))}
+            >
+              Course
+            </span>
+
+            <span
+              className="hover:text-[#1AAAE3] transition-colors cursor-pointer"
+              onClick={() => router.get(route("my-learning"))}
+            >
+              MyLearning
+            </span>
+          </div>
+
+          <div className="flex items-center space-x-4 relative">
+            <div className="relative">
+              <Bell size={22} color="#42C2FF" />
+              <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
             </div>
-        </nav>
-    );
+
+            <span className="text-[#42C2FF] font-medium hidden md:inline">
+              Hello, {user?.name ?? "Guest"}
+            </span>
+
+            <div className="relative" ref={dropdownRef}>
+              <img
+                src="/images/image-1.jpg"
+                alt="Avatar"
+                className="w-10 h-10 rounded-full object-cover border cursor-pointer"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              />
+
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-3 w-48 bg-white border rounded-xl shadow-lg p-2 origin-top-right animate-fadeIn">
+                  {isLoggedIn ? (
+                    <>
+                      <button
+                        onClick={() => router.get(route("profile"))}
+                        className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium text-gray-700 cursor-pointer"
+                      >
+                        Profile
+                      </button>
+
+                      <div className="h-px bg-gray-200 my-1"></div>
+
+                      <button
+                        onClick={() => router.get(route("logout"))}
+                        className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium text-red-500 cursor-pointer"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => router.get(route("login"))}
+                      className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium cursor-pointer"
+                    >
+                      Login
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t flex justify-around py-3 md:hidden z-50">
+        <button
+          onClick={() => router.get(route("home"))}
+          className="flex flex-col items-center group"
+        >
+          <div className={`p-2 rounded-full transition-all ${currentRoute === "home" ? "bg-[#42C2FF] text-white" : "text-[#42C2FF] group-hover:bg-blue-100"}`}>
+            <Home size={22} />
+          </div>
+          <span className={`text-xs mt-1 ${currentRoute === "home" ? "text-[#42C2FF] font-semibold" : "text-[#42C2FF]"}`}>
+            Home
+          </span>
+        </button>
+
+        <button
+          onClick={() => router.get(route("list-course"))}
+          className="flex flex-col items-center group"
+        >
+          <div className={`p-2 rounded-full transition-all ${currentRoute === "list-course" ? "bg-[#42C2FF] text-white" : "text-[#42C2FF] group-hover:bg-blue-100"}`}>
+            <Book size={22} />
+          </div>
+          <span className={`text-xs mt-1 ${currentRoute === "list-course" ? "text-[#42C2FF] font-semibold" : "text-[#42C2FF]"}`}>
+            Course
+          </span>
+        </button>
+
+        <button
+          onClick={() => router.get(route("my-learning"))}
+          className="flex flex-col items-center group"
+        >
+          <div className={`p-2 rounded-full transition-all ${currentRoute === "my-learning" ? "bg-[#42C2FF] text-white" : "text-[#42C2FF] group-hover:bg-blue-100"}`}>
+            <GraduationCap size={22} />
+          </div>
+          <span className={`text-xs mt-1 ${currentRoute === "my-learning" ? "text-[#42C2FF] font-semibold" : "text-[#42C2FF]"}`}>
+            MyLearning
+          </span>
+        </button>
+      </div>
+    </>
+  );
 }

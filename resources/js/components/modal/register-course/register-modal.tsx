@@ -14,7 +14,6 @@ const RegisterFlow = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* STEP 1 — Select Teacher */}
       <TeacherSelectModal
         isOpen={step === 1}
         onClose={onClose}
@@ -24,8 +23,6 @@ const RegisterFlow = ({ isOpen, onClose }) => {
           setStep(2);
         }}
       />
-
-      {/* STEP 2 — Select Time */}
       <TimeSelectModal
         isOpen={step === 2}
         onClose={onClose}
@@ -35,8 +32,6 @@ const RegisterFlow = ({ isOpen, onClose }) => {
           setStep(3);
         }}
       />
-
-      {/* STEP 3 — Payment */}
       <PaymentSelectModal
         isOpen={step === 3}
         onClose={onClose}

@@ -15,7 +15,7 @@
 //     </AppLayoutTemplate>
 // );
 
-import AppLayoutTemplate from '@/layouts/app/app-layout';
+import AppLayoutTemplate from '@/layouts/app/app-layout-template';
 import { type ReactNode } from 'react';
 
 interface AppLayoutProps {

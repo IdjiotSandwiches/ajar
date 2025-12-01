@@ -16,14 +16,11 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Sidebar */}
       <ProfileSidebar
         activeSection={activeSection}
         onSectionChange={setActiveSection}
         user={form.data}
       />
-
-      {/* Content Area */}
       <main className="flex-1 p-10">
         {activeSection === "Personal Information" && (
           <ProfilePersonalForm form={form} />

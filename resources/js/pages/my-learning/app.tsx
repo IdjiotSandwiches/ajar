@@ -1,91 +1,87 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AppLayout from "@/layouts/app-layout";
+
 import DynamicModal from "@/components/modal/modal";
 import AddLinkModal from "@/components/modal/my-learning/add-link-modal";
 import { AddReviewModal } from "@/components/modal/my-learning/add-review-modal";
+
 import Sidebar from "@/components/my-learning/sidebar";
 import CourseList from "@/components/my-learning/course-list";
 import CalendarSection from "@/components/my-learning/calender-section";
+
+import { CalendarDays } from "lucide-react";
+import useMediaQuery from "@/hooks/use-media-query";
 
 export default function MyLearningPage() {
   const [role] = useState<"student" | "teacher">("student");
   const [tab, setTab] = useState<"progress" | "completed">("progress");
   const [modalType, setModalType] = useState<string | null>(null);
+
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
-  const [showReviewModal, setShowReviewModal] = useState(false);
-  const [reviewCourse, setReviewCourse] = useState<any>(null);
 
   const now = new Date();
   const [month, setMonth] = useState(now.getMonth());
   const [year, setYear] = useState(now.getFullYear());
-  const [selectedDate, setSelectedDate] = useState("");
-  const todayString = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+  const todayString = `${year}-${month + 1}-${now.getDate()}`;
 
-  useEffect(() => {
-    setSelectedDate(todayString);
-  }, []);
+  const [selectedDate, setSelectedDate] = useState(todayString);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
 
   const [courses, setCourses] = useState([
-  {
-    id: 1,
-    title: "Pengembangan AI & Ilmu Data menggunakan Python",
-    mentor: "Dodi Surdadi",
-    institute: "Ajar Academy",
-    duration: "2 Hours",
-    date: "2025-11-15",
-    time: "09:00–11:00",
-    image: "/images/image-1.jpg",
-    meetingLink: "https://zoom.us/j/uiux123",
-    recordingLink: "",
-    isApproved: false,
-    status: "progress",
-  },
-  {
-    id: 2,
-    title: "UI/UX Design Fundamentals",
-    mentor: "Ayu Wulandari",
-    institute: "Ajar Design Lab",
-    duration: "3 Hours",
-    date: "2025-11-1",
-    time: "13:00–16:00",
-    image: "/images/image-1.jpg",
-    meetingLink: "https://zoom.us/j/uiux123",
-    recordingLink: "https://drive.google.com/rec123",
-    isApproved: true, 
-    status: "completed",
-  },
-  {
-    id: 3,
-    title: "UI/UX Design Fundamentals",
-    mentor: "Ayu Wulandari",
-    institute: "Ajar Design Lab",
-    duration: "3 Hours",
-    date: "2025-11-1",
-    time: "13:00–16:00",
-    image: "/images/image-1.jpg",
-    meetingLink: "",
-    recordingLink: "",
-    isApproved: false, 
-    status: "progress",
-  },
+    {
+      id: 1,
+      title: "Pengembangan AI & Ilmu Data menggunakan Python",
+      mentor: "Dodi Surdadi",
+      institute: "Ajar Academy",
+      duration: "2 Hours",
+      date: "2025-11-15",
+      time: "09:00–11:00",
+      image: "/images/image-1.jpg",
+      meetingLink: "https://zoom.us/j/uiux123",
+      recordingLink: "",
+      isApproved: false,
+      status: "progress",
+    },
+    {
+      id: 2,
+      title: "UI/UX Design Fundamentals",
+      mentor: "Ayu Wulandari",
+      institute: "Ajar Design Lab",
+      duration: "3 Hours",
+      date: "2025-11-1",
+      time: "13:00–16:00",
+      image: "/images/image-1.jpg",
+      meetingLink: "https://zoom.us/j/uiux123",
+      recordingLink: "https://drive.google.com/rec123",
+      isApproved: true,
+      status: "completed",
+    },
+    {
+      id: 3,
+      title: "UI/UX Design Fundamentals",
+      mentor: "Ayu Wulandari",
+      institute: "Ajar Design Lab",
+      duration: "3 Hours",
+      date: "2025-11-1",
+      time: "13:00–16:00",
+      image: "/images/image-1.jpg",
+      meetingLink: "",
+      recordingLink: "",
+      isApproved: false,
+      status: "progress",
+    },
 
-]);
-
+  ]);
 
   const isCourseFinished = (course: any) => new Date(course.date) < now;
 
   const handleActionClick = (course: any) => {
     setSelectedCourse(course);
 
-    if (role === "student") {
-      if (!course.meetingLink) setModalType("warning");
-      else window.open(course.meetingLink, "_blank");
-    } else if (role === "teacher") {
-      if (isCourseFinished(course)) {
-        setModalType("addRecording");
-      } else {
-        setModalType("addMeeting");
-      }
+    if (!course.meetingLink) {
+      setModalType("warning");
+    } else {
+      window.open(course.meetingLink, "_blank");
     }
   };
 
@@ -98,6 +94,9 @@ export default function MyLearningPage() {
     );
     setModalType("success");
   };
+
+  const [reviewCourse, setReviewCourse] = useState(null as any);
+  const [showReviewModal, setShowReviewModal] = useState(false);
 
   const handleAddReview = (course: any) => {
     setReviewCourse(course);
@@ -114,35 +113,92 @@ export default function MyLearningPage() {
     setModalType("success");
   };
 
+  const isMedium = useMediaQuery("(max-width: 1024px)");
+
   return (
-    <div className="w-full min-h-screen bg-[#F7FCFF] px-20 pt-10">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-6">My Learning</h1>
+    <div className={`w-full min-h-screen bg-[#F7FCFF] ${isMedium ? "px-6 pt-6" : "px-20 pt-10"}`}>
+      <h1 className="text-2xl font-semibold text-gray-800 mb-6">
+        My Learning
+      </h1>
 
-      <div className="grid grid-cols-12 gap-10">
-        <Sidebar tab={tab} setTab={setTab} />
+      {isMedium && (
+        <div className="flex justify-between items-center mb-6">
+          <Sidebar tab={tab} setTab={setTab} />
 
-        <CourseList
-          courses={courses}
-          tab={tab}
-          role={role}
-          isCourseFinished={isCourseFinished}
-          onActionClick={handleActionClick}
-          onAddReview={handleAddReview}
-        />
+          <button
+            onClick={() => setShowCalendarModal(true)}
+            className="p-2 rounded-full bg-white border shadow hover:bg-gray-50"
+          >
+            <CalendarDays className="w-5 h-5 text-gray-700" />
+          </button>
+        </div>
+      )}
 
-        <CalendarSection
-          month={month}
-          year={year}
-          setMonth={setMonth}
-          setYear={setYear}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          todayString={todayString}
-          courses={courses}
-        />
+      <div className={`grid gap-10 ${isMedium ? "grid-cols-1" : "grid-cols-4 lg:grid-cols-13 xl:grid-cols-13 2xl:grid-cols-12"}`}>
+        {!isMedium && (
+          <div className="col-span-2">
+            <Sidebar tab={tab} setTab={setTab} />
+          </div>
+        )}
+
+        <div className={`${isMedium ? "col-span-1" : "col-span-7"} space-y-5`}>
+          <CourseList
+            courses={courses}
+            tab={tab}
+            role={role}
+            isCourseFinished={isCourseFinished}
+            onActionClick={handleActionClick}
+            onAddReview={handleAddReview}
+          />
+        </div>
+
+        {!isMedium && (
+          <CalendarSection
+            month={month}
+            year={year}
+            setMonth={setMonth}
+            setYear={setYear}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            todayString={todayString}
+            courses={courses}
+          />
+        )}
       </div>
 
-      {/* === MODALS === */}
+      {showCalendarModal && isMedium && (
+        <div
+          className="fixed inset-0 bg-[#42C2FF]/40 backdrop-blur-sm  flex items-center justify-center z-50"
+          onClick={() => setShowCalendarModal(false)}
+        >
+          <div
+            className="bg-white p-5 rounded-2xl w-11/12 max-w-md shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-gray-800 font-semibold">Schedule</h3>
+              <button
+                onClick={() => setShowCalendarModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
+
+            <CalendarSection
+              month={month}
+              year={year}
+              setMonth={setMonth}
+              setYear={setYear}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              todayString={todayString}
+              courses={courses}
+            />
+          </div>
+        </div>
+      )}
+
       {modalType === "warning" && (
         <DynamicModal
           type="warning"
@@ -156,7 +212,7 @@ export default function MyLearningPage() {
         <AddLinkModal
           title="Meeting Link"
           placeholder="Link Meeting"
-          onSubmit={(val) => handleSubmitLink("meeting", val)}
+          onSubmit={(v) => handleSubmitLink("meeting", v)}
           onClose={() => setModalType(null)}
         />
       )}
@@ -165,7 +221,7 @@ export default function MyLearningPage() {
         <AddLinkModal
           title="Recording Link"
           placeholder="Link Recording"
-          onSubmit={(val) => handleSubmitLink("recording", val)}
+          onSubmit={(v) => handleSubmitLink("recording", v)}
           onClose={() => setModalType(null)}
         />
       )}
@@ -203,6 +259,8 @@ export default function MyLearningPage() {
   );
 }
 
-MyLearningPage.layout = (page: React.ReactNode) => (
-  <AppLayout useContainer>{page}</AppLayout>
-);
+MyLearningPage.layout = (page: React.ReactNode) => {
+  const is2XL = typeof window !== "undefined" && window.matchMedia("(min-width: 1536px)").matches;
+
+  return <AppLayout useContainer={is2XL}>{page}</AppLayout>;
+};
