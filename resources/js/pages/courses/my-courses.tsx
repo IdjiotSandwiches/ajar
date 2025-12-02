@@ -79,9 +79,8 @@ export default function CourseList() {
                   {courses.map((course, index) => (
                     <tr
                       key={course.id}
-                      className={`border-b hover:bg-[#42C2FF]/10 transition ${
-                        index % 2 === 0 ? "bg-[#f9fcff]" : "bg-white"
-                      }`}
+                      className={`border-b hover:bg-[#42C2FF]/10 transition ${index % 2 === 0 ? "bg-[#f9fcff]" : "bg-white"
+                        }`}
                     >
                       <td className="py-3 px-4 flex items-center gap-3">
                         <img
@@ -103,10 +102,9 @@ export default function CourseList() {
                       </td>
 
                       <td className="py-3 px-4 font-bold cursor-default">
-                        {course.price.toLocaleString("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                          maximumFractionDigits: 0,
+                        Rp {Number(course.price).toLocaleString("id-ID", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2
                         })}
                       </td>
 
