@@ -12,15 +12,16 @@ import { Head, usePage } from '@inertiajs/react';
 
 export default function HomePage() {
     const { courses, institutes } = usePage().props;
-    const role = "institute"
+    const { props } = usePage();
+    const user = props.auth?.user;
 
     return (
         <>
             <Head title="Home" />
             <div className="flex min-h-screen flex-col bg-[#F7FDFD]">
                 <Navbar />
-                {(role === "institute" || role === "admin") && (
-                    <NavigationList role={role} />
+                {(user?.role_id === 1 || user?.role_id === 2 || user?.role_id === 3) && (
+                    <NavigationList role={user?.role_id} />
                 )}
                 <main className="flex-1">
                     <HeroSection />

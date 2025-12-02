@@ -3,7 +3,7 @@ import { List, X } from "lucide-react";
 import { router } from "@inertiajs/react";
 
 interface NavigationListProps {
-    role: "institute" | "admin" | "teacher";
+    role: 1 | 2 | 3
 }
 
 export default function NavigationList({ role }: NavigationListProps) {
@@ -11,22 +11,22 @@ export default function NavigationList({ role }: NavigationListProps) {
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     const navItems =
-        role === "institute"
+        role === 3
             ? [
                 { label: "My Courses", route: "institute.my-courses" },
                 { label: "Teacher Applications", route: "institute.teacher-application" },
                 { label: "Courses Taken", route: "institute.courses-taken" },
             ]
-            : role === "teacher"
+            : role === 2
                 ? [
-                    { label: "My Teaching Courses", route: "teacher.my-courses" },
-                    { label: "Finish a Course", route: "teacher.finish-course" },
-                    { label: "Student Chats", route: "teacher.chat" },
+                    { label: "Add Schedule", route: "teacher.add-schedule" },
+                    // { label: "Finish a Course", route: "teacher.finish-course" },
+                    // { label: "Student Chats", route: "teacher.chat" },
                 ]
-                : role === "admin"
+                : role === 1
                     ? [
                         { label: "Course Completion", route: "admin.course-completion" },
-                        { label: "Teacher Management", route: "admin.teacher-management" },
+                        // { label: "Teacher Management", route: "admin.teacher-management" },
                     ]
                     : [];
 
