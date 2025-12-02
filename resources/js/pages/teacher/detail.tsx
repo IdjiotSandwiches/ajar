@@ -6,8 +6,6 @@ import { Album, BriefcaseBusiness, FileBadge, GraduationCap, Star, X } from "luc
 import React, { useState } from "react";
 
 export default function TeacherDetailPage({ teacher }: { teacher: any }) {
-    console.log(teacher);
-
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     if (!teacher) {
         return (
