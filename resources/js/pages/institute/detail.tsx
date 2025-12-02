@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
 import { FaChevronDown, FaChevronUp, FaStar } from "react-icons/fa";
@@ -18,7 +19,6 @@ export default function InstituteDetailPage() {
 
   const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, "");
 
-
   if (!institute) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">
@@ -37,7 +37,6 @@ export default function InstituteDetailPage() {
     );
   });
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [showAllCourses, setShowAllCourses] = useState(false);
   const visibleCourses = showAllCourses
     ? relatedCourses
@@ -45,26 +44,32 @@ export default function InstituteDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FCFF] flex flex-col">
-      <div className="max-w-6xl mx-auto w-full p-6">
-        <div className="flex items-stretch rounded-xl shadow-md overflow-hidden">
+      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
+
+        {/* ============ HEADER CARD ============ */}
+        <div className="flex flex-col md:flex-row items-stretch rounded-xl shadow-md overflow-hidden">
+
+          {/* LEFT IMAGE */}
           <div className="bg-[#42C2FF] flex items-center justify-center p-6">
             <img
               src={institute.logo}
               alt={institute.name}
-              className="w-40 h-40 object-cover rounded-lg outline-6 outline-white"
+              className="w-32 h-32 md:w-40 md:h-40 object-cover rounded-lg outline-6 outline-white"
             />
           </div>
-          <div className="flex-1 bg-[#42C2FF] text-white p-6 flex items-center justify-between relative cursor-default">
+
+          {/* RIGHT CONTENT */}
+          <div className="flex-1 bg-[#42C2FF] text-white p-6 flex flex-col md:flex-row md:justify-between relative cursor-default">
+
             <div className="absolute right-0 top-0 h-full pointer-events-none">
-              <img
-                src="/images/gear.png"
-                alt="gear-bg"
-                className="h-full object-contain"
-              />
+              <img src="/images/gear.png" alt="gear-bg" className="h-full object-contain" />
             </div>
 
-            <div className="flex-1 z-10">
-              <h2 className="text-3xl font-semibold">{institute.name}</h2>
+            {/* LEFT TEXT */}
+            <div className="flex-1 z-10 mb-6 md:mb-0 flex flex-col items-center md:items-start gap-2 text-center md: text-start">
+              <h2 className="text-2xl md:text-3xl font-semibold leading-tight">
+                {institute.name}
+              </h2>
 
               {institute.contactEmail ? (
                 <a
@@ -80,24 +85,27 @@ export default function InstituteDetailPage() {
                 </span>
               )}
 
-              <p className="text-sm mt-2 leading-relaxed max-w-md">
+              <p className="text-sm leading-relaxed max-w-md">
                 {institute.description}
               </p>
             </div>
-            <div className="flex gap-16 items-center z-10">
+
+            {/* RIGHT STATS */}
+            <div className="flex justify-between md:justify-normal gap-10 md:gap-16 items-center z-10 md:self-center">
+
               <div className="text-center">
-                <p className="text-lg font-semibold">
-                  {relatedCourses.length || 0}
-                </p>
+                <p className="text-lg font-semibold">{relatedCourses.length || 0}</p>
                 <p className="text-sm opacity-90">Courses</p>
               </div>
+
               <div className="text-center">
                 <p className="flex items-center justify-center gap-1 text-lg font-semibold">
                   {institute.rating} <FaStar className="text-yellow-300" />
                 </p>
                 <p className="text-sm opacity-90">Rating</p>
               </div>
-              <div className="flex flex-col gap-4 ml-4">
+
+              <div className="flex md:flex-col gap-4 ml-2 md:ml-4">
                 <a href="#" className="hover:text-blue-100">
                   <FaTwitter size={18} />
                 </a>
@@ -108,67 +116,75 @@ export default function InstituteDetailPage() {
                   <FaInstagram size={18} />
                 </a>
               </div>
+
             </div>
+
           </div>
+
         </div>
+
+
+        {/* ============ TEACHERS ============ */}
         <div className="mt-10">
           <h3 className="text-xl font-semibold mb-4">Teachers</h3>
 
-          {relatedTeachers.length > 0 ? (
-            <div className="flex gap-8 flex-wrap cursor-pointer">
-              {relatedTeachers.map((teacher, idx) => (
-                <div key={idx} className="flex flex-col items-center text-center">
-                  <div
-                    className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center mb-2 overflow-hidden"
-                    onClick={() => router.get(route("detail-teacher", { teacherName: slugify(teacher.name) }))}
-                  >
-                    {teacher.image ? (
-                      <img
-                        src={teacher.image}
-                        alt={teacher.name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span className="text-xs text-gray-600">
-                        {teacher.name.charAt(0)}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm font-medium">{teacher.name}</p>
-                  <p className="text-xs text-gray-500 text-center">
-                    {teacher.description}
-                  </p>
+          <div className="flex gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-6 md:grid-cols-4 scrollbar-thin scrollbar-thumb-gray-300">
+            {relatedTeachers.map((teacher, idx) => (
+              <div
+                key={idx}
+                className="flex flex-col items-center text-center cursor-pointer min-w-[120px]"
+                onClick={() =>
+                  router.get(route("detail-teacher", { teacherName: slugify(teacher.name) }))
+                }
+              >
+                <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                  {teacher.image ? (
+                    <img src={teacher.image} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-gray-600 text-sm font-medium">
+                      {teacher.name.charAt(0)}
+                    </span>
+                  )}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500">No teachers found for this institution.</p>
-          )}
+
+                <p className="text-sm font-medium mt-2">{teacher.name}</p>
+                <p className="text-xs text-gray-500 mt-1 line-clamp-2">{teacher.description}</p>
+              </div>
+            ))}
+          </div>
+
         </div>
+
+        {/* ============ COURSES ============ */}
         <div className="mt-10">
           <h3 className="text-xl font-semibold mb-4">Courses</h3>
+
           {relatedCourses.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="flex overflow-x-auto gap-4 pb-3 snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3">
                 {visibleCourses.map((course, idx) => (
-                  <CourseCard key={idx} course={course} userRole="student" />
+                  <div
+                    key={idx}
+                    className="min-w-[85%] snap-start sm:min-w-0"
+                  >
+                    <CourseCard course={course} isTag={false} />
+                  </div>
                 ))}
               </div>
+
+
 
               {relatedCourses.length > 3 && (
                 <div className="flex justify-center mt-6">
                   <button
                     onClick={() => setShowAllCourses(!showAllCourses)}
-                    className="px-6 py-2 text-[#42C2FF] rounded-full font-medium hover:text-[#42C2FF]/90 transition"
+                    className="px-6 py-2 text-[#42C2FF] rounded-full font-medium hover:text-[#42C2FF]/90 transition flex items-center gap-2"
                   >
+                    {showAllCourses ? "See Less" : "See More"}
                     {showAllCourses ? (
-                      <div className="flex items-center gap-2">
-                        See Less <FaChevronUp className="text-sm" />
-                      </div>
+                      <FaChevronUp className="text-sm" />
                     ) : (
-                      <div className="flex items-center gap-2">
-                        See More <FaChevronDown className="text-sm" />
-                      </div>
+                      <FaChevronDown className="text-sm" />
                     )}
                   </button>
                 </div>
@@ -183,6 +199,6 @@ export default function InstituteDetailPage() {
   );
 }
 
-InstituteDetailPage.layout = (page: React.ReactNode) => (
+InstituteDetailPage.layout = (page) => (
   <AppLayout useContainer={false}>{page}</AppLayout>
 );
