@@ -19,7 +19,9 @@
 
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
+import NavigationList from "@/components/navigation-list";
 import BackButton from "@/components/ui/back-button";
+import { usePage } from "@inertiajs/react";
 import React, { PropsWithChildren } from "react";
 
 interface AppNavbarLayoutProps {
@@ -30,30 +32,32 @@ interface AppNavbarLayoutProps {
 export default function AppNavbarLayout({
   children,
   showBackButton = true,
-  useContainer = true, // default true agar tetap konsisten
+  useContainer = true, 
 }: PropsWithChildren<AppNavbarLayoutProps>) {
+  const { props } = usePage();
+  const user = props.auth?.user;
+
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Navbar */}
       <Navbar />
 
-      {/* Tombol Back (opsional) */}
       {showBackButton && (
         <div className="absolute top-24 left-6 z-20">
           <BackButton label="Back" />
         </div>
       )}
 
-      {/* Konten utama */}
+      {(user?.role_id === 1 || user?.role_id === 2 || user?.role_id === 3) && (
+        <NavigationList role={user?.role_id} />
+      )}
+
       <main
-        className={`flex-1 ${
-          useContainer ? "container mx-auto" : "w-full"
-        }`}
+        className={`flex-1 ${useContainer ? "container mx-auto" : "w-full"
+          }`}
       >
         {children}
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
