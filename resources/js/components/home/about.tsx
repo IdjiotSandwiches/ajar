@@ -2,8 +2,8 @@ import React from "react";
 
 export default function LearningToTeachSection() {
     return (
-        <section className="py-16 px-6 md:px-12 bg-white">
-            <h2 className="text-xl font-semibold text-gray-800 mb-8">
+        <section className="pt-8 pb-4 md:pt-16 md:pb-8 px-6 md:px-12 bg-white">
+            <h2 className="text-base sm:text-lg md:text-xl font-semibold -gray-800 mb-8">
                 Learning to teach through Ajar
             </h2>
 
