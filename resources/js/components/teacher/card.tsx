@@ -1,5 +1,4 @@
 import { Send } from "lucide-react";
-import React from "react";
 import { GitHub, Instagram, Linkedin } from "react-feather";
 
 export default function TeacherProfileCard({ teacher }: any) {
@@ -9,12 +8,12 @@ export default function TeacherProfileCard({ teacher }: any) {
                 <div className="bg-[#42C2FF] rounded-2xl p-6 flex flex-col items-center text-center relative overflow-hidden">
                     <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-white shadow-md mb-4 z-10">
                         <img
-                            src={teacher.image || "/images/regis-teacher.jpg"}
-                            alt={teacher.name}
+                            src={teacher.user?.profile_picture || "/images/regis-teacher.jpg"}
+                            alt={teacher.user?.name}
                             className="w-full h-full object-cover"
                         />
                     </div>
-                    <h2 className="text-xl font-bold text-white z-10">{teacher.name}</h2>
+                    <h2 className="text-xl font-bold text-white z-10">{teacher.user?.name}</h2>
                     <p className="text-sm text-white/90 mb-4 z-10">{teacher.description}</p>
 
                     <p className="text-white/90 text-sm leading-relaxed mb-6 px-4 z-10">
