@@ -2,12 +2,13 @@ import React from "react";
 import { router } from "@inertiajs/react";
 
 export default function TechDesignCourseSection() {
-  const goToList = (category: "Technology" | "Design") => {
-    router.get(route("list-course"), { category });
+  const goToList = (categoryId: number) => {
+    router.get(route("list-course"), { category_id: categoryId });
   };
 
+
   return (
-    <section className="pt-8 pb-16 px-6 md:px-12 bg-white">
+    <section className="pt-8 pb-4 md:pt-16 md:pb-8 px-6 md:px-12 bg-white">
       <div className="grid md:grid-cols-2 gap-8">
         <div className="p-6 border rounded-lg shadow-sm bg-[#42C2FF]/5">
           <h4 className="text-[#42C2FF] font-semibold mb-2">Technology Course</h4>
@@ -19,7 +20,7 @@ export default function TechDesignCourseSection() {
           </p>
 
           <button
-            onClick={() => goToList("Technology")}
+            onClick={() => goToList(1)}
             className="text-sm text-[#3ABEFF] font-medium hover:underline"
           >
             Furthermore...
@@ -35,7 +36,7 @@ export default function TechDesignCourseSection() {
           </p>
 
           <button
-            onClick={() => goToList("Design")}
+            onClick={() => goToList(2)}
             className="text-sm text-[#42C2FF] font-medium hover:underline"
           >
             Furthermore...
