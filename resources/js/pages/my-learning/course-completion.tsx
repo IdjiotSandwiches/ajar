@@ -42,7 +42,7 @@ export default function CourseCompletionPage() {
   return (
     <div className="min-h-screen bg-[#F9FCFF] flex flex-col">
       <div className="max-w-4xl mx-auto py-16 px-6 w-full">
-        <h1 className="text-2xl font-semibold text-center text-[#3ABEFF] mb-8">
+        <h1 className="text-2xl font-semibold text-center text-[#42C2FF] mb-8">
           Course Completion
         </h1>
 

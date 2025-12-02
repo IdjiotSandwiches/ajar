@@ -44,9 +44,9 @@ export default function AddSchedulePage() {
             return (
                 <button
                     onClick={() => handleSlotClick(day, hour)}
-                    className="p-2 bg-transparent border-2 border-[#3ABEFF] rounded-md hover:bg-[#3ABEFF]/20"
+                    className="p-2 bg-transparent border-2 border-[#42C2FF] rounded-md hover:bg-[#42C2FF]/20"
                 >
-                    <Plus size={16} color="#3ABEFF" strokeWidth={2} />
+                    <Plus size={16} color="#42C2FF" strokeWidth={2} />
                 </button>
             );
         }
@@ -55,7 +55,7 @@ export default function AddSchedulePage() {
         return (
             <button
                 onClick={() => handleSlotClick(day, hour)}
-                className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#3ABEFF]"
+                className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#42C2FF]"
             >
                 <img src={avatar} alt="teacher" className="w-full h-full object-cover" />
             </button>
@@ -71,7 +71,7 @@ export default function AddSchedulePage() {
                 {/* === Info Course === */}
                 <div className="bg-white p-8 rounded-2xl shadow mb-10">
                     <div className="space-y-4">
-                        <h1 className="text-3xl font-semibold text-[#3ABEFF] text-center mb-6">
+                        <h1 className="text-3xl font-semibold text-[#42C2FF] text-center mb-6">
                             Add Schedule
                         </h1>
                         <div>
@@ -88,7 +88,7 @@ export default function AddSchedulePage() {
                                 {course.category?.map((catId) => (
                                     <div
                                         key={catId}
-                                        className="bg-[#E7F6FF] text-[#3ABEFF] px-3 py-1 rounded-md text-sm font-medium"
+                                        className="bg-[#E7F6FF] text-[#42C2FF] px-3 py-1 rounded-md text-sm font-medium"
                                     >
                                         {getCategoryNameById(catId)}
                                     </div>
@@ -131,17 +131,14 @@ export default function AddSchedulePage() {
 
                     </div>
                 </div>
-
-                {/* === Layout: Teacher List + Schedule Table === */}
                 <div className="grid grid-cols-4 gap-8">
-                    {/* LEFT: Teacher List */}
                     <div className="col-span-1 bg-white p-6 rounded-2xl shadow">
-                        <h2 className="font-semibold text-lg mb-4 text-left text-[#3ABEFF]">Teachers</h2>
+                        <h2 className="font-semibold text-lg mb-4 text-left text-[#42C2FF]">Teachers</h2>
                         <div className="space-y-4">
                             {course.teacher?.map((t: import("@/interfaces/shared").TeacherRegisterProps) => (
                                 <div
                                     key={t.name}
-                                    className="flex items-center gap-3 border border-[#3ABEFF]/30 p-3 rounded-xl"
+                                    className="flex items-center gap-3 border border-[#42C2FF]/30 p-3 rounded-xl"
                                 >
                                     <img
                                         src={typeof t.image === "string" ? t.image : "/images/default-avatar.png"}
@@ -153,28 +150,26 @@ export default function AddSchedulePage() {
                             ))}
                         </div>
                     </div>
-
-                    {/* RIGHT: Schedule Table */}
                     <div className="col-span-3 bg-white p-6 rounded-2xl shadow">
-                        <h2 className="font-semibold text-lg mb-4 text-[#3ABEFF]">Schedule</h2>
+                        <h2 className="font-semibold text-lg mb-4 text-[#42C2FF]">Schedule</h2>
                         <div className="overflow-x-auto">
-                            <table className="min-w-full text-center text-sm border border-[#3ABEFF]">
-                                <thead className="bg-[#3ABEFF] text-white">
+                            <table className="min-w-full text-center text-sm border border-[#42C2FF]">
+                                <thead className="bg-[#42C2FF] text-white">
                                     <tr>
-                                        <th className="py-2 px-3 border border-[#3ABEFF]">Hours</th>
+                                        <th className="py-2 px-3 border border-[#42C2FF]">Hours</th>
                                         {days.map((day) => (
-                                            <th key={day} className="py-2 px-3 border border-[#3ABEFF]">{day}</th>
+                                            <th key={day} className="py-2 px-3 border border-[#42C2FF]">{day}</th>
                                         ))}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {hours.map((hour, i) => (
                                         <tr key={hour} className={i % 2 === 0 ? "bg-black/5" : "bg-white"}>
-                                            <td className="border border-[#3ABEFF] py-2 px-3 font-semibold text-gray-700">
+                                            <td className="border border-[#42C2FF] py-2 px-3 font-semibold text-gray-700">
                                                 {hour}
                                             </td>
                                             {days.map((day) => (
-                                                <td key={day} className="border border-[#3ABEFF] py-2 px-3 text-center">
+                                                <td key={day} className="border border-[#42C2FF] py-2 px-3 text-center">
                                                     {renderCell(day, hour)}
                                                 </td>
                                             ))}
@@ -186,7 +181,7 @@ export default function AddSchedulePage() {
                     </div>
                 </div>
 
-                <button className="mt-10 w-full bg-[#3ABEFF] text-white py-3 rounded-md font-semibold hover:bg-[#3ABEFF]/90">
+                <button className="mt-10 w-full bg-[#42C2FF] text-white py-3 rounded-md font-semibold hover:bg-[#42C2FF]/90">
                     Submit
                 </button>
             </div>

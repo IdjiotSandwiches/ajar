@@ -1,9 +1,8 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { dummyReview, ReviewData } from "@/dummy-data/dummy-review";
-// import { dummyInstitutions } from "@/dummy-data/dummy-institute";
+import { dummyReview } from "@/dummy-data/dummy-review";
 
-export default function ReviewSection() {
+export default function ReviewSection({ reviews }: { reviews: any[] }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -30,12 +29,18 @@ export default function ReviewSection() {
   const leftDisabled = currentIndex <= 0;
   const rightDisabled = currentIndex >= maxIndex;
 
+  if (reviews.length == 0) {
+    return (
+        <div className="min-h-20 flex items-center justify-center text-gray-500">
+            No Reviews.
+        </div>
+    );
+  }
+
   return (
     <section className="">
       <div className="max-w-8xl mx-auto grid md:grid-cols-4 gap-16 items-center">
-        {/* === Right section === */}
         <div className="md:col-span-8 relative flex items-center">
-          {/* Left Arrow */}
           <button
             onClick={goLeft}
             disabled={leftDisabled}
@@ -45,37 +50,30 @@ export default function ReviewSection() {
                 : "hover:bg-gray-100"
             }`}
           >
-            <ChevronLeft className="w-5 h-5 text-[#3ABEFF]" />
+            <ChevronLeft className="w-5 h-5 text-[#42C2FF]" />
           </button>
-
-          {/* Scroll Container */}
           <div
             ref={containerRef}
             className="flex overflow-hidden scroll-smooth gap-8 flex-1"
           >
-            {dummyReview.map((review: ReviewData) => {
-            //   const institution = dummyInstitutions.find(
-            //     (inst) => inst.id === review.review_to.institutionId
-            //   );
-
+            {reviews.map((review) => {
               return (
                 <div
                   key={review.id}
                   data-card
-                  className="bg-white border rounded-lg shadow-sm p-8 flex flex-col justify-between flex-shrink-0 w-full hover:shadow-md transition-all border-[#3ABEFF]"
+                  className="bg-white border rounded-lg shadow-sm p-8 flex flex-col justify-between flex-shrink-0 w-full hover:shadow-md transition-all border-[#42C2FF]"
                 >
-                  {/* === Reviewer Info === */}
                   <div>
                     <div className="flex items-center gap-3 mb-3">
                       <img
-                        src={review.avatar}
-                        alt={review.reviewer_name}
+                        src={review.reviewer.profile_picture}
+                        alt={review.reviewer.name}
                         className="w-10 h-10 rounded-full object-cover"
                       />
                       <div>
                         <p className="font-medium text-gray-800">
-                          {review.reviewer_name} –{" "}
-                          <span className="text-gray-500">{review.role}</span>
+                          {review.reviewer.name} - {" "}
+                          <span className="text-gray-500">{review.reviewer.role.name}</span>
                         </p>
                         <p className="text-yellow-400 text-sm">
                           {"★".repeat(review.rating)}{" "}
@@ -85,14 +83,10 @@ export default function ReviewSection() {
                         </p>
                       </div>
                     </div>
-
-                    {/* === Review Text === */}
                     <p className="text-gray-600 text-sm mb-6">
-                      {review.review_text}
+                      {review.description}
                     </p>
                   </div>
-
-                  {/* === Review Target === */}
                   {/* <div className="border-t pt-3 mt-auto">
                     <p className="text-xs text-gray-500 mb-2">Review to:</p>
                     <div className="flex items-center gap-3">
@@ -102,7 +96,7 @@ export default function ReviewSection() {
                         className="w-10 h-10 rounded-lg object-cover"
                       />
                       <div>
-                        <p className="text-[#3ABEFF] font-medium text-sm">
+                        <p className="text-[#42C2FF] font-medium text-sm">
                           {review.review_to.teacher.name}
                         </p>
                         <p className="text-xs text-gray-500">
@@ -115,8 +109,6 @@ export default function ReviewSection() {
               );
             })}
           </div>
-
-          {/* Right Arrow */}
           <button
             onClick={goRight}
             disabled={rightDisabled}
@@ -126,7 +118,7 @@ export default function ReviewSection() {
                 : "hover:bg-gray-100"
             }`}
           >
-            <ChevronRight className="w-5 h-5 text-[#3ABEFF]" />
+            <ChevronRight className="w-5 h-5 text-[#42C2FF]" />
           </button>
         </div>
       </div>

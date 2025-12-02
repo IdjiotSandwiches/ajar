@@ -23,7 +23,6 @@ const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
 
   const getError = (field: string) => (form.errors as Record<string, string>)[field];
 
-  // ---- Certificates ----
   const handleCertificatesChange = (files: File[]) => {
     form.setData("certificates", files);
   };
@@ -43,18 +42,9 @@ const TeacherDetailForm: React.FC<TeacherDetailFormProps> = ({
           <InputError message={getError(`description`)} />
         </div>
       </div>
-
-      {/* Category */}
       <CategoryForm form={form} categories={categories}  />
-
-
-      {/* Graduate */}
       <GraduateForm form={form} />
-
-      {/* Work Experience */}
       <WorkForm form={form} />
-
-      {/* Certificates */}
       <div>
         <h3 className="font-medium text-gray-800 mb-3">Certificates</h3>
         <DetailImage

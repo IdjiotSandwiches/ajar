@@ -51,19 +51,28 @@ export default function CourseCard({
   };
 
   return (
-    <div className="flex border border-[#3ABEFF]/40 bg-white rounded-xl p-3 gap-4 shadow-sm">
+    <div className="flex flex-col sm:flex-row border border-[#42C2FF]/40 bg-white rounded-xl p-3 gap-4 shadow-sm">
       <img
         src={image}
-        className="w-32 h-32 object-cover rounded-md"
+        className="
+          w-full h-36 object-cover rounded-md
+          sm:w-32 sm:h-32
+        "
         alt={title}
       />
       <div className="flex flex-col justify-between flex-grow">
+
         <div>
-          <h3 className="font-semibold text-gray-800 text-sm mb-2">{title}</h3>
-          <p className="text-xs text-gray-600 mb-2">
+          <h3 className="font-semibold text-gray-800 text-sm mb-2 line-clamp-2">
+            {title}
+          </h3>
+
+          <p className="text-xs text-gray-600 mb-1 line-clamp-1">
             {mentor} | {institute}
           </p>
-          <p className="text-xs text-gray-500 mb-2">{duration}</p>
+
+          <p className="text-xs text-gray-500 mb-1">{duration}</p>
+
           <p className="text-xs text-gray-600 mb-2">
             {isApproved ? "Finish at " : "Start at "}
             <span className="text-black font-medium">
@@ -71,30 +80,31 @@ export default function CourseCard({
             </span>
           </p>
         </div>
-
-        {status === "completed" ? (
-          role === "student" ? (
+        <div className="flex justify-end mt-2">
+          {status === "completed" ? (
+            role === "student" ? (
+              <button
+                onClick={onAddReview}
+                className="bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white text-sm px-4 py-2 rounded-lg transition"
+              >
+                Add Review
+              </button>
+            ) : null
+          ) : (
             <button
-              onClick={onAddReview}
-              className="self-end bg-[#3ABEFF] hover:bg-[#2fa5d8] text-white text-sm px-4 py-2 rounded-lg transition"
+              onClick={handleButtonClick}
+              className="text-white text-sm px-4 py-2 rounded-lg transition bg-[#42C2FF] hover:bg-[#42C2FF]/90"
             >
-              Add Review
+              {role === "student"
+                ? "Join Meeting"
+                : isCourseFinished
+                ? "Finish"
+                : meetingLink
+                ? "Join Meeting"
+                : "Add Meeting"}
             </button>
-          ) : null
-        ) : (
-          <button
-            onClick={handleButtonClick}
-            className="self-end text-white text-sm px-4 py-2 rounded-lg transition bg-[#3ABEFF] hover:bg-[#2fa5d8]"
-          >
-            {role === "student"
-              ? "Join Meeting"
-              : isCourseFinished
-              ? "Finish"
-              : meetingLink
-              ? "Join Meeting"
-              : "Add Meeting"}
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 // import { Label } from '@/components/ui/label';
+// import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 
 interface ResetPasswordProps {
@@ -38,7 +39,10 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
     return (
         <AuthLayout title="Reset Password" >
             <Head title="Reset Password" />
+        <AuthLayout title="Reset Password" >
+            <Head title="Reset Password" />
 
+            <form className="flex flex-col gap-6" onSubmit={submit}>
             <form className="flex flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6">
                     <div className="grid gap-2">
@@ -46,6 +50,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             id="email"
                             type="email"
                             name="email"
+                            label="Email"
                             label="Email"
                             autoComplete="email"
                             value={data.email}
@@ -61,6 +66,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             type="password"
                             name="password"
                             label="Password"
+                            label="Password"
                             autoComplete="new-password"
                             value={data.password}
                             autoFocus
@@ -75,6 +81,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             type="password"
                             name="password_confirmation"
                             label="Confirm Password"
+                            label="Confirm Password"
                             autoComplete="new-password"
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
@@ -82,7 +89,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                         <InputError message={errors.password_confirmation} className="mt-2" />
                     </div>
 
-                    <Button type="submit" className="mt-4 w-full bg-[#3ABEFF] hover:bg-[#3ABEFF]/90" disabled={processing}>
+                    <Button type="submit" className="mt-4 w-full bg-[#42C2FF] hover:bg-[#42C2FF]/90" disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                         Reset password
                     </Button>

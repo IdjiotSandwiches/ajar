@@ -44,8 +44,6 @@ export default function CategoryForm({ categories, form }: CategoryProps) {
       <label className="text-sm font-medium text-gray-700 mb-2 block">
         Category
       </label>
-
-      {/* Parent Category */}
       <div className="flex gap-6 mb-4 flex-wrap">
         {categories.map((parent) => (
           <label
@@ -62,20 +60,18 @@ export default function CategoryForm({ categories, form }: CategoryProps) {
             <span
               className={`w-4 h-4 rounded-full border-2 ${
                 selectedParent === parent.name
-                  ? "border-[#3ABEFF]/70 bg-[#3ABEFF]/70"
+                  ? "border-[#42C2FF]/70 bg-[#42C2FF]/70"
                   : "border-gray-400"
               } flex items-center justify-center transition-all`}
             >
               {selectedParent === parent.name && (
-                <span className="w-2 h-2 bg-[#3ABEFF] rounded-full"></span>
+                <span className="w-2 h-2 bg-[#42C2FF] rounded-full"></span>
               )}
             </span>
             <span className="select-none">{parent.name}</span>
           </label>
         ))}
       </div>
-
-      {/* Subcategory */}
       {selectedParent && (
         <div className="ml-2 flex flex-col gap-1">
           {categories
@@ -94,7 +90,7 @@ export default function CategoryForm({ categories, form }: CategoryProps) {
                 <span
                   className={`w-4 h-4 rounded border flex items-center justify-center ${
                     category === sub.id
-                      ? "bg-[#3ABEFF] border-[#3ABEFF]"
+                      ? "bg-[#42C2FF] border-[#42C2FF]"
                       : "border-gray-400 bg-white"
                   } transition-all`}
                 >

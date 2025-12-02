@@ -77,7 +77,7 @@ const TeacherListField: React.FC<TeacherListFieldProps> = ({
         <button
           type="button"
           onClick={() => setIsModalOpen(true)}
-          className="border border-sky-400 text-sky-500 rounded-full p-2 hover:bg-sky-50 transition"
+          className="border border-[#42C2FF] text-sky-500 rounded-full p-2 hover:bg-[#42C2FF]/90 transition"
         >
           <Plus size={18} />
         </button>

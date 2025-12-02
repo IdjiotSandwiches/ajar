@@ -42,7 +42,7 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
                    ${
                      disabled
                        ? "border-gray-200 text-gray-400 cursor-not-allowed"
-                       : "border-gray-300 dark:border-gray-600 focus:border-[#3ABEFF]"
+                       : "border-gray-300 dark:border-gray-600 focus:border-[#42C2FF]"
                    }`}
       >
         <option value="" disabled hidden >
@@ -55,8 +55,6 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
           </option>
         ))}
       </select>
-
-      {/* Floating Label */}
       <label
         htmlFor={id}
         className={`absolute text-sm duration-300 transform origin-[0] top-3 -z-10
@@ -67,14 +65,12 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
                     }
                     ${
                       focused
-                        ? "text-[#3ABEFF]"
+                        ? "text-[#42C2FF]"
                         : "text-gray-500 dark:text-gray-400"
                     }`}
       >
         {title}
       </label>
-
-      {/* Dropdown Arrow */}
       <svg
         className="absolute right-0 top-3 w-4 h-4 text-gray-500 pointer-events-none"
         fill="none"

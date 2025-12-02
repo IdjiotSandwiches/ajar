@@ -45,10 +45,8 @@ export default function InstituteDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FCFF] flex flex-col">
-      {/* Header Section */}
       <div className="max-w-6xl mx-auto w-full p-6">
         <div className="flex items-stretch rounded-xl shadow-md overflow-hidden">
-          {/* Left (Logo Box) */}
           <div className="bg-[#42C2FF] flex items-center justify-center p-6">
             <img
               src={institute.logo}
@@ -56,8 +54,6 @@ export default function InstituteDetailPage() {
               className="w-40 h-40 object-cover rounded-lg outline-6 outline-white"
             />
           </div>
-
-          {/* Right (Institute Info) */}
           <div className="flex-1 bg-[#42C2FF] text-white p-6 flex items-center justify-between relative cursor-default">
             <div className="absolute right-0 top-0 h-full pointer-events-none">
               <img
@@ -88,8 +84,6 @@ export default function InstituteDetailPage() {
                 {institute.description}
               </p>
             </div>
-
-            {/* Rating & social icons */}
             <div className="flex gap-16 items-center z-10">
               <div className="text-center">
                 <p className="text-lg font-semibold">
@@ -117,8 +111,6 @@ export default function InstituteDetailPage() {
             </div>
           </div>
         </div>
-
-        {/* Teachers Section */}
         <div className="mt-10">
           <h3 className="text-xl font-semibold mb-4">Teachers</h3>
 
@@ -153,8 +145,6 @@ export default function InstituteDetailPage() {
             <p className="text-gray-500">No teachers found for this institution.</p>
           )}
         </div>
-
-        {/* Courses Section */}
         <div className="mt-10">
           <h3 className="text-xl font-semibold mb-4">Courses</h3>
           {relatedCourses.length > 0 ? (

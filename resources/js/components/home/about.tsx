@@ -9,7 +9,7 @@ export default function LearningToTeachSection() {
 
             <div className="grid md:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map((n) => (
-                    <div key={n} className="bg-[#3ABEFF]/5 p-6 rounded-lg shadow-sm">
+                    <div key={n} className="bg-[#42C2FF]/5 p-6 rounded-lg shadow-sm">
                         <h3 className="font-semibold text-gray-700 mb-2">👩‍🏫 Teacher</h3>
                         <p className="text-sm text-gray-600">
                             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt recusandae velit aperiam nulla temporibus cumque unde blanditiis earum perferendis? In obcaecati maxime corrupti reiciendis iste, libero harum animi suscipit omnis a dolores, repellat distinctio, voluptatum aliquid earum? Consequatur odit optio molestiae eos odio eaque, qui, totam expedita assumenda amet porro.

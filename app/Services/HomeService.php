@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Course;
 use App\Models\Institute;
+use App\Models\InstituteReview;
+use App\Models\TeacherReview;
 
 class HomeService
 {
@@ -45,5 +47,16 @@ class HomeService
             ->get();
 
         return $institutes;
+    }
+
+    public function getRandomReviews()
+    {
+        $reviews = TeacherReview::with('teacher.user', 'reviewer.role')
+            ->where('rating', '>=', 4)
+            ->inRandomOrder()
+            ->limit(10)
+            ->get();
+
+        return $reviews;
     }
 }

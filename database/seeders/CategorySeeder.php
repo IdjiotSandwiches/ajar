@@ -20,6 +20,7 @@ class CategorySeeder extends Seeder
         Category::create(['name' => 'Cyber Security', 'parent_id' => $technology->id]);
         Category::create(['name' => 'Cloud Computing', 'parent_id' => $technology->id]);
         Category::create(['name' => 'Data Science', 'parent_id' => $technology->id]);
+        Category::create(['name' => 'Web Development', 'parent_id' => $technology->id]);
 
         Category::create(['name' => 'Photoshop', 'parent_id' => $design->id]);
         Category::create(['name' => 'Illustrator', 'parent_id' => $design->id]);

@@ -9,12 +9,12 @@ interface SidebarProps {
 
 export default function Sidebar({ tab, setTab }: SidebarProps) {
   return (
-    <div className="col-span-2 flex flex-col gap-4">
+    <div className="flex flex-row lg:flex-col gap-4">
       <button
         onClick={() => setTab("progress")}
-        className={`flex items-center justify-center gap-2 py-3 rounded-full border text-sm font-medium ${
+        className={`min-w-[140px] px-4 flex items-center justify-center gap-2 py-3 rounded-full border text-sm font-medium ${
           tab === "progress"
-            ? "bg-[#E6F8FF] border-[#3ABEFF] text-[#3ABEFF]"
+            ? "bg-[#E6F8FF] border-[#42C2FF] text-[#42C2FF]"
             : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
         }`}
       >
@@ -23,7 +23,7 @@ export default function Sidebar({ tab, setTab }: SidebarProps) {
 
       <button
         onClick={() => setTab("completed")}
-        className={`flex items-center justify-center gap-2 py-3 rounded-full border text-sm font-medium ${
+        className={`min-w-[140px] px-4 flex items-center justify-center gap-2 py-3 rounded-full border text-sm font-medium ${
           tab === "completed"
             ? "bg-[#E8FFF1] border-[#32D583] text-[#32D583]"
             : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"

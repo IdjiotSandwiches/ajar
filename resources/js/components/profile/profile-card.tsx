@@ -19,9 +19,9 @@ export default function ProfileCard({ user }: any) {
 
   return (
     <div className="w-full py-2">
-      <div className="bg-[#3ABEFF] rounded-2xl shadow-lg p-1 w-full">
+      <div className="bg-[#42C2FF] rounded-2xl shadow-lg p-1 w-full">
         <div className="bg-white p-0.5 rounded-2xl w-full">
-          <div className="bg-[#3ABEFF] rounded-2xl px-6 py-12 flex flex-col items-center text-center relative overflow-hidden">
+          <div className="bg-[#42C2FF] rounded-2xl px-6 py-12 flex flex-col items-center text-center relative overflow-hidden">
             <div
               className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-white shadow-md mb-6 z-10 group cursor-pointer"
               onClick={handleImageClick}

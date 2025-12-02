@@ -32,7 +32,7 @@ const ProfileTeacherForm: React.FC<ProfileTeacherFormProps> = ({
 
   return (
     <div className="bg-white shadow-sm rounded-2xl p-8">
-      <h3 className="text-2xl font-semibold text-center text-[#3ABEFF] mb-8">
+      <h3 className="text-2xl font-semibold text-center text-[#42C2FF] mb-8">
         Teacher Information
       </h3>
 
@@ -71,12 +71,10 @@ const ProfileTeacherForm: React.FC<ProfileTeacherFormProps> = ({
             onFilesChange={handleCertificatesChange}
           />
         </div>
-
-        {/* Save Button */}
         <div className="mt-6">
           <button
             type="submit"
-            className="bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white w-full py-2.5 rounded-lg transition font-medium"
+            className="bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white w-full py-2.5 rounded-lg transition font-medium"
           >
             Save Changes
           </button>
