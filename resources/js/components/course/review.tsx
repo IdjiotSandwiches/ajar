@@ -33,9 +33,8 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
 
     return (
         <section className="bg-[#F7FDFD] pb-16">
-            <h2 className="mb-10 text-center text-xl font-semibold text-gray-800 md:text-left">Reviews from Students and Teachers</h2>
+            <h2 className="mb-10 text-base sm:text-lg md:text-xl font-semibold -gray-800">Reviews from Students and Teachers</h2>
             <div className="mx-auto grid items-center gap-16 md:grid-cols-4">
-                {/* === Right section === */}
                 <div className="relative flex items-center md:col-span-4">
                     {reviews.length === 0
                     ?
@@ -44,7 +43,6 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
                         </>
                     : (
                         <>
-                            {/* Left Arrow */}
                             <button
                                 onClick={goLeft}
                                 disabled={leftDisabled}
@@ -54,8 +52,6 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
                             >
                                 <ChevronLeft className="h-5 w-5 text-[#3ABEFF]" />
                             </button>
-
-                            {/* Scroll Container */}
                             <div ref={containerRef} className="flex flex-1 gap-8 overflow-hidden scroll-smooth">
                                 {reviews.map((review: any, index: number) => {
                                     const user = review.reviewer;
@@ -79,7 +75,6 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
                                                     </div>
                                                 </div>
 
-                                                {/* === Review Text === */}
                                                 <p className="mb-6 text-sm text-gray-600">{review.description}</p>
                                             </div>
                                         </div>
@@ -87,7 +82,6 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
                                 })}
                             </div>
 
-                            {/* Right Arrow */}
                             <button
                                 onClick={goRight}
                                 disabled={rightDisabled}

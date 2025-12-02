@@ -6,7 +6,6 @@ export default function CourseSidebar({ teacher, institute }: { teacher: any[], 
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const teachers = Array.isArray(teacher) ? teacher : [teacher].filter(Boolean);
 
-  // AUTO SLIDE
   useEffect(() => {
     if (!sliderRef.current || teachers.length <= 1) return;
 
@@ -19,7 +18,7 @@ export default function CourseSidebar({ teacher, institute }: { teacher: any[], 
         left: slider.clientWidth * index,
         behavior: "smooth",
       });
-    }, 3000); // 3 detik
+    }, 3000); 
 
     return () => clearInterval(interval);
   }, [teachers.length]);

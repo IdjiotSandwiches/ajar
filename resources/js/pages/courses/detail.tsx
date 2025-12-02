@@ -69,8 +69,8 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
             <CourseHero course={course} />
             <div className="block lg:hidden px-4 mt-4">
                 <CourseSidebar
-                    institute={course.institute}
-                    teacher={course.teacher}
+                    institute={course.institute.user}
+                    teacher={course.teachers}
                 />
             </div>
             <div className="flex justify-center mt-6 md:-mt-6 mb-8 relative z-20 px-3">
@@ -143,7 +143,7 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
                         <ReviewSection reviews={course.course_reviews} />
                     </section>
                 </div>
-                <div className="lg:col-span-1 lg:col-span-2 2xl:col-span-2">
+                <div className="hidden lg:inline lg:col-span-1 2xl:col-span-2">
                     <CourseSidebar
                         institute={course.institute.user}
                         teacher={course.teachers}
@@ -151,7 +151,7 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
                 </div>
             </div>
 
-            <div className="mx-auto px-10">
+            <div className="mx-auto md:px-10">
                 <PopularCourses courses={popularCourses} />
             </div>
         </div>
