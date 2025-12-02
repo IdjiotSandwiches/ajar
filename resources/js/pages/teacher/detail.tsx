@@ -1,31 +1,12 @@
-
 import TeacherProfileCard from "@/components/teacher/card";
 import ReviewSection from "@/components/teacher/review";
 import CourseCard from "@/components/ui/course-card";
-import { dummyCourses } from "@/dummy-data/dummy-course";
-import { dummyTeachers } from "@/dummy-data/dummy-teacher";
-import { CourseData } from "@/interfaces/shared";
 import AppLayout from "@/layouts/app-layout";
-import { usePage } from "@inertiajs/react";
 import { Album, BriefcaseBusiness, FileBadge, GraduationCap, Star, X } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-export default function TeacherDetailPage() {
-    const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, "");
-
-    const { props } = usePage();
-    const teacherName = props.teacherName;
-    const teacher = dummyTeachers.find((i) => slugify(i.name) === teacherName);
-
-    // const teacher = dummyTeachers[0];
-    const [courses, setCourses] = useState<CourseData[]>([]);
-
+export default function TeacherDetailPage({ teacher }: { teacher: any }) {
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-
-    useEffect(() => {
-        setCourses(dummyCourses);
-    }, []);
-
     if (!teacher) {
         return (
             <div className="min-h-screen flex items-center justify-center text-gray-500">
@@ -40,14 +21,15 @@ export default function TeacherDetailPage() {
                 <div className="max-w-7xl mx-auto px-6 pt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
                         <TeacherProfileCard teacher={teacher} />
-                        <div className="w-full flex flex-col mt-6">
-                            <button className="w-full bg-[#42C2FF] text-white py-2 rounded-lg font-medium mb-3 hover:bg-[#34a9dd] transition">
-                                Accept
-                            </button>
-                            <button className="w-full border border-[#42C2FF] text-[#42C2FF] py-2 rounded-lg font-medium hover:bg-[#42C2FF]/10 transition">
-                                Reject
-                            </button>
-                        </div>
+                        {!teacher.is_verified && (
+                            <div className="w-full flex flex-col mt-6">
+                                <button className="w-full bg-[#42C2FF] text-white py-2 rounded-lg font-medium mb-3 hover:bg-[#34a9dd] transition">
+                                    Accept
+                                </button>
+                                <button className="w-full border border-[#42C2FF] text-[#42C2FF] py-2 rounded-lg font-medium hover:bg-[#42C2FF]/10 transition">
+                                    Reject
+                                </button>
+                            </div>)}
                     </div>
                     <div className="md:col-span-2 space-y-8">
                         <div className="border border-gray-200 bg-white shadow rounded-xl p-6 w-full">
@@ -57,7 +39,7 @@ export default function TeacherDetailPage() {
                                     <h3 className="text-gray-700 font-semibold">Graduate</h3>
                                 </div>
                                 <div className="col-span-2 space-y-2 text-gray-600">
-                                    {teacher.graduates?.map((item, index) => (
+                                    {teacher.graduates?.map((item: any, index: number) => (
                                         <div key={index}>
                                             <p className="text-sm opacity-70">{item.degree_title}</p>
                                             <p>{item.university_name}</p>
@@ -74,7 +56,7 @@ export default function TeacherDetailPage() {
                                     <h3 className="text-gray-700 font-semibold">Work Experience</h3>
                                 </div>
                                 <div className="col-span-2 space-y-3 text-gray-600">
-                                    {teacher.works?.map((item, index) => (
+                                    {teacher.work_experiences?.map((item: any, index: number) => (
                                         <div key={index}>
                                             <p className="text-sm opacity-70">{item.duration} tahun</p>
                                             <p>{item.institution}</p>
@@ -91,7 +73,7 @@ export default function TeacherDetailPage() {
                                     <h3 className="text-gray-700 font-semibold">Certificate</h3>
                                 </div>
                                 <div className="col-span-2 flex flex-col gap-3">
-                                    {teacher.certificates?.map((item, index) => (
+                                    {teacher.certificates?.map((item: any, index: number) => (
                                         <button
                                             key={index}
                                             onClick={() => {
@@ -120,8 +102,8 @@ export default function TeacherDetailPage() {
                                 <h3 className="text-gray-700 font-semibold">Courses taught</h3>
                             </div>
                             <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-[#42C2FF]/30 scrollbar-track-transparent">
-                                {courses.map((course: any, index: number) => {
-                                    return <CourseCard key={index} course={course} />
+                                {teacher.courses.map((course: any, index: number) => {
+                                    return <CourseCard key={index} course={course.course} isTag={false} />
                                 })}
                             </div>
                         </div>
@@ -130,7 +112,7 @@ export default function TeacherDetailPage() {
                                 <Star size={24} className="text-[#42C2FF]" />
                                 <h3 className="text-gray-700 font-semibold">Reviews</h3>
                             </div>
-                            <ReviewSection />
+                            <ReviewSection reviews={teacher.reviews} />
                         </div>
                     </div>
                 </div>

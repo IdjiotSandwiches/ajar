@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,27 +15,17 @@ Route::get('detail-institute/{id}', function ($id) {
     ]);
 })->name('detail-institute');
 
-Route::get('detail-course/{id}', function ($id) {
-    return Inertia::render('courses/detail', [
-        'courseId' => $id,
-    ]);
-})->name('detail-course');
-
-Route::get('detail-teacher/{teacherName}', function ($teacherName) {
-    return Inertia::render('teacher/detail', [
-        'teacherName' => $teacherName,
-    ]);
-})->name('detail-teacher');
+Route::controller(TeacherController::class)->group(function () {
+    Route::get('detail-teacher/{id}', 'getTeacherDetail')->name('detail-teacher');
+});
 
 Route::get('list-institute', fn() => Inertia::render('institute/list-institute'))
     ->name('list-institute');
-
 
 Route::controller(CourseController::class)->group(function () {
     Route::get('list-course', 'getCourseList')->name('list-course');
     Route::get('detail-course/{id}', 'getCourseDetail')->name('detail-course');
 });
-
 
 Route::middleware(['auth', 'verified'])
     ->group(function () {
@@ -50,7 +41,7 @@ Route::middleware(['auth', 'verified', 'role:Admin'])
         Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
     });
 
-    Route::middleware(['auth', 'verified', 'role:Teacher'])
+Route::middleware(['auth', 'verified', 'role:Teacher'])
     ->prefix('teacher')
     ->name('teacher.')
     ->group(function () {
