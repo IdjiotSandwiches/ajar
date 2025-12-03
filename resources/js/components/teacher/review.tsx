@@ -1,123 +1,63 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { dummyReview, ReviewData } from "@/dummy-data/dummy-review";
-// import { dummyInstitutions } from "@/dummy-data/dummy-institute";
+import { dummyReview } from "@/dummy-data/dummy-review";
+import ReviewCardNew from "./review-card";
 
 export default function ReviewSection() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const gapPx = 32;
-  const perPage = 1;
   const total = dummyReview.length;
-  const maxIndex = Math.max(0, Math.ceil(total / perPage) * perPage - perPage);
+  const maxIndex = total - 1;
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    const cardEl = container.querySelector<HTMLElement>("[data-card]");
+
+    const cardEl = container.querySelector("[data-card]") as HTMLElement;
     if (!cardEl) return;
 
-    const cardWidth = cardEl.offsetWidth;
-    const offset = (cardWidth + gapPx) * currentIndex;
+    const offset = cardEl.offsetWidth * currentIndex;
     container.scrollTo({ left: offset, behavior: "smooth" });
   }, [currentIndex]);
 
-  const goLeft = () => setCurrentIndex((prev) => Math.max(0, prev - perPage));
-  const goRight = () =>
-    setCurrentIndex((prev) => Math.min(maxIndex, prev + perPage));
-
-  const leftDisabled = currentIndex <= 0;
-  const rightDisabled = currentIndex >= maxIndex;
+  const goLeft = () => setCurrentIndex((prev) => Math.max(0, prev - 1));
+  const goRight = () => setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
 
   return (
-    <section className="">
-      <div className="max-w-8xl mx-auto grid md:grid-cols-4 gap-16 items-center">
-        <div className="md:col-span-8 relative flex items-center">
-          <button
-            onClick={goLeft}
-            disabled={leftDisabled}
-            className={`z-10 bg-white border shadow-md p-2 rounded-full mr-4 transition-opacity ${
-              leftDisabled
-                ? "opacity-40 cursor-not-allowed"
-                : "hover:bg-gray-100"
-            }`}
-          >
-            <ChevronLeft className="w-5 h-5 text-[#42C2FF]" />
-          </button>
+    <section className="px-2 sm:px-0 py-2 md:py-8">
+      <div className="max-w-5xl mx-auto relative">
+        <button
+          onClick={goLeft}
+          disabled={currentIndex === 0}
+          className={`absolute -left-1 top-1/2 -translate-y-1/2 z-20 bg-white border shadow-md p-2 rounded-full transition-opacity ${currentIndex === 0 ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-100"}`}
+        >
+          <ChevronLeft className="w-5 h-5 text-[#42C2FF]" />
+        </button>
+        <button
+          onClick={goRight}
+          disabled={currentIndex === maxIndex}
+          className={`absolute -right-1 top-1/2 -translate-y-1/2 z-20 bg-white border shadow-md p-2 rounded-full transition-opacity ${currentIndex === maxIndex ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-100"}`}
+        >
+          <ChevronRight className="w-5 h-5 text-[#42C2FF]" />
+        </button>
+        <div className="overflow-hidden">
           <div
             ref={containerRef}
-            className="flex overflow-hidden scroll-smooth gap-8 flex-1"
+            className="flex overflow-x-hidden scroll-smooth gap-0"
           >
-            {dummyReview.map((review: ReviewData) => {
-            //   const institution = dummyInstitutions.find(
-            //     (inst) => inst.id === review.review_to.institutionId
-            //   );
-
-              return (
-                <div
-                  key={review.id}
-                  data-card
-                  className="bg-white border rounded-lg shadow-sm p-8 flex flex-col justify-between flex-shrink-0 w-full hover:shadow-md transition-all border-[#42C2FF]"
-                >
-                  <div>
-                    <div className="flex items-center gap-3 mb-3">
-                      <img
-                        src={review.avatar}
-                        alt={review.reviewer_name}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div>
-                        <p className="font-medium text-gray-800">
-                          {review.reviewer_name} –{" "}
-                          <span className="text-gray-500">{review.role}</span>
-                        </p>
-                        <p className="text-yellow-400 text-sm">
-                          {"★".repeat(review.rating)}{" "}
-                          <span className="text-gray-300">
-                            {"★".repeat(5 - review.rating)}
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 text-sm mb-6">
-                      {review.review_text}
-                    </p>
-                  </div>
-                  {/* <div className="border-t pt-3 mt-auto">
-                    <p className="text-xs text-gray-500 mb-2">Review to:</p>
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={institution?.logo || "/images/default-logo.png"}
-                        alt={institution?.name || "Unknown Institution"}
-                        className="w-10 h-10 rounded-lg object-cover"
-                      />
-                      <div>
-                        <p className="text-[#42C2FF] font-medium text-sm">
-                          {review.review_to.teacher.name}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {institution?.name || "Unknown Institution"}
-                        </p>
-                      </div>
-                    </div>
-                  </div> */}
-                </div>
-              );
-            })}
+            {dummyReview.map((review) => (
+              <div
+                key={review.id}
+                data-card
+                className="flex-shrink-0 w-full px-4"
+              >
+                <ReviewCardNew review={review} />
+              </div>
+            ))}
           </div>
-          <button
-            onClick={goRight}
-            disabled={rightDisabled}
-            className={`z-10 bg-white border shadow-md p-2 rounded-full ml-4 transition-opacity ${
-              rightDisabled
-                ? "opacity-40 cursor-not-allowed"
-                : "hover:bg-gray-100"
-            }`}
-          >
-            <ChevronRight className="w-5 h-5 text-[#42C2FF]" />
-          </button>
         </div>
+
       </div>
     </section>
   );
