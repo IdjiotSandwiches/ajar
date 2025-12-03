@@ -40,7 +40,7 @@ export default function ReviewSection() {
   return (
     <section className="py-8 md:py-16 bg-[#F7FDFD] overflow-hidden">
       <div className="max-w-8xl mx-auto px-6 md:px-12">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4 md:mb-8">
+        <h2 className="sm:text-lg md:text-xl font-semibold text-gray-800 mb-4 md:mb-8">
           Reviews from Students and Teachers
         </h2>
 
