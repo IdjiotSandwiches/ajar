@@ -17,13 +17,14 @@ export default function ProfilePage() {
   });
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col md:flex-row">
       <ProfileSidebar
         activeSection={activeSection}
         onSectionChange={setActiveSection}
         user={form.data}
       />
-      <main className="flex-1 p-10">
+
+      <main className="flex-1 p-4 md:p-10">
         {activeSection === "Personal Information" && (
           <ProfilePersonalForm form={form} />
         )}
@@ -31,5 +32,6 @@ export default function ProfilePage() {
     </div>
   );
 }
+
 
 ProfilePage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
