@@ -45,11 +45,7 @@ export default function InstituteDetailPage() {
   return (
     <div className="min-h-screen bg-[#F8FCFF] flex flex-col">
       <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
-
-        {/* ============ HEADER CARD ============ */}
         <div className="flex flex-col md:flex-row items-stretch rounded-xl shadow-md overflow-hidden">
-
-          {/* LEFT IMAGE */}
           <div className="bg-[#42C2FF] flex items-center justify-center p-6">
             <img
               src={institute.logo}
@@ -58,19 +54,16 @@ export default function InstituteDetailPage() {
             />
           </div>
 
-          {/* RIGHT CONTENT */}
           <div className="flex-1 bg-[#42C2FF] text-white p-6 flex flex-col md:flex-row md:justify-between relative cursor-default">
 
             <div className="absolute right-0 top-0 h-full pointer-events-none">
               <img src="/images/gear.png" alt="gear-bg" className="h-full object-contain" />
             </div>
 
-            {/* LEFT TEXT */}
             <div className="flex-1 z-10 mb-6 md:mb-0 flex flex-col items-center md:items-start gap-2 text-center md: text-start">
               <h2 className="text-2xl md:text-3xl font-semibold leading-tight">
                 {institute.name}
               </h2>
-
               {institute.contactEmail ? (
                 <a
                   href={`mailto:${institute.contactEmail}`}
@@ -90,12 +83,11 @@ export default function InstituteDetailPage() {
               </p>
             </div>
 
-            {/* RIGHT STATS */}
             <div className="flex justify-between md:justify-normal gap-10 md:gap-16 items-center z-10 md:self-center">
 
               <div className="text-center">
-                <p className="text-lg font-semibold">{relatedCourses.length || 0}</p>
-                <p className="text-sm opacity-90">Courses</p>
+                <p className="text-lg font-semibold">0</p>
+                <p className="text-sm opacity-90">Reviews</p>
               </div>
 
               <div className="text-center">
@@ -123,8 +115,6 @@ export default function InstituteDetailPage() {
 
         </div>
 
-
-        {/* ============ TEACHERS ============ */}
         <div className="mt-10">
           <h3 className="text-xl font-semibold mb-4">Teachers</h3>
 
@@ -155,7 +145,6 @@ export default function InstituteDetailPage() {
 
         </div>
 
-        {/* ============ COURSES ============ */}
         <div className="mt-10">
           <h3 className="text-xl font-semibold mb-4">Courses</h3>
 
