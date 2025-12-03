@@ -64,11 +64,9 @@ export default function AddSchedulePage() {
     return (
         <div>
             <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-
-                {/* Course Info */}
                 <div className="bg-white p-5 sm:p-8 rounded-2xl shadow mb-10">
                     <div className="space-y-4">
-                        <h1 className="text-xl md:text-2xl sm:text-3xl font-semibold text-[#42C2FF] text-center mb-4 sm:mb-6">
+                        <h1 className="text-xl md:text-2xl font-semibold text-[#42C2FF] text-center mb-4 sm:mb-6">
                             Add Schedule
                         </h1>
 
