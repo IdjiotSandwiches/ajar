@@ -39,7 +39,7 @@ export default function CourseCard({ course, isTag }: { course: any, isTag: bool
                     <div className="flex items-center text-sm text-yellow-500 mb-2">
                         <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400 mr-1" />
                         <span className="text-gray-400 ml-1 text-xs">
-                        • {course.average_rating ?? 0} reviews
+                        • {course.course_reviews_avg_rating ?? 0} reviews
                         </span>
                     </div>
                 </div>

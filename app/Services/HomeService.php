@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Course;
 use App\Models\Institute;
+use App\Models\InstituteReview;
+use App\Models\TeacherReview;
 
 class HomeService
 {
@@ -12,16 +14,14 @@ class HomeService
         $courses = Course::with([
             'teachers.user',
             'institute.user',
-            'courseSkills.skill',
+            'courseSkills.skill'
         ])
+            ->withCount('courseSchedules')
             ->withAvg('courseReviews', 'rating')
+            ->orderByDesc('course_schedules_count')
+            ->inRandomOrder()
             ->limit(10)
-            ->get()
-            ->map(function ($course) {
-                $course->average_rating = $course->course_reviews_avg_rating ?? 0;
-                unset($course->course_reviews_avg_rating);
-                return $course;
-            });
+            ->get();
 
         return $courses;
     }
@@ -47,5 +47,16 @@ class HomeService
             ->get();
 
         return $institutes;
+    }
+
+    public function getRandomReviews()
+    {
+        $reviews = TeacherReview::with('teacher.user', 'reviewer.role')
+            ->where('rating', '>=', 4)
+            ->inRandomOrder()
+            ->limit(10)
+            ->get();
+
+        return $reviews;
     }
 }

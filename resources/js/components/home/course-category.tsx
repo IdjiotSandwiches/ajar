@@ -1,9 +1,8 @@
-import React from "react";
 import { router } from "@inertiajs/react";
 
 export default function TechDesignCourseSection() {
-  const goToList = (category: "Technology" | "Design") => {
-    router.get(route("list-course"), { category });
+  const goToList = (category_id: 1 | 2) => {
+    router.get(route("list-course"), { category_id });
   };
 
   return (
@@ -19,7 +18,7 @@ export default function TechDesignCourseSection() {
           </p>
 
           <button
-            onClick={() => goToList("Technology")}
+            onClick={() => goToList(1)}
             className="text-sm text-[#3ABEFF] font-medium hover:underline"
           >
             Furthermore...
@@ -35,7 +34,7 @@ export default function TechDesignCourseSection() {
           </p>
 
           <button
-            onClick={() => goToList("Design")}
+            onClick={() => goToList(2)}
             className="text-sm text-[#42C2FF] font-medium hover:underline"
           >
             Furthermore...

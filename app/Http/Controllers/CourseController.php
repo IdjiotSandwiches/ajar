@@ -19,7 +19,6 @@ class CourseController extends Controller
     public function getCourseList(FilterRequest $request)
     {
         $filters = $request->validated();
-        $filters['category_id'] ??= 1;
 
         $parentCategories = $this->service->getParentCategories();
         [$courses, $subCategories, $minPrice, $maxPrice] = $this->service->getCourses($filters);
@@ -28,7 +27,7 @@ class CourseController extends Controller
             'parentCategories' => $parentCategories,
             'courses' => Inertia::scroll($courses),
             'subCategories' => $subCategories,
-            'activeCategory' => $filters['category_id'],
+            'activeCategory' => $filters['category_id'] ?? null,
             'activeSub' => $filters['sub'] ?? [],
             'search' => $filters['search'] ?? '',
             'price' => [

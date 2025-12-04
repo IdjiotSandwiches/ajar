@@ -20,7 +20,8 @@ class HomeController extends Controller
     {
         return Inertia::render('home', [
             'courses' => $this->service->getCoursesPreview(),
-            'institutes' => $this->service->getInstituteWithBestTeacher()
+            'institutes' => $this->service->getInstituteWithBestTeacher(),
+            'reviews' => $this->service->getRandomReviews()
         ]);
     }
 }

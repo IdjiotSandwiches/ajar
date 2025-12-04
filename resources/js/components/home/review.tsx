@@ -1,9 +1,9 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { dummyReview } from "@/dummy-data/dummy-review";
 import ReviewCard from "../ui/review-card";
 
-export default function ReviewSection() {
+export default function ReviewSection({ reviews }: { reviews: any[] }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [perPage, setPerPage] = useState(1);
@@ -77,7 +77,7 @@ export default function ReviewSection() {
                 ref={containerRef}
                 className="flex overflow-x-auto scroll-smooth gap-8 snap-x snap-mandatory no-scrollbar"
               >
-                {dummyReview.map((review) => (
+                {reviews.map((review) => (
                   <div
                     key={review.id}
                     data-card
