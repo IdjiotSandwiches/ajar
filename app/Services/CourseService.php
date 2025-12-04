@@ -23,7 +23,9 @@ class CourseService
     {
         $user = Auth::user();
         $categories = Category::with('children')
-            ->where('parent_id', $filters['category_id'])
+            ->when(isset($filters['category_id']), function ($q) use ($filters) {
+                $q->where('parent_id', $filters['category_id']);
+            })
             ->select(['id', 'name'])
             ->get();
 
@@ -127,7 +129,8 @@ class CourseService
                 'courseOverviews',
                 'courseSchedules',
                 'teachers.user'
-            ])
+            ]
+        )
             ->withAvg('courseReviews', 'rating')
             ->withCount('courseReviews');
 
