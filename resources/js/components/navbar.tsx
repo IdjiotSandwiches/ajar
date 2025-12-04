@@ -46,7 +46,7 @@ export default function Navbar() {
 
             <span
               className="hover:text-[#1AAAE3] transition-colors cursor-pointer"
-              onClick={() => router.get(route("list-course"))}
+              onClick={() => router.get(route("list-course", { category_id: 1 }))}
             >
               Course
             </span>
