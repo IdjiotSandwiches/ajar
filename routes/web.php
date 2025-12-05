@@ -10,17 +10,14 @@ use Inertia\Inertia;
 Route::get('/', [HomeController::class, 'getHomeData'])
     ->name('home');
 
-
 Route::controller(TeacherController::class)->group(function () {
     Route::get('detail-teacher/{id}', 'getTeacherDetail')->name('detail-teacher');
 });
 
 Route::controller(InstituteController::class)->group(function () {
     Route::get('detail-institute/{id}', 'getInstituteDetail')->name('detail-institute');
+    Route::get('list-institute', 'getInstituteList')->name('list-institute');
 });
-
-Route::get('list-institute', fn() => Inertia::render('institute/list-institute'))
-    ->name('list-institute');
 
 Route::controller(CourseController::class)->group(function () {
     Route::get('list-course', 'getCourseList')->name('list-course');

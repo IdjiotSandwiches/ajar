@@ -1,106 +1,112 @@
-import React, { useState } from "react";
-import AppLayout from "@/layouts/app-layout";
-import { Search } from "lucide-react";
-import InstituteCard from "@/components/institute/card";
+import InstituteCard from '@/components/institute/card';
+import { CategoryProps } from '@/interfaces/shared';
+import AppLayout from '@/layouts/app-layout';
+import { InfiniteScroll, router } from '@inertiajs/react';
+import { Search } from 'lucide-react';
+import { useState } from 'react';
 
-const dummyInstitutes = [
-  {
-    id: 1,
-    name: "Digital Tech Institute",
-    image: "/images/institute1.jpg",
-    category: "Technology",
-    teachers: [
-      { id: 1, name: "John Doe", image: "/images/teacher1.jpg" },
-      { id: 2, name: "Anna White", image: "/images/teacher2.jpg" },
-      { id: 3, name: "John Doe", image: "/images/teacher1.jpg" },
-      { id: 4, name: "Anna White", image: "/images/teacher2.jpg" },
-      { id: 5, name: "John Doe", image: "/images/teacher1.jpg" },
-      { id: 6, name: "Anna White", image: "/images/teacher2.jpg" },
-      { id: 7, name: "John Doe", image: "/images/teacher1.jpg" },
-      { id: 8, name: "Anna White", image: "/images/teacher2.jpg" },
-    ],
-  },
-  {
-    id: 2,
-    name: "Creative Art Academy",
-    image: "/images/institute2.jpg",
-    category: "Design",
-    teachers: [
-      { id: 3, name: "Emily Clark", image: "/images/teacher3.jpg" },
-      { id: 4, name: "Megan Fox", image: "/images/teacher4.jpg" },
-      { id: 5, name: "Jason Lee", image: "/images/teacher5.jpg" },
-    ],
-  },
-];
+export default function InstituteListPage({
+    parentCategories,
+    institutes,
+    activeCategory,
+    search,
+}: {
+    parentCategories: CategoryProps[];
+    institutes: any;
+    activeCategory: number;
+    search: string;
+}) {
+    const [localSearch, setLocalSearch] = useState<string>(search ?? '');
+    const handleFilterChange = (options: { category_id?: number; search?: string; enter?: boolean }) => {
+        const { category_id, search: s, enter } = options;
+        if (s !== undefined) setLocalSearch(s);
 
-export default function InstituteListPage() {
-  const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState<"Technology" | "Design">("Technology");
+        let newSearch: string;
 
-  const filtered = dummyInstitutes
-    .filter((inst) => inst.category === activeCategory)
-    .filter((inst) => inst.name.toLowerCase().includes(search.toLowerCase()));
+        if (category_id !== undefined && category_id !== activeCategory) {
+            setLocalSearch('');
+            newSearch = s ?? '';
+        } else {
+            newSearch = localSearch ?? search;
+        }
 
-  return (
-    <section className="bg-[#F7FDFD] min-h-screen pb-24 px-6 md:px-12">
-      {/* TITLE + CATEGORY */}
-      <div className="pt-12 flex flex-col items-center w-full">
-        <div className="flex flex-col items-center mb-8 w-[240px] relative">
-          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-[#D8F4FF]" />
-          <div className="flex justify-between w-full relative">
-            {["Technology", "Design"].map((cat) => (
-              <div key={cat} className="w-1/2 flex justify-center relative">
-                <button
-                  onClick={() => setActiveCategory(cat as any)}
-                  className={`relative text-lg md:text-xl font-semibold pb-2 transition-all ${
-                    activeCategory === cat
-                      ? "text-[#42C2FF]"
-                      : "text-gray-400 hover:text-[#42C2FF]"
-                  }`}
-                >
-                  {cat}
-                </button>
-              </div>
-            ))}
+        if (enter || category_id !== undefined) {
+            router.visit(route('list-institute'), {
+                data: {
+                    category_id: category_id ?? activeCategory,
+                    search: newSearch,
+                },
+                only: ['institutes', 'activeCategory'],
+                reset: ['institutes'],
+                preserveScroll: true,
+                preserveState: true,
+                replace: true,
+            });
+        }
+    };
 
-            <span
-              className={`absolute bottom-0 h-[2px] bg-[#42C2FF] transition-all duration-500 ease-in-out ${
-                activeCategory === "Technology" ? "left-0 w-1/2" : "left-1/2 w-1/2"
-              }`}
-            />
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3 w-full max-w-3xl justify-center">
-          <div className="relative flex-1 max-w-md">
-            <input
-              type="text"
-              placeholder={`Search for ${activeCategory.toLowerCase()} institutes...`}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-4 py-2 pr-10 rounded-full border border-[#D8F4FF] bg-white 
-              focus:ring-2 focus:ring-[#42C2FF] focus:outline-none shadow-sm text-sm text-gray-700"
-            />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#42C2FF] hover:bg-[#42C2FF]/90 p-2 rounded-full text-white transition">
-              <Search className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 w-full">
-        {filtered.length > 0 ? (
-          filtered.map((institute) => <InstituteCard key={institute.id} institute={institute} />)
-        ) : (
-          <p className="text-gray-500 text-center col-span-full">
-            No {activeCategory} institutes available yet.
-          </p>
-        )}
-      </div>
-    </section>
-  );
+    return (
+        <section className="min-h-screen bg-[#F7FDFD] px-6 pb-24 md:px-12">
+            <div className="flex w-full flex-col items-center pt-12">
+                <div className="relative mb-8 flex w-[240px] flex-col items-center">
+                    <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#D8F4FF]" />
+                    <div className="relative flex w-full justify-between">
+                        {parentCategories.map((cat) => (
+                            <div key={cat.id} className="relative flex w-1/2 justify-center">
+                                <button
+                                    onClick={() => handleFilterChange({ category_id: cat.id })}
+                                    className={`relative pb-2 text-lg font-semibold transition-all md:text-xl ${
+                                        Number(activeCategory) === cat.id ? 'text-[#3ABEFF]' : 'text-gray-400 hover:text-[#3ABEFF]'
+                                    }`}
+                                >
+                                    {cat.name}
+                                </button>
+                            </div>
+                        ))}
+                        <span
+                            className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-500 ease-in-out ${
+                                activeCategory == null
+                                    ? 'hidden'
+                                    : Number(activeCategory) === parentCategories[0].id
+                                      ? 'left-0 w-1/2'
+                                      : 'left-1/2 w-1/2'
+                            } `}
+                        />
+                    </div>
+                </div>
+                <div className="flex w-full max-w-3xl items-center justify-center gap-3">
+                    <div className="relative max-w-md flex-1">
+                        <input
+                            type="text"
+                            value={localSearch}
+                            onChange={(e) => handleFilterChange({ search: e.target.value })}
+                            onKeyDown={(e) => e.key === 'Enter' && handleFilterChange({ enter: true })}
+                            placeholder={`Search courses...`}
+                            className="w-full rounded-full border border-[#D8F4FF] bg-white px-4 py-2 pr-10 text-sm text-gray-700 placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none"
+                        />
+                        <button
+                            onClick={() => handleFilterChange({ enter: true })}
+                            className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-full bg-[#3ABEFF] p-2 text-white transition hover:bg-[#3ABEFF]/90"
+                        >
+                            <Search className="h-4 w-4" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <InfiniteScroll
+                buffer={1}
+                loading={() => 'Loading more institutes...'}
+                data="institutes"
+                className="mt-10 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+            >
+                {institutes.data.length == 0 ? (
+                    <p className="text-gray-500">Institute empty.</p>
+                ) : (
+                    institutes.data.map((institute: any, index: number) => <InstituteCard key={index} institute={institute} />)
+                )}
+            </InfiniteScroll>
+        </section>
+    );
 }
 
-InstituteListPage.layout = (page: any) => (
-  <AppLayout useContainer={false}>{page}</AppLayout>
-);
+InstituteListPage.layout = (page: any) => <AppLayout useContainer={false}>{page}</AppLayout>;
