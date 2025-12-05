@@ -184,4 +184,25 @@ class CourseService
 
         return $courses;
     }
+
+    public function getCourseByInstitution()
+    {
+        $user = Auth::user();
+        if (!$user)
+            return null;
+
+        $courses = Course::where('institute_id', $user->id)
+            ->paginate(10);
+
+        return $courses;
+    }
+
+    public function getCourseById($id)
+    {
+        $course = Course::with(['courseSkills.skill', 'courseLearningObjectives', 'courseStudentBenefits', 'courseTeacherBenefits', 'courseOverviews'])
+            ->where('id', $id)
+            ->first();
+
+        return $course;
+    }
 }

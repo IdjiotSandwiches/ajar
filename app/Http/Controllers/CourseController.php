@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseRequest;
 use App\Http\Requests\FilterRequest;
 use App\Services\CourseService;
 use Inertia\Inertia;
@@ -49,5 +50,30 @@ class CourseController extends Controller
             'course' => $course,
             'popularCourses' => $popularCourses
         ]);
+    }
+
+    public function getCourseByInstitution()
+    {
+        $courses = $this->service->getCourseByInstitution();
+        return Inertia::render('courses/my-courses', [
+            'courses' => $courses
+        ]);
+    }
+
+    public function getCourseData($id = null)
+    {
+        $course = $this->service->getCourseById($id);
+        return Inertia::render('courses/create', [
+            'course' => $course
+        ]);
+    }
+
+    public function postCourse(CourseRequest $request)
+    {
+        try {
+            $data = $request->validated();
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }
