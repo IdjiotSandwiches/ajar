@@ -151,9 +151,11 @@ export default function CourseListPage({
                     data="courses"
                     className="mt-10 grid grid-cols-1 justify-items-center gap-6 transition-all duration-500 ease-in-out sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
                 >
-                    {courses.data.map((course: any, index: number) => (
-                        <CourseCard key={index} course={course} isTag={false} />
-                    ))}
+                    {courses.data.length == 0 ? (
+                        <p className="text-gray-500">Course empty.</p>
+                    ) : (
+                        courses.data.map((course: any, index: number) => <CourseCard key={index} course={course} isTag={false} />)
+                    )}
                 </InfiniteScroll>
             </section>
         </>

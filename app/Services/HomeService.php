@@ -39,6 +39,7 @@ class HomeService
             ->joinSub($sub, 'rating_table', 'rating_table.user_id', '=', 'institutes.user_id')
             ->join('users', 'users.id', '=', 'institutes.user_id')
             ->select(
+                'users.id as id',
                 'users.name as name',
                 'users.profile_picture as profile_picture'
             )

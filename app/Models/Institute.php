@@ -65,4 +65,15 @@ class Institute extends Model
     {
         return $this->hasMany(Course::class, 'institute_id', 'user_id');
     }
+
+    public function teachers()
+    {
+        return Teacher::query()
+            ->with(['user'])
+            ->join('course_schedules', 'teachers.user_id', '=', 'course_schedules.teacher_id')
+            ->join('courses', 'course_schedules.course_id', '=', 'courses.id')
+            ->where('courses.institute_id', $this->user_id)
+            ->select('teachers.*')
+            ->distinct();
+    }
 }
