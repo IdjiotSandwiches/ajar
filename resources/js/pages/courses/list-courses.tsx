@@ -15,7 +15,7 @@ export default function CourseListPage({
     activeSub,
     search,
     studentFilter,
-    price
+    price,
 }: {
     activeCategory: number;
     parentCategories: CategoryProps[];
@@ -24,7 +24,7 @@ export default function CourseListPage({
     activeSub: number[];
     search: string;
     studentFilter: any;
-    price: any
+    price: any;
 }) {
     const [localSearch, setLocalSearch] = useState<string>(search ?? '');
     const handleFilterChange = (options: {
@@ -68,7 +68,7 @@ export default function CourseListPage({
                     sub: newSub,
                     rating: newRating,
                     price_min: newPriceMin,
-                    price_max: newPriceMax
+                    price_max: newPriceMax,
                 },
                 only: ['courses', 'activeCategory', 'subCategories', 'activeSub', 'studentFilter'],
                 reset: ['courses'],
@@ -107,8 +107,12 @@ export default function CourseListPage({
 
                             <span
                                 className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-500 ease-in-out ${
-                                    Number(activeCategory) === parentCategories[0].id ? 'left-0 w-1/2' : 'left-1/2 w-1/2'
-                                }`}
+                                    activeCategory == null
+                                        ? 'hidden'
+                                        : Number(activeCategory) === parentCategories[0].id
+                                          ? 'left-0 w-1/2'
+                                          : 'left-1/2 w-1/2'
+                                } `}
                             />
                         </div>
                     </div>
@@ -132,7 +136,7 @@ export default function CourseListPage({
                         </div>
 
                         <div className="relative">
-                            {(user?.role_id === roles.Teacher || user?.role_id === roles.Institute) ? (
+                            {user?.role_id === roles.Teacher || user?.role_id === roles.Institute ? (
                                 <FilterTeacher categories={subCategories} activeSub={activeSub} handleFilterChange={handleFilterChange} />
                             ) : (
                                 <FilterStudent studentFilter={studentFilter} price={price} handleFilterChange={handleFilterChange} />
@@ -147,9 +151,11 @@ export default function CourseListPage({
                     data="courses"
                     className="mt-10 grid grid-cols-1 justify-items-center gap-6 transition-all duration-500 ease-in-out sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
                 >
-                    {courses.data.map((course: any, index: number) => (
-                        <CourseCard key={index} course={course} isTag={false} />
-                    ))}
+                    {courses.data.length == 0 ? (
+                        <p className="text-gray-500">Course empty.</p>
+                    ) : (
+                        courses.data.map((course: any, index: number) => <CourseCard key={index} course={course} isTag={false} />)
+                    )}
                 </InfiniteScroll>
             </section>
         </>

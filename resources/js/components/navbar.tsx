@@ -46,7 +46,7 @@ export default function Navbar() {
 
             <span
               className="hover:text-[#1AAAE3] transition-colors cursor-pointer"
-              onClick={() => router.get(route("list-course"))}
+              onClick={() => router.get(route("list-course", { category_id: 1 }))}
             >
               Course
             </span>
@@ -91,7 +91,7 @@ export default function Navbar() {
                       <div className="h-px bg-gray-200 my-1"></div>
 
                       <button
-                        onClick={() => router.get(route("logout"))}
+                        onClick={() => router.post(route("logout"))}
                         className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-sm font-medium text-red-500 cursor-pointer"
                       >
                         Logout

@@ -1,9 +1,8 @@
-import React from "react";
 import { router } from "@inertiajs/react";
 
 export default function TechDesignCourseSection() {
-  const goToList = (categoryId: number) => {
-    router.get(route("list-course"), { category_id: categoryId });
+  const goToList = (category_id: 1 | 2) => {
+    router.get(route("list-course"), { category_id });
   };
 
 

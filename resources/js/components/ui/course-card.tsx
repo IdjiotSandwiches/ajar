@@ -40,7 +40,7 @@ export default function CourseCard({ course, isTag }: { course: any, isTag: bool
                         <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400 mr-1" />
 
                         <span className="text-gray-700 font-medium">
-                            {Number(course.average_rating ?? 0).toFixed(1)}
+                            {course.course_reviews_avg_rating ?? 0}
                         </span>
 
                         <span className="text-gray-400 mx-1">•</span>

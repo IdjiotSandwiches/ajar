@@ -23,7 +23,9 @@ class CourseService
     {
         $user = Auth::user();
         $categories = Category::with('children')
-            ->where('parent_id', $filters['category_id'])
+            ->when(isset($filters['category_id']), function ($q) use ($filters) {
+                $q->where('parent_id', $filters['category_id']);
+            })
             ->select(['id', 'name'])
             ->get();
 
@@ -127,7 +129,8 @@ class CourseService
                 'courseOverviews',
                 'courseSchedules',
                 'teachers.user'
-            ])
+            ]
+        )
             ->withAvg('courseReviews', 'rating')
             ->withCount('courseReviews');
 
@@ -149,10 +152,13 @@ class CourseService
         $user = Auth::user();
         $courses = Course::with(['institute.user', 'courseSkills.skill', 'category.parent'])
             ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachers.user'))
+            ->withCount('courseSchedules')
             ->withAvg('courseReviews', 'rating')
-            ->limit(10)
             ->where('category_id', $categoryId)
             ->whereNotIn('id', [$currentCourseId])
+            ->orderByDesc('course_schedules_count')
+            ->inRandomOrder()
+            ->limit(10)
             ->get();
 
         $coursesCount = $courses->count();
@@ -164,10 +170,13 @@ class CourseService
             $filteredCourseIds = $courses->pluck('id');
             $moreCourses = Course::with(['institute.user', 'courseSkills.skill', 'category.parent'])
                 ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachers.user'))
+                ->withCount('courseSchedules')
                 ->withAvg('courseReviews', 'rating')
-                ->limit($count - $coursesCount)
                 ->whereRelation('category.parent', 'id', $parentCategory)
                 ->whereNotIn('id', $filteredCourseIds->merge($currentCourseId))
+                ->orderByDesc('course_schedules_count')
+                ->inRandomOrder()
+                ->limit($count - $coursesCount)
                 ->get();
 
             $courses = $courses->merge($moreCourses);

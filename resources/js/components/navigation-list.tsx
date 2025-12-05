@@ -1,29 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { List, X } from "lucide-react";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
-interface NavigationListProps {
-    role: 1 | 2 | 3
-}
+export default function NavigationList({ role }: any) {
+    const { props } = usePage();
+    const roles = props.enums?.roles_enum;
 
-export default function NavigationList({ role }: NavigationListProps) {
     const [open, setOpen] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     const navItems =
-        role === 3
+        role === roles.Institute
             ? [
                 { label: "My Courses", route: "institute.my-courses" },
                 { label: "Teacher Applications", route: "institute.teacher-application" },
                 { label: "Courses Taken", route: "institute.courses-taken" },
             ]
-            : role === 2
+            : role === roles.Teacher
                 ? [
                     { label: "Add Schedule", route: "teacher.add-schedule" },
                     // { label: "Finish a Course", route: "teacher.finish-course" },
                     // { label: "Student Chats", route: "teacher.chat" },
                 ]
-                : role === 1
+                : role === roles.Admin
                     ? [
                         { label: "Course Completion", route: "admin.course-completion" },
                         // { label: "Teacher Management", route: "admin.teacher-management" },
@@ -49,7 +48,7 @@ export default function NavigationList({ role }: NavigationListProps) {
 
     const handleNavigation = (routeName: string) => {
         setOpen(false);
-        router.get(route(routeName)); 
+        router.get(route(routeName));
     };
 
     return (

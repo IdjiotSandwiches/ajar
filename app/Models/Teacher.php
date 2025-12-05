@@ -101,4 +101,13 @@ class Teacher extends Model
     {
         return $this->reviews()->count();
     }
+
+    /**
+     * HasMany: Courses
+     * @return HasMany<CourseSchedule, Teacher>
+     */
+    public function courses(): HasMany
+    {
+        return $this->hasMany(CourseSchedule::class, 'teacher_id', 'user_id');
+    }
 }

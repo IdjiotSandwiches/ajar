@@ -26,9 +26,7 @@ export default function InstitutionSection({ institutes }: { institutes: any[] }
                 src={institute.profile_picture}
                 alt={institute.name}
                 className="w-full h-full object-cover cursor-pointer"
-                onClick={() =>
-                  router.get(route("detail-institute", { id: index + 1 }))
-                }
+                onClick={() => router.get(route("detail-institute", institute.id))}
               />
             </div>
 

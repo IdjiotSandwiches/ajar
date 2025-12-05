@@ -1,9 +1,9 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { dummyReview } from "@/dummy-data/dummy-review";
 import ReviewCardNew from "./review-card";
 
-export default function ReviewSection() {
+export default function ReviewSection({ reviews }: { reviews: any[] }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -23,6 +23,14 @@ export default function ReviewSection() {
 
   const goLeft = () => setCurrentIndex((prev) => Math.max(0, prev - 1));
   const goRight = () => setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+
+  if (reviews.length == 0) {
+    return (
+        <div className="min-h-20 flex items-center justify-center text-gray-500">
+            No Reviews.
+        </div>
+    );
+  }
 
   return (
     <section className="px-2 sm:px-0 py-2 md:py-8">
@@ -46,7 +54,7 @@ export default function ReviewSection() {
             ref={containerRef}
             className="flex overflow-x-hidden scroll-smooth gap-0"
           >
-            {dummyReview.map((review) => (
+            {reviews.map((review) => (
               <div
                 key={review.id}
                 data-card
@@ -57,7 +65,6 @@ export default function ReviewSection() {
             ))}
           </div>
         </div>
-
       </div>
     </section>
   );
