@@ -18,14 +18,14 @@ export default function NavigationList({ role }: any) {
             ]
             : role === roles.Teacher
                 ? [
-                    { label: "My Teaching Courses", route: "teacher.my-courses" },
-                    { label: "Finish a Course", route: "teacher.finish-course" },
-                    { label: "Student Chats", route: "teacher.chat" },
+                    { label: "Add Schedule", route: "teacher.add-schedule" },
+                    // { label: "Finish a Course", route: "teacher.finish-course" },
+                    // { label: "Student Chats", route: "teacher.chat" },
                 ]
                 : role === roles.Admin
                     ? [
                         { label: "Course Completion", route: "admin.course-completion" },
-                        { label: "Teacher Management", route: "admin.teacher-management" },
+                        // { label: "Teacher Management", route: "admin.teacher-management" },
                     ]
                     : [];
 

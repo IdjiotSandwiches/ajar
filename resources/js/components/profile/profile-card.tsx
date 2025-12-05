@@ -3,7 +3,9 @@ import { Pencil } from "lucide-react";
 
 export default function ProfileCard({ user }: any) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [previewImage, setPreviewImage] = useState(user.image || "/images/regis-teacher.jpg");
+  const [previewImage, setPreviewImage] = useState(
+    user.image || "/images/regis-teacher.jpg"
+  );
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -21,19 +23,19 @@ export default function ProfileCard({ user }: any) {
     <div className="w-full py-2">
       <div className="bg-[#42C2FF] rounded-2xl shadow-lg p-1 w-full">
         <div className="bg-white p-0.5 rounded-2xl w-full">
-          <div className="bg-[#42C2FF] rounded-2xl px-6 py-12 flex flex-col items-center text-center relative overflow-hidden">
+          <div className="bg-[#42C2FF] rounded-2xl px-4 md:px-6 py-8 md:py-12 flex flex-col items-center text-center relative overflow-hidden">
             <div
-              className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-white shadow-md mb-6 z-10 group cursor-pointer"
+              className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-white shadow-md mb-4 md:mb-6 z-10 group cursor-pointer"
               onClick={handleImageClick}
             >
               <img
-                src={previewImage}
+                src={`/${previewImage || null}`}
                 alt={user.name}
                 className="w-full h-full object-cover transition duration-200 group-hover:opacity-80"
               />
 
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <Pencil className="text-white" size={24} />
+                <Pencil className="text-white" size={22} />
               </div>
 
               <input
@@ -45,10 +47,11 @@ export default function ProfileCard({ user }: any) {
               />
             </div>
 
-            <h2 className="text-2xl font-bold text-white z-10 mb-1">
+            <h2 className="text-xl md:text-2xl font-bold text-white z-10 mb-1">
               {user.name || "Unnamed User"}
             </h2>
-            <p className="text-sm text-white/90 z-10 capitalize">
+
+            <p className="text-xs md:text-sm text-white/90 z-10 capitalize">
               {user.role || "User"}
             </p>
 
@@ -59,6 +62,7 @@ export default function ProfileCard({ user }: any) {
                 className="w-48 object-contain"
               />
             </div>
+
           </div>
         </div>
       </div>

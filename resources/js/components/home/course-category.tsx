@@ -5,8 +5,9 @@ export default function TechDesignCourseSection() {
     router.get(route("list-course"), { category_id });
   };
 
+
   return (
-    <section className="pt-8 pb-16 px-6 md:px-12 bg-white">
+    <section className="pt-8 pb-4 md:pt-16 md:pb-8 px-6 md:px-12 bg-white">
       <div className="grid md:grid-cols-2 gap-8">
         <div className="p-6 border rounded-lg shadow-sm bg-[#42C2FF]/5">
           <h4 className="text-[#42C2FF] font-semibold mb-2">Technology Course</h4>

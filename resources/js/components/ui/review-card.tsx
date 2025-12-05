@@ -11,7 +11,7 @@ export default function ReviewCard({ review }: { review: any }) {
       <div>
         <div className="flex items-center gap-3 mb-3">
           <img
-            src={review.reviewer.profile_picture || null}
+            src={`/${review.reviewer.profile_picture || null}`}
             alt={review.name}
             className="w-10 h-10 rounded-full object-cover"
           />

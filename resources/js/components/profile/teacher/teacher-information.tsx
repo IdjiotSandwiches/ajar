@@ -31,8 +31,8 @@ const ProfileTeacherForm: React.FC<ProfileTeacherFormProps> = ({
   };
 
   return (
-    <div className="bg-white shadow-sm rounded-2xl p-8">
-      <h3 className="text-2xl font-semibold text-center text-[#42C2FF] mb-8">
+    <div className="bg-white shadow-sm rounded-2xl p-6 md:p-8">
+      <h3 className="text-xl md:text-2xl font-semibold text-center text-[#42C2FF] mb-8">
         Teacher Information
       </h3>
 

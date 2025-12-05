@@ -58,15 +58,9 @@ Route::middleware(['auth', 'verified', 'role:Institute'])
             ]);
         })->name('edit-course');
         Route::get('teacher-application', fn() => Inertia::render('institute/teacher-application'))->name('teacher-application');
+        Route::get('coursea-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
         Route::get('profile', fn() => Inertia::render('institute/edit-profile'))->name('profile-institute');
     });
-
-// Route::middleware(['auth', 'verified', 'role:Institute,Teacher'])
-//     ->prefix('combine')
-//     ->name('combine.')
-//     ->group(function () {
-//
-//     });
 
 
 

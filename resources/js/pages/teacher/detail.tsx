@@ -18,7 +18,8 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
     return (
         <>
             <div className="w-full min-h-screen bg-[#F9FCFF] pb-20">
-                <div className="max-w-7xl mx-auto px-6 pt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+
                     <div>
                         <TeacherProfileCard teacher={teacher} />
                         {!teacher.is_verified && (
@@ -32,13 +33,13 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
                             </div>)}
                     </div>
                     <div className="md:col-span-2 space-y-8">
-                        <div className="border border-gray-200 bg-white shadow rounded-xl p-6 w-full">
-                            <div className="grid grid-cols-3 gap-4 mb-6">
+                        <div className="border border-gray-200 bg-white shadow rounded-xl p-4 md:p-6 w-full">
+                            <div className="grid md:grid-cols-3 gap-4 mb-6">
                                 <div className="flex items-start gap-2">
                                     <GraduationCap size={24} className="text-[#42C2FF]" />
                                     <h3 className="text-gray-700 font-semibold">Graduate</h3>
                                 </div>
-                                <div className="col-span-2 space-y-2 text-gray-600">
+                                <div className="pl-1 md:pl-0 md:col-span-2 space-y-2 text-gray-600">
                                     {teacher.graduates?.map((item: any, index: number) => (
                                         <div key={index}>
                                             <p className="text-sm opacity-70">{item.degree_title}</p>
@@ -50,13 +51,13 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
 
                             <hr className="border-[#42C2FF]/30 my-6" />
 
-                            <div className="grid grid-cols-3 gap-4 mb-6">
+                            <div className="grid md:grid-cols-3 gap-4 mb-6">
                                 <div className="flex items-start gap-2">
                                     <BriefcaseBusiness size={24} className="text-[#42C2FF]" />
                                     <h3 className="text-gray-700 font-semibold">Work Experience</h3>
                                 </div>
-                                <div className="col-span-2 space-y-3 text-gray-600">
-                                    {teacher.work_experiences?.map((item: any, index: number) => (
+                                <div className="pl-1 md:pl-0 md:col-span-2 space-y-3 text-gray-600">
+                                    {teacher.works?.map((item: any, index: number) => (
                                         <div key={index}>
                                             <p className="text-sm opacity-70">{item.duration} tahun</p>
                                             <p>{item.institution}</p>
@@ -67,12 +68,12 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
 
                             <hr className="border-[#42C2FF]/30 my-6" />
 
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid md:grid-cols-3 gap-4">
                                 <div className="flex items-start gap-2">
                                     <FileBadge size={24} className="text-[#42C2FF]" />
                                     <h3 className="text-gray-700 font-semibold">Certificate</h3>
                                 </div>
-                                <div className="col-span-2 flex flex-col gap-3">
+                                <div className="pl-1 md:pl-0 md:col-span-2 flex flex-col gap-3">
                                     {teacher.certificates?.map((item: any, index: number) => (
                                         <button
                                             key={index}
@@ -85,7 +86,7 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
                                             className="flex items-center gap-3 bg-[#42C2FF]/20 border border-[#42C2FF]/40 rounded-lg px-3 py-2 text-left hover:bg-[#42C2FF]/30 transition"
                                         >
                                             <img
-                                                src={item || "/images/certificate-placeholder.png"}
+                                                src={`/${item || "/images/certificate-placeholder.png"}`}
                                                 className="w-14 h-10 object-cover rounded"
                                             />
                                             <span className="text-sm font-medium text-gray-700">Certificate {index + 1}</span>
@@ -96,7 +97,7 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
 
                         </div>
 
-                        <div className="bg-white rounded-xl shadow border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow border border-gray-200 p-4 md:p-6">
                             <div className="flex gap-2 mb-4">
                                 <Album size={24} className="text-[#42C2FF]" />
                                 <h3 className="text-gray-700 font-semibold">Courses taught</h3>
@@ -107,7 +108,7 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
                                 })}
                             </div>
                         </div>
-                        <div className="bg-white rounded-xl shadow border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow border border-gray-200 p-4 md:p-6">
                             <div className="flex gap-2 mb-4">
                                 <Star size={24} className="text-[#42C2FF]" />
                                 <h3 className="text-gray-700 font-semibold">Reviews</h3>
@@ -124,10 +125,9 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
                 >
                     <div className="relative">
                         <img
-                            src={previewImage}
+                            src={`/${previewImage}`}
                             className="max-w-[90vw] max-h-[80vh] rounded-xl shadow-lg border-4 border-white object-contain"
                         />
-                        {/* Close Button */}
                         <button
                             onClick={() => setPreviewImage(null)}
                             className="absolute -top-4 -right-4 bg-white rounded-full p-2 shadow text-gray-600 hover:bg-gray-100 hover:text-[#42C2FF]"
@@ -141,7 +141,6 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
         </>
     );
 }
-
 
 TeacherDetailPage.layout = (page: React.ReactNode) => (
     <AppLayout useContainer={false}>{page}</AppLayout>

@@ -6,7 +6,6 @@ import ReviewSection from "@/components/course/review";
 import PopularCourses from "@/components/home/popular-courses";
 
 export default function CourseDetailPage({ course, popularCourses }: { course: any, popularCourses: any[] }) {
-    console.log(course);
     const [activeTab, setActiveTab] = useState("syllabus");
 
     const syllabusRef = useRef<HTMLHeadingElement | null>(null);
@@ -69,8 +68,8 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
             <CourseHero course={course} />
             <div className="block lg:hidden px-4 mt-4">
                 <CourseSidebar
-                    institute={course.institute}
-                    teacher={course.teacher}
+                    institute={course.institute.user}
+                    teacher={course.teachers}
                 />
             </div>
             <div className="flex justify-center mt-6 md:-mt-6 mb-8 relative z-20 px-3">
@@ -151,7 +150,7 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
                 </div>
             </div>
 
-            <div className="mx-auto px-10">
+            <div className="mx-auto md:px-10">
                 <PopularCourses courses={popularCourses} />
             </div>
         </div>

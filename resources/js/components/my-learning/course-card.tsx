@@ -53,7 +53,7 @@ export default function CourseCard({
   return (
     <div className="flex flex-col sm:flex-row border border-[#42C2FF]/40 bg-white rounded-xl p-3 gap-4 shadow-sm">
       <img
-        src={image}
+        src={`/${image || null}`}
         className="
           w-full h-36 object-cover rounded-md
           sm:w-32 sm:h-32

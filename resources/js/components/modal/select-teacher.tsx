@@ -66,7 +66,7 @@ const TeacherSelectModal: React.FC<TeacherSelectModalProps> = ({
                 <div className="w-12 h-12 bg-gray-100 rounded-full overflow-hidden">
                   {teacher.image ? (
                     <img
-                      src={teacher.image}
+                      src={`/${teacher.image || null}`}
                       alt={teacher.name}
                       className="w-full h-full object-cover"
                     />

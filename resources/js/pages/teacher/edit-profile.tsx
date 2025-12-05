@@ -8,7 +8,6 @@ import { dummyTeachers } from "@/dummy-data/dummy-teacher";
 
 export default function ProfilePage() {
   const [activeSection, setActiveSection] = useState("Personal Information");
-
   const teacher = dummyTeachers[0];
 
   const form = useForm({
@@ -27,13 +26,14 @@ export default function ProfilePage() {
   });
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col md:flex-row">
       <ProfileSidebar
         activeSection={activeSection}
         onSectionChange={setActiveSection}
         user={form.data}
       />
-      <main className="flex-1 p-10">
+
+      <main className="flex-1 p-5 md:p-10 w-full">
         {activeSection === "Personal Information" && (
           <ProfilePersonalForm form={form} />
         )}
