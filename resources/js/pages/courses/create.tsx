@@ -286,7 +286,7 @@ export default function CreateCoursePage({ course, errors }: any) {
                                 })}
                             </div>
                             <div>
-                                <h3 className="mb-3 text-sm font-medium text-gray-800">Course Overviews</h3>
+                                <h3 className="mb-3 text-sm font-medium text-gray-800">Course Skills</h3>
                                 {courseSkills.map((row: any, index: number) => {
                                     const isLast = index === (courseSkills?.length ?? 1) - 1;
                                     const isSingle = (courseSkills?.length ?? 0) === 1;
