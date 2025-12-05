@@ -1,9 +1,12 @@
 import { FaStar } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { useState } from "react";
+import { router, usePage } from "@inertiajs/react";
 import RegisterFlow from "../modal/register-course/register-modal";
 
 export default function CourseHero({ course }: { course: any }) {
+    const { props } = usePage();
+    const user = props.auth?.user;
     const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
     return (
@@ -43,7 +46,12 @@ export default function CourseHero({ course }: { course: any }) {
                     <div className="flex items-center gap-6 mt-4">
                         <button
                             className="bg-[#3ABEFF] text-white px-7 py-3 rounded-lg font-medium hover:bg-[#2fa5d8] transition"
-                            onClick={() => setIsRegisterOpen(true)}
+                            onClick={() => {
+                                if (user)
+                                    setIsRegisterOpen(true);
+                                else
+                                    router.get('/login');
+                            }}
                         >
                             Register Now
                         </button>
