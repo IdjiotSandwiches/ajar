@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -9,14 +10,13 @@ use Inertia\Inertia;
 Route::get('/', [HomeController::class, 'getHomeData'])
     ->name('home');
 
-Route::get('detail-institute/{id}', function ($id) {
-    return Inertia::render('institute/detail', [
-        'instituteId' => $id,
-    ]);
-})->name('detail-institute');
 
 Route::controller(TeacherController::class)->group(function () {
     Route::get('detail-teacher/{id}', 'getTeacherDetail')->name('detail-teacher');
+});
+
+Route::controller(InstituteController::class)->group(function () {
+    Route::get('detail-institute/{id}', 'getInstituteDetail')->name('detail-institute');
 });
 
 Route::get('list-institute', fn() => Inertia::render('institute/list-institute'))

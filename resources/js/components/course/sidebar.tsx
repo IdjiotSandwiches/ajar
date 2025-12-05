@@ -31,7 +31,7 @@ export default function CourseSidebar({ teacher, institute }: { teacher: any[], 
         <h3 className="text-sm font-semibold text-gray-700 mb-2">Institution</h3>
         <div
           className="bg-[#3ABEFF] rounded-2xl shadow-lg p-1 cursor-pointer"
-          onClick={() => router.get(route("detail-institute", { id: institute.id }))}
+          onClick={() => router.get(route("detail-institute", institute.id))}
         >
           <div className="bg-white p-0.5 rounded-2xl">
             <div className="bg-[#3ABEFF] rounded-2xl p-2 flex items-center text-center relative overflow-hidden gap-4">
