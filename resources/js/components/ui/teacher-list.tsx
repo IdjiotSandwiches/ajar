@@ -22,7 +22,7 @@ export default function TeacherList({ teachers = [] }) {
             {teachers.length > 0 ? (
                 <div className="absolute inset-0 transition-all duration-700 ease-in-out flex items-center gap-2 px-4 py-2">
                     <img
-                        src={imgSrc}
+                        src={`/${imgSrc}`}
                         alt={teacher?.name}
                         className="w-8 h-8 rounded-full object-cover border"
                     />

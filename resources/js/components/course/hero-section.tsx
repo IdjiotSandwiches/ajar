@@ -71,7 +71,7 @@ export default function CourseHero({ course }: { course: any }) {
 
                 <div className="flex justify-center lg:col-span-1">
                     <img
-                        src={course.image || null}
+                        src={`/${course.image || null}`}
                         alt={course.name}
                         className="rounded-xl max-w-[480px] w-full max-h-[320px] object-cover ring-1 ring-gray-200 shadow-sm"
                     />

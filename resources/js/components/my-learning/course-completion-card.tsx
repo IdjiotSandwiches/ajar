@@ -41,15 +41,15 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
 
   return (
     <div className="
-      border border-[#42C2FF]/50 bg-white rounded-xl p-4 mb-5 
-      flex flex-col md:flex-row 
+      border border-[#42C2FF]/50 bg-white rounded-xl p-4 mb-5
+      flex flex-col md:flex-row
       gap-4 shadow-sm hover:shadow-md transition
     ">
       <img
-        src={image}
+        src={`/${image || null}`}
         alt={title}
         className="
-          w-full md:w-32 h-40 md:h-32 
+          w-full md:w-32 h-40 md:h-32
           object-cover rounded-lg border border-gray-200
         "
       />
@@ -61,7 +61,7 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
           <div className="text-sm text-gray-700">
             <div
               className="
-                grid grid-cols-1 md:grid-cols-8 
+                grid grid-cols-1 md:grid-cols-8
                 gap-y-1 md:gap-y-1
               "
             >
@@ -105,7 +105,7 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
           <button
             onClick={onCompleteClick}
             className="
-              px-5 py-2 text-sm bg-[#42C2FF] hover:bg-[#42C2FF]/90 
+              px-5 py-2 text-sm bg-[#42C2FF] hover:bg-[#42C2FF]/90
               text-white rounded-lg transition w-full md:w-auto
             "
           >

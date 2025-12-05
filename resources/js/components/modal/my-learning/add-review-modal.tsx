@@ -56,7 +56,7 @@ export function AddReviewModal({
       <p className="text-sm text-gray-500 mb-6">{data.subtitle}</p>
 
       <div className="flex items-center gap-3 justify-center mb-3">
-        <img src={data.image} className="w-12 h-12 rounded-md object-cover" />
+        <img src={`/${data.image || null}`} className="w-12 h-12 rounded-md object-cover" />
         <div className="text-left">
           <p className="font-medium text-gray-800">{data.name}</p>
           {data.role && <p className="text-xs text-gray-500">{data.role}</p>}

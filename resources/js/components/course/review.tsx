@@ -64,7 +64,7 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
                                         >
                                             <div>
                                                 <div className="mb-3 flex items-center gap-3">
-                                                    <img src={review.avatar} alt={review.reviewer_name} className="h-10 w-10 rounded-full object-cover" />
+                                                    <img src={`/${review.avatar || null}`} alt={review.reviewer_name} className="h-10 w-10 rounded-full object-cover" />
                                                     <div>
                                                         <p className="font-medium text-gray-800">
                                                             {user.name} - <span className="text-gray-500">{role}</span>

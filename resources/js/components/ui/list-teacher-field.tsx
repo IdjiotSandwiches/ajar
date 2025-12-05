@@ -57,7 +57,7 @@ const TeacherListField: React.FC<TeacherListFieldProps> = ({
             <div className="w-8 h-8 rounded-full bg-gray-300 overflow-hidden">
               {teacher.image ? (
                 <img
-                  src={teacher.image}
+                  src={`/${teacher.image || null}`}
                   alt={teacher.name}
                   className="w-full h-full object-cover"
                 />

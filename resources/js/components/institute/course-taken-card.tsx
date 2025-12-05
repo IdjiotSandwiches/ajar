@@ -42,7 +42,7 @@ const CourseStatusCard: React.FC<CourseStatusCardProps> = ({
   return (
     <div className="border border-[#42C2FF]/50 bg-white rounded-xl p-4 mb-5 flex flex-col md:flex-row gap-4 shadow-sm hover:shadow-md transition">
       <img
-        src={image}
+        src={`/${image || null}`}
         alt={title}
         className="w-full h-40 md:w-32 md:h-32 object-cover rounded-lg border border-gray-200"
       />

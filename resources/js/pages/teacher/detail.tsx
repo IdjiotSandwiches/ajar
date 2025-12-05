@@ -86,7 +86,7 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
                                             className="flex items-center gap-3 bg-[#42C2FF]/20 border border-[#42C2FF]/40 rounded-lg px-3 py-2 text-left hover:bg-[#42C2FF]/30 transition"
                                         >
                                             <img
-                                                src={item || "/images/certificate-placeholder.png"}
+                                                src={`/${item || "/images/certificate-placeholder.png"}`}
                                                 className="w-14 h-10 object-cover rounded"
                                             />
                                             <span className="text-sm font-medium text-gray-700">Certificate {index + 1}</span>
@@ -125,7 +125,7 @@ export default function TeacherDetailPage({ teacher }: { teacher: any }) {
                 >
                     <div className="relative">
                         <img
-                            src={previewImage}
+                            src={`/${previewImage}`}
                             className="max-w-[90vw] max-h-[80vh] rounded-xl shadow-lg border-4 border-white object-contain"
                         />
                         <button

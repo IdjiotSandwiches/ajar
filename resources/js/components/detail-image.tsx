@@ -83,7 +83,7 @@ const DetailImage: React.FC<DetailImageProps> = ({
             previewUrls.map((url, index) => (
               <li key={index} className="relative w-24 h-24 border rounded-md">
                 <img
-                  src={url}
+                  src={`/${url || null}`}
                   alt="preview"
                   className="w-full h-full object-cover rounded-md"
                 />

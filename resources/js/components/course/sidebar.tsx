@@ -18,7 +18,7 @@ export default function CourseSidebar({ teacher, institute }: { teacher: any[], 
         left: slider.clientWidth * index,
         behavior: "smooth",
       });
-    }, 3000); 
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [teachers.length]);
@@ -34,7 +34,7 @@ export default function CourseSidebar({ teacher, institute }: { teacher: any[], 
         >
           <div className="bg-white p-0.5 rounded-2xl">
             <div className="bg-[#3ABEFF] rounded-2xl p-2 flex items-center text-center relative overflow-hidden gap-4">
-              <img src={institute.profile_picture || null} alt="ins" className="w-12 h-12 rounded-full border-2" />
+              <img src={`/${institute.profile_picture || null}`} alt="ins" className="w-12 h-12 rounded-full border-2" />
               <span className="font-medium text-white">{institute.name}</span>
             </div>
           </div>

@@ -29,7 +29,7 @@ export default function ProfileCard({ user }: any) {
               onClick={handleImageClick}
             >
               <img
-                src={previewImage}
+                src={`/${previewImage || null}`}
                 alt={user.name}
                 className="w-full h-full object-cover transition duration-200 group-hover:opacity-80"
               />

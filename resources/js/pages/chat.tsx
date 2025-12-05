@@ -151,7 +151,7 @@ export default function ChatPage() {
               }`}
             >
               <img
-                src={user.image}
+                src={`/${user.image}`}
                 alt={user.name}
                 className="w-12 h-12 rounded-full object-cover"
               />
@@ -176,7 +176,7 @@ export default function ChatPage() {
               }
             >
               <img
-                src={selectedUser.image}
+                src={`/${selectedUser.image}`}
                 alt={selectedUser.name}
                 className="w-12 h-12 rounded-full object-cover"
               />

@@ -6,7 +6,6 @@ import ReviewSection from "@/components/course/review";
 import PopularCourses from "@/components/home/popular-courses";
 
 export default function CourseDetailPage({ course, popularCourses }: { course: any, popularCourses: any[] }) {
-    console.log(course);
     const [activeTab, setActiveTab] = useState("syllabus");
 
     const syllabusRef = useRef<HTMLHeadingElement | null>(null);

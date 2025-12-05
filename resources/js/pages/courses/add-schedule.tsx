@@ -56,7 +56,7 @@ export default function AddSchedulePage() {
                 onClick={() => handleSlotClick(day, hour)}
                 className="w-6 h-6 md:w-8 md:h-8 rounded-full overflow-hidden border-2 border-[#42C2FF]"
             >
-                <img src={avatar} alt="teacher" className="w-full h-full object-cover" />
+                <img src={`/${avatar}`} alt="teacher" className="w-full h-full object-cover" />
             </button>
         );
     };
@@ -124,7 +124,7 @@ export default function AddSchedulePage() {
                                     className="flex items-center gap-3 border border-[#42C2FF]/30 p-3 rounded-xl"
                                 >
                                     <img
-                                        src={typeof t.image === "string" ? t.image : "/images/default-avatar.png"}
+                                        src={`/${t.image || "/images/default-avatar.png"}`}
                                         alt={t.name}
                                         className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover"
                                     />
