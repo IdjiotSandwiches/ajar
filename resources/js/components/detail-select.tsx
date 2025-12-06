@@ -5,7 +5,7 @@ interface DetailSelectProps {
   title: string;
   name: string;
   value?: string | number | null;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   options: { label: string; value: string | number }[];
   disabled?: boolean;
   tabIndex?: number;
@@ -32,7 +32,7 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
         id={id}
         name={name}
         value={hasValue ? String(value) : ""}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange?.(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         tabIndex={tabIndex}
@@ -45,7 +45,7 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
                        : "border-gray-300 dark:border-gray-600 focus:border-[#42C2FF]"
                    }`}
       >
-        <option value="" disabled hidden >
+        <option value="" disabled hidden>
           {showPlaceholder ? "Select Degree" : ""}
         </option>
 

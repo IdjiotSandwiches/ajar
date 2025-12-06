@@ -50,13 +50,13 @@ Route::middleware(['auth', 'verified', 'role:Institute'])
     ->prefix('institute')
     ->name('institute.')
     ->group(function () {
-        Route::get('create-course', fn() => Inertia::render('courses/create'))->name('create-course');
-        Route::get('my-courses', fn() => Inertia::render('courses/my-courses'))->name('my-courses');
-        Route::get('edit-course/{id}', function ($id) {
-            return Inertia::render('courses/edit', [
-                'courseId' => $id,
-            ]);
-        })->name('edit-course');
+        Route::controller(CourseController::class)->group(function () {
+            Route::get('my-courses', 'getCourseByInstitution')->name('my-courses');
+            Route::get('course-detail/{id?}', 'getCourseData')->name('course-detail');
+            Route::post('course-detail', 'postCourse')->name('post-course');
+            Route::put('course-detail/{id?}', 'putCourse')->name('put-course');
+            Route::delete('course-detail/{id}', 'removeCourse')->name('delete-course');
+        });
         Route::get('teacher-application', fn() => Inertia::render('institute/teacher-application'))->name('teacher-application');
         Route::get('coursea-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
         Route::get('profile', fn() => Inertia::render('institute/edit-profile'))->name('profile-institute');

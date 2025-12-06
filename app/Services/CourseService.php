@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Skill;
+use App\Utilities\UploadUtility;
 use Illuminate\Support\Facades\Auth;
 
 class CourseService
@@ -183,5 +185,114 @@ class CourseService
         }
 
         return $courses;
+    }
+
+    public function getCourseByInstitution()
+    {
+        $user = Auth::user();
+        if (!$user)
+            return null;
+
+        $courses = Course::where('institute_id', $user->id)
+            ->paginate(10);
+
+        return $courses;
+    }
+
+    public function getCourseById($id)
+    {
+        $course = Course::with(['courseSkills.skill', 'courseLearningObjectives', 'courseStudentBenefits', 'courseTeacherBenefits', 'courseOverviews'])
+            ->where('id', $id)
+            ->first();
+
+        return $course;
+    }
+
+    public function getCourseSkillByCategory()
+    {
+        $user = Auth::user();
+        $user = $user->load('institute');
+        $skills = Skill::where('category_id', $user->institute->category_id)
+            ->get();
+
+        return $skills;
+    }
+
+    public function getCategories()
+    {
+        $user = Auth::user();
+        $user = $user->load('institute');
+
+        $categories = Category::with('children')
+            ->where('parent_id', $user->institute->category_id)
+            ->select(['id', 'name'])
+            ->get();
+
+        return $categories;
+    }
+
+    public function createOrUpdateCourses(array $data, $id = null)
+    {
+        $user = Auth::user();
+        $user = $user->load('institute');
+
+        $course = Course::firstOrNew(['id' => $id]);
+        $course->institute_id = $user->institute->user_id;
+        $course->fill([
+            'name' => $data['name'],
+            'description' => $data['description'],
+            'price' => $data['price'],
+            'duration' => $data['duration'],
+            'discount' => $data['discount'],
+            'teacher_salary' => $data['teacher_salary'],
+            'category_id' => $data['category']
+        ]);
+
+        if (!empty($data['course_images']) && !$course->image) {
+            $url = UploadUtility::upload($data['course_images'], 'course_images');
+            $course->image = $url;
+        }
+
+        $course->save();
+        $relations = [
+            'learning_objectives' => 'courseLearningObjectives',
+            'benefit_for_students' => 'courseStudentBenefits',
+            'benefit_for_teachers' => 'courseTeacherBenefits',
+            'course_overviews' => 'courseOverviews',
+            'course_skills' => 'courseSkills',
+        ];
+
+        foreach ($relations as $key => $relationMethod) {
+            if (isset($data[$key]) && \is_array($data[$key])) {
+                if ($key === 'course_skills') {
+                    $course->courseSkills()->delete();
+                    $skills = array_map(fn($s) => ['skill_id' => $s['id']], $data[$key]);
+                    $course->courseSkills()->createMany($skills);
+                    continue;
+                }
+
+                $ids = [];
+                foreach ($data[$key] as $item) {
+                    $model = $course->$relationMethod()->updateOrCreate(
+                        ['id' => $item['id'] ?? null],
+                        ['description' => $item['description']]
+                    );
+                    $ids[] = $model->id;
+                }
+
+                $course->$relationMethod()->whereNotIn('id', $ids)->delete();
+            }
+        }
+    }
+
+    public function deleteCourse($id)
+    {
+        $course = Course::find($id);
+        if ($course) {
+            $course->delete();
+            return true;
+        }
+
+        return false;
     }
 }

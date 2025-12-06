@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseRequest;
 use App\Http\Requests\FilterRequest;
 use App\Services\CourseService;
 use Inertia\Inertia;
@@ -49,5 +50,56 @@ class CourseController extends Controller
             'course' => $course,
             'popularCourses' => $popularCourses
         ]);
+    }
+
+    public function getCourseByInstitution()
+    {
+        $courses = $this->service->getCourseByInstitution();
+        return Inertia::render('courses/my-courses', [
+            'courses' => $courses
+        ]);
+    }
+
+    public function getCourseData($id = null)
+    {
+        $course = $this->service->getCourseById($id);
+        $skills = $this->service->getCourseSkillByCategory();
+        $categories = $this->service->getCategories();
+        return Inertia::render('courses/create', [
+            'course' => $course,
+            'skills' => $skills,
+            'categories' => $categories
+        ]);
+    }
+
+    public function postCourse(CourseRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $this->service->createOrUpdateCourses($data);
+            return redirect(route('institute.my-courses'))->with('success', 'Course created!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function putCourse(CourseRequest $request, $id)
+    {
+        try {
+            $data = $request->validated();
+            $this->service->createOrUpdateCourses($data, $id);
+            return redirect(route('institute.my-courses'))->with('success', 'Course updated!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function removeCourse($id)
+    {
+        $isDeleted = $this->service->deleteCourse($id);
+        if ($isDeleted)
+            return back()->with('success', 'Course deleted!');
+        else
+            return back()->with('error', 'Course not found!');
     }
 }

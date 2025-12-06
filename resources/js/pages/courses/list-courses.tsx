@@ -37,29 +37,14 @@ export default function CourseListPage({
         priceMax?: number;
     }) => {
         const { category_id, search: s, enter, sub, rating, priceMin, priceMax } = options;
-        if (s !== undefined) setLocalSearch(s);
+        const isCategoryChanged = category_id !== undefined && Number(category_id) !== Number(activeCategory);
+        const newSearch = isCategoryChanged ? '' : (s ?? localSearch ?? search);
+        const newSub = isCategoryChanged ? [] : (sub ?? activeSub);
+        const newRating = isCategoryChanged ? [] : (rating ?? studentFilter.rating);
+        const newPriceMin = isCategoryChanged ? undefined : Number(priceMin ?? studentFilter.price_min ?? price.min);
+        const newPriceMax = isCategoryChanged ? undefined : Number(priceMax ?? studentFilter.price_max ?? price.max);
 
-        let newSub: number[] | undefined;
-        let newRating: number[] | undefined;
-        let newPriceMin: number;
-        let newPriceMax: number;
-        let newSearch: string;
-
-        if (category_id !== undefined && category_id !== activeCategory) {
-            setLocalSearch('');
-            newSearch = s ?? '';
-            newSub = sub ?? [];
-            newRating = rating ?? [];
-            newPriceMin = priceMin ?? price.min;
-            newPriceMax = priceMax ?? price.max;
-        } else {
-            newSearch = localSearch ?? search;
-            newSub = sub ?? activeSub;
-            newRating = rating ?? studentFilter.rating;
-            newPriceMin = priceMin ?? studentFilter.min;
-            newPriceMax = priceMax ?? studentFilter.max;
-        }
-
+        setLocalSearch(newSearch);
         if (enter || category_id !== undefined) {
             router.visit(route('list-course'), {
                 data: {
@@ -71,7 +56,7 @@ export default function CourseListPage({
                     price_max: newPriceMax,
                 },
                 only: ['courses', 'activeCategory', 'subCategories', 'activeSub', 'studentFilter'],
-                reset: ['courses'],
+                reset: ['courses', 'price'],
                 preserveScroll: true,
                 preserveState: true,
                 replace: true,
@@ -90,7 +75,6 @@ export default function CourseListPage({
                 <div className="flex w-full flex-col items-center pt-12">
                     <div className="relative mb-8 flex w-[240px] flex-col items-center">
                         <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#D8F4FF]" />
-
                         <div className="relative flex w-full justify-between">
                             {parentCategories.map((cat) => (
                                 <div key={cat.id} className="relative flex w-1/2 justify-center">

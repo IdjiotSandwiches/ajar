@@ -1,19 +1,20 @@
-import { FaStar } from "react-icons/fa";
-import { FaCheck } from "react-icons/fa6";
-import { useState } from "react";
-import { router, usePage } from "@inertiajs/react";
-import RegisterFlow from "../modal/register-course/register-modal";
+import { router, usePage } from '@inertiajs/react';
+import { useState } from 'react';
+import { FaStar } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa6';
+import RegisterFlow from '../modal/register-course/register-modal';
 
 export default function CourseHero({ course }: { course: any }) {
+    console.log(course);
     const { props } = usePage();
     const user = props.auth?.user;
     const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
     return (
-        <section className="w-full bg-white py-10 border-b border-gray-200">
-            <div className="mx-auto px-4 md:px-20 grid grid-cols-1 lg:grid-cols-3 gap-10 items-start mt-8">
+        <section className="w-full border-b border-gray-200 bg-white py-10">
+            <div className="mx-auto mt-8 grid grid-cols-1 items-start gap-10 px-4 md:px-20 lg:grid-cols-3">
                 <div className="lg:col-span-2">
-                    <div className="flex items-center gap-2 text-sm mb-3">
+                    <div className="mb-3 flex items-center gap-2 text-sm">
                         <div className="flex text-yellow-400">
                             {[...Array(5)].map((_, i) => (
                                 <FaStar key={i} />
@@ -23,19 +24,15 @@ export default function CourseHero({ course }: { course: any }) {
                         <span className="text-[#3ABEFF]">({course.course_reviews_count} reviews)</span>
                     </div>
 
-                    <h1 className="text-3xl font-bold text-gray-800 leading-snug mb-3">
-                        {course.name}
-                    </h1>
+                    <h1 className="mb-3 text-3xl leading-snug font-bold text-gray-800">{course.name}</h1>
 
-                    <p className="text-gray-700 mb-4">
+                    <p className="mb-4 text-gray-700">
                         <span className="font-semibold">Duration:</span> {course.duration} Minutes
                     </p>
 
-                    <p className="text-gray-600 leading-relaxed max-w-2xl mb-6">
-                        {course.description}
-                    </p>
+                    <p className="mb-6 max-w-2xl leading-relaxed text-gray-600">{course.description}</p>
 
-                    <div className="grid md:grid-cols-3 gap-y-3 gap-x-6 mb-8 text-gray-700">
+                    <div className="mb-8 grid gap-x-6 gap-y-3 text-gray-700 md:grid-cols-3">
                         {course.course_learning_objectives?.map((item: any) => (
                             <p key={item.id} className="flex items-center gap-2 text-sm">
                                 <FaCheck className="text-[#3ABEFF]" /> {item.description}
@@ -43,14 +40,12 @@ export default function CourseHero({ course }: { course: any }) {
                         ))}
                     </div>
 
-                    <div className="flex items-center gap-6 mt-4">
+                    <div className="mt-4 flex items-center gap-6">
                         <button
-                            className="bg-[#3ABEFF] text-white px-7 py-3 rounded-lg font-medium hover:bg-[#2fa5d8] transition"
+                            className="rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
                             onClick={() => {
-                                if (user)
-                                    setIsRegisterOpen(true);
-                                else
-                                    router.get('/login');
+                                if (user) setIsRegisterOpen(true);
+                                else router.get('/login');
                             }}
                         >
                             Register Now
@@ -58,18 +53,18 @@ export default function CourseHero({ course }: { course: any }) {
 
                         <div className="flex items-center gap-2">
                             <p className="text-xl font-bold text-[#3ABEFF]">
-                                Rp {Number(course.price).toLocaleString("id-ID", {
+                                Rp{' '}
+                                {Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString('id-ID', {
                                     minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
+                                    maximumFractionDigits: 2,
                                 })}
                             </p>
-                            {course.discount && (
-                                <p className="text-sm line-through text-gray-400">
-                                    Rp {Number(
-                                        Number(course.price) + (Number(course.price) * course.discount) / 100
-                                    ).toLocaleString("id-ID", {
+                            {Number(course.discount) > 0 && (
+                                <p className="text-sm text-gray-400 line-through">
+                                    Rp{' '}
+                                    {Number(course.price).toLocaleString('id-ID', {
                                         minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2
+                                        maximumFractionDigits: 2,
                                     })}
                                 </p>
                             )}
@@ -79,16 +74,13 @@ export default function CourseHero({ course }: { course: any }) {
 
                 <div className="flex justify-center lg:col-span-1">
                     <img
-                        src={`/${course.image || null}`}
+                        src={course?.image}
                         alt={course.name}
-                        className="rounded-xl max-w-[480px] w-full max-h-[320px] object-cover ring-1 ring-gray-200 shadow-sm"
+                        className="max-h-[320px] w-full max-w-[480px] rounded-xl object-cover shadow-sm ring-1 ring-gray-200"
                     />
                 </div>
             </div>
-            <RegisterFlow
-                isOpen={isRegisterOpen}
-                onClose={() => setIsRegisterOpen(false)}
-            />
+            <RegisterFlow isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
         </section>
     );
 }

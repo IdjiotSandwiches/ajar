@@ -7,7 +7,7 @@ interface DetailInputProps {
   title: string;
   min?: number;
   value: string | number;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   tabIndex?: number
@@ -53,9 +53,9 @@ const DetailInput: React.FC<DetailInputProps> = ({
           name={name}
           id={id}
           ref={textareaRef}
-          value={value as string}
+          defaultValue={value as string}
           onChange={(e) => {
-            onChange(e);
+            onChange?.(e);
             handleTextareaInput();
           }}
           rows={1}
@@ -75,7 +75,7 @@ const DetailInput: React.FC<DetailInputProps> = ({
           name={name}
           id={id}
           min={min}
-          value={type === "number" ? displayValue : value}
+          defaultValue={type === "number" ? displayValue : value}
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}

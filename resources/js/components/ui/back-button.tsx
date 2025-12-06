@@ -21,7 +21,7 @@ const BackButton: React.FC<BackButtonProps> = ({ label = "Back", className }) =>
       type="button"
       onClick={handleBack}
       className={`flex items-center gap-2 text-gray-700 dark:text-white
-                  hover:text-[#42C2FF] transition-colors duration-200
+                  hover:text-[#42C2FF] transition-colors duration-200 cursor-pointer
                   ${className ?? ""}`}
     >
       <ChevronLeft size={24} className="text-[#42C2FF]" />
