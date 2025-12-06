@@ -29,7 +29,8 @@ class InstituteService
         $teachers = collect();
         if ($detail != null)
         {
-            $teachers = $detail->teachers()
+            $teachers = $detail->teacherApplications()
+                ->with(['teacher.user'])
                 ->get();
         }
 
@@ -46,6 +47,20 @@ class InstituteService
             'courses' => $courses,
             'teachers' => $teachers
         ];
+    }
+
+    public function getTeacherApplication($id)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user = $user->load('teacher');
+        }
+
+        $teacher = TeacherApplication::where('teacher_id', $user?->id)
+            ->where('institute_id', $id)
+            ->first();
+
+        return $teacher;
     }
 
     public function getInstituteList($filters)

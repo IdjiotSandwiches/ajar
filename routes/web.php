@@ -42,6 +42,9 @@ Route::middleware(['auth', 'verified', 'role:Teacher'])
     ->prefix('teacher')
     ->name('teacher.')
     ->group(function () {
+        Route::controller(TeacherController::class)->group(function () {
+            Route::post('apply/{id}', 'applyAsTeacher')->name('apply-as-teacher');
+        });
         Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
         Route::get('profile', fn() => Inertia::render('teacher/edit-profile'))->name('profile-teacher');
     });
@@ -65,8 +68,6 @@ Route::middleware(['auth', 'verified', 'role:Institute'])
         Route::get('coursea-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
         Route::get('profile', fn() => Inertia::render('institute/edit-profile'))->name('profile-institute');
     });
-
-
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

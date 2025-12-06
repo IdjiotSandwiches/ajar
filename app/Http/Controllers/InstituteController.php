@@ -19,11 +19,13 @@ class InstituteController extends Controller
     public function getInstituteDetail($id)
     {
         $data = $this->service->getInstituteDetail($id);
+        $application = $this->service->getTeacherApplication($id);
 
         return Inertia::render('institute/detail', [
             'institute' => $data['institute'],
             'courses' => Inertia::scroll($data['courses']),
-            'teachers' => $data['teachers']
+            'teachers' => $data['teachers'],
+            'application' => $application
         ]);
     }
 
