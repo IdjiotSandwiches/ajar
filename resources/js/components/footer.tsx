@@ -48,7 +48,7 @@ const Footer = () => {
                             <li>
                                 <p
                                     className="hover:underline cursor-pointer"
-                                    onClick={() => router.get(route("list-course"))}
+                                    onClick={() => router.get(route("list-course", { category_id: 1 }))}
                                 >
                                     Course
                                 </p>

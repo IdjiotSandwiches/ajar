@@ -10,7 +10,7 @@ export default function CourseCard({ course, isTag }: { course: any, isTag: bool
     return (
         <div className="bg-white border-2 border-[#3ABEFF]/20 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-200 w-100 max-w-full flex-shrink-0 flex flex-col">
             <div className="relative">
-                <img src={course?.image} alt={course.title} className="w-full h-40 object-cover" />
+                <img src={course?.image || "https://placehold.co/400"} alt={course.title} className="w-full h-40 object-cover" />
                 {isTag && (
                     <div className="absolute top-3 left-3 bg-[#E8FBF2] text-[#00B087] text-xs font-semibold px-2 py-1 rounded cursor-default">
                         Terlaris
