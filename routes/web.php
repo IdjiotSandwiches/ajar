@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstituteController;
@@ -36,11 +35,6 @@ Route::middleware(['auth', 'verified', 'role:Admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        Route::controller(AdminController::class)->group(function () {
-            Route::get('teacher-verification', 'getTeacherVerifications')->name('teacher-verification');
-            Route::post('accept-verification/{id}', 'acceptTeacher')->name('accept-teacher');
-            Route::post('reject-verification/{id}', 'rejectTeacher')->name('reject-teacher');
-        });
         Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
     });
 
@@ -65,6 +59,8 @@ Route::middleware(['auth', 'verified', 'role:Institute'])
         });
         Route::controller(InstituteController::class)->group(function () {
             Route::get('teacher-application', 'getTeacherApplications')->name('teacher-application');
+            Route::post('accept-verification/{id}', 'acceptTeacher')->name('accept-teacher');
+            Route::post('reject-verification/{id}', 'rejectTeacher')->name('reject-teacher');
         });
         Route::get('coursea-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
         Route::get('profile', fn() => Inertia::render('institute/edit-profile'))->name('profile-institute');

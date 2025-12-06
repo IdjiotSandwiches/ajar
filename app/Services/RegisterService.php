@@ -88,8 +88,10 @@ class RegisterService
             ]);
         }
 
+        // dd($data['certificates']);
+
         foreach($data['certificates'] as $certificate) {
-            $url = UploadUtility::upload($certificate['image'], 'certificates');
+            $url = UploadUtility::upload($certificate, 'certificates');
             if ($url) {
                 Certificate::create([
                     'image' => $url,

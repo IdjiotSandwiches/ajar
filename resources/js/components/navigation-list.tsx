@@ -25,7 +25,6 @@ export default function NavigationList({ role }: any) {
                 : role === roles.Admin
                     ? [
                         { label: "Course Completion", route: "admin.course-completion" },
-                        { label: "Teacher Verification", route: "admin.teacher-verification" }
                         // { label: "Teacher Management", route: "admin.teacher-management" },
                     ]
                     : [];

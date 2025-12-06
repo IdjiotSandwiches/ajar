@@ -17,10 +17,11 @@ class TeacherController extends Controller
 
     public function getTeacherDetail($id)
     {
-        $teacher = $this->service->getTeacherDetail($id);
+        $detail = $this->service->getTeacherDetail($id);
 
         return Inertia::render('teacher/detail', [
-            'teacher' => $teacher
+            'teacher' => $detail['teacher'],
+            'application' => $detail['application']
         ]);
     }
 }

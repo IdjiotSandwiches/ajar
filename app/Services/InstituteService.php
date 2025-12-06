@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Institute;
-use App\Models\Teacher;
+use App\Models\TeacherApplication;
+use Illuminate\Support\Facades\Auth;
 
 class InstituteService
 {
@@ -37,6 +37,7 @@ class InstituteService
         if ($detail != null)
         {
             $courses = $detail->courses()
+                ->with(['teachers.user'])
                 ->paginate(10);
         }
 
@@ -76,14 +77,36 @@ class InstituteService
 
     public function getTeacherApplications()
     {
-        $teachers = Teacher::with(['user', 'category'])
-            ->whereHas('user', function($query) {
-                $query->whereNotNull('email_verified_at')
-                    ->where('role_id', RoleEnum::Teacher);
-            })
+        $user = Auth::user();
+        if ($user) {
+            $user = $user->load('institute');
+        }
+
+        $teachers = TeacherApplication::with('teacher.user', 'teacher.category')
             ->whereNull('is_verified')
+            ->where('institute_id', $user?->id)
             ->paginate(10);
 
         return $teachers;
+    }
+
+    public function verifyTeacher($id, $isVerified)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user = $user->load('institute');
+        }
+
+        $teacher = TeacherApplication::where('teacher_id', $id)
+            ->where('institute_id', $user?->id)
+            ->first();
+
+        if (!$teacher) {
+            return false;
+        }
+
+        $teacher->is_verified = $isVerified;
+        $teacher->save();
+        return true;
     }
 }

@@ -110,4 +110,9 @@ class Teacher extends Model
     {
         return $this->hasMany(CourseSchedule::class, 'teacher_id', 'user_id');
     }
+
+    public function teacherApplications(): HasMany
+    {
+        return $this->hasMany(TeacherApplication::class, 'teacher_id', 'user_id');
+    }
 }
