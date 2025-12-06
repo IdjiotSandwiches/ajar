@@ -18,7 +18,7 @@ class Skill extends Model
      *
      * @var list<string>
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'category_id'];
 
     /**
      * HasMany: CourseSkills

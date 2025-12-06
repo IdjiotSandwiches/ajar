@@ -1,11 +1,36 @@
 import DetailImage from '@/components/detail-image';
 import DetailInput from '@/components/detail-input';
+import DetailSelect from '@/components/detail-select';
 import AppLayout from '@/layouts/app-layout';
 import { Form } from '@inertiajs/react';
 import { CirclePlus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function CreateCoursePage({ course, errors }: any) {
+export default function CreateCoursePage({ course, skills, categories, errors }: any) {
+    const [category, setCategory] = useState(course?.category_id);
+    const categorySelect = categories.map((cat: any) => ({
+        value: cat.id,
+        label: cat.name
+    }));
+    const handleCategoryChange = (val: any) => {
+        setCategory(val);
+    };
+
+    const [rows, setRows] = useState(course?.course_skills?.length ? course.course_skills : [{ skill_id: '' }]);
+    const allSelectedIds = rows.map((r: any) => r.skill_id);
+    const handleSkillChange = (index: number, val: string) => {
+        const newRows = [...rows];
+        newRows[index] = { ...newRows[index], skill_id: val };
+        setRows(newRows);
+
+        setCourseSkills((prev: any) => {
+            const newSkills = [...prev];
+            newSkills[index] = { ...newSkills[index], skill_id: val };
+            return newSkills;
+        });
+    };
+
+    const [image, setImage] = useState(course?.image);
     const [learningObjectives, setLearningObjectives] = useState(
         (course?.course_learning_objectives?.length
             ? course.course_learning_objectives
@@ -52,8 +77,6 @@ export default function CreateCoursePage({ course, errors }: any) {
         })),
     );
 
-    const [image, setImage] = useState(course?.image);
-
     const handleAddLearnObj = () => {
         setLearningObjectives((prev: any) => [...prev, { id: null, description: '', timestamp: crypto.randomUUID() }]);
     };
@@ -88,14 +111,16 @@ export default function CreateCoursePage({ course, errors }: any) {
 
     const handleAddCourseSkill = () => {
         setCourseSkills((prev: any) => [...prev, { id: null, description: '', timestamp: crypto.randomUUID() }]);
+        setRows([...rows, { skill_id: '' }]);
     };
 
-    const handleRemoveCourseSkill = (timestamp: string) => {
+    const handleRemoveCourseSkill = (timestamp: string, index: number) => {
         setCourseSkills((prev: any[]) => prev.filter((obj) => obj.timestamp !== timestamp));
+        setRows(rows.filter((_: any, i: any) => i !== index));
     };
 
     const handleImageChange = (files: File[]) => {
-        setImage(files);
+        setImage(files[files.length - 1] || null);
     };
 
     return (
@@ -104,7 +129,13 @@ export default function CreateCoursePage({ course, errors }: any) {
                 <div className="min-h-screen bg-[#F7FDFF]">
                     <div className="mx-auto mt-12 max-w-4xl rounded-2xl bg-white p-8 shadow-sm">
                         <h1 className="mb-6 cursor-default text-center text-xl font-semibold text-[#42C2FF] sm:mb-10 sm:text-2xl">Create Course</h1>
-                        <Form action={course ? route('institute.put-course') : route('institute.post-course')} method="post" className="flex flex-col gap-4">
+                        <Form
+                            action={course ? route('institute.put-course', course?.id) : route('institute.post-course')}
+                            method="post"
+                            encType="multipart/form-data"
+                            className="flex flex-col gap-4"
+                        >
+                            {course && <input type="hidden" name="_method" value="PUT" />}
                             <div className="mb-2 items-center gap-2">
                                 <DetailInput type="text" name="name" id="name" title="Name" value={course?.name} />
                                 {errors.name && <p className="text-red-500">{errors.name}</p>}
@@ -290,19 +321,33 @@ export default function CreateCoursePage({ course, errors }: any) {
                                 {courseSkills.map((row: any, index: number) => {
                                     const isLast = index === (courseSkills?.length ?? 1) - 1;
                                     const isSingle = (courseSkills?.length ?? 0) === 1;
+                                    const rowSpecificOptions = skills
+                                        .filter((skill: any) => {
+                                            const currentSkillId = String(skill.id);
+                                            const selectedRowId = String(row.skill_id);
+                                            return (
+                                                currentSkillId === selectedRowId ||
+                                                !allSelectedIds.some((id: string | number) => String(id) === currentSkillId)
+                                            );
+                                        })
+                                        .map((skill: any) => ({
+                                            label: skill.name,
+                                            value: skill.id,
+                                        }));
 
                                     return (
                                         <div key={row.timestamp} className="relative flex items-center gap-4">
                                             <div className={`flex-1 gap-4 ${!isLast ? 'mb-4' : ''}`}>
-                                                <DetailInput
-                                                    type="textarea"
-                                                    name={`course_skills[${index}].description`}
-                                                    id={`course_skills[${index}].description`}
+                                                <DetailSelect
+                                                    id={`course_skills[${index}].id`}
+                                                    name={`course_skills[${index}].id`}
+                                                    options={rowSpecificOptions}
                                                     title={`Course Skill ${index + 1}`}
-                                                    value={row?.description}
+                                                    value={String(row.skill_id)}
+                                                    onChange={(val) => handleSkillChange(index, val)}
                                                 />
-                                                {errors[`course_skills.${index}.description`] && (
-                                                    <p className="text-red-500">{errors[`course_skills.${index}.description`]}</p>
+                                                {errors[`course_skills.${index}.id`] && (
+                                                    <p className="text-red-500">{errors[`course_skills.${index}.id`]}</p>
                                                 )}
                                             </div>
                                             <div className="flex items-center">
@@ -317,7 +362,7 @@ export default function CreateCoursePage({ course, errors }: any) {
                                                 ) : (
                                                     <button
                                                         type="button"
-                                                        onClick={() => handleRemoveCourseSkill(row.timestamp)}
+                                                        onClick={() => handleRemoveCourseSkill(row.timestamp, index)}
                                                         className="rounded-full p-2 text-gray-500 hover:text-red-500"
                                                     >
                                                         <Trash2 size={18} />
@@ -328,32 +373,40 @@ export default function CreateCoursePage({ course, errors }: any) {
                                     );
                                 })}
                             </div>
+                            <DetailSelect
+                                id={`category`}
+                                name={`category`}
+                                options={categorySelect}
+                                title={`Category`}
+                                value={String(category)}
+                                onChange={(val) => handleCategoryChange(val)}
+                            />
+                            {errors[`category`] && <p className="text-red-500">{errors[`category`]}</p>}
                             <DetailInput type="number" min={0} title="Duration (Minutes)" name="duration" id="duration" value={course?.duration} />
+                            {errors[`duration`] && <p className="text-red-500">{errors[`duration`]}</p>}
                             <DetailInput type="number" min={0} title="Price for Student (Rp)" name="price" id="price" value={course?.price} />
-
-                            {/* <DetailInput
-                                type="number"
-                                min={0}
-                                title="Discount (%)"
-                                name="discount"
-                                id="discount"
-                                value={form.data.discount ?? 0}
-                                onChange={(e) => form.setData('discount', Number(e.target.value))}
-                            /> */}
-
-                            {/* <DetailInput
+                            {errors[`price`] && <p className="text-red-500">{errors[`price`]}</p>}
+                            <DetailInput type="number" min={0} title="Discount (%)" name="discount" id="discount" value={course?.discount} />
+                            {errors[`discount`] && <p className="text-red-500">{errors[`discount`]}</p>}
+                            <DetailInput
                                 type="number"
                                 min={0}
                                 title="Teacher Salary (/Session)"
                                 name="teacher_salary"
                                 id="teacher_salary"
-                                value={form.data.teacher_salary ?? 0}
-                                onChange={(e) => form.setData('teacher_salary', Number(e.target.value))}
-                            /> */}
-
+                                value={course?.teacher_salary}
+                            />
+                            {errors[`teacher_salary`] && <p className="text-red-500">{errors[`teacher_salary`]}</p>}
                             <div>
                                 <h3 className="mb-3 text-sm font-medium text-gray-800">Course Image</h3>
-                                <DetailImage productImages={course?.image ? [course?.image] : []} onFilesChange={handleImageChange} Index={0} multiple={false} />
+                                <DetailImage
+                                    name="course_images"
+                                    productImages={image ? [image] : []}
+                                    onFilesChange={handleImageChange}
+                                    Index={0}
+                                    multiple={false}
+                                />
+                                {errors[`course_images`] && <p className="text-red-500">{errors[`course_images`]}</p>}
                             </div>
                             <button
                                 type="submit"

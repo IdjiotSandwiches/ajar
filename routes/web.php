@@ -53,8 +53,9 @@ Route::middleware(['auth', 'verified', 'role:Institute'])
         Route::controller(CourseController::class)->group(function () {
             Route::get('my-courses', 'getCourseByInstitution')->name('my-courses');
             Route::get('course-detail/{id?}', 'getCourseData')->name('course-detail');
-            Route::post('course-detail/{id?}', 'postCourse')->name('post-course');
-            Route::put('course-detail/{id?}', 'postCourse')->name('put-course');
+            Route::post('course-detail', 'postCourse')->name('post-course');
+            Route::put('course-detail/{id?}', 'putCourse')->name('put-course');
+            Route::delete('course-detail/{id}', 'removeCourse')->name('delete-course');
         });
         Route::get('teacher-application', fn() => Inertia::render('institute/teacher-application'))->name('teacher-application');
         Route::get('coursea-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');

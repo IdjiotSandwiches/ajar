@@ -25,6 +25,8 @@ class Course extends Model
         'price',
         'duration',
         'image',
+        'discount',
+        'teacher_salary',
         'category_id',
         'institute_id'
     ];

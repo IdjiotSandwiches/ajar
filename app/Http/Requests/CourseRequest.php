@@ -21,7 +21,7 @@ class CourseRequest extends FormRequest
             'benefit_for_students.*.description' => 'Benefit for Students',
             'benefit_for_teachers.*.description' => 'Benefit for Teachers',
             'course_overviews.*.description' => 'Course Overviews',
-            'course_skills.*.description' => 'Course Skills',
+            'course_skills.*.id' => 'Course Skills',
             'course_images.*' => 'Course Images'
         ];
     }
@@ -38,8 +38,9 @@ class CourseRequest extends FormRequest
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'duration' => 'required|numeric|min:0',
-            'discount' => 'required|numeric|min:0',
+            'discount' => 'required|numeric|min:0|max:100',
             'teacher_salary' => 'required|numeric|min:0',
+            'category' => 'required|numeric|exists:categories,id',
             'learning_objectives' => 'required|array',
             'learning_objectives.*.id' => 'numeric',
             'learning_objectives.*.description' => 'required|string',
@@ -53,10 +54,8 @@ class CourseRequest extends FormRequest
             'course_overviews.*.id' => 'numeric',
             'course_overviews.*.description' => 'required|string',
             'course_skills' => 'required|array',
-            'course_skills.*.id' => 'numeric',
-            'course_skills.*.description' => 'required|string',
-            'course_images' => 'required|array',
-            'course_images.*' => 'required|image|max:2048'
+            'course_skills.*.id' => 'required|numeric|exists:skills,id',
+            'course_images' => 'image|max:2048',
         ];
     }
 }

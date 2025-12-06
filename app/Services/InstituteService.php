@@ -47,12 +47,8 @@ class InstituteService
 
     public function getInstituteList($filters)
     {
-        $categories = Category::with('children')
-            ->when(isset($filters['category_id']), function ($q) use ($filters) {
-                $q->where('parent_id', $filters['category_id']);
-            })
-            ->select(['id', 'name'])
-            ->get();
+        $categories = $this->getParentCategories();
+        $categories = $categories->where('id', $filters['category_id']);
 
         if (!$categories) {
             return collect();
