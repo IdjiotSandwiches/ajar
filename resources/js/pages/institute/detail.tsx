@@ -16,7 +16,7 @@ export default function InstituteDetailPage({ institute, courses, teachers }: an
                 <div className="flex items-stretch overflow-hidden rounded-xl shadow-md">
                     <div className="flex items-center justify-center bg-[#42C2FF] p-6">
                         <img
-                            src={`/${institute.user.profile_picture || null}`}
+                            src={institute.user?.profile_picture || "https://placehold.co/400"}
                             alt={institute.user.name}
                             className="h-40 w-40 rounded-lg object-cover outline-6 outline-white"
                         />
@@ -80,7 +80,7 @@ export default function InstituteDetailPage({ institute, courses, teachers }: an
                                     >
                                         {teacher.image ? (
                                             <img
-                                                src={`/${teacher.user.profile_picture || null}`}
+                                                src={teacher.user?.profile_picture || "https://placehold.co/400"}
                                                 alt={teacher.user.name}
                                                 className="h-full w-full object-cover"
                                             />

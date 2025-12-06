@@ -149,7 +149,6 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
                     />
                 </div>
             </div>
-
             <div className="mx-auto md:px-10">
                 <PopularCourses courses={popularCourses} />
             </div>

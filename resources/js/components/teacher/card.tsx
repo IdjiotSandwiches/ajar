@@ -8,7 +8,7 @@ export default function TeacherProfileCard({ teacher }: any) {
                 <div className="bg-[#42C2FF] rounded-2xl p-6 flex flex-col items-center text-center relative overflow-hidden">
                     <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-white shadow-md mb-4 z-10">
                         <img
-                            src={`/${teacher.user?.profile_picture || "images/regis-teacher.jpg"}`}
+                            src={teacher.user?.profile_picture || "https://placehold.co/400"}
                             alt={teacher.user?.name}
                             className="w-full h-full object-cover"
                         />
