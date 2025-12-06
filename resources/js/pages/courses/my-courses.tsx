@@ -116,7 +116,7 @@ export default function CourseList({ courses }: { courses: any }) {
                                     <div key={index} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
                                         <div className="flex gap-4">
                                             <img
-                                                src={course?.image ?? 'https://placehold.co/400'}
+                                                src={course?.image || 'https://placehold.co/400'}
                                                 alt={course.name}
                                                 className="h-20 w-20 rounded-md object-cover"
                                             />

@@ -5,7 +5,6 @@ import { FaCheck } from 'react-icons/fa6';
 import RegisterFlow from '../modal/register-course/register-modal';
 
 export default function CourseHero({ course }: { course: any }) {
-    console.log(course);
     const { props } = usePage();
     const user = props.auth?.user;
     const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -74,7 +73,7 @@ export default function CourseHero({ course }: { course: any }) {
 
                 <div className="flex justify-center lg:col-span-1">
                     <img
-                        src={course?.image}
+                        src={course?.image || 'https://placehold.co/400'}
                         alt={course.name}
                         className="max-h-[320px] w-full max-w-[480px] rounded-xl object-cover shadow-sm ring-1 ring-gray-200"
                     />

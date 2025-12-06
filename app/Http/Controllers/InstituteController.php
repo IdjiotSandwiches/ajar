@@ -41,4 +41,13 @@ class InstituteController extends Controller
             'search' => $filters['search'] ?? '',
         ]);
     }
+
+    public function getTeacherApplications()
+    {
+        $teachers = $this->service->getTeacherApplications();
+        // dd($teachers);
+        return Inertia::render('institute/teacher-application', [
+            'applications' => $teachers
+        ]);
+    }
 }

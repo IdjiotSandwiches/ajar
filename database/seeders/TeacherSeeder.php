@@ -16,7 +16,7 @@ class TeacherSeeder extends Seeder
             [
                 'user_id' => 2,
                 'description' => 'Expert in Artificial Intelligence and Robotics.',
-                'is_verified' => true,
+                'is_verified' => null,
                 'category_id' => 3
             ],
             [
@@ -28,7 +28,7 @@ class TeacherSeeder extends Seeder
             [
                 'user_id' => 4,
                 'description' => 'Cybersecurity analyst specializing in ethical hacking.',
-                'is_verified' => true,
+                'is_verified' => null,
                 'category_id' => 5
             ],
             [
@@ -58,7 +58,7 @@ class TeacherSeeder extends Seeder
             [
                 'user_id' => 9,
                 'description' => 'Vector Artist and Logo Designer.',
-                'is_verified' => true,
+                'is_verified' => null,
                 'category_id' => 10
             ],
             [

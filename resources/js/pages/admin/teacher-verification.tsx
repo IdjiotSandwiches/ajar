@@ -1,37 +1,36 @@
-'use client';
-
+import DynamicModal from '@/components/modal/modal';
 import AppLayout from '@/layouts/app-layout';
 import { Link, router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 
-export default function TeacherApplicationsPage({ applications }: any) {
-    // const [applications, setApplications] = useState(formattedTeachers);
-    // const [showModal, setShowModal] = useState(false);
-    // const [selectedAction, setSelectedAction] = useState<{
-    //     type: 'accept' | 'reject';
-    //     name: string;
-    // } | null>(null);
+export default function TeacherVerificationsPage({ verifications }: any) {
+    const [showModal, setShowModal] = useState(false);
+    const [action, setAction] = useState<boolean>();
+    const [teacher, setTeacher] = useState<number>();
 
-    // const handleAction = (type: 'accept' | 'reject', name: string) => {
-    //     setSelectedAction({ type, name });
-    //     setShowModal(true);
-    // };
+    const handleAction = (type: boolean, id: number) => {
+        setAction(type);
+        setTeacher(id);
+        setShowModal(true);
+    };
 
-    // const confirmAction = () => {
-    //     if (selectedAction) {
-    //         setApplications((prev) => prev.filter((t) => t.name !== selectedAction.name));
-    //     }
-    //     setShowModal(false);
-    // };
+    const confirmAction = () => {
+        if (action)
+            router.post(route("admin.accept-teacher", { id: teacher }));
+        else
+            router.post(route("admin.reject-teacher", { id: teacher }));
+
+        setShowModal(false);
+    };
 
     return (
         <div className="flex min-h-screen flex-col bg-[#f9fdfd] px-3 py-6 sm:px-6">
             <div className="mx-auto mt-4 w-full max-w-6xl rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:mt-10 sm:p-6 md:p-10">
-                <h1 className="mb-6 cursor-default text-center text-xl font-semibold text-[#42C2FF] sm:mb-10 sm:text-2xl">Teacher Applications</h1>
+                <h1 className="mb-6 cursor-default text-center text-xl font-semibold text-[#42C2FF] sm:mb-10 sm:text-2xl">Teacher Verifications</h1>
                 <div className="flex flex-col gap-4 md:hidden">
-                    {applications.data.map((app: any) => (
-                        <div key={app.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+                    {verifications.data.map((app: any) => (
+                        <div key={app.user_id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
                             <div className="mb-3 flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-teacher', app?.user_id))}>
                                 <img
                                     src={app?.user?.profile_picture || 'https://placehold.co/400'}
@@ -63,13 +62,13 @@ export default function TeacherApplicationsPage({ applications }: any) {
 
                             <div className="flex justify-end gap-2">
                                 <button
-                                    // onClick={() => handleAction('accept', app.name)}
+                                    onClick={() => handleAction(true, app?.user_id)}
                                     className="rounded-md bg-[#42C2FF] p-2 text-white shadow-sm hover:bg-[#42C2FF]/90"
                                 >
                                     <Check size={16} />
                                 </button>
                                 <button
-                                    // onClick={() => handleAction('reject', app.name)}
+                                    onClick={() => handleAction(false, app?.user_id)}
                                     className="rounded-md bg-[#FF5C5C] p-2 text-white shadow-sm hover:bg-[#E04343]"
                                 >
                                     <X size={16} />
@@ -82,14 +81,14 @@ export default function TeacherApplicationsPage({ applications }: any) {
                     <table className="min-w-full rounded-lg border border-gray-200 text-sm text-gray-700">
                         <thead className="border-b border-gray-200 bg-[#42C2FF]/10">
                             <tr>
-                                <th className="px-4 py-3 text-left font-medium">Teacher Applications</th>
+                                <th className="px-4 py-3 text-left font-medium">Teacher Verifications</th>
                                 <th className="w-32 px-4 py-3 text-center font-medium">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {applications.data.map((app: any, index: number) => (
+                            {verifications.data.map((app: any, index: number) => (
                                 <tr
-                                    key={app.id}
+                                    key={app.user_id}
                                     className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
                                 >
                                     <td className="px-4 py-4">
@@ -126,13 +125,13 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                     <td className="px-4 py-4 text-center">
                                         <div className="flex items-center justify-center gap-2">
                                             <button
-                                                // onClick={() => handleAction('accept', app.name)}
+                                                onClick={() => handleAction(true, app?.user_id)}
                                                 className="rounded-md bg-[#42C2FF] p-2 text-white shadow-sm transition hover:bg-[#42C2FF]/90"
                                             >
                                                 <Check size={16} strokeWidth={2.5} />
                                             </button>
                                             <button
-                                                // onClick={() => handleAction('reject', app.name)}
+                                                onClick={() => handleAction(false, app?.user_id)}
                                                 className="rounded-md bg-[#FF5C5C] p-2 text-white shadow-sm transition hover:bg-[#E04343]"
                                             >
                                                 <X size={16} strokeWidth={2.5} />
@@ -145,7 +144,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                     </table>
                 </div>
                 <div className="mt-4 flex items-center justify-center gap-1 select-none">
-                    {applications.links.map((link: any, index: number) => {
+                    {verifications.links.map((link: any, index: number) => {
                         const isActive = link.active;
                         const isDisabled = !link.url;
 
@@ -163,19 +162,15 @@ export default function TeacherApplicationsPage({ applications }: any) {
                 </div>
             </div>
 
-            {/* <DynamicModal
+            <DynamicModal
                 type="confirmation"
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
                 onConfirm={confirmAction}
-                description={
-                    selectedAction
-                        ? `Are you sure you want to ${selectedAction.type === 'accept' ? 'accept' : 'reject'} ${selectedAction.name}'s application?`
-                        : ''
-                }
-            /> */}
+                description={`Are you sure you want to ${action ? 'accept' : 'reject'} ${verifications.data?.find((x: any) => x.user_id == teacher)?.user?.name}'s application?`}
+            />
         </div>
     );
 }
 
-TeacherApplicationsPage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
+TeacherVerificationsPage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;

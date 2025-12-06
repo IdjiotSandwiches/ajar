@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->primary();
             $table->text('description')->nullable();
-            $table->boolean('is_verified');
+            $table->boolean('is_verified')->nullable();
             $table->unsignedBigInteger('category_id');
             $table->timestamps();
 
