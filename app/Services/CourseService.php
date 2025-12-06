@@ -248,7 +248,7 @@ class CourseService
             'category_id' => $data['category']
         ]);
 
-        if (!empty($data['course_images']) && !$course->image) {
+        if (!empty($data['course_images'])) {
             $url = UploadUtility::upload($data['course_images'], 'course_images');
             $course->image = $url;
         }

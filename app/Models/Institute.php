@@ -66,6 +66,11 @@ class Institute extends Model
         return $this->hasMany(Course::class, 'institute_id', 'user_id');
     }
 
+    public function teacherApplications(): HasMany
+    {
+        return $this->hasMany(TeacherApplication::class, 'institute_id', 'user_id');
+    }
+
     public function teachers()
     {
         return Teacher::query()

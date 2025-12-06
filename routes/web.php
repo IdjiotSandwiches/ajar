@@ -42,6 +42,9 @@ Route::middleware(['auth', 'verified', 'role:Teacher'])
     ->prefix('teacher')
     ->name('teacher.')
     ->group(function () {
+        Route::controller(TeacherController::class)->group(function () {
+            Route::post('apply/{id}', 'applyAsTeacher')->name('apply-as-teacher');
+        });
         Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
         Route::get('profile', fn() => Inertia::render('teacher/edit-profile'))->name('profile-teacher');
     });
@@ -57,12 +60,14 @@ Route::middleware(['auth', 'verified', 'role:Institute'])
             Route::put('course-detail/{id?}', 'putCourse')->name('put-course');
             Route::delete('course-detail/{id}', 'removeCourse')->name('delete-course');
         });
-        Route::get('teacher-application', fn() => Inertia::render('institute/teacher-application'))->name('teacher-application');
+        Route::controller(InstituteController::class)->group(function () {
+            Route::get('teacher-application', 'getTeacherApplications')->name('teacher-application');
+            Route::post('accept-verification/{id}', 'acceptTeacher')->name('accept-teacher');
+            Route::post('reject-verification/{id}', 'rejectTeacher')->name('reject-teacher');
+        });
         Route::get('coursea-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
         Route::get('profile', fn() => Inertia::render('institute/edit-profile'))->name('profile-institute');
     });
-
-
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

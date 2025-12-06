@@ -18,7 +18,7 @@ export default function CourseCard({ course, isTag }: { course: any, isTag: bool
                 )}
             </div>
 
-            {(user !== null && user?.role_id !== roles.Student) && (
+            {(user !== null && (user?.role_id !== roles.Student && user?.role_id !== roles.Admin)) && (
                 <TeacherList teachers={course.teachers} />
             )}
 

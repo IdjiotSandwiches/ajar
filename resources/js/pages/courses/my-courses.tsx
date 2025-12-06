@@ -1,13 +1,10 @@
 import DynamicModal from '@/components/modal/modal';
 import AppLayout from '@/layouts/app-layout';
-import { Link, router, usePage } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import React, { useState } from 'react';
 
 export default function CourseList({ courses }: { courses: any }) {
-    const { props } = usePage();
-    const { flash }: any = props;
     const [showModal, setShowModal] = useState(false);
     const [deleteCourse, setDeleteCourse] = useState<Number>();
 
@@ -25,13 +22,9 @@ export default function CourseList({ courses }: { courses: any }) {
         router.get(route('institute.course-detail', courseId));
     };
 
-    useEffect(() => {
-        if (flash.success) toast.success(flash.success);
-        if (flash.error) toast.error(flash.error);
-    }, [flash.success, flash.error]);
-
     return (
         <>
+            <Head title="My Courses" />
             <div className="flex min-h-screen flex-col bg-[#f9fdfd] px-3 py-6 sm:px-6">
                 <div className="mx-auto mt-4 w-full max-w-6xl rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:mt-10 sm:p-6 md:p-10">
                     <h1 className="mb-6 cursor-default text-center text-xl font-semibold text-[#42C2FF] sm:mb-10 sm:text-2xl md:text-3xl">
@@ -116,7 +109,7 @@ export default function CourseList({ courses }: { courses: any }) {
                                     <div key={index} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
                                         <div className="flex gap-4">
                                             <img
-                                                src={course?.image ?? 'https://placehold.co/400'}
+                                                src={course?.image || 'https://placehold.co/400'}
                                                 alt={course.name}
                                                 className="h-20 w-20 rounded-md object-cover"
                                             />

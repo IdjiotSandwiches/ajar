@@ -19,11 +19,13 @@ class InstituteController extends Controller
     public function getInstituteDetail($id)
     {
         $data = $this->service->getInstituteDetail($id);
+        $application = $this->service->getTeacherApplication($id);
 
         return Inertia::render('institute/detail', [
             'institute' => $data['institute'],
             'courses' => Inertia::scroll($data['courses']),
-            'teachers' => $data['teachers']
+            'teachers' => $data['teachers'],
+            'application' => $application
         ]);
     }
 
@@ -40,5 +42,35 @@ class InstituteController extends Controller
             'activeCategory' => $filters['category_id'] ?? null,
             'search' => $filters['search'] ?? '',
         ]);
+    }
+
+    public function getTeacherApplications()
+    {
+        $teachers = $this->service->getTeacherApplications();
+        return Inertia::render('institute/teacher-application', [
+            'applications' => $teachers
+        ]);
+    }
+
+    public function acceptTeacher($id)
+    {
+        $isAccepted = $this->service->verifyTeacher($id, true);
+        if (!$isAccepted) {
+            return back()->with('error', 'Teacher not found!');
+        }
+        else {
+            return back()->with('success', 'Teacher has been verified.');
+        }
+    }
+
+    public function rejectTeacher($id)
+    {
+        $isAccepted = $this->service->verifyTeacher($id, false);
+        if (!$isAccepted) {
+            return back()->with('error', 'Teacher not found!');
+        }
+        else {
+            return back()->with('success', 'Teacher has been declined.');
+        }
     }
 }

@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Institute;
+use App\Models\TeacherApplication;
+use Illuminate\Support\Facades\Auth;
 
 class InstituteService
 {
@@ -27,7 +29,8 @@ class InstituteService
         $teachers = collect();
         if ($detail != null)
         {
-            $teachers = $detail->teachers()
+            $teachers = $detail->teacherApplications()
+                ->with(['teacher.user'])
                 ->get();
         }
 
@@ -35,6 +38,7 @@ class InstituteService
         if ($detail != null)
         {
             $courses = $detail->courses()
+                ->with(['teachers.user'])
                 ->paginate(10);
         }
 
@@ -43,6 +47,20 @@ class InstituteService
             'courses' => $courses,
             'teachers' => $teachers
         ];
+    }
+
+    public function getTeacherApplication($id)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user = $user->load('teacher');
+        }
+
+        $teacher = TeacherApplication::where('teacher_id', $user?->id)
+            ->where('institute_id', $id)
+            ->first();
+
+        return $teacher;
     }
 
     public function getInstituteList($filters)
@@ -70,5 +88,40 @@ class InstituteService
         });
 
         return $institutes;
+    }
+
+    public function getTeacherApplications()
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user = $user->load('institute');
+        }
+
+        $teachers = TeacherApplication::with('teacher.user', 'teacher.category')
+            ->whereNull('is_verified')
+            ->where('institute_id', $user?->id)
+            ->paginate(10);
+
+        return $teachers;
+    }
+
+    public function verifyTeacher($id, $isVerified)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user = $user->load('institute');
+        }
+
+        $teacher = TeacherApplication::where('teacher_id', $id)
+            ->where('institute_id', $user?->id)
+            ->first();
+
+        if (!$teacher) {
+            return false;
+        }
+
+        $teacher->is_verified = $isVerified;
+        $teacher->save();
+        return true;
     }
 }

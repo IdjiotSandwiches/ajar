@@ -17,10 +17,21 @@ class TeacherController extends Controller
 
     public function getTeacherDetail($id)
     {
-        $teacher = $this->service->getTeacherDetail($id);
+        $detail = $this->service->getTeacherDetail($id);
 
         return Inertia::render('teacher/detail', [
-            'teacher' => $teacher
+            'teacher' => $detail['teacher'],
+            'application' => $detail['application']
         ]);
+    }
+
+    public function applyAsTeacher($id)
+    {
+        try {
+            $this->service->applyAsTeacher($id);
+            return back()->with('success', 'You have applied, please wait for a moment!');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 }

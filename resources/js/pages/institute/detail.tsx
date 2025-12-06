@@ -1,11 +1,16 @@
-import { InfiniteScroll, router } from '@inertiajs/react';
+import CourseCard from '@/components/ui/course-card';
+import AppLayout from '@/layouts/app-layout';
+import { InfiniteScroll, router, usePage } from '@inertiajs/react';
 import { SquareArrowOutUpRight } from 'lucide-react';
 import React from 'react';
 import { FaInstagram, FaLinkedinIn, FaStar, FaTwitter } from 'react-icons/fa';
-import CourseCard from '@/components/ui/course-card';
-import AppLayout from '@/layouts/app-layout';
 
-export default function InstituteDetailPage({ institute, courses, teachers }: any) {
+export default function InstituteDetailPage({ institute, courses, teachers, application }: any) {
+    console.log(teachers);
+    const { props } = usePage();
+    const user = props.auth?.user;
+    const roles = props.enums?.roles_enum;
+
     if (!institute) {
         return <div className="flex min-h-screen items-center justify-center text-gray-500">Institution not found.</div>;
     }
@@ -16,7 +21,7 @@ export default function InstituteDetailPage({ institute, courses, teachers }: an
                 <div className="flex items-stretch overflow-hidden rounded-xl shadow-md">
                     <div className="flex items-center justify-center bg-[#42C2FF] p-6">
                         <img
-                            src={institute.user?.profile_picture || "https://placehold.co/400"}
+                            src={institute.user?.profile_picture || 'https://placehold.co/400'}
                             alt={institute.user.name}
                             className="h-40 w-40 rounded-lg object-cover outline-6 outline-white"
                         />
@@ -25,7 +30,6 @@ export default function InstituteDetailPage({ institute, courses, teachers }: an
                         <div className="pointer-events-none absolute top-0 right-0 h-full">
                             <img src="/images/gear.png" alt="gear-bg" className="h-full object-contain" />
                         </div>
-
                         <div className="z-10 flex-1">
                             <h2 className="text-3xl font-semibold">{institute.user.name}</h2>
 
@@ -68,30 +72,45 @@ export default function InstituteDetailPage({ institute, courses, teachers }: an
                         </div>
                     </div>
                 </div>
+                {user?.role_id === roles.Teacher &&
+                    (!application?.is_verified ? (
+                        <button
+                            onClick={() => router.post(route('teacher.apply-as-teacher', institute?.user_id))}
+                            disabled={application?.is_verified == null}
+                            className="mt-5 w-full cursor-pointer rounded-lg bg-[#42C2FF] py-2 font-semibold text-white transition-all hover:bg-[#42C2FF]/90 disabled:bg-[#42C2FF]/90"
+                        >
+                            {application?.is_verified == null ? 'Please wait a moment' : 'Apply As Teacher'}
+                        </button>
+                    ) : (
+                        <div className="mt-5 w-full rounded-lg bg-[#42C2FF] py-2 text-center font-semibold text-white">You are verified teacher</div>
+                    ))}
                 <div className="mt-10">
                     <h3 className="mb-4 text-xl font-semibold">Teachers</h3>
                     {teachers.length > 0 ? (
                         <div className="flex cursor-pointer flex-wrap gap-8">
-                            {teachers.map((teacher: any, idx: number) => (
-                                <div key={idx} className="flex flex-col items-center text-center">
-                                    <div
-                                        className="mb-2 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-gray-200"
-                                        onClick={() => router.get(route('detail-teacher', teacher.user_id))}
-                                    >
-                                        {teacher.image ? (
-                                            <img
-                                                src={teacher.user?.profile_picture || "https://placehold.co/400"}
-                                                alt={teacher.user.name}
-                                                className="h-full w-full object-cover"
-                                            />
-                                        ) : (
-                                            <span className="text-xs text-gray-600">{teacher.user.name.charAt(0)}</span>
-                                        )}
+                            {teachers.map((item: any, idx: number) => {
+                                const teacher = item?.teacher;
+                                return (
+                                    <div key={idx} className="flex flex-col items-center text-center">
+                                        <div
+                                            className="mb-2 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-gray-200"
+                                            onClick={() => router.get(route('detail-teacher', teacher.user_id))}
+                                        >
+                                            {teacher.image ? (
+                                                <img
+                                                    src={teacher.user?.profile_picture || 'https://placehold.co/400'}
+                                                    alt={teacher.user.name}
+                                                    className="h-full w-full object-cover"
+                                                />
+                                            ) : (
+                                                <span className="text-xs text-gray-600">{teacher.user.name.charAt(0)}</span>
+                                            )}
+                                        </div>
+                                        <p className="text-sm font-medium">{teacher.user.name}</p>
+                                        <p className="text-center text-xs text-gray-500">{teacher.description}</p>
                                     </div>
-                                    <p className="text-sm font-medium">{teacher.user.name}</p>
-                                    <p className="text-center text-xs text-gray-500">{teacher.description}</p>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     ) : (
                         <p className="text-gray-500">No teachers found for this institution.</p>
@@ -105,12 +124,11 @@ export default function InstituteDetailPage({ institute, courses, teachers }: an
                         data="courses"
                         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
                     >
-                        {courses.data.length == 0 ?
-                        (
+                        {courses.data.length == 0 ? (
                             <p className="text-gray-500">Course empty.</p>
-                        ) : (courses.data.map((course: any, index: number) => (
-                            <CourseCard key={index} course={course} isTag={false} />
-                        )))}
+                        ) : (
+                            courses.data.map((course: any, index: number) => <CourseCard key={index} course={course} isTag={false} />)
+                        )}
                     </InfiniteScroll>
                 </div>
             </div>
