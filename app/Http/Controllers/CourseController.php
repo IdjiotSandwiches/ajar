@@ -7,6 +7,7 @@ use App\Http\Requests\CourseRequest;
 use App\Http\Requests\FilterRequest;
 use App\Services\CourseService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
 
 class CourseController extends Controller
@@ -122,11 +123,11 @@ class CourseController extends Controller
     public function enrollCourse($id)
     {
         $isNotEnrolled = $this->service->enrollCourse($id);
+        $url = strtok(URL::previous(), '?');
 
         if (!$isNotEnrolled)
-            return back()->with('error', 'You have already been enrolled to this course.');
+            return redirect($url)->with('error', 'You have already been enrolled to this course.');
 
-        $url = strtok(redirect()->back()->getTargetUrl(), '?');
         return redirect($url)->with('success', 'You have been enrolled.');
     }
 }

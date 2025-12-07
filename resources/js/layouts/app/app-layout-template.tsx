@@ -19,7 +19,7 @@ export default function AppLayout({ children, showBackButton = true, useContaine
     useEffect(() => {
         if (flash.success) toast.success(flash.success);
         if (flash.error) toast.error(flash.error);
-    }, [flash.success, flash.error]);
+    }, [flash]);
 
     return (
         <div className="flex min-h-screen flex-col">
