@@ -21,8 +21,6 @@ export default function TeacherSelectModal({ isOpen, onClose, onSelect }: any) {
         if (selectedTeacher) onSelect(selectedTeacher);
     };
 
-    console.log(teachers)
-
     return (
         <>
             {teachers && (
@@ -33,57 +31,59 @@ export default function TeacherSelectModal({ isOpen, onClose, onSelect }: any) {
                         </button>
                         <h2 className="mb-4 text-center text-lg font-semibold text-gray-800">Select a Teacher</h2>
                         <div className="flex max-h-[50vh] flex-col gap-3 overflow-y-auto pr-1">
-                            {teachers?.data.map((user: any, index: number) => {
-                                const teacher = user?.user;
-                                return (
-                                    <div
-                                        key={index}
-                                        onClick={() => setSelectedTeacher(teacher?.id)}
-                                        className={`flex cursor-pointer items-center justify-between rounded-xl border p-3 ${
-                                            selectedTeacher === teacher?.id
-                                                ? 'border-[#42C2FF] bg-[#42C2FF]/10'
-                                                : 'border-gray-200 hover:border-[#42C2FF]'
-                                        } `}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                                                {teacher.image ? (
-                                                    <img
-                                                        src={teacher?.profile_picture || 'https://placehold.co/400'}
-                                                        alt={teacher.name}
-                                                        className="h-full w-full object-cover"
-                                                    />
-                                                ) : (
-                                                    <div className="h-full w-full bg-gray-300" />
-                                                )}
-                                            </div>
-
-                                            <div className="min-w-0">
-                                                <h3 className="truncate text-sm font-medium text-gray-800">{teacher.name}</h3>
-                                                <p className="max-w-[150px] truncate text-xs text-gray-500">{teacher.description}</p>
-                                            </div>
-                                        </div>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                router.get(route('detail-teacher', teacher?.id));
-                                            }}
-                                            className="text-xs font-medium text-[#42C2FF] hover:text-[#42C2FF]/90 sm:text-sm"
+                            {teachers?.data.length === 0 ? (
+                                <p className="py-4 text-center text-gray-500">No teachers found</p>
+                            ) : (
+                                teachers?.data.map((user: any, index: number) => {
+                                    const teacher = user?.user;
+                                    return (
+                                        <div
+                                            key={index}
+                                            onClick={() => setSelectedTeacher(teacher?.id)}
+                                            className={`flex cursor-pointer items-center justify-between rounded-xl border p-3 ${
+                                                selectedTeacher === teacher?.id
+                                                    ? 'border-[#42C2FF] bg-[#42C2FF]/10'
+                                                    : 'border-gray-200 hover:border-[#42C2FF]'
+                                            } `}
                                         >
-                                            Detail
-                                        </button>
-                                    </div>
-                                );
-                            })}
+                                            <div className="flex items-center gap-3">
+                                                <div className="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
+                                                    {teacher.image ? (
+                                                        <img
+                                                            src={teacher?.profile_picture || 'https://placehold.co/400'}
+                                                            alt={teacher.name}
+                                                            className="h-full w-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        <div className="h-full w-full bg-gray-300" />
+                                                    )}
+                                                </div>
 
-                            {teachers?.data.length === 0 && <p className="py-4 text-center text-gray-500">No teachers found</p>}
+                                                <div className="min-w-0">
+                                                    <h3 className="truncate text-sm font-medium text-gray-800">{teacher.name}</h3>
+                                                    <p className="max-w-[150px] truncate text-xs text-gray-500">{teacher.description}</p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    router.get(route('detail-teacher', teacher?.id));
+                                                }}
+                                                className="text-xs font-medium text-[#42C2FF] hover:text-[#42C2FF]/90 sm:text-sm"
+                                            >
+                                                Detail
+                                            </button>
+                                        </div>
+                                    );
+                                })
+                            )}
                         </div>
-                        <Pagination links={teachers.links} />
+                        {teachers?.data.length > 5 && <Pagination links={teachers.links} />}
                         <div className="mt-5 flex justify-center">
                             <button
                                 onClick={handleSelect}
                                 disabled={!selectedTeacher}
-                                className={`w-full rounded-lg px-6 py-2 text-sm font-medium sm:w-auto cursor-pointer ${
+                                className={`w-full cursor-pointer rounded-lg px-6 py-2 text-sm font-medium sm:w-auto ${
                                     selectedTeacher ? 'bg-[#42C2FF] text-white hover:bg-[#42C2FF]/90' : 'cursor-not-allowed bg-gray-300 text-gray-500'
                                 } `}
                             >
