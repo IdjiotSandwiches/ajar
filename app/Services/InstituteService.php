@@ -66,7 +66,9 @@ class InstituteService
     public function getInstituteList($filters)
     {
         $categories = $this->getParentCategories();
-        $categories = $categories->where('id', $filters['category_id']);
+        if (isset($filters['category_id'])) {
+            $categories = $categories->where('id', $filters['category_id']);
+        }
 
         if (!$categories) {
             return collect();

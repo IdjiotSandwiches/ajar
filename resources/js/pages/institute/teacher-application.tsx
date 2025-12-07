@@ -1,6 +1,7 @@
 import DynamicModal from '@/components/modal/modal';
+import Pagination from '@/components/pagination';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -26,7 +27,9 @@ export default function TeacherApplicationsPage({ applications }: any) {
             <Head title="Teacher Applications" />
             <div className="flex min-h-screen flex-col bg-[#f9fdfd] px-3 py-6 sm:px-6">
                 <div className="mx-auto mt-4 w-full max-w-6xl rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:mt-10 sm:p-6 md:p-10">
-                    <h1 className="mb-6 cursor-default text-center text-xl font-semibold text-[#42C2FF] sm:mb-10 sm:text-2xl">Teacher Applications</h1>
+                    <h1 className="mb-6 cursor-default text-center text-xl font-semibold text-[#42C2FF] sm:mb-10 sm:text-2xl">
+                        Teacher Applications
+                    </h1>
                     <div className="flex flex-col gap-4 md:hidden">
                         {applications.data.map((app: any) => {
                             const teacher = app?.teacher?.user;
@@ -56,12 +59,12 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                         <span className="font-medium">Submitted:</span>{' '}
                                         {teacher?.email_verified_at
                                             ? new Date(teacher?.email_verified_at).toLocaleString('id-ID', {
-                                                day: '2-digit',
-                                                month: 'short',
-                                                year: 'numeric',
-                                                hour: '2-digit',
-                                                minute: '2-digit',
-                                            })
+                                                  day: '2-digit',
+                                                  month: 'short',
+                                                  year: 'numeric',
+                                                  hour: '2-digit',
+                                                  minute: '2-digit',
+                                              })
                                             : '-'}
                                     </p>
 
@@ -123,12 +126,12 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                                             <span className="font-medium">Submitted:</span>{' '}
                                                             {teacher?.email_verified_at
                                                                 ? new Date(teacher?.email_verified_at).toLocaleString('id-ID', {
-                                                                    day: '2-digit',
-                                                                    month: 'short',
-                                                                    year: 'numeric',
-                                                                    hour: '2-digit',
-                                                                    minute: '2-digit',
-                                                                })
+                                                                      day: '2-digit',
+                                                                      month: 'short',
+                                                                      year: 'numeric',
+                                                                      hour: '2-digit',
+                                                                      minute: '2-digit',
+                                                                  })
                                                                 : '-'}
                                                         </p>
                                                     </div>
@@ -156,23 +159,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                             </tbody>
                         </table>
                     </div>
-                    <div className="mt-4 flex items-center justify-center gap-1 select-none">
-                        {applications.links.map((link: any, index: number) => {
-                            const isActive = link.active;
-                            const isDisabled = !link.url;
-
-                            return (
-                                <Link
-                                    key={index}
-                                    href={link.url || '#'}
-                                    preserveScroll
-                                    preserveState
-                                    dangerouslySetInnerHTML={{ __html: link.label }}
-                                    className={`rounded-md border px-3 py-1 text-sm transition ${isActive ? 'border-[#42C2FF] bg-[#42C2FF] text-white' : 'bg-white'} ${isDisabled ? 'cursor-default opacity-40' : 'hover:bg-gray-100'} `}
-                                />
-                            );
-                        })}
-                    </div>
+                    <Pagination links={applications.links} />
                 </div>
                 <DynamicModal
                     type="confirmation"
