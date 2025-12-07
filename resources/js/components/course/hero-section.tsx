@@ -5,10 +5,11 @@ import { FaCheck } from 'react-icons/fa6';
 import RegisterFlow from '../modal/register-course/register-modal';
 
 export default function CourseHero({ course }: { course: any }) {
-    const { props } = usePage();
-    const user = props.auth?.user;
     const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
+    const { props } = usePage();
+    const user = props.auth?.user;
+    const roles = props.enums?.roles_enum;
     return (
         <section className="w-full border-b border-gray-200 bg-white py-10">
             <div className="mx-auto mt-8 grid grid-cols-1 items-start gap-10 px-4 md:px-20 lg:grid-cols-3">
@@ -32,7 +33,7 @@ export default function CourseHero({ course }: { course: any }) {
                     <p className="mb-6 max-w-2xl leading-relaxed text-gray-600">{course.description}</p>
 
                     <div className="mb-8 grid gap-x-6 gap-y-3 text-gray-700 md:grid-cols-3">
-                        {course.course_learning_objectives?.map((item: any) => (
+                        {course.benefits?.map((item: any) => (
                             <p key={item.id} className="flex items-center gap-2 text-sm">
                                 <FaCheck className="text-[#3ABEFF]" /> {item.description}
                             </p>
@@ -40,16 +41,18 @@ export default function CourseHero({ course }: { course: any }) {
                     </div>
 
                     <div className="mt-4 flex items-center gap-6">
-                        <button
-                            className="rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
-                            onClick={() => {
-                                if (user) setIsRegisterOpen(true);
-                                else router.get('/login');
-                            }}
-                        >
-                            Register Now
-                        </button>
-
+                        {(user?.role_id === roles.Student || !user) && (
+                            <button
+                                className="rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8] cursor-pointer"
+                                onClick={() => {
+                                    if (!user) router.get(route('login'));
+                                    else if (user?.email_verified_at == null) router.get(route('verification.notice'));
+                                    else setIsRegisterOpen(true);
+                                }}
+                            >
+                                Register Now
+                            </button>
+                        )}
                         <div className="flex items-center gap-2">
                             <p className="text-xl font-bold text-[#3ABEFF]">
                                 Rp{' '}

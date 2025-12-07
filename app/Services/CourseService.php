@@ -5,7 +5,10 @@ namespace App\Services;
 use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseSchedule;
+use App\Models\EnrolledCourse;
 use App\Models\Skill;
+use App\Models\Teacher;
 use App\Utilities\UploadUtility;
 use Illuminate\Support\Facades\Auth;
 
@@ -294,5 +297,78 @@ class CourseService
         }
 
         return false;
+    }
+
+    public function getCourseTeachers($id)
+    {
+        $teachers = Teacher::whereHas(
+            'courses',
+            fn($q) =>
+            $q->where('course_id', $id)
+        )
+            ->with('user')
+            ->paginate(5);
+
+        return $teachers;
+    }
+
+    public function getCourseSchedules($teacherId, $courseId)
+    {
+        $schedules = CourseSchedule::where('teacher_id', $teacherId)
+            ->where('course_id', $courseId)
+            ->where('start_time', '>=', now()->addHour())
+            ->get();
+
+        $result = $schedules->groupBy(function ($s) {
+            return \Carbon\Carbon::parse($s->start_time)->format('Y-m-d');
+        })
+            ->map(function ($items) {
+                return $items->map(function ($s) {
+                    return [
+                        'id' => $s->id,
+                        'time' => \Carbon\Carbon::parse($s->start_time)->format('H:i')
+                    ];
+                })->values();
+            });
+
+        return $result;
+    }
+
+    public function getCourseScheduleDetails($id)
+    {
+        $schedule = CourseSchedule::with(['course'])
+            ->where('id', $id)
+            ->first();
+
+        $detail = [
+            'title' => $schedule->course->name,
+            'date_time' => $schedule->start_time,
+            'duration' => \Carbon\Carbon::parse($schedule->start_time)
+                ->diffInMinutes(\Carbon\Carbon::parse($schedule->end_time)),
+            'discount' => $schedule->course->price * $schedule->course->discount,
+            'price' => $schedule->course->price,
+            'final_price' => $schedule->course->price - $schedule->course->price * $schedule->course->discount
+        ];
+
+        return $detail;
+    }
+
+    public function enrollCourse($id)
+    {
+        $user = Auth::user();
+
+        $enroll = EnrolledCourse::where('course_schedule_id', $id)
+            ->where('student_id', $user?->id)
+            ->first();
+
+        if ($enroll)
+            return false;
+
+        $enroll = new EnrolledCourse();
+        $enroll->course_schedule_id = $id;
+        $enroll->student_id = $user?->id;
+        $enroll->is_complete = false;
+        $enroll->save();
+        return true;
     }
 }

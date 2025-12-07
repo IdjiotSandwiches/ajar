@@ -13,8 +13,7 @@ class SocialMediaTypeSeeder extends Seeder
     public function run(): void
     {
         $socialMediaTypes = [
-            ['name' => 'Twitter'],
-            ['name' => 'Facebook'],
+            ['name' => 'Github'],
             ['name' => 'Instagram'],
             ['name' => 'LinkedIn']
         ];

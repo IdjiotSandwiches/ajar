@@ -1,4 +1,5 @@
 import DynamicModal from '@/components/modal/modal';
+import Pagination from '@/components/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
@@ -149,23 +150,7 @@ export default function CourseList({ courses }: { courses: any }) {
                                     </div>
                                 ))}
                             </div>
-                            <div className="mt-4 flex items-center justify-center gap-1 select-none">
-                                {courses.links.map((link: any, index: number) => {
-                                    const isActive = link.active;
-                                    const isDisabled = !link.url;
-
-                                    return (
-                                        <Link
-                                            key={index}
-                                            href={link.url || '#'}
-                                            preserveScroll
-                                            preserveState
-                                            dangerouslySetInnerHTML={{ __html: link.label }}
-                                            className={`rounded-md border px-3 py-1 text-sm transition ${isActive ? 'border-[#42C2FF] bg-[#42C2FF] text-white' : 'bg-white'} ${isDisabled ? 'cursor-default opacity-40' : 'hover:bg-gray-100'} `}
-                                        />
-                                    );
-                                })}
-                            </div>
+                            <Pagination links={courses.links} />
                         </>
                     )}
                 </div>

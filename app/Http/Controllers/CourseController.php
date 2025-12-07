@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\FilterRequest;
 use App\Services\CourseService;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CourseController extends Controller
@@ -43,12 +44,27 @@ class CourseController extends Controller
         ]);
     }
 
-    public function getCourseDetail(int $id)
+    public function getCourseDetail(Request $request, int $id)
     {
+        $selectedTeacherId = $request->query('selected_teacher_id');
+        $selectedScheduleId = $request->query('selected_schedule_id');
         [$course, $popularCourses] = $this->service->getCourseDetail($id);
         return Inertia::render('courses/detail', [
             'course' => $course,
-            'popularCourses' => $popularCourses
+            'popularCourses' => $popularCourses,
+            'teachers' => Inertia::lazy(fn() => $this->service->getCourseTeachers($id)),
+            'schedules' => Inertia::lazy(
+                fn() =>
+                $selectedTeacherId
+                ? $this->service->getCourseSchedules($selectedTeacherId, $id)
+                : null
+            ),
+            'paymentDetail' => Inertia::lazy(
+                fn() =>
+                $selectedScheduleId
+                ? $this->service->getCourseScheduleDetails($selectedScheduleId)
+                : null
+            )
         ]);
     }
 
@@ -68,7 +84,7 @@ class CourseController extends Controller
         return Inertia::render('courses/create', [
             'course' => $course,
             'skills' => $skills,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 
@@ -101,5 +117,16 @@ class CourseController extends Controller
             return back()->with('success', 'Course deleted!');
         else
             return back()->with('error', 'Course not found!');
+    }
+
+    public function enrollCourse($id)
+    {
+        $isNotEnrolled = $this->service->enrollCourse($id);
+
+        if (!$isNotEnrolled)
+            return back()->with('error', 'You have already been enrolled to this course.');
+
+        $url = strtok(redirect()->back()->getTargetUrl(), '?');
+        return redirect($url)->with('success', 'You have been enrolled.');
     }
 }

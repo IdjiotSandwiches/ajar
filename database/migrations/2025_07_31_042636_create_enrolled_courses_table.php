@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('enrolled_courses', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_complete');
-            $table->boolean('is_verified');
+            $table->boolean('is_verified')->nullable();
             $table->unsignedBigInteger('course_schedule_id');
             $table->unsignedBigInteger('student_id');
             $table->timestamps();

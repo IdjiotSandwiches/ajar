@@ -1,35 +1,31 @@
-import AppLayout from "@/layouts/app-layout";
-import CourseHero from "@/components/course/hero-section";
-import { useEffect, useRef, useState } from "react";
-import CourseSidebar from "@/components/course/sidebar";
-import ReviewSection from "@/components/course/review";
-import PopularCourses from "@/components/home/popular-courses";
+import CourseHero from '@/components/course/hero-section';
+import ReviewSection from '@/components/course/review';
+import CourseSidebar from '@/components/course/sidebar';
+import PopularCourses from '@/components/home/popular-courses';
+import AppLayout from '@/layouts/app-layout';
+import { useEffect, useRef, useState } from 'react';
 
-export default function CourseDetailPage({ course, popularCourses }: { course: any, popularCourses: any[] }) {
-    const [activeTab, setActiveTab] = useState("syllabus");
+export default function CourseDetailPage({ course, popularCourses }: any) {
+    const [activeTab, setActiveTab] = useState('syllabus');
 
     const syllabusRef = useRef<HTMLHeadingElement | null>(null);
     const infoRef = useRef<HTMLHeadingElement | null>(null);
     const testimonialRef = useRef<HTMLHeadingElement | null>(null);
 
-    const handleScrollTo = (
-        ref: React.RefObject<HTMLHeadingElement | null>,
-        tab: string
-    ) => {
+    const handleScrollTo = (ref: React.RefObject<HTMLHeadingElement | null>, tab: string) => {
         setActiveTab(tab);
         if (ref.current) {
             const yOffset = -100;
-            const y =
-                ref.current.getBoundingClientRect().top + window.scrollY + yOffset;
-            window.scrollTo({ top: y, behavior: "smooth" });
+            const y = ref.current.getBoundingClientRect().top + window.scrollY + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
         }
     };
 
     useEffect(() => {
         const sections = [
-            { id: "syllabus", ref: syllabusRef },
-            { id: "info", ref: infoRef },
-            { id: "testimonial", ref: testimonialRef },
+            { id: 'syllabus', ref: syllabusRef },
+            { id: 'info', ref: infoRef },
+            { id: 'testimonial', ref: testimonialRef },
         ];
 
         const observer = new IntersectionObserver(
@@ -41,7 +37,7 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
                     }
                 });
             },
-            { threshold: 0.4 }
+            { threshold: 0.4 },
         );
 
         sections.forEach((s) => {
@@ -56,37 +52,27 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
     }, []);
 
     if (!course) {
-        return (
-            <div className="min-h-screen flex items-center justify-center text-gray-500 text-lg">
-                Course Not Found
-            </div>
-        );
+        return <div className="flex min-h-screen items-center justify-center text-lg text-gray-500">Course Not Found</div>;
     }
 
     return (
         <div className="min-h-screen bg-[#F8FCFF]">
             <CourseHero course={course} />
-            <div className="block lg:hidden px-4 mt-4">
-                <CourseSidebar
-                    institute={course.institute.user}
-                    teacher={course.teachers}
-                />
+            <div className="mt-4 block px-4 lg:hidden">
+                <CourseSidebar institute={course.institute.user} teacher={course.teachers} />
             </div>
-            <div className="flex justify-center mt-6 md:-mt-6 mb-8 relative z-20 px-3">
-                <div className="bg-white rounded-full shadow-md border flex gap-4 px-6 py-1 overflow-x-auto scrollbar-hide max-w-full">
+            <div className="relative z-20 mt-6 mb-8 flex justify-center px-3 md:-mt-6">
+                <div className="scrollbar-hide flex max-w-full gap-4 overflow-x-auto rounded-full border bg-white px-6 py-1 shadow-md">
                     {[
-                        { id: "syllabus", label: "Syllabus", ref: syllabusRef },
-                        { id: "info", label: "Course Information", ref: infoRef },
-                        { id: "testimonial", label: "Testimonial", ref: testimonialRef }
+                        { id: 'syllabus', label: 'Syllabus', ref: syllabusRef },
+                        { id: 'info', label: 'Course Information', ref: infoRef },
+                        { id: 'testimonial', label: 'Testimonial', ref: testimonialRef },
                     ].map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => handleScrollTo(tab.ref, tab.id)}
-                            className={`px-3 md:px-5 py-1.5 md:py-2 whitespace-nowrap rounded-full text-xs md:text-sm font-medium transition-all
-                            ${
-                                activeTab === tab.id
-                                    ? "bg-[#42C2FF] text-white"
-                                    : "text-gray-600 hover:bg-gray-100"
+                            className={`rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all md:px-5 md:py-2 md:text-sm ${
+                                activeTab === tab.id ? 'bg-[#42C2FF] text-white' : 'text-gray-600 hover:bg-gray-100'
                             }`}
                         >
                             {tab.label}
@@ -94,59 +80,41 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
                     ))}
                 </div>
             </div>
-            <div className="mx-auto px-4 md:px-10 lg:px-20 grid grid-cols-1 lg:grid-cols-6 2xl:grid-cols-8 gap-10">
-                <div className="lg:col-span-4 2xl:col-span-6 space-y-10">
+            <div className="mx-auto grid grid-cols-1 gap-10 px-4 md:px-10 lg:grid-cols-6 lg:px-20 2xl:grid-cols-8">
+                <div className="space-y-10 lg:col-span-4 2xl:col-span-6">
                     <section>
-                        <h4 ref={syllabusRef} className="text-xs text-[#42C2FF] font-medium mb-2">
+                        <h4 ref={syllabusRef} className="mb-2 text-xs font-medium text-[#42C2FF]">
                             Syllabus
                         </h4>
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                            Learning Objectives
-                        </h2>
+                        <h2 className="mb-4 text-lg font-semibold text-gray-800">Learning Objectives</h2>
 
-                        <ul className="text-gray-600 list-disc ml-5 space-y-2">
-                            {course.learning_objectives?.map((item: any) => (
-                                <li key={item.id}>{item.description}</li>
-                            ))}
+                        <ul className="ml-5 list-disc space-y-2 text-gray-600">
+                            {course.course_learning_objectives?.map((item: any) => <li key={item.id}>{item.description}</li>)}
                         </ul>
 
-                        <h2 className="text-lg font-semibold text-gray-800 mt-8 mb-4">
-                            Course Overview
-                        </h2>
-                        <ul className="text-gray-600 list-disc ml-5 space-y-2">
-                            {course.course_overviews?.map((item: any) => (
-                                <li key={item.id}>{item.description}</li>
-                            ))}
+                        <h2 className="mt-8 mb-4 text-lg font-semibold text-gray-800">Course Overview</h2>
+                        <ul className="ml-5 list-disc space-y-2 text-gray-600">
+                            {course.course_overviews?.map((item: any) => <li key={item.id}>{item.description}</li>)}
                         </ul>
                     </section>
                     <section>
-                        <h4 ref={infoRef} className="text-xs text-[#42C2FF] font-medium mb-2">
+                        <h4 ref={infoRef} className="mb-2 text-xs font-medium text-[#42C2FF]">
                             Course Information
                         </h4>
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                            Skills to be Learned
-                        </h2>
-                        <ul className="text-gray-600 list-disc ml-5 space-y-2">
-                            {course.course_skills?.map((item: any) => (
-                                <li key={item.id}>{item.skill.name}</li>
-                            ))}
+                        <h2 className="mb-4 text-lg font-semibold text-gray-800">Skills to be Learned</h2>
+                        <ul className="ml-5 list-disc space-y-2 text-gray-600">
+                            {course.course_skills?.map((item: any) => <li key={item.id}>{item.skill.name}</li>)}
                         </ul>
                     </section>
                     <section>
-                        <h4
-                            ref={testimonialRef}
-                            className="text-xs text-[#3ABEFF] font-medium mb-2"
-                        >
+                        <h4 ref={testimonialRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
                             Testimonial
                         </h4>
                         <ReviewSection reviews={course.course_reviews} />
                     </section>
                 </div>
                 <div className="lg:col-span-2 2xl:col-span-2">
-                    <CourseSidebar
-                        institute={course.institute.user}
-                        teacher={course.teachers}
-                    />
+                    <CourseSidebar institute={course.institute.user} teacher={course.teachers} />
                 </div>
             </div>
             <div className="mx-auto md:px-10">
@@ -156,6 +124,4 @@ export default function CourseDetailPage({ course, popularCourses }: { course: a
     );
 }
 
-CourseDetailPage.layout = (page: React.ReactNode) => (
-    <AppLayout useContainer={false}>{page}</AppLayout>
-);
+CourseDetailPage.layout = (page: React.ReactNode) => <AppLayout useContainer={false}>{page}</AppLayout>;

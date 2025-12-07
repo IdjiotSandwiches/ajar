@@ -1,147 +1,144 @@
-import React, { useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { router, usePage } from '@inertiajs/react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-interface TimeSelectModalProps {
-  isOpen: boolean;
-  onPrevious: () => void;
-  onNext: (selected: { date: string; time: string }) => void;
-  onClose: () => void;
-}
+export default function TimeSelectModal({ isOpen, onPrevious, onNext, onClose, selectedTeacherId }: any) {
+    const [selectedDate, setSelectedDate] = useState('');
+    const [selectedTime, setSelectedTime] = useState('');
 
-const times = [
-  "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
-  "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"
-];
+    const now = new Date();
+    const [month, setMonth] = useState<number>(now.getMonth());
+    const [year, setYear] = useState<number>(now.getFullYear());
 
-export default function TimeSelectModal({
-  isOpen,
-  onPrevious,
-  onNext,
-  onClose,
-}: TimeSelectModalProps) {
-  const [selectedDate, setSelectedDate] = useState<string>("");
-  const [selectedTime, setSelectedTime] = useState<string>("");
+    const monthName = new Date(year, month).toLocaleString('en-US', { month: 'long' });
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDayIndex = new Date(year, month, 1).getDay();
 
-  const now = new Date();
-  const [month, setMonth] = useState<number>(now.getMonth());
-  const [year, setYear] = useState<number>(now.getFullYear());
+    const handleNext = () => {
+        if (selectedDate && selectedTime) onNext(selectedTime);
+    };
 
-  if (!isOpen) return null;
+    const prevMonth = () => {
+        if (month === 0) {
+            setMonth(11);
+            setYear((prev) => prev - 1);
+        } else setMonth((prev) => prev - 1);
+    };
 
-  const monthName = new Date(year, month).toLocaleString("en-US", { month: "long" });
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDayIndex = new Date(year, month, 1).getDay();
+    const nextMonth = () => {
+        if (month === 11) {
+            setMonth(0);
+            setYear((prev) => prev + 1);
+        } else setMonth((prev) => prev + 1);
+    };
 
-  const handleNext = () => {
-    if (selectedDate && selectedTime) onNext({ date: selectedDate, time: selectedTime });
-  };
+    const reset = () => {
+        setSelectedTime('');
+        setSelectedDate('');
+        onPrevious();
+    };
 
-  const prevMonth = () => {
-    if (month === 0) {
-      setMonth(11);
-      setYear((prev) => prev - 1);
-    } else setMonth((prev) => prev - 1);
-  };
+    const { schedules } = usePage<any>().props;
+    useEffect(() => {
+        if (isOpen) {
+            router.reload({
+                only: ['schedules'],
+                data: { selected_teacher_id: selectedTeacherId },
+            });
+        }
+    }, [isOpen, selectedTeacherId]);
 
-  const nextMonth = () => {
-    if (month === 11) {
-      setMonth(0);
-      setYear((prev) => prev + 1);
-    } else setMonth((prev) => prev + 1);
-  };
+    if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#42C2FF]/40 backdrop-blur-sm z-99 transition-opacity duration-200">
-      <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative animate-fadeIn">
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
-        >
-          <X size={20} />
-        </button>
+    return (
+        <>
+            {schedules && (
+                <div className="fixed inset-0 z-99 flex items-center justify-center bg-[#42C2FF]/40 backdrop-blur-sm transition-opacity duration-200">
+                    <div className="animate-fadeIn relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
+                        <button onClick={onClose} className="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+                            <X size={20} />
+                        </button>
 
-        <h2 className="text-lg font-semibold text-gray-800 mb-1 text-center">Pick Course Date</h2>
-        <p className="text-center text-gray-500 mb-6 text-sm">
-          Select the available course schedule
-        </p>
+                        <h2 className="mb-1 text-center text-lg font-semibold text-gray-800">Pick Course Date</h2>
+                        <p className="mb-6 text-center text-sm text-gray-500">Select the available course schedule</p>
 
-        <div className="grid grid-cols-3 border rounded-2xl overflow-hidden">
-          <div className="col-span-2 bg-[#42C2FF]/10 p-4 flex flex-col h-[300px]">
-            <div className="flex justify-between items-center text-[#42C2FF] mb-3">
-              <button onClick={prevMonth} className="hover:bg-white rounded-full p-1">
-                <ChevronLeft size={18} />
-              </button>
-              <div className="font-semibold text-sm">{monthName} {year}</div>
-              <button onClick={nextMonth} className="hover:bg-white rounded-full p-1">
-                <ChevronRight size={18} />
-              </button>
-            </div>
+                        <div className="grid grid-cols-3 overflow-hidden rounded-2xl border">
+                            <div className="col-span-2 flex h-[300px] flex-col bg-[#42C2FF]/10 p-4">
+                                <div className="mb-3 flex items-center justify-between text-[#42C2FF]">
+                                    <button onClick={prevMonth} className="rounded-full p-1 hover:bg-white">
+                                        <ChevronLeft size={18} />
+                                    </button>
+                                    <div className="text-sm font-semibold">
+                                        {monthName} {year}
+                                    </div>
+                                    <button onClick={nextMonth} className="rounded-full p-1 hover:bg-white">
+                                        <ChevronRight size={18} />
+                                    </button>
+                                </div>
 
-            <div className="grid grid-cols-7 text-center text-gray-600 text-xs mb-2">
-              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-                <p key={d}>{d}</p>
-              ))}
-            </div>
+                                <div className="mb-2 grid grid-cols-7 text-center text-xs text-gray-600">
+                                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d) => (
+                                        <p key={d}>{d}</p>
+                                    ))}
+                                </div>
 
-            <div className="grid grid-cols-7 gap-1 text-center flex-grow text-sm">
-              {Array.from({ length: firstDayIndex }).map((_, i) => (
-                <div key={`empty-${i}`} />
-              ))}
-              {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
-                const val = `${year}-${month + 1}-${day}`;
-                return (
-                  <button
-                    key={day}
-                    onClick={() => setSelectedDate(val)}
-                    className={`py-1 rounded-full transition-all ${
-                      selectedDate === val
-                        ? "bg-[#42C2FF] text-white"
-                        : "hover:bg-white"
-                    }`}
-                  >
-                    {day}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="bg-[#42C2FF]/10 p-4 flex flex-col gap-2 overflow-y-auto h-[300px] border-l">
-            {times.map((time) => (
-              <button
-                key={time}
-                onClick={() => setSelectedTime(time)}
-                className={`py-1.5 px-2 text-xs rounded-lg text-left transition-all ${
-                  selectedTime === time
-                    ? "bg-[#42C2FF] text-white"
-                    : "hover:bg-white"
-                }`}
-              >
-                {time}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="flex gap-4 mt-6">
-          <button
-            onClick={onPrevious}
-            className="w-1/2 py-3 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 font-medium"
-          >
-            Back
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={!selectedDate || !selectedTime}
-            className={`w-1/2 py-3 rounded-xl text-white font-medium ${
-              selectedDate && selectedTime
-                ? "bg-[#42C2FF] hover:bg-[#42C2FF]/90"
-                : "bg-gray-300 cursor-not-allowed"
-            }`}
-          >
-            Next
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+                                <div className="grid flex-grow grid-cols-7 gap-1 text-center text-sm">
+                                    {Array.from({ length: firstDayIndex }).map((_, i) => (
+                                        <div key={`empty-${i}`} />
+                                    ))}
+                                    {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
+                                        const val = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                                        const isAvailable = !!schedules[val];
+                                        return (
+                                            <button
+                                                key={day}
+                                                onClick={() => isAvailable && setSelectedDate(val)}
+                                                disabled={!isAvailable}
+                                                className={`cursor-pointer rounded-full py-1 transition-all disabled:cursor-not-allowed disabled:bg-[#d9e1e6] ${
+                                                    selectedDate === val ? 'bg-[#42C2FF] text-white' : 'hover:bg-white'
+                                                }`}
+                                            >
+                                                {day}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                            <div className="flex h-[300px] flex-col gap-2 overflow-y-auto border-l bg-[#42C2FF]/10 p-4">
+                                {selectedDate &&
+                                    schedules[selectedDate].map((time: any, index: number) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setSelectedTime(time.id)}
+                                            className={`rounded-lg px-2 py-1.5 text-left text-xs transition-all ${
+                                                selectedTime === time.id ? 'bg-[#42C2FF] text-white' : 'hover:bg-white'
+                                            }`}
+                                        >
+                                            {time.time}
+                                        </button>
+                                    ))}
+                            </div>
+                        </div>
+                        <div className="mt-6 flex gap-4">
+                            <button
+                                onClick={() => reset()}
+                                className="w-1/2 rounded-xl border border-gray-300 py-3 font-medium text-gray-700 hover:bg-gray-100"
+                            >
+                                Back
+                            </button>
+                            <button
+                                onClick={handleNext}
+                                disabled={!selectedDate || !selectedTime}
+                                className={`w-1/2 rounded-xl py-3 font-medium text-white ${
+                                    selectedDate && selectedTime ? 'bg-[#42C2FF] hover:bg-[#42C2FF]/90' : 'cursor-not-allowed bg-gray-300'
+                                }`}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
+    );
 }
