@@ -10,7 +10,7 @@ export default function InstitutionSection({ institutes }: { institutes: any[] }
 
         <button
           className="text-[#3ABEFF] font-medium hover:underline text-xs :text-sm"
-          onClick={() => router.get(route('list-institute'))}
+          onClick={() => router.get(route('list-institute', { category_id: 1 }))}
         >
           View All →
         </button>

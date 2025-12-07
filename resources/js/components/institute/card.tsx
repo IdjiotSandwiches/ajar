@@ -6,8 +6,6 @@ export default function InstituteCard({ institute }: any) {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const [index, setIndex] = useState(0);
 
-  const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, "");
-
   const next = () => {
     setIndex((prev) =>
       prev === institute.teacherList.length - 1 ? 0 : prev + 1
@@ -33,7 +31,7 @@ export default function InstituteCard({ institute }: any) {
         <div className="bg-[#42C2FF] rounded-2xl p-6 text-center cursor-pointer"  onClick={() => router.get(route('detail-institute', institute.user_id))}>
           <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-white shadow-md mx-auto mb-4">
             <img
-              src={`/${institute.user.profile_picture || null}`}
+              src={institute?.user?.profile_picture || "https://placehold.co/400"}
               alt={institute.user.name}
               className="w-full h-full object-cover"
             />
@@ -61,7 +59,7 @@ export default function InstituteCard({ institute }: any) {
                     onClick={() => router.get(route("detail-teacher", t.user_id))}
                   >
                     <img
-                      src={`/${t.user.profile_picture || null}`}
+                      src={t?.user?.profile_picture || "https://placehold.co/400"}
                       alt={t.user.name}
                       className="w-12 h-12 rounded-full object-cover border"
                     />
