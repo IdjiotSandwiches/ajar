@@ -55,16 +55,14 @@ export default function CourseHero({ course }: { course: any }) {
                         )}
                         <div className="flex items-center gap-2">
                             <p className="text-xl font-bold text-[#3ABEFF]">
-                                Rp{' '}
-                                {Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString('id-ID', {
+                                Rp{Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString('id-ID', {
                                     minimumFractionDigits: 2,
                                     maximumFractionDigits: 2,
                                 })}
                             </p>
                             {Number(course.discount) > 0 && (
                                 <p className="text-sm text-gray-400 line-through">
-                                    Rp{' '}
-                                    {Number(course.price).toLocaleString('id-ID', {
+                                    Rp{Number(course.price).toLocaleString('id-ID', {
                                         minimumFractionDigits: 2,
                                         maximumFractionDigits: 2,
                                     })}

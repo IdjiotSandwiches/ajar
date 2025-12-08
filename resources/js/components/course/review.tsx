@@ -38,9 +38,9 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
                 <div className="relative flex items-center md:col-span-4">
                     {reviews.length === 0
                     ?
-                        <>
+                        <p className='text-gray-500 text-sm'>
                             No Reviews
-                        </>
+                        </p>
                     : (
                         <>
                             <button

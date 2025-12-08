@@ -46,7 +46,7 @@ export default function CourseSidebar({ teacher, institute }: { teacher: any[]; 
             <div>
                 <h3 className="mb-2 text-sm font-semibold text-gray-700">Teachers</h3>
                 {teachers.length === 0 ? (
-                    <p className="font-medium">No teacher yet</p>
+                    <p className="text-gray-500 text-sm">No teacher yet</p>
                 ) : (
                     <div
                         ref={sliderRef}
