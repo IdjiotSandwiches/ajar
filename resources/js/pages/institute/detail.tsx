@@ -116,7 +116,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                                                 className="mb-2 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-gray-200"
                                                 onClick={() => router.get(route('detail-teacher', teacher.user_id))}
                                             >
-                                                {teacher.image ? (
+                                                {teacher.user?.profile_picture ? (
                                                     <img
                                                         src={teacher.user?.profile_picture || 'https://placehold.co/400'}
                                                         alt={teacher.user.name}
