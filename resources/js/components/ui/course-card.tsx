@@ -8,7 +8,7 @@ export default function CourseCard({ course, isTag }: { course: any, isTag: bool
     const roles = props.enums?.roles_enum;
 
     return (
-        <div className="bg-white border-2 border-[#3ABEFF]/20 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-200 w-100 max-w-full flex-shrink-0 flex flex-col">
+        <div className="bg-white border-2 border-[#3ABEFF]/20 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-200 w-full max-w-100 flex-shrink-0 flex flex-col">
             <div className="relative">
                 <img src={course?.image || "https://placehold.co/400"} alt={course.title} className="w-full h-40 object-cover" />
                 {isTag && (
