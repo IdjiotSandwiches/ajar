@@ -95,7 +95,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                     <div className="mt-10">
                         <h3 className="mb-4 text-xl font-semibold">Teachers</h3>
                         {teachers.length > 0 ? (
-                            <div className="flex cursor-pointer flex-wrap gap-8">
+                            <div className="flex justify-center md:justify-start cursor-pointer flex-wrap gap-8">
                                 {teachers.map((item: any, idx: number) => {
                                     const teacher = item?.teacher;
                                     return (
