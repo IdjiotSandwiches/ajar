@@ -5,8 +5,7 @@ import { SquareArrowOutUpRight } from 'lucide-react';
 import React from 'react';
 import { FaInstagram, FaLinkedinIn, FaStar, FaTwitter } from 'react-icons/fa';
 
-export default function InstituteDetailPage({ institute, courses, teachers, application }: any) {
-    console.log(teachers);
+export default function InstituteDetailPage({ institute, courses, teachers, application, canApply }: any) {
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
@@ -72,14 +71,14 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                         </div>
                     </div>
                 </div>
-                {user?.role_id === roles.Teacher &&
+                {user?.role_id === roles.Teacher && canApply &&
                     (!application?.is_verified ? (
                         <button
                             onClick={() => router.post(route('teacher.apply-as-teacher', institute?.user_id))}
-                            disabled={application?.is_verified == null}
-                            className="mt-5 w-full cursor-pointer rounded-lg bg-[#42C2FF] py-2 font-semibold text-white transition-all hover:bg-[#42C2FF]/90 disabled:bg-[#42C2FF]/90"
+                            disabled={application && application?.is_verified == null}
+                            className="mt-5 w-full cursor-pointer rounded-lg bg-[#42C2FF] py-2 font-semibold text-white transition-all hover:bg-[#42C2FF]/90 disabled:bg-[#42C2FF]/90 disabled:cursor-not-allowed"
                         >
-                            {application?.is_verified == null ? 'Please wait a moment' : 'Apply As Teacher'}
+                            {application && application?.is_verified == null ? 'Please wait a moment' : 'Apply As Teacher'}
                         </button>
                     ) : (
                         <div className="mt-5 w-full rounded-lg bg-[#42C2FF] py-2 text-center font-semibold text-white">You are verified teacher</div>
