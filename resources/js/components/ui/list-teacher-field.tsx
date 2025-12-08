@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Plus, X } from "react-feather";
-import TeacherSelectModal from "../modal/select-teacher";
+import TeacherSelectModal from "../modal/register-course/select-teacher";
 import { dummyTeachers } from "@/dummy-data/dummy-teacher";
 import { TeacherRegisterProps } from "@/interfaces/shared";
 

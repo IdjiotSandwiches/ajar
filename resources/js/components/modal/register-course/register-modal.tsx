@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import TeacherSelectModal from '../select-teacher';
+import TeacherSelectModal from './select-teacher';
 import PaymentSelectModal from './payment';
 import TimeSelectModal from './select-timetable';
 
