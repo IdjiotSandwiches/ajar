@@ -3,6 +3,7 @@
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstituteController;
+use App\Http\Controllers\MyLearningController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,7 +27,9 @@ Route::controller(CourseController::class)->group(function () {
 
 Route::middleware(['auth', 'verified'])
     ->group(function () {
-        Route::get('my-learning', fn() => Inertia::render('my-learning/app'))->name('my-learning');
+        Route::controller(MyLearningController::class)->group(function () {
+            Route::get('my-learning', 'getMyLearning')->name('my-learning');
+        });
         Route::get('profile', fn() => Inertia::render('student/edit-profile'))->name('profile');
         Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
 

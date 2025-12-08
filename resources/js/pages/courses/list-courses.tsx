@@ -1,31 +1,12 @@
 import FilterStudent from '@/components/filter/student';
 import FilterTeacher from '@/components/filter/teacher';
 import CourseCard from '@/components/ui/course-card';
-import { CategoryProps } from '@/interfaces/shared';
 import AppLayout from '@/layouts/app-layout';
 import { Head, InfiniteScroll, router, usePage } from '@inertiajs/react';
 import { Search } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function CourseListPage({
-    activeCategory,
-    parentCategories,
-    courses,
-    subCategories,
-    activeSub,
-    search,
-    studentFilter,
-    price,
-}: {
-    activeCategory: number;
-    parentCategories: CategoryProps[];
-    courses: any;
-    subCategories: CategoryProps[];
-    activeSub: number[];
-    search: string;
-    studentFilter: any;
-    price: any;
-}) {
+export default function CourseListPage({ activeCategory, parentCategories, courses, subCategories, activeSub, search, studentFilter, price }: any) {
     const [localSearch, setLocalSearch] = useState<string>(search ?? '');
     const handleFilterChange = (options: {
         category_id?: number;
@@ -76,7 +57,7 @@ export default function CourseListPage({
                     <div className="relative mb-8 flex w-[240px] flex-col items-center">
                         <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#D8F4FF]" />
                         <div className="relative flex w-full justify-between">
-                            {parentCategories.map((cat) => (
+                            {parentCategories.map((cat: any) => (
                                 <div key={cat.id} className="relative flex w-1/2 justify-center">
                                     <button
                                         onClick={() => handleFilterChange({ category_id: cat.id })}
