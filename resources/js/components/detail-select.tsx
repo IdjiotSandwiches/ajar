@@ -38,7 +38,7 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
         tabIndex={tabIndex}
         disabled={disabled}
         className={`block w-full appearance-none bg-transparent border-0 border-b-2 text-sm
-                   py-2.5 px-0 text-gray-900 dark:text-white focus:outline-none focus:ring-0
+                   py-2 px-0 text-gray-900 dark:text-white focus:outline-none focus:ring-0
                    ${
                      disabled
                        ? "border-gray-200 text-gray-400 cursor-not-allowed"

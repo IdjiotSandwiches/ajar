@@ -1,23 +1,10 @@
-import { Head, InertiaFormProps, router } from '@inertiajs/react';
-import { FormEventHandler, JSX, useState } from 'react';
-
+import { Head, router } from '@inertiajs/react';
+import { FormEventHandler, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { RegisterFormProps, RoleConfig } from '@/interfaces/shared';
 import AuthLayout from '@/layouts/auth-layout';
 import { LoaderCircle } from 'lucide-react';
 
-interface StepsProps {
-    title?: string | null;
-    component: JSX.Element;
-}
-
-interface RegisterLayoutProps {
-    steps: StepsProps[];
-    role_config: RoleConfig;
-    form: InertiaFormProps<Partial<RegisterFormProps>>;
-}
-
-export default function RegisterLayout({ steps, role_config, form }: RegisterLayoutProps) {
+export default function RegisterLayout({ steps, role_config, form }: any) {
     const [currentStep, setCurrentStep] = useState(1);
 
     const next = () => setCurrentStep(currentStep + 1);
@@ -27,13 +14,13 @@ export default function RegisterLayout({ steps, role_config, form }: RegisterLay
         e.preventDefault();
         form.post(route('register.submit'), {
             onFinish: () => form.reset('password', 'password_confirmation'),
-            onError: (errors) => {
-                if (role_config.basic_info.some((key) => errors[key])) setCurrentStep(1);
-                else if (role_config.credential_info.some((key) => errors[key])) setCurrentStep(2);
+            onError: (errors: any) => {
+                if (role_config.basic_info.some((key: any) => errors[key])) setCurrentStep(1);
+                else if (role_config.credential_info.some((key: any) => errors[key])) setCurrentStep(2);
                 else if (role_config.more_info) {
                     const more_info = role_config.more_info;
-                    more_info.forEach((info, idx) => {
-                        if (info.some((key) => errors[key])) setCurrentStep(2 + idx + 1);
+                    more_info.forEach((info: any, idx: number) => {
+                        if (info.some((key: any) => errors[key])) setCurrentStep(2 + idx + 1);
                     });
                 }
             },
@@ -66,17 +53,16 @@ export default function RegisterLayout({ steps, role_config, form }: RegisterLay
                             <p className="hover:text-[#3ABEFF]">Login</p>
                         </Button>
                     ) : (
-                        <Button
-                            type="button"
-                            variant="ghost"
-                            onClick={back}
-                            className="rounded-full hover:bg-[#3ABEFF]/10"
-                        >
+                        <Button type="button" variant="ghost" onClick={back} className="rounded-full hover:bg-[#3ABEFF]/10">
                             <p className="hover:text-[#3ABEFF]">Back</p>
                         </Button>
                     )}
 
-                    <Button type="button" onClick={currentStep === steps.length ? submit : next} className="rounded-full bg-[#3ABEFF] hover:bg-[#3ABEFF]/90">
+                    <Button
+                        type="button"
+                        onClick={currentStep === steps.length ? submit : next}
+                        className="rounded-full bg-[#3ABEFF] hover:bg-[#3ABEFF]/90"
+                    >
                         {currentStep === steps.length ? (
                             <>
                                 {form.processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
