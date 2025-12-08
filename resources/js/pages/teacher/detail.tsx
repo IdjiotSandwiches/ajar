@@ -18,7 +18,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
 
     return (
         <>
-            <Head title={teacher?.user?.name} />
+            <Head title={teacher?.user?.name || "Not Found"} />
             <div className="min-h-screen w-full bg-[#F9FCFF] pb-20">
                 <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 pt-6 sm:px-6 md:grid-cols-3 md:gap-8">
                     <div>
