@@ -7,6 +7,7 @@ declare module "@inertiajs/core" {
     };
     enums: {
         roles_enum: Record<string, number>;
+        degree_type_enum: Record<string, number>;
     };
     [key: string]: any;
   }

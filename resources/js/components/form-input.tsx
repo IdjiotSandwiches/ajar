@@ -1,16 +1,7 @@
 import InputError from '@/components/input-error';
-
 import { Input } from '@/components/ui/input';
-import { RegisterFormProps } from '@/interfaces/shared';
-import { InertiaFormProps } from '@inertiajs/react';
 
-export default function FormInput({
-    form,
-    content,
-}: {
-    form: InertiaFormProps<Partial<RegisterFormProps>>;
-    content: Array<keyof RegisterFormProps>;
-}) {
+export default function FormInput({ form, content }: any) {
     function separateWords(name: string) {
         return name
             .split('_')
@@ -18,25 +9,24 @@ export default function FormInput({
             .join(' ');
     }
 
-    const inputType: Record<keyof RegisterFormProps, string | undefined> = {
-        'name': 'text',
-        'email': 'email',
-        'phone_number': 'text',
-        'password': 'password',
-        'password_confirmation': 'password',
-        'role_id': undefined
+    const inputType: Record<string, string | undefined> = {
+        name: 'text',
+        email: 'email',
+        phone_number: 'text',
+        password: 'password',
+        password_confirmation: 'password',
+        role_id: undefined,
     };
 
     return (
         <>
-            {content.map((c, idx) => {
+            {content.map((c: any, idx: number) => {
                 return (
                     <div className="grid" key={idx}>
                         <Input
                             id={c}
                             type={inputType[c]}
                             required
-                            // autoFocus
                             label={separateWords(c)}
                             name={c}
                             tabIndex={1}
@@ -44,7 +34,6 @@ export default function FormInput({
                             value={form.data[c]}
                             onChange={(e) => form.setData(c, e.target.value)}
                             disabled={form.processing}
-                            // placeholder={separateWords(c)}
                         />
                         <InputError message={form.errors[c]} />
                     </div>
