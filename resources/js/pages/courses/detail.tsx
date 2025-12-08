@@ -116,7 +116,7 @@ export default function CourseDetailPage({ course, popularCourses }: any) {
                             <ReviewSection reviews={course.course_reviews} />
                         </section>
                     </div>
-                    <div className="lg:col-span-2 2xl:col-span-2">
+                    <div className="hidden md:flex lg:col-span-2 2xl:col-span-2">
                         <CourseSidebar institute={course.institute.user} teacher={course.teachers} />
                     </div>
                 </div>
