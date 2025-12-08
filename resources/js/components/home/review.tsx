@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { dummyReview } from "@/dummy-data/dummy-review";
 import ReviewCard from "../ui/review-card";
 
 export default function ReviewSection({ reviews }: { reviews: any[] }) {
@@ -10,7 +9,7 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
   const [cardWidth, setCardWidth] = useState(0);
 
   const gapPx = 32;
-  const total = dummyReview.length;
+  const total = reviews.length;
   const maxIndex = Math.max(0, total - perPage);
 
   useEffect(() => {
@@ -26,7 +25,7 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
   useEffect(() => {
     const el = containerRef.current?.querySelector("[data-card]") as HTMLElement;
     if (el) setCardWidth(el.offsetWidth + gapPx);
-  }, [perPage]);
+  }, [perPage, reviews]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -37,13 +36,19 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
   const goLeft = () => setCurrentIndex((i) => Math.max(0, i - perPage));
   const goRight = () => setCurrentIndex((i) => Math.min(maxIndex, i + perPage));
 
-  return (
-    <section className="py-8 md:py-16 bg-[#F7FDFD] overflow-hidden">
-      <div className="max-w-8xl mx-auto px-6 md:px-12">
-        <h2 className="sm:text-lg md:text-xl font-semibold text-gray-800 mb-4 md:mb-8">
-          Reviews from Students and Teachers
-        </h2>
+  const showArrows = total > 1;
 
+  return (
+    <section className="max-w-8xl mx-auto py-8 md:py-16 px-4 sm:px-6 md:px-12 bg-[#F7FDFD] overflow-hidden">
+      <h2 className="sm:text-lg md:text-xl font-semibold text-gray-800 mb-4 md:mb-8">
+        Reviews from Students and Teachers
+      </h2>
+
+      {total === 0 ? (
+        <p className="text-gray-500 py-10 text-sm">
+          No review available.
+        </p>
+      ) : (
         <div className="flex flex-col md:grid md:grid-cols-7 gap-10 items-center">
           <div className="hidden md:flex md:col-span-2 justify-center">
             <div className="bg-white shadow-md rounded-2xl p-6 w-full min-w-[260px] max-w-[320px]">
@@ -56,22 +61,28 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
               </p>
             </div>
           </div>
+
           <div className="relative md:col-span-5 w-full">
-            <button
-              onClick={goLeft}
-              disabled={currentIndex <= 0}
-              className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full hover:bg-blue-50 transition disabled:opacity-40 z-20 -translate-x-1/2"
-            >
-              <ChevronLeft className="w-5 h-5 text-[#42C2FF]" />
-            </button>
-            <button
-              onClick={goRight}
-              disabled={currentIndex >= maxIndex}
-              className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full hover:bg-blue-50 transition disabled:opacity-40 z-20 translate-x-1/2
-              "
-            >
-              <ChevronRight className="w-5 h-5 text-[#42C2FF]" />
-            </button>
+            {showArrows && (
+              <>
+                <button
+                  onClick={goLeft}
+                  disabled={currentIndex <= 0}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full hover:bg-blue-50 transition disabled:opacity-40 z-20 -translate-x-1/2"
+                >
+                  <ChevronLeft className="w-5 h-5 text-[#42C2FF]" />
+                </button>
+
+                <button
+                  onClick={goRight}
+                  disabled={currentIndex >= maxIndex}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full hover:bg-blue-50 transition disabled:opacity-40 z-20 translate-x-1/2"
+                >
+                  <ChevronRight className="w-5 h-5 text-[#42C2FF]" />
+                </button>
+              </>
+            )}
+
             <div className="w-full overflow-hidden">
               <div
                 ref={containerRef}
@@ -91,7 +102,7 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
 
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

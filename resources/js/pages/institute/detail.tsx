@@ -19,25 +19,27 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
             <Head title={institute?.user?.name || "Not Found"} />
             <div className="flex min-h-screen flex-col bg-[#F8FCFF]">
                 <div className="mx-auto w-full max-w-6xl p-6">
-                    <div className="flex items-stretch overflow-hidden rounded-xl shadow-md">
-                        <div className="flex items-center justify-center bg-[#42C2FF] p-6">
+                    <div className="flex flex-col md:flex-row items-stretch overflow-hidden rounded-xl shadow-md">
+                        <div className="flex items-center justify-center bg-[#42C2FF] p-6 md:p-6 py-8 md:py-6">
                             <img
                                 src={institute.user?.profile_picture || 'https://placehold.co/400'}
                                 alt={institute.user.name}
-                                className="h-40 w-40 rounded-lg object-cover outline-6 outline-white"
+                                className="h-28 w-28 md:h-40 md:w-40 rounded-lg object-cover outline-6 outline-white"
                             />
                         </div>
-                        <div className="relative flex flex-1 cursor-default items-center justify-between bg-[#42C2FF] p-6 text-white">
-                            <div className="pointer-events-none absolute top-0 right-0 h-full">
+                        <div className="relative flex flex-col md:flex-row flex-1 cursor-default items-center md:items-center justify-between bg-[#42C2FF] p-4 md:p-6 text-white gap-4 md:gap-0">
+                            <div className="pointer-events-none absolute top-0 right-0 h-full opacity-100">
                                 <img src="/images/gear.png" alt="gear-bg" className="h-full object-contain" />
                             </div>
-                            <div className="z-10 flex-1">
-                                <h2 className="text-3xl font-semibold">{institute.user.name}</h2>
+
+                            <div className="z-10 flex flex-col items-center md:items-start flex-1 text-center md:text-left">
+
+                                <h2 className="text-2xl md:text-3xl font-semibold">{institute.user.name}</h2>
 
                                 {institute.user.email ? (
                                     <a
                                         href={`mailto:${institute.user.email}`}
-                                        className="flex cursor-pointer items-center gap-1 text-sm text-white underline transition hover:opacity-90"
+                                        className="flex justify-center md:justify-start cursor-pointer items-center gap-1 text-sm text-white underline transition hover:opacity-90"
                                     >
                                         {institute.user.email}
                                         <SquareArrowOutUpRight className="h-4 w-4" />
@@ -46,9 +48,12 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                                     <span className="text-sm text-white opacity-80">No contact available</span>
                                 )}
 
-                                <p className="mt-2 max-w-md text-sm leading-relaxed">{institute.description}</p>
+                                <p className="mt-2 max-w-md mx-auto md:mx-0 text-sm leading-relaxed">
+                                    {institute.description}
+                                </p>
                             </div>
-                            <div className="z-10 flex items-center gap-16">
+
+                            <div className="z-10 flex gap-10 md:gap-16 items-center md:items-center justify-center md:justify-end w-full md:w-auto">
                                 <div className="text-center">
                                     <p className="text-lg font-semibold">{courses.length || 0}</p>
                                     <p className="text-sm opacity-90">Courses</p>
@@ -59,7 +64,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                                     </p>
                                     <p className="text-sm opacity-90">Rating</p>
                                 </div>
-                                <div className="ml-4 flex flex-col gap-4">
+                                <div className="flex gap-6 md:flex-col">
                                     <a href="#" className="hover:text-blue-100">
                                         <FaTwitter size={18} />
                                     </a>
@@ -70,9 +75,11 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                                         <FaInstagram size={18} />
                                     </a>
                                 </div>
+
                             </div>
                         </div>
                     </div>
+
                     {user?.role_id === roles.Teacher && canApply &&
                         (!application?.is_verified ? (
                             <button
@@ -88,7 +95,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                     <div className="mt-10">
                         <h3 className="mb-4 text-xl font-semibold">Teachers</h3>
                         {teachers.length > 0 ? (
-                            <div className="flex cursor-pointer flex-wrap gap-8">
+                            <div className="flex justify-center md:justify-start cursor-pointer flex-wrap gap-8">
                                 {teachers.map((item: any, idx: number) => {
                                     const teacher = item?.teacher;
                                     return (

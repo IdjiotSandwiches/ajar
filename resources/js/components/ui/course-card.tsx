@@ -55,7 +55,7 @@ export default function CourseCard({ course, isTag }: { course: any, isTag: bool
                 <div className="mt-4 flex items-center justify-between">
                     <div>
                         <p className="text-gray-800 font-semibold text-sm">
-                            Rp {Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString("id-ID", {
+                            Rp{Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString("id-ID", {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2
                             })}

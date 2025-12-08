@@ -3,7 +3,7 @@ import React from "react";
 
 export default function BecomeTeacherSection() {
   return (
-    <section className="pt-4 pb-8 md:pt-8 md:pb-16 px-6 md:px-12 bg-white">
+    <section className="pt-4 pb-8 md:pt-8 md:pb-16 px-4 sm:px-6 md:px-12 bg-white">
       <div className="w-full">
         <div className="rounded-lg overflow-hidden flex flex-col lg:flex-row items-stretch bg-white shadow-md min-h-[320px]">
           <div className="w-full lg:w-2/3 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center gap-y-3">
