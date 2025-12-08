@@ -5,9 +5,7 @@ namespace App\Services;
 use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Institute;
-use App\Models\SocialMediaType;
 use App\Models\TeacherApplication;
-use App\Utilities\UploadUtility;
 use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
 
@@ -164,15 +162,8 @@ class InstituteService
     public function updateProfile($data)
     {
         $user = Auth::user();
-
-        $url = null;
-        if (isset($data['profile_picture'])) {
-            $url = UploadUtility::upload($data['profile_picture'], 'profile_picture');
-        }
-
         $user->update([
-            'name' => $data['name'],
-            'profile_picture' => $url ?? $user->profile_picture
+            'name' => $data['name']
         ]);
         $user->institute()->update([
             'website' => $data['website'],

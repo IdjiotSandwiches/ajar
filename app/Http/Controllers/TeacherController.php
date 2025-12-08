@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TeacherProfileRequest;
 use App\Services\TeacherService;
 use Inertia\Inertia;
 
@@ -30,6 +31,24 @@ class TeacherController extends Controller
         try {
             $this->service->applyAsTeacher($id);
             return back()->with('success', 'You have applied, please wait for a moment!');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function getProfile()
+    {
+        return Inertia::render('teacher/edit-profile', [
+            'profile' => $this->service->getProfile()
+        ]);
+    }
+
+    public function putProfile(TeacherProfileRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $this->service->updateProfile($data);
+            return back()->with('success', 'Update success.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

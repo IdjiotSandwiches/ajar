@@ -1,3 +1,4 @@
+import { router } from '@inertiajs/react';
 import { Pencil } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 
@@ -7,10 +8,16 @@ export default function ProfileCard({ user }: any) {
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setPreviewImage(imageUrl);
-        }
+        if (!file) return;
+
+        const imageUrl = URL.createObjectURL(file);
+        setPreviewImage(imageUrl);
+
+        const formData = new FormData();
+        formData.append("profile_picture", file);
+        router.post(route('update-image'), formData, {
+            forceFormData: true
+        });
     };
 
     const handleImageClick = () => {

@@ -6,6 +6,7 @@ use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\MyLearningController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\UtilityController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -32,6 +33,9 @@ Route::middleware(['auth', 'verified'])
                 Route::get('my-learning', 'getMyLearning')->name('my-learning');
             });
             Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
+            Route::controller(UtilityController::class)->group(function () {
+                Route::post('update-image', 'postImage')->name('update-image');
+            });
         });
         Route::middleware(['role:Student'])->group(function () {
             Route::controller(CourseController::class)->group(function () {
@@ -55,9 +59,10 @@ Route::middleware(['auth', 'verified'])
             ->group(function () {
                 Route::controller(TeacherController::class)->group(function () {
                     Route::post('apply/{id}', 'applyAsTeacher')->name('apply-as-teacher');
+                    Route::get('profile', 'getProfile')->name('profile');
+                    Route::put('profile', 'putProfile')->name('update-profile');
                 });
                 Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
-                Route::get('profile', fn() => Inertia::render('teacher/edit-profile'))->name('profile');
             });
         Route::middleware(['role:Institute'])
             ->prefix('institute')

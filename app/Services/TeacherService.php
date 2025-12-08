@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Institute;
 use App\Models\Teacher;
 use App\Models\TeacherApplication;
+use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
 
 class TeacherService
@@ -51,5 +52,27 @@ class TeacherService
 
         $application->is_verified = null;
         $application->save();
+    }
+
+    public function getProfile()
+    {
+        $user = Auth::user();
+        $teacher = Teacher::with(['user.socialMedias.socialMediaType', 'user.role'])
+            ->where('user_id', $user?->id)
+            ->first();
+
+        return $teacher;
+    }
+
+    public function updateProfile($data)
+    {
+        $user = Auth::user();
+        $user->update([
+            'name' => $data['name'],
+            'phone_number' => $data['phone_number'],
+            'email' => $data['email'],
+        ]);
+
+        Utility::updateSocialMedias($user, $data);
     }
 }

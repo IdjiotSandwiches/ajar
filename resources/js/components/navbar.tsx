@@ -6,7 +6,6 @@ export default function Navbar() {
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
-    console.log(user);
     const isLoggedIn = !!user;
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
