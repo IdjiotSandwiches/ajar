@@ -55,7 +55,9 @@ export default function CourseSidebar({ teacher, institute }: { teacher: any[]; 
                     >
                         {teachers.map((t: any, index: number) => (
                             <div key={index} className="w-full flex-shrink-0 snap-center">
-                                <TeacherProfileCard teacher={t} />
+                                <div className="cursor-pointer" onClick={() => router.get(route('detail-teacher', t.user_id))}>
+                                    <TeacherProfileCard teacher={t} />
+                                </div>
                             </div>
                         ))}
                     </div>
