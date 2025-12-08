@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
+use App\Http\Requests\InstituteProfileRequest;
 use App\Services\InstituteService;
 use Inertia\Inertia;
 
@@ -73,6 +74,24 @@ class InstituteController extends Controller
         }
         else {
             return back()->with('success', 'Teacher has been declined.');
+        }
+    }
+
+    public function getProfile()
+    {
+        return Inertia::render('institute/edit-profile', [
+            'profile' => $this->service->getProfile()
+        ]);
+    }
+
+    public function putProfile(InstituteProfileRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $this->service->updateProfile($data);
+            return back()->with('success', 'Update success.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to update profile.');
         }
     }
 }

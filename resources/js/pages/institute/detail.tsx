@@ -3,12 +3,18 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, InfiniteScroll, router, usePage } from '@inertiajs/react';
 import { SquareArrowOutUpRight } from 'lucide-react';
 import React from 'react';
-import { FaInstagram, FaLinkedinIn, FaStar, FaTwitter } from 'react-icons/fa';
+import { FaGithub, FaInstagram, FaLinkedinIn, FaStar } from 'react-icons/fa';
 
 export default function InstituteDetailPage({ institute, courses, teachers, application, canApply }: any) {
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
+
+    const icons: any = {
+        Github: FaGithub,
+        Instagram: FaInstagram,
+        LinkedIn: FaLinkedinIn,
+    };
 
     if (!institute) {
         return <div className="flex min-h-screen items-center justify-center text-gray-500">Institution not found.</div>;
@@ -16,7 +22,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
 
     return (
         <>
-            <Head title={institute?.user?.name || "Not Found"} />
+            <Head title={institute?.user?.name || 'Not Found'} />
             <div className="flex min-h-screen flex-col bg-[#F8FCFF]">
                 <div className="mx-auto w-full max-w-6xl p-6">
                     <div className="flex items-stretch overflow-hidden rounded-xl shadow-md">
@@ -60,30 +66,43 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                                     <p className="text-sm opacity-90">Rating</p>
                                 </div>
                                 <div className="ml-4 flex flex-col gap-4">
-                                    <a href="#" className="hover:text-blue-100">
-                                        <FaTwitter size={18} />
-                                    </a>
-                                    <a href="#" className="hover:text-blue-100">
-                                        <FaLinkedinIn size={18} />
-                                    </a>
-                                    <a href="#" className="hover:text-blue-100">
-                                        <FaInstagram size={18} />
-                                    </a>
+                                    {(() => {
+                                        const socials = institute?.user?.social_medias ?? [];
+                                        return socials
+                                            .filter((x: any) => icons[x.social_media_type?.name])
+                                            .map((x: any) => {
+                                                const Icon = icons[x.social_media_type.name];
+                                                return (
+                                                    <a
+                                                        key={x.id}
+                                                        href={x.url}
+                                                        className="hover:text-blue-100"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        <Icon size={18} />
+                                                    </a>
+                                                );
+                                            });
+                                    })()}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {user?.role_id === roles.Teacher && canApply &&
+                    {user?.role_id === roles.Teacher &&
+                        canApply &&
                         (!application?.is_verified ? (
                             <button
                                 onClick={() => router.post(route('teacher.apply-as-teacher', institute?.user_id))}
                                 disabled={application && application?.is_verified == null}
-                                className="mt-5 w-full cursor-pointer rounded-lg bg-[#42C2FF] py-2 font-semibold text-white transition-all hover:bg-[#42C2FF]/90 disabled:bg-[#42C2FF]/90 disabled:cursor-not-allowed"
+                                className="mt-5 w-full cursor-pointer rounded-lg bg-[#42C2FF] py-2 font-semibold text-white transition-all hover:bg-[#42C2FF]/90 disabled:cursor-not-allowed disabled:bg-[#42C2FF]/90"
                             >
                                 {application && application?.is_verified == null ? 'Please wait a moment' : 'Apply As Teacher'}
                             </button>
                         ) : (
-                            <div className="mt-5 w-full rounded-lg bg-[#42C2FF] py-2 text-center font-semibold text-white">You are verified teacher</div>
+                            <div className="mt-5 w-full rounded-lg bg-[#42C2FF] py-2 text-center font-semibold text-white">
+                                You are verified teacher
+                            </div>
                         ))}
                     <div className="mt-10">
                         <h3 className="mb-4 text-xl font-semibold">Teachers</h3>

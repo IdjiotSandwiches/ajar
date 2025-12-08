@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @mixin IdeHelperSocialMediaType
@@ -20,8 +19,8 @@ class SocialMediaType extends Model
      */
     protected $fillable = ['name'];
 
-    public function users(): HasMany
+    public function socialMedias()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(SocialMedia::class);
     }
 }

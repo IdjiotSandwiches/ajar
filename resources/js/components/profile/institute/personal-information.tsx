@@ -1,105 +1,57 @@
-import React from "react";
-import { InertiaFormProps } from "@inertiajs/react";
-import InputError from "@/components/input-error";
-import DetailInput from "../../detail-input";
+import { usePage } from '@inertiajs/react';
+import DetailInput from '../../detail-input';
 
-interface ProfilePersonalFormProps {
-    form: InertiaFormProps<any>;
-}
-
-const ProfilePersonalForm: React.FC<ProfilePersonalFormProps> = ({ form }) => {
-    const getError = (field: string) => (form.errors as Record<string, string>)[field];
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Form data:", form.data);
-        // form.post(route("profile.personal.update"));
-    };
-
+export default function ProfilePersonalForm({ profile }: any) {
+    const { errors } = usePage<any>().props;
     return (
-        <div className="bg-white shadow-sm rounded-2xl p-6 md:p-8">
-            <h3 className="text-xl md:text-2xl font-semibold text-center text-[#42C2FF] mb-8">
-                Personal Information
-            </h3>
-
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="rounded-2xl bg-white p-6 shadow-sm md:p-8">
+            <h3 className="mb-8 text-center text-xl font-semibold text-[#42C2FF] md:text-2xl">Personal Information</h3>
+            <div className="flex flex-col gap-4">
                 <div>
-                    <DetailInput
-                        type="text"
-                        name="name"
-                        id="name"
-                        title="Full Name"
-                        value={form.data.name ?? ""}
-                        onChange={(e) => form.setData("name", e.target.value)}
-                    />
-                    <div className={getError("name") ? "h-5" : ""}>
-                        <InputError message={getError("name")} />
-                    </div>
+                    <DetailInput type="text" name="name" id="name" title="Full Name" value={profile?.user?.name} />
+                    {errors.name && <p className="text-red-500">{errors.name}</p>}
                 </div>
                 <div>
                     <DetailInput
                         type="text"
-                        name="insta_link"
+                        name="instagram"
                         id="insta_link"
                         title="Instagram Link"
-                        value={form.data.insta_link ?? ""}
-                        onChange={(e) => form.setData("insta_link", e.target.value)}
+                        value={profile?.user?.social_medias?.find((x: any) => x.social_media_type?.name === 'Instagram')?.url}
                     />
-                    <div className={getError("insta_link") ? "h-5" : ""}>
-                        <InputError message={getError("insta_link")} />
-                    </div>
+                    {errors.instagram && <p className="text-red-500">{errors.instagram}</p>}
                 </div>
                 <div>
                     <DetailInput
                         type="text"
-                        name="linkedin_link"
+                        name="linkedin"
                         id="linkedin_link"
                         title="LinkedIn Link"
-                        value={form.data.insta_link ?? ""}
-                        onChange={(e) => form.setData("linkedin_link", e.target.value)}
+                        value={profile?.user?.social_medias?.find((x: any) => x.social_media_type?.name === 'LinkedIn')?.url}
                     />
-                    <div className={getError("linkedin_link") ? "h-5" : ""}>
-                        <InputError message={getError("linkedin_link")} />
-                    </div>
+                    {errors.linkedin && <p className="text-red-500">{errors.linkedin}</p>}
                 </div>
                 <div>
                     <DetailInput
                         type="text"
-                        name="github_link"
+                        name="github"
                         id="github_link"
                         title="Github Link"
-                        value={form.data.insta_link ?? ""}
-                        onChange={(e) => form.setData("github_link", e.target.value)}
+                        value={profile?.user?.social_medias?.find((x: any) => x.social_media_type?.name === 'Github')?.url}
                     />
-                    <div className={getError("github_link") ? "h-5" : ""}>
-                        <InputError message={getError("github_link")} />
-                    </div>
+                    {errors.github && <p className="text-red-500">{errors.github}</p>}
                 </div>
                 <div>
-                    <DetailInput
-                        type="text"
-                        name="website_link"
-                        id="website_link"
-                        title="Website Link"
-                        value={form.data.website_link ?? ""}
-                        onChange={(e) => form.setData("website_link", e.target.value)}
-                    />
-                    <div className={getError("website_link") ? "h-5" : ""}>
-                        <InputError message={getError("website_link")} />
-                    </div>
+                    <DetailInput type="text" name="website" id="website_link" title="Website Link" value={profile?.website} />
+                    {errors.website && <p className="text-red-500">{errors.website}</p>}
                 </div>
 
                 <div className="mt-6">
-                    <button
-                        type="submit"
-                        className="w-full bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white font-semibold py-2.5 rounded-lg transition"
-                    >
+                    <button type="submit" className="w-full rounded-lg bg-[#42C2FF] py-2.5 font-semibold text-white transition hover:bg-[#42C2FF]/90">
                         Save Changes
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     );
-};
-
-export default ProfilePersonalForm;
+}
