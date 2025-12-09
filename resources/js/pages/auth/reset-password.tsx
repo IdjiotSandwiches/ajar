@@ -39,10 +39,6 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
     return (
         <AuthLayout title="Reset Password" >
             <Head title="Reset Password" />
-        <AuthLayout title="Reset Password" >
-            <Head title="Reset Password" />
-
-            <form className="flex flex-col gap-6" onSubmit={submit}>
             <form className="flex flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6">
                     <div className="grid gap-2">
@@ -50,7 +46,6 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             id="email"
                             type="email"
                             name="email"
-                            label="Email"
                             label="Email"
                             autoComplete="email"
                             value={data.email}
@@ -66,7 +61,6 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             type="password"
                             name="password"
                             label="Password"
-                            label="Password"
                             autoComplete="new-password"
                             value={data.password}
                             autoFocus
@@ -80,7 +74,6 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             id="password_confirmation"
                             type="password"
                             name="password_confirmation"
-                            label="Confirm Password"
                             label="Confirm Password"
                             autoComplete="new-password"
                             value={data.password_confirmation}
