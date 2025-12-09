@@ -54,7 +54,6 @@ class RegisterRequest extends FormRequest
 
         $role = RoleEnum::from($this->input('role_id'));
         if ($role === RoleEnum::Teacher) {
-            $rules['category'] = 'required|exists:categories,id';
             $rules['description'] = 'nullable|string';
 
             $rules['graduates'] = 'required|array|min:1';

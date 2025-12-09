@@ -21,14 +21,12 @@ class InstituteController extends Controller
     {
         $data = $this->service->getInstituteDetail($id);
         $application = $this->service->getTeacherApplication($id);
-        $canApply = $this->service->canApplyAsTeacher($id);
 
         return Inertia::render('institute/detail', [
             'institute' => $data['institute'],
             'courses' => Inertia::scroll($data['courses']),
             'teachers' => $data['teachers'],
-            'application' => $application,
-            'canApply' => $canApply
+            'application' => $application
         ]);
     }
 
