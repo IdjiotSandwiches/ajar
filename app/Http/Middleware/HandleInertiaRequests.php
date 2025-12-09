@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\DegreeTypeEnum;
+use App\Enums\RoleEnum;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -46,10 +48,18 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'enums' => [
+                'roles_enum' => RoleEnum::asArray(),
+                'degree_type_enum' => DegreeTypeEnum::asArray()
+            ],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
-            ]
+            ],
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error')
+            ],
         ];
     }
 }
