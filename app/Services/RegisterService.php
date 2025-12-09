@@ -66,8 +66,7 @@ class RegisterService
         $teacher = Teacher::create([
             'user_id' => $user->id,
             'description' => $data['description'],
-            'is_verified' => false,
-            'category_id' => $data['category']
+            'is_verified' => false
         ]);
 
         foreach($data['graduates'] as $graduate) {
@@ -87,8 +86,6 @@ class RegisterService
                 'teacher_id' => $teacher->user_id
             ]);
         }
-
-        // dd($data['certificates']);
 
         foreach($data['certificates'] as $certificate) {
             $url = UploadUtility::upload($certificate, 'certificates');
