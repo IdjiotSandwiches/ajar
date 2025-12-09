@@ -55,7 +55,7 @@ class CourseRequest extends FormRequest
             'course_overviews.*.description' => 'required|string',
             'course_skills' => 'required|array',
             'course_skills.*.id' => 'required|numeric|exists:skills,id',
-            'course_images' => 'image|max:2048',
+            'course_images' => 'required|image|max:256',
         ];
     }
 }

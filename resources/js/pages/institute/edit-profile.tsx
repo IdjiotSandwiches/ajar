@@ -1,37 +1,21 @@
-import React, { useState } from "react";
-import AppLayout from "@/layouts/app-layout";
-import ProfileSidebar from "@/components/profile/profile-sidebar";
-import { useForm } from "@inertiajs/react";
-import ProfilePersonalForm from "@/components/profile/institute/personal-information";
+import ProfilePersonalForm from '@/components/profile/institute/personal-information';
+import ProfileSidebar from '@/components/profile/profile-sidebar';
+import AppLayout from '@/layouts/app-layout';
+import { Head } from '@inertiajs/react';
+import React, { useState } from 'react';
 
-export default function ProfilePage() {
-  const [activeSection, setActiveSection] = useState("Personal Information");
+export default function ProfilePage({ profile }: any) {
+    const [activeSection, setActiveSection] = useState('Personal Information');
+    return (
+        <>
+            <Head title="Profile" />
+            <div className="flex min-h-screen flex-col md:flex-row">
 
-  const form = useForm({
-    name: "Ajar",
-    insta_link: "https://www.instagram.com/",
-    linkedin_link: "https://www.linkedin.com/in/",
-    github_link: "https://www.github.com/",
-    website_link: "https://www.ajar.com/",
-    role: "Institute",
-  });
-
-  return (
-    <div className="min-h-screen flex flex-col md:flex-row">
-      <ProfileSidebar
-        activeSection={activeSection}
-        onSectionChange={setActiveSection}
-        user={form.data}
-      />
-
-      <main className="flex-1 p-4 md:p-10">
-        {activeSection === "Personal Information" && (
-          <ProfilePersonalForm form={form} />
-        )}
-      </main>
-    </div>
-  );
+                <ProfileSidebar activeSection={activeSection} onSectionChange={setActiveSection} profile={profile?.user} />
+                <main className="flex-1 p-4 md:p-10">{activeSection === 'Personal Information' && <ProfilePersonalForm profile={profile} />}</main>
+            </div>
+        </>
+    );
 }
-
 
 ProfilePage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;

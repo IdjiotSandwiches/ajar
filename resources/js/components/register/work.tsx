@@ -1,15 +1,14 @@
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
-import { TeacherRegisterProps, WorkProps } from '@/interfaces/shared';
-import { InertiaFormProps } from '@inertiajs/react';
+import { WorkProps } from '@/interfaces/shared';
 import { CirclePlus, Trash2 } from 'lucide-react';
 import DetailInput from '../detail-input';
 
-export default function WorkForm({ form }: { form: InertiaFormProps<Partial<TeacherRegisterProps>> }) {
+export default function WorkForm({ form }: any) {
     const getError = (field: string) => (form.errors as Record<string, string>)[field];
 
     const addData = () => {
-        form.setData('works', [...((form.data.works as WorkProps[]) ?? []), { id: Date.now(), position: '', institution: '', duration: 0 }]);
+        form.setData('works', [...(form.data.works ?? []), { id: Date.now(), position: '', institution: '', duration: 0 }]);
     };
 
     const removeData = (idx: number) => {
@@ -21,19 +20,17 @@ export default function WorkForm({ form }: { form: InertiaFormProps<Partial<Teac
 
     return (
         <div className="w-full">
-            <h3 className="font-medium text-gray-800 mb-5">Work Experience</h3>
+            <h3 className="mb-5 font-medium text-gray-800">Work Experience</h3>
             {(form.data.works as WorkProps[])?.map((g, idx) => {
                 return (
                     <div key={g.id} className="relative flex items-center gap-4">
                         {(() => {
                             const rowHasError =
-                                getError(`works.${idx}.institution`) ||
-                                getError(`works.${idx}.position`) ||
-                                getError(`works.${idx}.duration`);
+                                getError(`works.${idx}.institution`) || getError(`works.${idx}.position`) || getError(`works.${idx}.duration`);
 
                             return (
                                 <>
-                                    <div className='flex-1 grid md:grid-cols-3 gap-4 mb-2'>
+                                    <div className="mb-2 grid flex-1 gap-4 md:grid-cols-3">
                                         <div className="grid w-full max-w-sm items-center gap-2" key={`works.${idx}.institution`}>
                                             {/* <Label htmlFor={`works.${idx}.institution`}>Company/Institution Name - {idx + 1}</Label> */}
                                             <DetailInput

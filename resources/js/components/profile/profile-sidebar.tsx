@@ -1,70 +1,53 @@
-import React from "react";
-import ProfileCard from "./profile-card";
-import { User, GraduationCap } from "lucide-react";
+import { usePage } from '@inertiajs/react';
+import ProfileCard from './profile-card';
+import { GraduationCap, User } from 'lucide-react';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
-interface SidebarProps {
-  activeSection: string;
-  onSectionChange: (section: string) => void;
-  user?: {
-    name: string;
-    email: string;
-    role?: "Student" | "Institute" | "Teacher";
-  };
+export default function ProfileSidebar({ profile, activeSection, onSectionChange }: any) {
+    const { props } = usePage();
+    const user = props.auth?.user;
+    const roles = props.enums?.roles_enum;
+    const errors = props.errors;
+
+    let menuItems: { name: string; icon: React.ReactNode }[] = [];
+    if (user?.role_id === roles.Teacher) {
+        menuItems = [
+            { name: 'Personal Information', icon: <User size={20} /> },
+            { name: 'Teacher Information', icon: <GraduationCap size={20} /> },
+        ];
+    }
+
+    useEffect(() => {
+        if (errors.profile_picture) toast.error(errors.profile_picture);
+    }, [errors]);
+
+    return (
+        <aside className="flex w-full flex-col items-center p-4 md:w-80 md:py-10">
+            <div className="flex w-full justify-center">
+                <ProfileCard user={profile} />
+            </div>
+            {menuItems.length > 0 && (
+                <nav className="mt-5 flex w-full flex-col gap-1 rounded-xl border border-[#42C2FF] bg-white py-2">
+                    {menuItems.map((item) => {
+                        const isActive = activeSection === item.name;
+                        return (
+                            <button
+                                key={item.name}
+                                onClick={() => onSectionChange(item.name)}
+                                className={`flex items-center gap-3 border-l-4 px-4 py-3 text-left text-sm font-medium transition md:text-base ${
+                                    isActive
+                                        ? 'border-[#42C2FF] text-black'
+                                        : 'border-transparent text-gray-400 hover:bg-gray-100 hover:text-gray-600'
+                                }`}
+                            >
+                                <span className={`${isActive ? 'text-[#42C2FF]' : 'text-gray-400'} flex items-center`}>{item.icon}</span>
+                                {item.name}
+                            </button>
+                        );
+                    })}
+                </nav>
+            )}
+        </aside>
+    );
 }
-
-const ProfileSidebar: React.FC<SidebarProps> = ({
-  activeSection,
-  onSectionChange,
-  user,
-}) => {
-  const safeUser = user ?? { name: "Unknown", email: "-", role: "Teacher" };
-
-  let menuItems: { name: string; icon: React.ReactNode }[] = [];
-
-  if (safeUser.role === "Teacher") {
-    menuItems = [
-      { name: "Personal Information", icon: <User size={20} /> },
-      { name: "Teacher Information", icon: <GraduationCap size={20} /> },
-    ];
-  }
-
-  return (
-    <aside className="w-full md:w-80 p-4 md:py-10 flex flex-col items-center">
-
-      <div className="w-full flex justify-center">
-        <ProfileCard user={safeUser} />
-      </div>
-
-      {menuItems.length > 0 && (
-        <nav className="w-full flex flex-col gap-1 mt-5 bg-white py-2 border border-[#42C2FF] rounded-xl">
-          {menuItems.map((item) => {
-            const isActive = activeSection === item.name;
-            return (
-              <button
-                key={item.name}
-                onClick={() => onSectionChange(item.name)}
-                className={`flex items-center gap-3 text-left px-4 py-3 text-sm md:text-base transition font-medium border-l-4 
-                  ${
-                    isActive
-                      ? "border-[#42C2FF] text-black"
-                      : "border-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-100"
-                  }`}
-              >
-                <span
-                  className={`${
-                    isActive ? "text-[#42C2FF]" : "text-gray-400"
-                  } flex items-center`}
-                >
-                  {item.icon}
-                </span>
-                {item.name}
-              </button>
-            );
-          })}
-        </nav>
-      )}
-    </aside>
-  );
-};
-
-export default ProfileSidebar;

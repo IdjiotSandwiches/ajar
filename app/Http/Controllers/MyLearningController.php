@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\MyLearningService;
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class MyLearningController extends Controller
 {
@@ -14,5 +14,10 @@ class MyLearningController extends Controller
         $this->service = $service;
     }
 
-    // public function
+    public function getMyLearning()
+    {
+        return Inertia::render('my-learning/app', [
+            'myLearning' => Inertia::lazy(fn() => Inertia::scroll($this->service->getEnrolledCourses()))
+        ]);
+    }
 }

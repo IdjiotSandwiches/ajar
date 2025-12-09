@@ -14,7 +14,7 @@ export default function TeacherList({ teachers }: any) {
     }, [safeTeachers.length]);
 
     const teacher = safeTeachers[currentTeacherIndex]?.user;
-    const imgSrc = teacher?.profile_picture?.[0] ?? "https://placehold.co/400";
+    const imgSrc = teacher?.profile_picture || "https://placehold.co/400";
 
     return (
         <div className="relative h-[56px] overflow-hidden border-b border-gray-100 bg-[#F9FCFF]">
@@ -22,15 +22,15 @@ export default function TeacherList({ teachers }: any) {
                 <div className="absolute inset-0 transition-all duration-700 ease-in-out flex items-center gap-2 px-4 py-2">
                     <img
                         src={imgSrc}
-                        alt={teacher?.name ?? "Teacher"}
+                        alt={teacher?.name || "Teacher"}
                         className="w-8 h-8 rounded-full object-cover border"
                     />
                     <div className="flex flex-col">
                         <p className="text-sm font-medium text-gray-800 leading-tight">
-                            {teacher?.name ?? "Teacher"}
+                            {teacher?.name || "Teacher"}
                         </p>
                         <p className="text-xs text-gray-500">
-                            {teacher?.works?.[0]?.position ?? "Teacher"}
+                            {teacher?.works?.[0]?.position || "Teacher"}
                         </p>
                     </div>
                 </div>

@@ -60,7 +60,7 @@ export default function Navbar() {
 
                         <div className="relative" ref={dropdownRef}>
                             <img
-                                src="/images/image-1.jpg"
+                                src={user?.profile_picture || 'https://placehold.co/400'}
                                 alt="Avatar"
                                 className="h-10 w-10 cursor-pointer rounded-full border object-cover"
                                 onClick={() => setDropdownOpen(!dropdownOpen)}

@@ -6,6 +6,7 @@ use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Institute;
 use App\Models\TeacherApplication;
+use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
 
 class InstituteService
@@ -22,14 +23,13 @@ class InstituteService
 
     public function getInstituteDetail($id)
     {
-        $detail = Institute::with(['user'])
+        $detail = Institute::with(['user.socialMedias.socialMediaType'])
             ->withAvg('reviews', 'rating')
             ->where('user_id', $id)
             ->first();
 
         $teachers = collect();
-        if ($detail != null)
-        {
+        if ($detail != null) {
             $teachers = $detail->teacherApplications()
                 ->with(['teacher.user'])
                 ->where('is_verified', true)
@@ -37,8 +37,7 @@ class InstituteService
         }
 
         $courses = collect();
-        if ($detail != null)
-        {
+        if ($detail != null) {
             $courses = $detail->courses()
                 ->with(['teachers.user'])
                 ->paginate(10);
@@ -96,8 +95,12 @@ class InstituteService
         $categoryIds = $categories->pluck('id');
         $institutes = Institute::with(['user'])
             ->whereIn('category_id', $categoryIds)
-            ->when($filters['search'] ?? null, fn($q) =>
-                $q->whereHas('user', fn($uq) =>
+            ->when(
+                $filters['search'] ?? null,
+                fn($q) =>
+                $q->whereHas(
+                    'user',
+                    fn($uq) =>
                     $uq->where('name', 'like', "%{$filters['search']}%")
                 )
             )
@@ -144,5 +147,28 @@ class InstituteService
         $teacher->is_verified = $isVerified;
         $teacher->save();
         return true;
+    }
+
+    public function getProfile()
+    {
+        $user = Auth::user();
+        $institute = Institute::with(['user.socialMedias.socialMediaType', 'user.role'])
+            ->where('user_id', $user?->id)
+            ->first();
+
+        return $institute;
+    }
+
+    public function updateProfile($data)
+    {
+        $user = Auth::user();
+        $user->update([
+            'name' => $data['name']
+        ]);
+        $user->institute()->update([
+            'website' => $data['website'],
+        ]);
+
+        Utility::updateSocialMedias($user, $data);
     }
 }

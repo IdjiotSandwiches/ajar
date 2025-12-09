@@ -12,6 +12,7 @@ interface DetailInputProps {
   onFocus?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   tabIndex?: number
   disabled?: boolean;
+  required?: boolean;
 }
 
 const DetailInput: React.FC<DetailInputProps> = ({
@@ -25,7 +26,8 @@ const DetailInput: React.FC<DetailInputProps> = ({
   onBlur,
   onFocus,
   tabIndex,
-  disabled
+  disabled,
+  required
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -66,7 +68,7 @@ const DetailInput: React.FC<DetailInputProps> = ({
           autoComplete="off"
           tabIndex={tabIndex}
           disabled={disabled}
-          required
+          required={required}
           style={{ resize: "none", overflow: "hidden" }}
         />
       ) : (
@@ -86,7 +88,7 @@ const DetailInput: React.FC<DetailInputProps> = ({
           autoComplete="off"
           tabIndex={tabIndex}
           disabled={disabled}
-          required
+          required={required}
         />
       )}
       <label
