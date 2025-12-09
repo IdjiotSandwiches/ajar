@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react';
 interface DetailImageProps {
     Index: number;
     onFilesChange: (files: File[]) => void;
+    onRemove?: (file: File | string) => void;
     productImages?: (File | string)[];
     multiple?: boolean;
     name: string;
 }
 
-const DetailImage: React.FC<DetailImageProps> = ({ Index, onFilesChange, productImages = [], multiple = true, name }) => {
+const DetailImage: React.FC<DetailImageProps> = ({ Index, onFilesChange, onRemove, productImages = [], multiple = true, name }) => {
     const [files, setFiles] = useState<(File | string)[]>(productImages);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
@@ -39,6 +40,12 @@ const DetailImage: React.FC<DetailImageProps> = ({ Index, onFilesChange, product
     const removeFile = (fileToRemove: File | string) => {
         const updatedFiles = files.filter((file) => file !== fileToRemove);
         setFiles(updatedFiles);
+
+        if (onRemove) {
+            onRemove(fileToRemove);
+        } else {
+            onFilesChange(updatedFiles as File[]);
+        }
     };
 
     const inputId = `hidden-input-${Index}`;

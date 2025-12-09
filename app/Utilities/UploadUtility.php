@@ -3,6 +3,7 @@
 namespace App\Utilities;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class UploadUtility
 {
@@ -20,5 +21,10 @@ class UploadUtility
 
         $path = $file->store($folder, 'public');
         return asset("storage/$path");
+    }
+
+    public static function remove($path)
+    {
+        Storage::disk('public')->delete($path);
     }
 }

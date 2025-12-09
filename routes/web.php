@@ -61,6 +61,7 @@ Route::middleware(['auth', 'verified'])
                     Route::post('apply/{id}', 'applyAsTeacher')->name('apply-as-teacher');
                     Route::get('profile', 'getProfile')->name('profile');
                     Route::put('profile', 'putProfile')->name('update-profile');
+                    Route::post('detail', 'putDetail')->name('update-detail');
                 });
                 Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
             });

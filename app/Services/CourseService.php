@@ -252,6 +252,10 @@ class CourseService
         ]);
 
         if (!empty($data['course_images'])) {
+            if ($course?->image) {
+                UploadUtility::remove($course->image);
+            }
+
             $url = UploadUtility::upload($data['course_images'], 'course_images');
             $course->image = $url;
         }

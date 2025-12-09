@@ -13,6 +13,7 @@ class UtilityService
 
         $url = null;
         if (isset($data['profile_picture'])) {
+            UploadUtility::remove($user?->profile_picture);
             $url = UploadUtility::upload($data['profile_picture'], 'profile_picture');
         }
 
