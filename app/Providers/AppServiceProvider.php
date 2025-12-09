@@ -26,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
             'roles_enum' => RoleEnum::asArray(),
             'degree_type_enum' => DegreeTypeEnum::asArray()
         ]);
+
+        if ($this->app->environment('production')) {
+            \URL::forceScheme('https');
+        }
     }
 }
