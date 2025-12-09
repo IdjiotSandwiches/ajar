@@ -1,7 +1,7 @@
 import { router, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { X } from 'react-feather';
-import Pagination from '../pagination';
+import Pagination from '../../pagination';
 
 export default function TeacherSelectModal({ isOpen, onClose, onSelect }: any) {
     const [selectedTeacher, setSelectedTeacher] = useState<any>(null);
@@ -29,10 +29,11 @@ export default function TeacherSelectModal({ isOpen, onClose, onSelect }: any) {
                         <button onClick={onClose} className="absolute top-3 right-3 text-gray-400 hover:text-[#42C2FF]">
                             <X size={20} />
                         </button>
-                        <h2 className="mb-4 text-center text-lg font-semibold text-gray-800">Select a Teacher</h2>
+                        <h2 className="mb-1 text-center text-lg font-semibold text-gray-800">Select a Teacher</h2>
+                        <p className="mb-6 text-center text-sm text-gray-500">Select your preferred teacher</p>
                         <div className="flex max-h-[50vh] flex-col gap-3 overflow-y-auto pr-1">
                             {teachers?.data.length === 0 ? (
-                                <p className="py-4 text-center text-gray-500">No teachers found</p>
+                                <p className="py-4 text-center text-gray-500 text-sm">No teachers found</p>
                             ) : (
                                 teachers?.data.map((user: any, index: number) => {
                                     const teacher = user?.user;

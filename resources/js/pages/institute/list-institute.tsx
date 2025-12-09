@@ -64,7 +64,7 @@ export default function InstituteListPage({
                             </div>
                         ))}
                         <span
-                            className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-500 ease-in-out ${
+                            className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-300 ease-in-out ${
                                 activeCategory == null
                                     ? 'hidden'
                                     : Number(activeCategory) === parentCategories[0].id
@@ -81,7 +81,7 @@ export default function InstituteListPage({
                             value={localSearch}
                             onChange={(e) => handleFilterChange({ search: e.target.value })}
                             onKeyDown={(e) => e.key === 'Enter' && handleFilterChange({ enter: true })}
-                            placeholder={`Search courses...`}
+                            placeholder={`Search institutes...`}
                             className="w-full rounded-full border border-[#D8F4FF] bg-white px-4 py-2 pr-10 text-sm text-gray-700 placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none"
                         />
                         <button

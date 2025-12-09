@@ -4,7 +4,7 @@ import CourseCard from '@/components/ui/course-card';
 import AppLayout from '@/layouts/app-layout';
 import { Head, InfiniteScroll, router, usePage } from '@inertiajs/react';
 import { Search } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function CourseListPage({ activeCategory, parentCategories, courses, subCategories, activeSub, search, studentFilter, price }: any) {
     const [localSearch, setLocalSearch] = useState<string>(search ?? '');
@@ -45,6 +45,25 @@ export default function CourseListPage({ activeCategory, parentCategories, cours
         }
     };
 
+    useEffect(() => {
+    if (!activeCategory) {
+        const techCategory = parentCategories.find(
+            (cat) => cat.name.toLowerCase() === "technology"
+        );
+
+        if (techCategory) {
+            router.visit(route("list-course"), {
+                data: {
+                    category_id: techCategory.id,
+                },
+                only: ["courses", "activeCategory", "subCategories", "activeSub", "studentFilter"],
+                replace: true,
+            });
+        }
+    }
+}, []);
+
+
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
@@ -71,7 +90,7 @@ export default function CourseListPage({ activeCategory, parentCategories, cours
                             ))}
 
                             <span
-                                className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-500 ease-in-out ${
+                                className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-300 ease-in-out ${
                                     activeCategory == null
                                         ? 'hidden'
                                         : Number(activeCategory) === parentCategories[0].id

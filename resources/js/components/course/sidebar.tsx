@@ -46,7 +46,7 @@ export default function CourseSidebar({ teacher, institute }: { teacher: any[]; 
             <div>
                 <h3 className="mb-2 text-sm font-semibold text-gray-700">Teachers</h3>
                 {teachers.length === 0 ? (
-                    <p className="font-medium">No teacher yet</p>
+                    <p className="text-gray-500 text-sm">No teacher yet</p>
                 ) : (
                     <div
                         ref={sliderRef}
@@ -55,7 +55,9 @@ export default function CourseSidebar({ teacher, institute }: { teacher: any[]; 
                     >
                         {teachers.map((t: any, index: number) => (
                             <div key={index} className="w-full flex-shrink-0 snap-center">
-                                <TeacherProfileCard teacher={t} />
+                                <div className="cursor-pointer" onClick={() => router.get(route('detail-teacher', t.user_id))}>
+                                    <TeacherProfileCard teacher={t} />
+                                </div>
                             </div>
                         ))}
                     </div>

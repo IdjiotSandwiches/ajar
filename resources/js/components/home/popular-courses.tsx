@@ -3,7 +3,7 @@ import CourseCard from '../ui/course-card';
 
 export default function PopularCourses({ courses }: { courses: any[] }) {
     return (
-        <section className="bg-[#F7FDFD] pt-8 pb-4 md:pt-16 md:pb-8 px-6 md:px-12">
+        <section className="bg-[#F7FDFD] pt-8 pb-4 md:pt-16 md:pb-8 px-4 sm:px-6 md:px-12">
             <div className="mb-8 flex items-center justify-between">
                 <h2 className="sm:text-lg md:text-xl font-semibold text-gray-800">Popular Courses</h2>
                 <button
