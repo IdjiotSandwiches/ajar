@@ -25,8 +25,6 @@ export default function ForgotPassword({ status }: { status?: string }) {
     return (
         <AuthLayout title="Forgot Password">
             <Head title="Forgot Password" />
-        <AuthLayout title="Forgot Password">
-            <Head title="Forgot Password" />
 
             {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
 
@@ -37,7 +35,6 @@ export default function ForgotPassword({ status }: { status?: string }) {
                             id="email"
                             type="email"
                             name="email"
-                            label="Email"
                             label="Email"
                             autoComplete="off"
                             value={data.email}
