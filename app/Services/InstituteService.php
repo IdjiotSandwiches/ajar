@@ -6,6 +6,8 @@ use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Institute;
 use App\Models\TeacherApplication;
+use App\Models\User;
+use App\Notifications\RequestApproved;
 use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
 
@@ -146,6 +148,14 @@ class InstituteService
 
         $teacher->is_verified = $isVerified;
         $teacher->save();
+
+        $toBeNotify = User::findOrFail($id);
+        if ($isVerified) {
+            $toBeNotify->notify(new RequestApproved('Application Accepted', "Your application at {$user?->name} has been accepted."));
+        }
+        else {
+            $toBeNotify->notify(new RequestApproved('Application Rejected', "Your application at {$user?->name} has been rejected."));
+        }
         return true;
     }
 

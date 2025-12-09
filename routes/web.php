@@ -3,7 +3,6 @@
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstituteController;
-use App\Http\Controllers\MyLearningController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UtilityController;
@@ -29,9 +28,6 @@ Route::group([], function () {
 Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::group([], function () {
-            Route::controller(MyLearningController::class)->group(function () {
-                Route::get('my-learning', 'getMyLearning')->name('my-learning');
-            });
             Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
             Route::controller(UtilityController::class)->group(function () {
                 Route::post('update-image', 'postImage')->name('update-image');

@@ -47,6 +47,7 @@ class HandleInertiaRequests extends Middleware
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
                 'user' => $request->user(),
+                'notifications' => fn() => auth()->user()?->unreadNotifications ?? []
             ],
             'enums' => [
                 'roles_enum' => RoleEnum::asArray(),
