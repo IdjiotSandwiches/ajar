@@ -38,7 +38,6 @@ export default function RegisterForm({ role, categories }: any) {
                   password: '',
                   password_confirmation: '',
                   role_id: role,
-                  category: null,
                   certificates: [],
                   description: '',
                   graduates: [{ id: Date.now(), degree_title: '', university_name: '', degree_type: null }],

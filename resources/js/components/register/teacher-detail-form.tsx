@@ -1,12 +1,11 @@
 import DetailImage from '../detail-image';
 import DetailInput from '../detail-input';
 import InputError from '../input-error';
-import CategoryForm from './category';
 import GraduateForm from './graduate';
 import WorkForm from './work';
 
 export default function TeacherDetailForm({ form, categories }: any) {
-    const getError = (field: any) => (form.errors)[field];
+    const getError = (field: any) => form.errors[field];
     const handleCertificatesChange = (files: File[]) => {
         form.setData('certificates', files);
     };
@@ -26,12 +25,17 @@ export default function TeacherDetailForm({ form, categories }: any) {
                     <InputError message={getError(`description`)} />
                 </div>
             </div>
-            <CategoryForm form={form} categories={categories} />
             <GraduateForm form={form} />
             <WorkForm form={form} />
             <div>
                 <h3 className="mb-3 font-medium text-gray-800">Certificates</h3>
-                <DetailImage Index={0} multiple={true} productImages={form.data.certificates ?? []} onFilesChange={handleCertificatesChange} name={'certificates'} />
+                <DetailImage
+                    Index={0}
+                    multiple={true}
+                    productImages={form.data.certificates ?? []}
+                    onFilesChange={handleCertificatesChange}
+                    name={'certificates'}
+                />
             </div>
         </div>
     );
