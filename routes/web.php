@@ -87,5 +87,7 @@ Route::middleware(['auth', 'verified'])
             });
     });
 
+Route::get('student-dashboard', fn() => Inertia::render('student/dashboard'))->name('student-dashboard');
+
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
