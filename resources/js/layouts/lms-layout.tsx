@@ -1,5 +1,4 @@
 import MobileNavbar from "@/components/lms/dashboard-navbar";
-import MobileReminder from "@/components/lms/mobile-reminder";
 import RightPanel from "@/components/lms/right-panel/app";
 import Sidebar from "@/components/lms/sidebar";
 import { router } from "@inertiajs/react";
@@ -26,14 +25,14 @@ export default function LMSLayout({ children, title = "Dashboard" }) {
       />
 
       <main className="flex-1 flex flex-col overflow-hidden relative">
-        <div className="mb-20">
+        <div className="mb-20 md:mb-0">
           <MobileNavbar
             title={title}
             onMenu={() => setMobileOpen(true)}
           />
         </div>
 
-        <div className="flex-1 overflow-hidden flex flex-col p-6 md:p-8">
+        <div className="flex-1 overflow-y-auto flex flex-col p-6 md:p-8">
           {children}
         </div>
       </main>
