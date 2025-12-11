@@ -75,7 +75,7 @@ export default function Sidebar({
                     </div>
 
                     <button
-                        className="hidden md:flex bg-[#3ABEFF]/10 hover:bg-[#3ABEFF]/20 p-2.5 rounded-lg"
+                        className="hidden md:flex bg-[#3ABEFF]/10 hover:bg-[#3ABEFF]/20 p-2.5 rounded-lg text-[#3ABEFF]"
                         onClick={onToggleCollapse}
                     >
                         {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
