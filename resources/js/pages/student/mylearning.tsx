@@ -1,4 +1,3 @@
-import AppLayout from '@/layouts/app-layout';
 import React, { useState } from 'react';
 
 import DynamicModal from '@/components/modal/modal';
