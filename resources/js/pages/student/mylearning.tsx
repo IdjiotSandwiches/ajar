@@ -111,8 +111,8 @@ export default function MyLearningPage() {
     return (
         <>
             <Head title="My Learning" />
-            <div className={`min-h-screen w-full bg-[#F7FCFF] `}>
-                <h1 className="hidden md:flex mb-6 text-2xl font-semibold text-gray-800">My Learning</h1>
+            <div className="min-h-screen w-full">
+                {/* <h1 className="hidden md:flex mb-6 text-2xl font-semibold text-gray-800">My Learning</h1> */}
                 <div className="grid gap-10 grid-cols-1 2xl:grid-cols-3">
                     {isMedium && (
                         <div className="col-span-1 order-1">

@@ -87,8 +87,8 @@ export function AddReviewModal({
   );
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-[#42C2FF]/40 backdrop-blur-sm z-99">
-      <div className="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-lg relative">
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#42C2FF]/40 backdrop-blur-sm">
+      <div className="animate-fadeIn relative w-[90%] max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl text-center">
         {step === 1 &&
           renderSection({
             title: "Teacher Review",
