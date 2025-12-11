@@ -14,8 +14,25 @@ const MENU: NavItem[] = [
     { id: "profile", label: "Profile", icon: <User size={18} /> },
 ];
 
+const ROUTE_MAP: Record<string, string> = {
+    dashboard: "student-dashboard",
+    mylearning: "student-mylearning",
+    messages: "chat",
+    payments: "payments",
+    profile: "profile",
+};
+
+const getActiveId = () => {
+    const current = route().current(); 
+
+    const found = Object.entries(ROUTE_MAP).find(([key, value]) => value === current);
+
+    return found ? found[0] : null;
+};
+
+
 export default function Sidebar({
-    active = "dashboard",
+    active = getActiveId(),
     onNavigate,
     collapsed,
     mobileOpen,
@@ -70,7 +87,10 @@ export default function Sidebar({
                         {MENU.map((m) => (
                             <li key={m.id} className={`${collapsed ? "flex justify-center" : ""}`}>
                                 <button
-                                    onClick={() => onNavigate?.(m.id)}
+                                    onClick={() => {
+                                        const routeName = ROUTE_MAP[m.id];
+                                        if (routeName) router.get(route(routeName));
+                                    }}
                                     className={`flex items-center rounded-xl transition-all duration-300
                                         ${active === m.id ? "bg-[#3ABEFF] text-white" : "hover:bg-[#3ABEFF]/10"}
                                         ${collapsed
