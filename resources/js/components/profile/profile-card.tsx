@@ -25,7 +25,7 @@ export default function ProfileCard({ user }: any) {
     };
 
     return (
-        <div className="w-full py-2">
+        <div className="w-full">
             <div className="w-full rounded-2xl bg-[#42C2FF] p-1 shadow-lg">
                 <div className="w-full rounded-2xl bg-white p-0.5">
                     <div className="relative flex flex-col items-center overflow-hidden rounded-2xl bg-[#42C2FF] px-4 py-8 text-center md:px-6 md:py-12">
