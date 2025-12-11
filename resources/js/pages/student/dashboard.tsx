@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Clock, PlayCircle } from "lucide-react";
 import LMSLayout from "@/layouts/lms-layout";
 import { router } from "@inertiajs/react";
+import MobileReminder from "@/components/lms/mobile-reminder";
 
 export default function StudentDashboard() {
 
@@ -54,7 +55,6 @@ export default function StudentDashboard() {
   return (
     <div className="flex flex-col gap-6 w-full">
       <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">My Dashboard</h1>
-
       <Card className="bg-[#3ABEFF]/10 border-none shadow-sm rounded-2xl overflow-hidden">
         <CardContent className="p-6 flex items-center justify-between">
           <div>
@@ -69,6 +69,10 @@ export default function StudentDashboard() {
           />
         </CardContent>
       </Card>
+
+      <div className="md:hidden">
+        <MobileReminder />
+      </div>
 
       <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6">
         <Card className="rounded-2xl shadow-sm border-none">
