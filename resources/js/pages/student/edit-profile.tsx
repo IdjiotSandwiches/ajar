@@ -9,11 +9,14 @@ export default function ProfilePage({ profile }: any) {
     return (
         <>
             <Head title="Profile" />
-            <div className="flex min-h-screen flex-col md:flex-row gap-8">
-                <ProfileSidebar activeSection={activeSection} onSectionChange={setActiveSection} profile={profile} />
-                <main className="w-full flex-1">
-                    {activeSection === 'Personal Information' && <ProfilePersonalForm profile={profile} />}
-                </main>
+            <div>
+                <h1 className="hidden md:flex text-2xl font-semibold text-gray-800 mb-6">Profile</h1>
+                <div className="flex h-screen flex-col md:flex-row gap-8">
+                    <ProfileSidebar activeSection={activeSection} onSectionChange={setActiveSection} profile={profile} />
+                    <main className="w-full flex-1">
+                        {activeSection === 'Personal Information' && <ProfilePersonalForm profile={profile} />}
+                    </main>
+                </div>
             </div>
         </>
     );

@@ -102,11 +102,11 @@ export default function ChatPage() {
     const updatedUsers = sortedUsers.map((u) =>
       u.id === selectedUser.id
         ? {
-            ...u,
-            lastMessage: `Anda: ${newMessage}`,
-            time,
-            lastMessageTime: now.toISOString(),
-          }
+          ...u,
+          lastMessage: `Anda: ${newMessage}`,
+          time,
+          lastMessageTime: now.toISOString(),
+        }
         : u
     );
 
@@ -190,11 +190,10 @@ export default function ChatPage() {
                   className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[75%] px-4 py-2 rounded-2xl text-sm ${
-                      msg.sender === "me"
+                    className={`max-w-[75%] px-4 py-2 rounded-2xl text-sm ${msg.sender === "me"
                         ? "bg-[#42C2FF] text-white rounded-br-none"
                         : "border border-[#42C2FF] text-gray-800 rounded-tl-none"
-                    }`}
+                      }`}
                   >
                     <p>{msg.message}</p>
                     <p className="text-[10px] text-right opacity-70 mt-1">{msg.time}</p>
@@ -226,98 +225,99 @@ export default function ChatPage() {
 
 
   return (
-    <div className="flex max-h-[80vh] bg-[#F9FEFF] my-16">
-      <div className="border-r bg-white rounded-2xl shadow-sm">
-        <div className="flex items-center gap-2 px-4 py-3 border-b">
-          <h2 className="text-lg font-semibold text-gray-700">Chats</h2>
-        </div>
-
-        <div className="overflow-y-auto h-[calc(80vh-60px)] md:w-[240px] 2xl:w-[320px]">
-          {sortedUsers.map((user) => (
-            <div
-              key={user.id}
-              onClick={() => handleSelectUser(user)}
-              className={`flex items-center gap-3 p-4 shadow-sm cursor-pointer transition ${
-                selectedUser?.id === user.id ? "bg-[#3ABEFF]/20" : "hover:bg-[#3ABEFF]/10"
-              }`}
-            >
-              <img src={user.image} className="w-12 h-12 rounded-full object-cover" />
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-gray-800 truncate">{user.name}</p>
-                <p className="text-sm text-gray-500 truncate">
-                  {truncateText(user.lastMessage, 35)}
-                </p>
-              </div>
-              <span className="text-xs text-gray-400 flex-shrink-0">{user.time}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex-1 flex flex-col bg-white rounded-l-2xl shadow-sm mx-4 p-6">
-        {selectedUser ? (
-          <>
-            <div
-              className="flex items-center gap-3 border-b pb-3 cursor-pointer"
-              onClick={() =>
-                router.get(route("detail-teacher", { teacherName: slugify(selectedUser.name) }))
-              }
-            >
-              <img
-                src={selectedUser.image}
-                className="w-12 h-12 rounded-full object-cover"
-              />
-              <div>
-                <p className="font-semibold text-gray-800">{selectedUser.name}</p>
-                <p className="text-sm text-gray-500">{selectedUser.role}</p>
-              </div>
-            </div>
-
-            <div className="flex-1 overflow-y-auto py-6 space-y-3">
-              {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}
-                >
-                  <div
-                    className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm ${
-                      msg.sender === "me"
-                        ? "bg-[#42C2FF] text-white rounded-br-none"
-                        : "border border-[#42C2FF] text-gray-800 rounded-tl-none"
-                    }`}
-                  >
-                    <p>{msg.message}</p>
-                    <p className="text-[10px] text-right opacity-70 mt-1">{msg.time}</p>
-                  </div>
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-
-            <div className="flex items-end border-t pt-3">
-              <textarea
-                ref={textareaRef}
-                value={newMessage}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-                placeholder="Type message..."
-                rows={1}
-                className="flex-1 border border-gray-200 rounded-xl px-4 py-2 text-sm resize-none overflow-y-auto"
-                style={{ maxHeight: "120px" }}
-              />
-              <button
-                onClick={handleSend}
-                className="ml-2 bg-[#42C2FF] text-white p-2 rounded-xl hover:bg-[#42C2FF]/90"
-              >
-                <Send size={20} />
-              </button>
-            </div>
-          </>
-        ) : (
-          <div className="flex items-center justify-center h-full text-gray-400">
-            Select a conversation to start chatting
+    <div>
+      <h1 className="hidden md:flex text-2xl font-semibold text-gray-800 mb-6">Chat</h1>
+      <div className="flex max-h-[80vh] my-8">
+        <div className="border-r bg-white rounded-2xl shadow-sm">
+          <div className="flex items-center gap-2 px-4 py-3 border-b">
+            <h2 className="text-lg font-semibold text-gray-700">Chats</h2>
           </div>
-        )}
+
+          <div className="overflow-y-auto h-[calc(80vh-60px)] md:w-[240px] 2xl:w-[320px]">
+            {sortedUsers.map((user) => (
+              <div
+                key={user.id}
+                onClick={() => handleSelectUser(user)}
+                className={`flex items-center gap-3 p-4 shadow-sm cursor-pointer transition ${selectedUser?.id === user.id ? "bg-[#3ABEFF]/20" : "hover:bg-[#3ABEFF]/10"
+                  }`}
+              >
+                <img src={user.image} className="w-12 h-12 rounded-full object-cover" />
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-gray-800 truncate">{user.name}</p>
+                  <p className="text-sm text-gray-500 truncate">
+                    {truncateText(user.lastMessage, 35)}
+                  </p>
+                </div>
+                <span className="text-xs text-gray-400 flex-shrink-0">{user.time}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex-1 flex flex-col bg-white rounded-2xl shadow-sm mx-4 p-6">
+          {selectedUser ? (
+            <>
+              <div
+                className="flex items-center gap-3 border-b pb-3 cursor-pointer"
+                onClick={() =>
+                  router.get(route("detail-teacher", { teacherName: slugify(selectedUser.name) }))
+                }
+              >
+                <img
+                  src={selectedUser.image}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <div>
+                  <p className="font-semibold text-gray-800">{selectedUser.name}</p>
+                  <p className="text-sm text-gray-500">{selectedUser.role}</p>
+                </div>
+              </div>
+
+              <div className="flex-1 overflow-y-auto py-6 space-y-3">
+                {messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm ${msg.sender === "me"
+                          ? "bg-[#42C2FF] text-white rounded-br-none"
+                          : "border border-[#42C2FF] text-gray-800 rounded-tl-none"
+                        }`}
+                    >
+                      <p>{msg.message}</p>
+                      <p className="text-[10px] text-right opacity-70 mt-1">{msg.time}</p>
+                    </div>
+                  </div>
+                ))}
+                <div ref={messagesEndRef} />
+              </div>
+
+              <div className="flex items-end border-t pt-3">
+                <textarea
+                  ref={textareaRef}
+                  value={newMessage}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Type message..."
+                  rows={1}
+                  className="flex-1 border border-gray-200 rounded-xl px-4 py-2 text-sm resize-none overflow-y-auto"
+                  style={{ maxHeight: "120px" }}
+                />
+                <button
+                  onClick={handleSend}
+                  className="ml-2 bg-[#42C2FF] text-white p-2 rounded-xl hover:bg-[#42C2FF]/90"
+                >
+                  <Send size={20} />
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="flex items-center justify-center h-full text-gray-400">
+              Select a conversation to start chatting
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
