@@ -18,24 +18,24 @@ export default function StudentDashboard() {
   const greeting = getGreeting();
 
   const todayClasses: any[] = [
-    // {
-    //   title: "Physics - Chapter 5",
-    //   time: "09:00 - 10:00",
-    //   teacher: "Mr. Daniel",
-    //   meetingUrl: "#",
-    // },
-    // {
-    //   title: "Mathematics - Algebra",
-    //   time: "11:00 - 12:00",
-    //   teacher: "Ms. Erika",
-    //   meetingUrl: "#",
-    // },
-    // {
-    //   title: "Mathematics - Algebra",
-    //   time: "11:00 - 12:00",
-    //   teacher: "Ms. Erika",
-    //   meetingUrl: "#",
-    // },
+    {
+      title: "Physics - Chapter 5",
+      time: "09:00 - 10:00",
+      teacher: "Mr. Daniel",
+      meetingUrl: "#",
+    },
+    {
+      title: "Mathematics - Algebra",
+      time: "11:00 - 12:00",
+      teacher: "Ms. Erika",
+      meetingUrl: "#",
+    },
+    {
+      title: "Mathematics - Algebra",
+      time: "11:00 - 12:00",
+      teacher: "Ms. Erika",
+      meetingUrl: "#",
+    },
   ];
 
   const upcomingClasses: any[] = [
