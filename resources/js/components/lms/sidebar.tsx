@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Home, MessageSquare, User, Book } from "react-feather";
 import { FaMoneyBill } from "react-icons/fa";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -23,7 +23,7 @@ const ROUTE_MAP: Record<string, string> = {
 };
 
 const getActiveId = () => {
-    const current = route().current(); 
+    const current = route().current();
 
     const found = Object.entries(ROUTE_MAP).find(([key, value]) => value === current);
 
@@ -89,6 +89,9 @@ export default function Sidebar({
                                 <button
                                     onClick={() => {
                                         const routeName = ROUTE_MAP[m.id];
+
+                                        if (onNavigate) onNavigate();
+
                                         if (routeName) router.get(route(routeName));
                                     }}
                                     className={`flex items-center rounded-xl transition-all duration-300
@@ -116,7 +119,6 @@ export default function Sidebar({
                         ))}
                     </ul>
                 </nav>
-
             </aside>
         </>
     );
