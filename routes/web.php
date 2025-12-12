@@ -87,8 +87,11 @@ Route::middleware(['auth', 'verified'])
             });
     });
 
-Route::get('student-dashboard', fn() => Inertia::render('student/dashboard'))->name('student-dashboard');
-Route::get('student-mylearning', fn() => Inertia::render('student/mylearning'))->name('student-mylearning');
+// tampil di semua role
+Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
+
+// tampil hanya di student & teacher
+Route::get('mylearning', fn() => Inertia::render('mylearning'))->name('mylearning');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
