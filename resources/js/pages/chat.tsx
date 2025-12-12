@@ -254,7 +254,7 @@ export default function ChatPage() {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col bg-white rounded-2xl shadow-sm mx-4 p-6">
+        <div className="flex-1 flex flex-col bg-white rounded-2xl shadow-sm ml-4 p-6">
           {selectedUser ? (
             <>
               <div

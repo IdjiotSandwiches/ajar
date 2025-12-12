@@ -15,8 +15,8 @@ const MENU: NavItem[] = [
 ];
 
 const ROUTE_MAP: Record<string, string> = {
-    dashboard: "student-dashboard",
-    mylearning: "student-mylearning",
+    dashboard: "dashboard",
+    mylearning: "mylearning",
     messages: "chat",
     payments: "payments",
     profile: "profile",

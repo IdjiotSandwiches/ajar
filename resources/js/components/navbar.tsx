@@ -48,8 +48,8 @@ export default function Navbar() {
                             Course
                         </span>
 
-                        <span className="cursor-pointer transition-colors hover:text-[#1AAAE3]" onClick={() => router.get(route('my-learning'))}>
-                            MyLearning
+                        <span className="cursor-pointer transition-colors hover:text-[#1AAAE3]" onClick={() => router.get(route('dashboard'))}>
+                            MyDashboard
                         </span>
                     </div>
 
