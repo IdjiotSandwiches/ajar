@@ -46,23 +46,20 @@ export default function CourseListPage({ activeCategory, parentCategories, cours
     };
 
     useEffect(() => {
-    if (!activeCategory) {
-        const techCategory = parentCategories.find(
-            (cat) => cat.name.toLowerCase() === "technology"
-        );
+        if (!activeCategory) {
+            const techCategory = parentCategories.find((cat: any) => cat.name.toLowerCase() === 'technology');
 
-        if (techCategory) {
-            router.visit(route("list-course"), {
-                data: {
-                    category_id: techCategory.id,
-                },
-                only: ["courses", "activeCategory", "subCategories", "activeSub", "studentFilter"],
-                replace: true,
-            });
+            if (techCategory) {
+                router.visit(route('list-course'), {
+                    data: {
+                        category_id: techCategory.id,
+                    },
+                    only: ['courses', 'activeCategory', 'subCategories', 'activeSub', 'studentFilter'],
+                    replace: true,
+                });
+            }
         }
-    }
-}, []);
-
+    }, []);
 
     const { props } = usePage();
     const user = props.auth?.user;

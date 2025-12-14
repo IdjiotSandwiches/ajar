@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\MyLearningController;
@@ -88,7 +89,7 @@ Route::middleware(['auth', 'verified'])
     });
 
 // tampil di semua role
-Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'getDashboardData'])->name('dashboard');
 
 // tampil hanya di student & teacher
 Route::get('mylearning', fn() => Inertia::render('mylearning'))->name('mylearning');
