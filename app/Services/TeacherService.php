@@ -13,7 +13,7 @@ class TeacherService
 {
     public function getTeacherDetail($id)
     {
-        $teacher = Teacher::with('user', 'category', 'reviews.reviewer.role', 'graduates', 'workExperiences', 'certificates')
+        $teacher = Teacher::with(['user', 'category', 'reviews.reviewer.role', 'graduates', 'workExperiences', 'certificates', 'teacherSchedules.course'])
             ->where('user_id', $id)
             ->first();
 

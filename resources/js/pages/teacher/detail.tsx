@@ -7,6 +7,7 @@ import { Album, BriefcaseBusiness, FileBadge, GraduationCap, Star, X } from 'luc
 import React, { useState } from 'react';
 
 export default function TeacherDetailPage({ teacher, application }: any) {
+    console.log(teacher);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     if (!teacher) {
         return <div className="flex min-h-screen items-center justify-center text-gray-500">Teacher not found.</div>;
@@ -102,7 +103,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                 <h3 className="font-semibold text-gray-700">Courses taught</h3>
                             </div>
                             <div className="scrollbar-thin scrollbar-thumb-[#42C2FF]/30 scrollbar-track-transparent flex gap-6 overflow-x-auto pb-4">
-                                {teacher.courses.map((course: any, index: number) => {
+                                {teacher.teacher_schedules.map((course: any, index: number) => {
                                     return <CourseCard key={index} course={course.course} isTag={false} />;
                                 })}
                             </div>
