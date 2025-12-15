@@ -1,7 +1,6 @@
 import { router } from '@inertiajs/react';
 
 export default function InstitutionSection({ institutes }: any) {
-    console.log(institutes);
     return (
         <section className="px-4 pt-6 pb-10 sm:px-6 md:px-12 md:pt-10 md:pb-16">
             <div className="mb-6 flex items-center justify-between md:mb-8">

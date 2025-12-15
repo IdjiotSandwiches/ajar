@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -52,7 +53,10 @@ Route::middleware(['auth', 'verified'])
             ->prefix('admin')
             ->name('admin.')
             ->group(function () {
-                Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
+                Route::controller(AdminController::class)->group(function () {
+                    Route::post('register-institute', 'registerInstitute')->name('register-institute');
+                    Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
+                });
             });
         Route::middleware(['role:Teacher'])
             ->prefix('teacher')

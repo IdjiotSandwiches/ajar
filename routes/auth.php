@@ -16,7 +16,6 @@ Route::middleware('guest')->group(function () {
         ->group(function () {
             Route::get('/student', [RegisterController::class, 'studentForm'])->name('student');
             Route::get('/teacher', [RegisterController::class, 'teacherForm'])->name('teacher');
-            Route::get('/institute', [RegisterController::class, 'instituteForm'])->name('institute');
             Route::post('/', [RegisterController::class, 'store'])->name('submit');
         });
 

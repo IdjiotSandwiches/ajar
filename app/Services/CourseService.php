@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Course;
@@ -10,7 +11,6 @@ use App\Models\EnrolledCourse;
 use App\Models\Skill;
 use App\Models\Teacher;
 use App\Utilities\UploadUtility;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CourseService
@@ -133,8 +133,7 @@ class CourseService
                 'courseSkills.skill',
                 'courseLearningObjectives',
                 'courseOverviews',
-                // 'courseSchedules',
-                // 'teachers.user'
+                'teacherSchedules.teacher.user.socialMedias',
             ]
         )
             ->withAvg('courseReviews', 'rating')

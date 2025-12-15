@@ -7,7 +7,6 @@ import { Album, BriefcaseBusiness, FileBadge, GraduationCap, Star, X } from 'luc
 import React, { useState } from 'react';
 
 export default function TeacherDetailPage({ teacher, application }: any) {
-    console.log(teacher);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     if (!teacher) {
         return <div className="flex min-h-screen items-center justify-center text-gray-500">Teacher not found.</div>;

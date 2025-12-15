@@ -2,7 +2,7 @@ import { router } from '@inertiajs/react';
 import { useEffect, useRef } from 'react';
 import TeacherProfileCard from '../teacher/card';
 
-export default function CourseSidebar({ teacher, institute }: { teacher: any[]; institute: any }) {
+export default function CourseSidebar({ teacher, institute }: any) {
     const sliderRef = useRef<HTMLDivElement | null>(null);
     const teachers = Array.isArray(teacher) ? teacher : [teacher].filter(Boolean);
 
@@ -55,8 +55,8 @@ export default function CourseSidebar({ teacher, institute }: { teacher: any[]; 
                     >
                         {teachers.map((t: any, index: number) => (
                             <div key={index} className="w-full flex-shrink-0 snap-center">
-                                <div className="cursor-pointer" onClick={() => router.get(route('detail-teacher', t.user_id))}>
-                                    <TeacherProfileCard teacher={t} />
+                                <div className="cursor-pointer" onClick={() => router.get(route('detail-teacher', t.teacher.user_id))}>
+                                    <TeacherProfileCard teacher={t.teacher} />
                                 </div>
                             </div>
                         ))}
