@@ -21,7 +21,7 @@ export default function Sidebar({ onNavigate, collapsed, mobileOpen, onClose, on
 
     const ROUTE_MAP: Record<string, string> = {
         dashboard: 'dashboard',
-        mylearning: 'mylearning',
+        mylearning: 'my-learning',
         messages: 'chat',
         payments: 'payments',
         profile: user?.role_id === roles.Teacher ? 'teacher.profile' : user?.role_id === roles.Institute ? 'institute.profile' : 'profile',

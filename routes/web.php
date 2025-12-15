@@ -30,9 +30,9 @@ Route::group([], function () {
 Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::group([], function () {
-            Route::controller(MyLearningController::class)->group(function () {
-                Route::get('my-learning', 'getMyLearning')->name('my-learning');
-            });
+            // Route::controller(MyLearningController::class)->group(function () {
+            //     Route::get('my-learning', 'getMyLearning')->name('my-learning');
+            // });
             Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
             Route::controller(UtilityController::class)->group(function () {
                 Route::post('update-image', 'postImage')->name('update-image');
@@ -92,7 +92,7 @@ Route::middleware(['auth', 'verified'])
 Route::get('dashboard', [DashboardController::class, 'getDashboardData'])->name('dashboard');
 
 // tampil hanya di student & teacher
-Route::get('mylearning', fn() => Inertia::render('mylearning'))->name('mylearning');
+Route::get('my-learning', fn() => Inertia::render('mylearning'))->name('my-learning');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
