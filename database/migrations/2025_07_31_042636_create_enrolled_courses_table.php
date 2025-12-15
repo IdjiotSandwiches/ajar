@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('enrolled_courses', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_complete');
+            $table->boolean('is_complete')->default(false);
             $table->boolean('is_verified')->nullable();
             $table->unsignedBigInteger('course_schedule_id');
             $table->unsignedBigInteger('student_id');
+            $table->unique(['course_schedule_id', 'student_id'], 'enrolled_courses_schedule_student_unique');
             $table->timestamps();
 
             $table->foreign('course_schedule_id')->references('id')->on('course_schedules')->onDelete('cascade');

@@ -19,9 +19,11 @@ class DashboardController extends Controller
     {
         $todayCourses = $this->service->getTodayCourses();
         $upcomingCourses = $this->service->getUpcomingCourses();
+        $reminder = $this->service->getReminder();
         return Inertia::render('dashboard', [
             'today' => Inertia::scroll($todayCourses),
-            'upcoming' => Inertia::scroll($upcomingCourses)
+            'upcoming' => Inertia::scroll($upcomingCourses),
+            'reminder' => $reminder
         ]);
     }
 }

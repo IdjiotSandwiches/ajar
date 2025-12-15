@@ -84,7 +84,7 @@ Route::middleware(['auth', 'verified'])
                     Route::get('profile', 'getProfile')->name('profile');
                     Route::put('profile', 'putProfile')->name('update-profile');
                 });
-                Route::get('coursea-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
+                Route::get('course-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
             });
     });
 

@@ -5,7 +5,7 @@ import { InfiniteScroll, router } from '@inertiajs/react';
 import { Calendar, Clock, PlayCircle } from 'lucide-react';
 import React from 'react';
 
-export default function StudentDashboard({ today, upcoming }: any) {
+export default function StudentDashboard({ today, upcoming, reminder }: any) {
     const getGreeting = () => {
         const hour = new Date().getHours();
 
@@ -15,49 +15,13 @@ export default function StudentDashboard({ today, upcoming }: any) {
         return 'Good Night';
     };
 
-    const greeting = getGreeting();
-
-    const todayClasses: any[] = [
-        {
-            title: 'Physics - Chapter 5',
-            time: '09:00 - 10:00',
-            teacher: 'Mr. Daniel',
-            meetingUrl: '#',
-        },
-        {
-            title: 'Mathematics - Algebra',
-            time: '11:00 - 12:00',
-            teacher: 'Ms. Erika',
-            meetingUrl: '#',
-        },
-        {
-            title: 'Mathematics - Algebra',
-            time: '11:00 - 12:00',
-            teacher: 'Ms. Erika',
-            meetingUrl: '#',
-        },
-    ];
-
-    const upcomingClasses: any[] = [
-        {
-            title: 'Biology - Cell Division',
-            time: 'Tomorrow · 10:00',
-            teacher: 'Mr. James',
-        },
-        {
-            title: 'English - Grammar',
-            time: 'Tomorrow · 13:00',
-            teacher: 'Mrs. Alice',
-        },
-    ];
-
     return (
         <div className="flex w-full flex-col gap-6">
             <h1 className="hidden text-2xl font-semibold text-gray-800 md:flex">My Dashboard</h1>
             <Card className="overflow-hidden rounded-2xl border-none bg-[#3ABEFF]/10 shadow-sm">
                 <CardContent className="flex items-center justify-between p-6">
                     <div>
-                        <h2 className="text-2xl font-semibold text-[#3ABEFF]">{greeting}!</h2>
+                        <h2 className="text-2xl font-semibold text-[#3ABEFF]">{getGreeting()}!</h2>
                         <p className="mt-2 max-w-lg text-sm text-[#3ABEFF]">
                             "Education is not the learning of facts, but the training of the mind to think."
                         </p>
@@ -67,7 +31,7 @@ export default function StudentDashboard({ today, upcoming }: any) {
             </Card>
 
             <div className="md:hidden">
-                <MobileReminder />
+                <MobileReminder reminder={reminder} />
             </div>
 
             <div className="grid grid-cols-1 gap-6 2xl:grid-cols-2">
@@ -117,8 +81,8 @@ export default function StudentDashboard({ today, upcoming }: any) {
                                             </div>
 
                                             <a
-                                                href={item.meetingUrl || ''}
-                                                className="flex items-center gap-2 rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
+                                                href={item.meeting_link}
+                                                className="flex cursor-pointer items-center gap-2 rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
                                             >
                                                 <PlayCircle size={16} />
                                                 Join
@@ -130,7 +94,6 @@ export default function StudentDashboard({ today, upcoming }: any) {
                         )}
                     </CardContent>
                 </Card>
-
                 <Card className="rounded-2xl border-none shadow-sm">
                     <CardContent>
                         <h3 className="mb-4 text-lg font-semibold">Upcoming Classes</h3>

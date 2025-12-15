@@ -1,45 +1,54 @@
-import MobileNavbar from "@/components/lms/dashboard-navbar";
-import RightPanel from "@/components/lms/right-panel/app";
-import Sidebar from "@/components/lms/sidebar";
-import { router } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
+import MobileNavbar from '@/components/lms/dashboard-navbar';
+import RightPanel from '@/components/lms/right-panel/app';
+import Sidebar from '@/components/lms/sidebar';
+import { Toaster } from '@/components/ui/sonner';
+import { Head, router, usePage } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
-export default function LMSLayout({ children, title = "Dashboard" }) {
-  const [collapsed, setCollapsed] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+export default function LMSLayout({ children, title }: any) {
+    const { props } = usePage();
+    const flash: any = props?.flash;
 
-  useEffect(() => {
-    router.on('navigate', () => {
-      setMobileOpen(false);
-    })
-  }, []);
+    const [collapsed, setCollapsed] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
-  return (
-    <div className="flex min-h-[100svh] md:h-screen w-full overflow-hidden bg-gray-50">
-      <Sidebar
-        collapsed={collapsed}
-        mobileOpen={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        onToggleCollapse={() => setCollapsed(!collapsed)}
-        onNavigate={() => setMobileOpen(false)}
-      />
+    useEffect(() => {
+        if (flash.success) toast.success(flash.success);
+        if (flash.error) toast.error(flash.error);
+    }, [flash]);
 
-      <main className="flex-1 flex flex-col overflow-hidden relative">
-        <div className="mb-20 md:mb-0">
-          <MobileNavbar
-            title={title}
-            onMenu={() => setMobileOpen(true)}
-          />
-        </div>
+    useEffect(() => {
+        router.on('navigate', () => {
+            setMobileOpen(false);
+        });
+    }, []);
 
-        <div className="flex-1 overflow-y-auto flex flex-col p-6 md:p-8">
-          {children}
-        </div>
-      </main>
+    return (
+        <>
+            <Head title={title} />
+            <div className="flex min-h-[100svh] w-full overflow-hidden bg-gray-50 md:h-screen">
+                <Sidebar
+                    collapsed={collapsed}
+                    mobileOpen={mobileOpen}
+                    onClose={() => setMobileOpen(false)}
+                    onToggleCollapse={() => setCollapsed(!collapsed)}
+                    onNavigate={() => setMobileOpen(false)}
+                />
 
-      <div className="hidden lg:block w-72 border-l bg-white overflow-y-auto p-6">
-        <RightPanel />
-      </div>
-    </div>
-  );
+                <main className="relative flex flex-1 flex-col overflow-hidden">
+                    <div className="mb-20 md:mb-0">
+                        <MobileNavbar title={title} onMenu={() => setMobileOpen(true)} />
+                    </div>
+
+                    <div className="flex flex-1 flex-col overflow-y-auto p-6 md:p-8">{children}</div>
+                </main>
+
+                <div className="hidden w-72 overflow-y-auto border-l bg-white p-6 lg:block">
+                    <RightPanel />
+                </div>
+            </div>
+            <Toaster richColors={true} />
+        </>
+    );
 }
