@@ -107,16 +107,4 @@ class Course extends Model
     {
         return $this->hasMany(TeacherSchedule::class);
     }
-
-    // public function teachers()
-    // {
-    //     return $this->hasManyThrough(
-    //         Teacher::class,
-    //         CourseSchedule::class,
-    //         'course_id',
-    //         'user_id',
-    //         'id',
-    //         'teacher_id'
-    //     )->distinct();
-    // }
 }

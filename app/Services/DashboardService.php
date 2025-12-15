@@ -170,7 +170,7 @@ class DashboardService
                         fn($q) => $q->where('reviewer_id', $user->id)
                     )
                     ->whereHas(
-                        'courseSchedule.teacherSchedule.teacher.teacherReviews',
+                        'courseSchedule.teacherSchedule.teacher.reviews',
                         fn($q) => $q->where('reviewer_id', $user->id)
                     )
                     ->exists();

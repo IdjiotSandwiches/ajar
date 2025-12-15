@@ -3,6 +3,7 @@ import { router, usePage } from '@inertiajs/react';
 import TeacherList from "./teacher-list";
 
 export default function CourseCard({ course, isTag }: { course: any, isTag: boolean }) {
+    console.log(course);
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
