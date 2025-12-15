@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\CourseSchedule;
 use App\Models\Institute;
 use App\Models\Teacher;
 use App\Models\TeacherApplication;
@@ -121,5 +122,20 @@ class TeacherService
                 UploadUtility::remove($file);
             }
         }
+    }
+
+    public function addMeetingLink($id, $link)
+    {
+        $schedule = CourseSchedule::where('id', $id)
+            ->first();
+
+        if (!$schedule)
+            return null;
+
+        $schedule->update([
+            'meeting_link' => $link
+        ]);
+
+        return $schedule;
     }
 }

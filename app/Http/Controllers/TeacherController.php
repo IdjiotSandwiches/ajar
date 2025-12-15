@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TeacherDetailRequest;
 use App\Http\Requests\TeacherProfileRequest;
 use App\Services\TeacherService;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -64,6 +65,21 @@ class TeacherController extends Controller
             return back()->with('success', 'Update success.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function addMeetingLink($id, Request $request)
+    {
+        $validated = $request->validate([
+            'link' => ['required', 'url'],
+        ]);
+
+        $link = $validated['link'];
+        $schedule = $this->service->addMeetingLink($id, $link);
+        if (!$schedule) {
+            return back()->with(['error', 'Schedule not found.']);
+        } else {
+            return back()->with(['success', 'Meeting Link added.']);
         }
     }
 }

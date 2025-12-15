@@ -47,6 +47,7 @@ Route::middleware(['auth', 'verified'])
             Route::controller(StudentController::class)->group(function () {
                 Route::get('profile', 'getProfile')->name('profile');
                 Route::put('profile', 'putProfile')->name('update-profile');
+                Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
             });
         });
         Route::middleware(['role:Admin'])
@@ -67,6 +68,7 @@ Route::middleware(['auth', 'verified'])
                     Route::get('profile', 'getProfile')->name('profile');
                     Route::put('profile', 'putProfile')->name('update-profile');
                     Route::post('detail', 'putDetail')->name('update-detail');
+                    Route::post('meeting-link/{id}', 'addMeetingLink')->name('add-meeting-link');
                 });
                 Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
             });
