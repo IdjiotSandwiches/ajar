@@ -13,7 +13,7 @@ export default function TeacherList({ teachers }: any) {
         }
     }, [safeTeachers.length]);
 
-    const teacher = safeTeachers[currentTeacherIndex]?.user;
+    const teacher = safeTeachers[currentTeacherIndex]?.teacher?.user;
     const imgSrc = teacher?.profile_picture || "https://placehold.co/400";
 
     return (
