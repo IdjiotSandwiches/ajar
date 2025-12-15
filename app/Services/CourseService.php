@@ -267,6 +267,7 @@ class CourseService
             'benefit_for_teachers' => 'courseTeacherBenefits',
             'course_overviews' => 'courseOverviews',
             'course_skills' => 'courseSkills',
+            'course_sessions' => 'courseSessions'
         ];
 
         foreach ($relations as $key => $relationMethod) {
