@@ -1,6 +1,5 @@
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
-import AppLayout from '@/layouts/app-layout';
 import LMSLayout from '@/layouts/lms-layout';
 import { Head, router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';

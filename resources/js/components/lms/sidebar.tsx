@@ -64,6 +64,12 @@ const MENU_INSTITUTE: NavItem[] = [
                 route: "institute.teacher-application",
             },
             {
+                id: "courseteacherapplications",
+                label: "Course Teaching",
+                icon: <BookCheck size={16} />,
+                route: "institute.course-teacher-applications",
+            },
+            {
                 id: "manageteachers",
                 label: "Manage Teachers",
                 icon: <User size={16} />,

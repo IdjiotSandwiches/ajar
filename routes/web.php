@@ -96,6 +96,7 @@ Route::middleware(['auth', 'verified'])
                     Route::put('profile', 'putProfile')->name('update-profile');
                 });
                 Route::get('course-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
+                Route::get('course-teacher-applications', fn() => Inertia::render('institute/course-teacher-applications'))->name('course-teacher-applications');
             });
 
         Route::middleware(['role:Student,Teacher'])
