@@ -1,5 +1,7 @@
 import CourseStatusCard from "@/components/institute/course-taken-card";
+import Filter from "@/components/lms/filter/institute/filter-mycourses";
 import AppLayout from "@/layouts/app-layout";
+import LMSLayout from "@/layouts/lms-layout";
 import React from "react";
 
 export default function CoursesTakenPage() {
@@ -34,12 +36,13 @@ export default function CoursesTakenPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F9FCFF] flex flex-col">
-      <div className="max-w-4xl mx-auto py-16 px-6 w-full">
-        <h1 className="text-2xl font-semibold text-center text-[#42C2FF] mb-8">
-          Courses Taken
-        </h1>
+    <div className="flex min-h-screen flex-col gap-6">
+      <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Courses Taken</h1>
 
+      <Filter />
+
+      <div className="mx-auto w-full rounded-2xl bg-white p-4 sm:p-6 md:p-8 shadow-sm">
+        <h3 className="font-semibold text-xl mb-6">Course List</h3>
         <div>
           {takenCourses.map((course, index) => (
             <CourseStatusCard key={index} {...course} />
@@ -50,6 +53,4 @@ export default function CoursesTakenPage() {
   );
 }
 
-CoursesTakenPage.layout = (page: React.ReactNode) => (
-  <AppLayout useContainer>{page}</AppLayout>
-);
+CoursesTakenPage.layout = (page: React.ReactNode) => <LMSLayout title="Courses Taken">{page}</LMSLayout>;

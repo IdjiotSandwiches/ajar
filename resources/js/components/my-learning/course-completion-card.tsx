@@ -40,18 +40,11 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
   });
 
   return (
-    <div className="
-      border border-[#42C2FF]/50 bg-white rounded-xl p-4 mb-5
-      flex flex-col md:flex-row
-      gap-4 shadow-sm hover:shadow-md transition
-    ">
+    <div className="border border-[#42C2FF]/50 bg-white rounded-xl p-4 mb-5 flex flex-col md:flex-row gap-4 shadow-sm hover:shadow-md transition">
       <img
         src={`/${image || null}`}
         alt={title}
-        className="
-          w-full md:w-32 h-40 md:h-32
-          object-cover rounded-lg border border-gray-200
-        "
+        className="w-full md:w-32 h-40 md:h-32 object-cover rounded-lg border border-gray-200"
       />
 
       <div className="flex flex-col flex-grow">

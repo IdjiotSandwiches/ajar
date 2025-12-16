@@ -86,6 +86,7 @@ Route::middleware(['auth', 'verified'])
                 });
                 Route::controller(InstituteController::class)->group(function () {
                     Route::get('teacher-application', 'getTeacherApplications')->name('teacher-application');
+                    Route::get('list-teacher', fn() => Inertia::render('institute/teacher-list'))->name('list-teacher');
                     Route::post('accept-verification/{id}', 'acceptTeacher')->name('accept-teacher');
                     Route::post('reject-verification/{id}', 'rejectTeacher')->name('reject-teacher');
                     Route::get('profile', 'getProfile')->name('profile');

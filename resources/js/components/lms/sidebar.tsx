@@ -1,23 +1,81 @@
 import { router, usePage } from '@inertiajs/react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import React from 'react';
+import { BookCheck, ChevronDown, ChevronLeft, ChevronRight, LogOut, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { Book, Home, MessageSquare, User } from 'react-feather';
 import { FaMoneyBill } from 'react-icons/fa';
 
-type NavItem = { id: string; label: string; icon: React.ReactNode };
+interface NavItem {
+    id: string;
+    label: string;
+    icon: React.ReactNode;
+    route?: string;
+    children?: NavItem[];
+}
 
-export default function Sidebar({ onNavigate, collapsed, mobileOpen, onClose, onToggleCollapse }: any) {
+const MENU_STUDENT: NavItem[] = [
+    { id: 'dashboard', label: 'My Dashboard', icon: <Home size={18} />, route: 'dashboard' },
+    { id: 'mylearning', label: 'My Learning', icon: <Book size={18} />, route: 'mylearning' },
+    { id: 'messages', label: 'Messages', icon: <MessageSquare size={18} />, route: 'chat' },
+    { id: 'payments', label: 'Payments', icon: <FaMoneyBill size={18} />, route: 'payments' },
+    { id: 'profile', label: 'Profile', icon: <User size={18} />, route: 'profile' },
+];
+
+const MENU_TEACHER: NavItem[] = [
+    { id: 'dashboard', label: 'My Dashboard', icon: <Home size={18} />, route: 'dashboard' },
+    { id: 'mylearning', label: 'My Learning', icon: <Book size={18} />, route: 'mylearning' },
+    { id: 'applycourses', label: 'Apply Courses', icon: <BookCheck size={18} />, route: 'teacher.applycourses' },
+    { id: 'messages', label: 'Messages', icon: <MessageSquare size={18} />, route: 'chat' },
+    { id: 'profile', label: 'Profile', icon: <User size={18} />, route: 'profile' },
+];
+
+const MENU_INSTITUTE: NavItem[] = [
+    { id: 'dashboard', label: 'My Dashboard', icon: <Home size={18} />, route: 'dashboard' },
+    { id: 'mycourses', label: 'My Courses', icon: <Book size={18} />, route: 'institute.my-courses' },
+    { id: 'coursestaken', label: 'Courses Taken', icon: <BookCheck size={18} />, route: 'institute.courses-taken' },
+    {
+        id: 'teachermanagement',
+        label: 'Teacher Management',
+        icon: <User size={18} />,
+        children: [
+            {
+                id: 'teacherapplications',
+                label: 'Teacher Applications',
+                icon: <BookCheck size={16} />,
+                route: 'institute.teacher-application',
+            },
+            {
+                id: 'manageteachers',
+                label: 'Manage Teachers',
+                icon: <User size={16} />,
+                route: 'institute.list-teacher',
+            },
+        ],
+    },
+    { id: 'messages', label: 'Messages', icon: <MessageSquare size={18} />, route: 'chat' },
+    { id: 'profile', label: 'Profile', icon: <User size={18} />, route: 'profile' },
+];
+
+const MENU_ADMIN: NavItem[] = [
+    { id: 'dashboard', label: 'My Dashboard', icon: <Home size={18} />, route: 'dashboard' },
+    { id: 'coursesmanagement', label: 'Courses Management', icon: <Book size={18} />, route: 'admin.courses-management' },
+    { id: 'usersmanagement', label: 'Users Management', icon: <User size={18} />, route: 'admin.users-management' },
+];
+
+const isRouteActive = (routeName?: string) => {
+    if (!routeName) return false;
+    return route().current(routeName);
+};
+
+export default function Sidebar({ collapsed, mobileOpen, onClose, onToggleCollapse }: any) {
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
 
-    const MENU: NavItem[] = [
-        { id: 'dashboard', label: 'My Dashboard', icon: <Home size={18} /> },
-        { id: 'mylearning', label: 'My Learning', icon: <Book size={18} /> },
-        { id: 'messages', label: 'Messages', icon: <MessageSquare size={18} /> },
-        { id: 'payments', label: 'Payments', icon: <FaMoneyBill size={18} /> },
-        { id: 'profile', label: 'Profile', icon: <User size={18} /> },
-    ];
+    let MENU: NavItem[] = MENU_STUDENT;
+
+    if (user?.role_id === 1) MENU = MENU_ADMIN;
+    else if (user?.role_id === 2) MENU = MENU_TEACHER;
+    else if (user?.role_id === 3) MENU = MENU_INSTITUTE;
 
     const ROUTE_MAP: Record<string, string> = {
         dashboard: 'dashboard',
@@ -27,30 +85,32 @@ export default function Sidebar({ onNavigate, collapsed, mobileOpen, onClose, on
         profile: user?.role_id === roles.Teacher ? 'teacher.profile' : user?.role_id === roles.Institute ? 'institute.profile' : 'profile',
     };
 
-    const getActiveId = () => {
-        const current = route().current();
-        const found = Object.entries(ROUTE_MAP).find(([key, value]) => value === current);
-        return found ? found[0] : null;
-    };
+    const [openMenu, setOpenMenu] = useState<string | null>(null);
+
+    useEffect(() => {
+        MENU.forEach((item) => {
+            if (item.children?.some((c) => isRouteActive(c.route))) {
+                setOpenMenu(item.id);
+            }
+        });
+    }, []);
 
     return (
         <>
             <div
-                className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 md:hidden ${mobileOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+                className={`fixed inset-0 z-40 bg-black/40 transition-opacity md:hidden ${mobileOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
                 onClick={onClose}
             />
+
             <aside
-                className={`z-50 flex h-full flex-col border-r bg-white transition-all duration-300 ${collapsed ? 'md:w-20' : 'md:w-64'} fixed inset-y-0 left-0 transform transition-transform duration-300 md:static ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} w-64`}
+                className={`fixed inset-y-0 left-0 z-50 flex h-full w-64 flex-col border-r bg-white transition-all duration-300 md:static ${collapsed ? 'md:w-20' : 'md:w-64'} ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
             >
-                <button
-                    onClick={onClose}
-                    className={`absolute top-6 right-4 rounded-full bg-[#3ABEFF]/10 p-2 text-[#3ABEFF] shadow transition-all duration-300 hover:bg-[#3ABEFF]/20 md:hidden ${mobileOpen ? 'opacity-100' : 'opacity-0'}`}
-                >
+                <button onClick={onClose} className="absolute top-6 right-4 rounded-full bg-[#3ABEFF]/10 p-2 text-[#3ABEFF] md:hidden">
                     <X size={18} />
                 </button>
 
-                <div className={`flex items-center justify-between px-4 py-6 ${collapsed ? 'flex items-center justify-center' : ''} `}>
-                    <div className="flex cursor-pointer items-center gap-3" onClick={() => router.get(route('home'))}>
+                <div className={`flex items-center ${!collapsed ? 'justify-between' : 'justify-center'} px-4 py-6`}>
+                    <div className="cursor-pointer" onClick={() => router.get(route('home'))}>
                         {!collapsed && (
                             <svg width="64" height="36" viewBox="0 0 78 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -73,44 +133,79 @@ export default function Sidebar({ onNavigate, collapsed, mobileOpen, onClose, on
                         )}
                     </div>
 
-                    <button
-                        className="hidden rounded-lg bg-[#3ABEFF]/10 p-2.5 text-[#3ABEFF] hover:bg-[#3ABEFF]/20 md:flex"
-                        onClick={onToggleCollapse}
-                    >
+                    <button className="hidden rounded-lg bg-[#3ABEFF]/10 p-2.5 text-[#3ABEFF] md:flex" onClick={onToggleCollapse}>
                         {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
                     </button>
                 </div>
 
                 <nav className={`${collapsed ? 'px-0' : 'px-3'} flex-1`}>
                     <ul className="space-y-2">
-                        {MENU.map((m) => (
-                            <li key={m.id} className={`${collapsed ? 'flex justify-center' : ''}`}>
-                                <button
-                                    onClick={() => {
-                                        const routeName = ROUTE_MAP[m.id];
+                        {MENU.map((item) => {
+                            const isParentActive = isRouteActive(item.route) || item.children?.some((c) => isRouteActive(c.route));
 
-                                        if (onNavigate) onNavigate();
-
-                                        if (routeName) router.get(route(routeName));
-                                    }}
-                                    className={`flex items-center rounded-xl transition-all duration-300 ${getActiveId() === m.id ? 'bg-[#3ABEFF] text-white' : 'hover:bg-[#3ABEFF]/10'} ${
-                                        collapsed ? 'h-10 w-10 justify-center gap-0 px-0' : 'h-10 w-full justify-start gap-3 px-4 py-3'
-                                    } `}
-                                >
-                                    <span>{m.icon}</span>
-
-                                    <span
-                                        className={`text-sm font-medium whitespace-nowrap transition-all duration-300 ease-in-out ${
-                                            collapsed ? 'w-0 translate-x-4 overflow-hidden opacity-0' : 'w-auto translate-x-0 opacity-100'
+                            return (
+                                <li key={item.id}>
+                                    <button
+                                        onClick={() => {
+                                            if (item.children) {
+                                                setOpenMenu(openMenu === item.id ? null : item.id);
+                                            } else if (item.route) {
+                                                router.get(route(item.route));
+                                            }
+                                        }}
+                                        className={`flex items-center rounded-xl transition-all ${isParentActive ? 'bg-[#3ABEFF] text-white' : 'hover:bg-[#3ABEFF]/10'} ${
+                                            collapsed ? 'mx-auto h-10 w-10 justify-center' : 'w-full justify-between px-4 py-3'
                                         } `}
                                     >
-                                        {m.label}
-                                    </span>
-                                </button>
-                            </li>
-                        ))}
+                                        <div className="flex items-center gap-3">
+                                            {item.icon}
+                                            {!collapsed && <span className="text-sm font-medium">{item.label}</span>}
+                                        </div>
+
+                                        {!collapsed && item.children && (
+                                            <ChevronDown size={16} className={`transition-transform ${openMenu === item.id ? 'rotate-180' : ''}`} />
+                                        )}
+                                    </button>
+
+                                    {!collapsed && item.children && openMenu === item.id && (
+                                        <ul className="mt-2 ml-5 space-y-1 font-medium">
+                                            {item.children.map((child) => (
+                                                <li key={child.id}>
+                                                    <button
+                                                        onClick={() => router.get(route(child.route!))}
+                                                        className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm ${
+                                                            isRouteActive(child.route) ? 'bg-[#3ABEFF]/20 text-[#3ABEFF]' : 'hover:bg-[#3ABEFF]/10'
+                                                        } `}
+                                                    >
+                                                        {child.icon}
+                                                        <span>{child.label}</span>
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </li>
+                            );
+                        })}
                     </ul>
                 </nav>
+
+                <div className={`flex items-center gap-3 border-t px-4 py-4 ${collapsed ? 'justify-center' : ''} `}>
+                    <img src={user?.profile_picture || 'https://placehold.co/40'} alt="profile" className="h-10 w-10 rounded-full object-cover" />
+
+                    {!collapsed && (
+                        <>
+                            <div className="flex flex-1 flex-col">
+                                <span className="text-sm font-semibold">{user?.name}</span>
+                                <span className="text-xs text-gray-500 capitalize">{user?.role_id ?? 'User'}</span>
+                            </div>
+
+                            <button onClick={() => router.post(route('logout'))} className="text-sm text-red-500 hover:underline">
+                                <LogOut size={20} />
+                            </button>
+                        </>
+                    )}
+                </div>
             </aside>
         </>
     );

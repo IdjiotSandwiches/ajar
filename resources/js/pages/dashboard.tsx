@@ -1,7 +1,7 @@
 import MobileReminder from '@/components/lms/mobile-reminder';
 import { Card, CardContent } from '@/components/ui/card';
 import LMSLayout from '@/layouts/lms-layout';
-import { InfiniteScroll, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { Calendar, Clock, PlayCircle } from 'lucide-react';
 import React from 'react';
 
@@ -30,59 +30,44 @@ export default function StudentDashboard({ today, upcoming, reminder }: any) {
                 </CardContent>
             </Card>
 
-            <div className="md:hidden">
-                <MobileReminder reminder={reminder} />
-            </div>
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                <div className="col-span-1">
+                    <MobileReminder reminder={reminder} />
+                </div>
+                <div className="col-span-2 gap-6">
+                    <Card className="mb-6 rounded-2xl border-none shadow-sm">
+                        <CardContent>
+                            <h3 className="mb-4 text-lg font-semibold">Today Classes</h3>
 
-            <div className="grid grid-cols-1 gap-6 2xl:grid-cols-2">
-                <Card className="rounded-2xl border-none shadow-sm">
-                    <CardContent>
-                        <h3 className="mb-4 text-lg font-semibold">Today Classes</h3>
-                        {today.data.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
-                                <p className="mb-1 font-medium text-gray-700">No classes today</p>
-                                <p className="mb-4 max-w-xs text-sm">
-                                    You don't have any scheduled classes today. Enroll a course to start learning!
-                                </p>
+                            {today.data.length === 0 ? (
+                                <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
+                                    <p className="mb-1 font-medium text-gray-700">No classes today</p>
+                                    <p className="mb-4 max-w-xs text-sm">
+                                        You don't have any scheduled classes today. Enroll a course to start learning!
+                                    </p>
 
-                                <button
-                                    className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90 cursor-pointer"
-                                    onClick={() => router.get(route('list-course', { category_id: 1 }))}
-                                >
-                                    Enroll Now
-                                </button>
-                            </div>
-                        ) : (
-                            <InfiniteScroll
-                                manual
-                                buffer={1}
-                                loading={() => 'Loading more courses...'}
-                                data="today"
-                                className="flex h-72 flex-col"
-                                next={({ loading, fetch, hasMore }) => (
-                                    <div className="h-8 w-full pt-4 text-center">
-                                        {hasMore && (
-                                            <button onClick={fetch} disabled={loading}>
-                                                {loading ? 'Loading...' : 'Load more'}
-                                            </button>
-                                        )}
-                                    </div>
-                                )}
-                            >
-                                <div className="flex flex-1 flex-col gap-4 overflow-y-auto">
+                                    <button
+                                        className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90 cursor-pointer"
+                                        onClick={() => router.get(route('list-course', { category_id: 1 }))}
+                                    >
+                                        Enroll Now
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col gap-4">
                                     {today.data.map((item: any, i: number) => (
                                         <div key={i} className="flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm">
                                             <div>
-                                                <span className="font-medium">{item.name}</span>
+                                                <span className="font-medium">{item.title}</span>
                                                 <div className="flex items-center gap-1 text-sm text-gray-500">
-                                                    <Clock size={14} /> {item.start_time} - {item.end_time}
+                                                    <Clock size={14} /> {item.time}
                                                 </div>
                                                 <span className="text-sm text-gray-500">{item.teacher}</span>
                                             </div>
 
                                             <a
-                                                href={item.meeting_link}
-                                                className="flex cursor-pointer items-center gap-2 rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
+                                                href={item.meetingUrl}
+                                                className="flex items-center gap-2 rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
                                             >
                                                 <PlayCircle size={16} />
                                                 Join
@@ -90,57 +75,41 @@ export default function StudentDashboard({ today, upcoming, reminder }: any) {
                                         </div>
                                     ))}
                                 </div>
-                            </InfiniteScroll>
-                        )}
-                    </CardContent>
-                </Card>
-                <Card className="rounded-2xl border-none shadow-sm">
-                    <CardContent>
-                        <h3 className="mb-4 text-lg font-semibold">Upcoming Classes</h3>
-                        {upcoming.data.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
-                                <p className="mb-1 font-medium text-gray-700">No upcoming classes</p>
-                                <p className="mb-4 max-w-xs text-sm">You don't have any upcoming classes. Start exploring new courses now!</p>
+                            )}
+                        </CardContent>
+                    </Card>
+                    <Card className="rounded-2xl border-none shadow-sm">
+                        <CardContent>
+                            <h3 className="mb-4 text-lg font-semibold">Upcoming Classes</h3>
 
-                                <button
-                                    className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90 cursor-pointer"
-                                    onClick={() => router.get(route('list-course', { category_id: 1 }))}
-                                >
-                                    Browse Courses
-                                </button>
-                            </div>
-                        ) : (
-                            <InfiniteScroll
-                                manual
-                                buffer={1}
-                                loading={() => 'Loading more courses...'}
-                                data="upcoming"
-                                className="flex h-72 flex-col"
-                                next={({ loading, fetch, hasMore }) => (
-                                    <div className="h-8 w-full pt-4 text-center">
-                                        {hasMore && (
-                                            <button onClick={fetch} disabled={loading}>
-                                                {loading ? 'Loading...' : 'Load more'}
-                                            </button>
-                                        )}
-                                    </div>
-                                )}
-                            >
-                                <div className="flex flex-1 flex-col gap-4 overflow-y-auto">
+                            {upcoming.data.length === 0 ? (
+                                <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
+                                    <p className="mb-1 font-medium text-gray-700">No upcoming classes</p>
+                                    <p className="mb-4 max-w-xs text-sm">You don’t have any upcoming classes. Start exploring new courses now!</p>
+
+                                    <button
+                                        className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90 cursor-pointer"
+                                        onClick={() => router.get(route('list-course', { category_id: 1 }))}
+                                    >
+                                        Browse Courses
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col gap-4">
                                     {upcoming.data.map((item: any, i: number) => (
                                         <div key={i} className="rounded-xl border bg-white p-4 shadow-sm">
-                                            <span className="font-medium">{item.name}</span>
+                                            <span className="font-medium">{item.title}</span>
                                             <div className="flex items-center gap-1 text-sm text-gray-500">
-                                                <Calendar size={14} /> {item.start_time} - {item.end_time}
+                                                <Calendar size={14} /> {item.time}
                                             </div>
                                             <span className="text-sm text-gray-500">{item.teacher}</span>
                                         </div>
                                     ))}
                                 </div>
-                            </InfiniteScroll>
-                        )}
-                    </CardContent>
-                </Card>
+                            )}
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
         </div>
     );

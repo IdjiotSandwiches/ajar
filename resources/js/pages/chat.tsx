@@ -226,8 +226,8 @@ export default function ChatPage() {
 
   return (
     <div>
-      <h1 className="hidden md:flex text-2xl font-semibold text-gray-800 mb-6">Chat</h1>
-      <div className="flex max-h-[80vh] my-8">
+      <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Chat</h1>
+      <div className="flex max-h-[80vh] my-6">
         <div className="border-r bg-white rounded-2xl shadow-sm">
           <div className="flex items-center gap-2 px-4 py-3 border-b">
             <h2 className="text-lg font-semibold text-gray-700">Chats</h2>
