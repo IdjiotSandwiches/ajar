@@ -1,46 +1,39 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import ReminderList from "./reminder-list";
-import { usePage, router } from "@inertiajs/react";
-import { LogOut } from "lucide-react";
+import { Card, CardContent } from '@/components/ui/card';
+import { router, usePage } from '@inertiajs/react';
+import { LogOut } from 'lucide-react';
+import ReminderList from './reminder-list';
 
 export default function RightPanel() {
-  const { props } = usePage();
-  const user = props.auth?.user;
+    const { props } = usePage();
+    const user = props.auth?.user;
+    const roles = props.enums?.roles_enum;
 
-  const isLoggedIn = !!user;
+    const isLoggedIn = !!user;
+    const handleLogout = () => {
+        router.post(route('logout'));
+    };
 
-  const handleLogout = () => {
-    router.post(route("logout"));
-  };
+    return (
+        <div className="flex flex-col gap-6">
+            <Card className="relative rounded-2xl border-none shadow-sm">
+                <div className={`${isLoggedIn ? '' : 'hidden'}`}>
+                    <button
+                        onClick={handleLogout}
+                        className="absolute top-4 right-4 flex items-center gap-1 text-gray-400 transition hover:text-red-500"
+                        title="Logout"
+                    >
+                        <LogOut size={16} /> <p className="text-sm">Logout</p>
+                    </button>
+                </div>
 
-  return (
-    <div className="flex flex-col gap-6">
-      <Card className="rounded-2xl shadow-sm border-none relative">
-        <div className={`${isLoggedIn ? "" : "hidden"}`}>
-          <button
-            onClick={handleLogout}
-            className="absolute right-4 top-4 text-gray-400 hover:text-red-500 transition flex items-center gap-1"
-            title="Logout"
-          >
-            <LogOut size={16} /> <p className="text-sm">Logout</p>
-          </button>
+                <CardContent className="relative text-center">
+                    <img src={user?.profile_picture || 'https://placehold.co/400'} alt={user?.name} className="mx-auto mb-3 h-20 w-20 rounded-full" />
+                    <h3 className="text-lg font-semibold">{user?.name}</h3>
+                    <p className="text-sm text-gray-500">{Object.keys(roles).find((key) => roles[key] === user?.role_id)}</p>
+                </CardContent>
+            </Card>
+
+            <ReminderList />
         </div>
-        
-        <CardContent className="text-center relative">
-          <img
-            src={user?.profile_picture || "https://placehold.co/400"}
-            alt={user?.name}
-            className="w-20 h-20 rounded-full mx-auto mb-3"
-          />
-          <h3 className="font-semibold text-lg">{user?.name}</h3>
-          <p className="text-sm text-gray-500">
-            Technology/Design Student/Teacher/Institute
-          </p>
-        </CardContent>
-      </Card>
-
-      <ReminderList />
-    </div>
-  );
+    );
 }

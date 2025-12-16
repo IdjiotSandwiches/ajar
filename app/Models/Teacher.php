@@ -106,9 +106,9 @@ class Teacher extends Model
      * HasMany: Courses
      * @return HasMany<CourseSchedule, Teacher>
      */
-    public function courses(): HasMany
+    public function teacherSchedules(): HasMany
     {
-        return $this->hasMany(CourseSchedule::class, 'teacher_id', 'user_id');
+        return $this->hasMany(TeacherSchedule::class, 'teacher_id', 'user_id');
     }
 
     public function teacherApplications(): HasMany

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReviewRequest;
 use App\Http\Requests\StudentProfileRequest;
 use App\Services\StudentService;
 use Inertia\Inertia;
@@ -30,6 +31,17 @@ class StudentController extends Controller
             return back()->with('success', 'Update success.');
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to update profile.');
+        }
+    }
+
+    public function addReviews($id, ReviewRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $this->service->addReviews($id, $data);
+            return back()->with('success', 'Review added.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to give review.');
         }
     }
 }

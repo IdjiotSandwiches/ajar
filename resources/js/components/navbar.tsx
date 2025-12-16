@@ -54,13 +54,7 @@ export default function Navbar() {
                     </div>
 
                     <div className="relative flex items-center space-x-4">
-                        <div className="relative">
-                            <Bell size={22} color="#42C2FF" />
-                            <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500"></span>
-                        </div>
-
                         <span className="hidden font-medium text-[#42C2FF] md:inline">Hello, {user?.name ?? 'Guest'}</span>
-
                         <div className="relative" ref={dropdownRef}>
                             <img
                                 src={user?.profile_picture || 'https://placehold.co/400'}

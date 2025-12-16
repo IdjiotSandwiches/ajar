@@ -1,45 +1,49 @@
-import { Send } from "lucide-react";
-import { GitHub, Instagram, Linkedin } from "react-feather";
+import { Send } from 'lucide-react';
+import { FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
 export default function TeacherProfileCard({ teacher }: any) {
+    const icons: any = {
+        Github: FaGithub,
+        Instagram: FaInstagram,
+        LinkedIn: FaLinkedinIn,
+    };
+
     return (
-        <div className="bg-[#42C2FF] rounded-2xl shadow-lg p-1">
-            <div className="bg-white p-0.5 rounded-2xl">
-                <div className="bg-[#42C2FF] rounded-2xl p-6 flex flex-col items-center text-center relative overflow-hidden">
-                    <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-white shadow-md mb-4 z-10">
+        <div className="rounded-2xl bg-[#42C2FF] p-1 shadow-lg">
+            <div className="rounded-2xl bg-white p-0.5">
+                <div className="relative flex flex-col items-center overflow-hidden rounded-2xl bg-[#42C2FF] p-6 text-center">
+                    <div className="z-10 mb-4 h-28 w-28 overflow-hidden rounded-full border-2 border-white shadow-md">
                         <img
-                            src={teacher.user?.profile_picture || "https://placehold.co/400"}
+                            src={teacher.user?.profile_picture || 'https://placehold.co/400'}
                             alt={teacher.user?.name}
-                            className="w-full h-full object-cover"
+                            className="h-full w-full object-cover"
                         />
                     </div>
-                    <h2 className="text-xl font-bold text-white z-10 cursor-default">{teacher.user?.name}</h2>
-                    <p className="text-sm text-white/90 mb-4 z-10 cursor-default">{teacher.description}</p>
-
-                    <p className="text-white/90 text-sm leading-relaxed mb-6 px-4 z-10 cursor-default">
-                        {teacher.bio ??
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                        }
-                    </p>
-                    <button className="flex items-center gap-2 bg-white text-[#42C2FF] font-medium px-4 py-2 rounded-lg shadow hover:bg-blue-50 transition mb-5 z-10 cursor-pointer">
+                    <h2 className="z-10 cursor-default text-xl font-bold text-white">{teacher.user?.name}</h2>
+                    <p className="z-10 mb-4 cursor-default text-sm text-white/90">{teacher.description}</p>
+                    <button className="z-10 mb-5 flex cursor-pointer items-center gap-2 rounded-lg bg-white px-4 py-2 font-medium text-[#42C2FF] shadow transition hover:bg-blue-50">
                         <Send size={18} /> Send Message
                     </button>
-                    <div className="flex gap-8 text-white text-xl cursor-pointer z-10">
-                        <Instagram size={28} />
-                        <Linkedin size={28} />
-                        <GitHub size={28} />
+                    <div className="z-10 flex cursor-pointer gap-8 text-xl text-white">
+                        {(() => {
+                            const socials = teacher?.user?.social_medias ?? [];
+                            return socials
+                                .filter((x: any) => icons[x.social_media_type?.name])
+                                .map((x: any) => {
+                                    const Icon = icons[x.social_media_type.name];
+                                    return (
+                                        <a key={x.id} href={x.url} className="hover:text-blue-100" target="_blank" rel="noopener noreferrer">
+                                            <Icon size={28} />
+                                        </a>
+                                    );
+                                });
+                        })()}
                     </div>
-
-                    <div className="absolute right-0 bottom-0 pointer-events-none z-0">
-                        <img
-                            src="/images/gear.png"
-                            alt="gear-bg"
-                            className="w-48 object-contain"
-                        />
+                    <div className="pointer-events-none absolute right-0 bottom-0 z-0">
+                        <img src="/images/gear.png" alt="gear-bg" className="w-48 object-contain" />
                     </div>
                 </div>
             </div>
         </div>
-
     );
 }

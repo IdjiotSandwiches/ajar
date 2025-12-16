@@ -104,23 +104,16 @@ class Course extends Model
     }
 
     /**
-     * HasMany: CourseSchedules
-     * @return HasMany<CourseSchedule, Course>
+     * HasMany: CourseSession
+     * @return HasMany<CourseSession, Course>
      */
-    public function courseSchedules(): HasMany
+    public function courseSessions(): HasMany
     {
-        return $this->hasMany(CourseSchedule::class);
+        return $this->hasMany(CourseSession::class);
     }
 
-    public function teachers()
+    public function teacherSchedules()
     {
-        return $this->hasManyThrough(
-            Teacher::class,
-            CourseSchedule::class,
-            'course_id',
-            'user_id',
-            'id',
-            'teacher_id'
-        )->distinct();
+        return $this->hasMany(TeacherSchedule::class);
     }
 }
