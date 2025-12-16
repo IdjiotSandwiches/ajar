@@ -73,6 +73,8 @@ Route::middleware(['auth', 'verified'])
                 });
                 Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
                 Route::get('courses-taught', fn() => Inertia::render('teacher/courses-taught'))->name('courses-taught');
+                Route::get('course-applications', fn() => Inertia::render('teacher/course-application'))->name('course-applications');
+                Route::get('institute-applications', fn() => Inertia::render('teacher/institute-applications'))->name('institute-applications');
             });
         Route::middleware(['role:Institute'])
             ->prefix('institute')
