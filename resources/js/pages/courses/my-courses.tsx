@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-wrapper-object-types */
-import Filter from '@/components/lms/filter';
+import Filter from '@/components/lms/filter/institute/filter-mycourses';
+import MobileCourseCard from '@/components/lms/mycourses/mobile-card-list';
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
@@ -47,7 +48,7 @@ export default function CourseList({ courses }: { courses: any }) {
                         <table className="min-w-full rounded-lg text-sm text-gray-700">
                             <thead className="border-b border-gray-200 bg-[#42C2FF]/10">
                                 <tr className="cursor-default">
-                                    <th className="p-3 text-left font-semibold">No</th>
+                                    <th className="p-1 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Course</th>
                                     <th className="p-3 text-left font-semibold">Duration</th>
                                     <th className="p-3 text-left font-semibold">Price</th>
@@ -65,7 +66,7 @@ export default function CourseList({ courses }: { courses: any }) {
                                                 key={course.id}
                                                 className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
                                             >
-                                                <td className="p-3">
+                                                <td className="p-1 text-center">
                                                     <p>{index + 1}</p>
                                                 </td>
                                                 <td className="flex items-center gap-3 p-3">
@@ -118,50 +119,25 @@ export default function CourseList({ courses }: { courses: any }) {
                         </table>
                     </div>
                     <div className="grid grid-cols-1 gap-4 md:hidden">
-                        {courses.data.map((course: any, index: number) => (
-                            <div key={index} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-                                <div className="flex gap-4">
-                                    <img
-                                        src={course?.image || 'https://placehold.co/400'}
-                                        alt={course.name}
-                                        className="h-20 w-20 rounded-md object-cover"
-                                    />
-
-                                    <div className="flex flex-grow flex-col justify-between">
-                                        <p className="font-bold text-gray-800">{course.name}</p>
-
-                                        <p className="mt-1 text-sm text-gray-600">
-                                            Duration: <span className="font-bold">{course.duration} mins</span>
-                                        </p>
-
-                                        <p className="mt-1 text-sm font-bold text-gray-700">
-                                            {course.price.toLocaleString('id-ID', {
-                                                style: 'currency',
-                                                currency: 'IDR',
-                                                maximumFractionDigits: 0,
-                                            })}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="mt-4 flex justify-start gap-2">
-                                    <button
-                                        onClick={() => handleEditClick(course.id)}
-                                        className="rounded-md bg-[#42C2FF] p-2 text-white hover:bg-[#42C2FF]/90"
-                                    >
-                                        <Pencil size={16} strokeWidth={2} />
-                                    </button>
-
-                                    <button
-                                        onClick={() => handleDeleteClick(course)}
-                                        className="rounded-md bg-[#FF1818] p-2 text-white hover:bg-[#FF1818]/90"
-                                    >
-                                        <Trash2 size={16} strokeWidth={2} />
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+                        {courses.data.length === 0 ? (
+                            <p className="text-center text-gray-500 py-10">
+                                Belum ada kursus.
+                            </p>
+                        ) : (
+                            courses.data.map((course: any) => (
+                                <MobileCourseCard
+                                    key={course.id}
+                                    image={course.image}
+                                    title={course.name}
+                                    duration={course.duration}
+                                    price={course.price}
+                                    onEdit={() => handleEditClick(course.id)}
+                                    onDelete={() => handleDeleteClick(course.id)}
+                                />
+                            ))
+                        )}
                     </div>
+
                     <Pagination links={courses.links} />
                 </div>
                 <DynamicModal
