@@ -35,6 +35,7 @@ Route::middleware(['auth', 'verified'])
             //     Route::get('my-learning', 'getMyLearning')->name('my-learning');
             // });
             Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
+            Route::get('dashboard', [DashboardController::class, 'getDashboardData'])->name('dashboard');
             Route::controller(UtilityController::class)->group(function () {
                 Route::post('update-image', 'postImage')->name('update-image');
             });
@@ -95,7 +96,6 @@ Route::middleware(['auth', 'verified'])
     });
 
 // tampil di semua role
-Route::get('dashboard', [DashboardController::class, 'getDashboardData'])->name('dashboard');
 
 // tampil hanya di student & teacher
 Route::get('my-learning', fn() => Inertia::render('mylearning'))->name('my-learning');
