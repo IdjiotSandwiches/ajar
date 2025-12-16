@@ -15,7 +15,7 @@ export default function LMSLayout({ children, title = "Dashboard" }) {
   }, []);
 
   return (
-    <div className="flex min-h-[100svh] md:h-screen w-full overflow-hidden bg-gray-50">
+    <div className="flex min-h-[100svh] md:h-screen w-full bg-gray-50">
       <Sidebar
         collapsed={collapsed}
         mobileOpen={mobileOpen}
@@ -24,7 +24,7 @@ export default function LMSLayout({ children, title = "Dashboard" }) {
         onNavigate={() => setMobileOpen(false)}
       />
 
-      <main className="flex-1 flex flex-col overflow-hidden relative">
+      <main className="flex-1 flex flex-col relative 2xl:px-36 overflow-y-auto">
         <div className="mb-20 md:mb-0">
           <MobileNavbar
             title={title}
@@ -32,14 +32,14 @@ export default function LMSLayout({ children, title = "Dashboard" }) {
           />
         </div>
 
-        <div className="flex-1 overflow-y-auto flex flex-col p-6 md:p-8">
+        <div className="flex-1 flex flex-col p-6 md:p-8">
           {children}
         </div>
       </main>
 
-      <div className="hidden lg:block w-72 border-l bg-white overflow-y-auto p-6">
+      {/* <div className="hidden lg:block w-72 border-l bg-white overflow-y-auto p-6">
         <RightPanel />
-      </div>
+      </div> */}
     </div>
   );
 }
