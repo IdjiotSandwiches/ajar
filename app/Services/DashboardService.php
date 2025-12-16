@@ -19,6 +19,25 @@ class DashboardService
             case RoleEnum::Admin:
                 break;
             case RoleEnum::Institute:
+                $courses = CourseSchedule::with(['teacherSchedule.teacher.user', 'teacherSchedule.course'])
+                    ->whereToday('session_date')
+                    ->whereHas('teacherSchedule', function ($query) use ($user) {
+                        $query->where('teacher_id', $user->id)
+                            ->where('start_time', '>', Carbon::now('Asia/Jakarta')->toTimeString());
+                    })
+                    ->paginate(5)
+                    ->through(function ($item) {
+                        $schedule = $item->teacherSchedule;
+                        $course = $schedule->course;
+                        $teacher = $schedule->teacher;
+                        return [
+                            'name' => $course->name,
+                            'start_time' => $schedule->start_time,
+                            'end_time' => $schedule->end_time,
+                            'teacher' => $teacher->user->name,
+                            'meeting_link' => $item->meeting_link
+                        ];
+                    });
                 break;
             case RoleEnum::Teacher: {
                 $courses = CourseSchedule::with(['teacherSchedule.teacher.user', 'teacherSchedule.course'])
@@ -80,6 +99,23 @@ class DashboardService
             case RoleEnum::Admin:
                 break;
             case RoleEnum::Institute:
+                $courses = CourseSchedule::with(['teacherSchedule.teacher.user', 'teacherSchedule.course'])
+                    ->whereAfterToday('session_date')
+                    ->whereHas('teacherSchedule', function ($query) use ($user) {
+                        $query->where('teacher_id', $user->id);
+                    })
+                    ->paginate(5)
+                    ->through(function ($item) {
+                        $schedule = $item->teacherSchedule;
+                        $course = $schedule->course;
+                        $teacher = $schedule->teacher;
+                        return [
+                            'name' => $course->name,
+                            'start_time' => $schedule->start_time,
+                            'end_time' => $schedule->end_time,
+                            'teacher' => $teacher->user->name
+                        ];
+                    });
                 break;
             case RoleEnum::Teacher: {
                 $courses = CourseSchedule::with(['teacherSchedule.teacher.user', 'teacherSchedule.course'])

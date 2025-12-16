@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseFilterRequest;
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\FilterRequest;
 use App\Services\CourseService;
@@ -69,11 +70,13 @@ class CourseController extends Controller
         ]);
     }
 
-    public function getCourseByInstitution()
+    public function getCourseByInstitution(CourseFilterRequest $request)
     {
-        $courses = $this->service->getCourseByInstitution();
+        $filters = $request->validated();
+        [$categories, $courses] = $this->service->getCourseByInstitution($filters);
         return Inertia::render('courses/my-courses', [
-            'courses' => $courses
+            'courses' => $courses,
+            'categories' => $categories
         ]);
     }
 

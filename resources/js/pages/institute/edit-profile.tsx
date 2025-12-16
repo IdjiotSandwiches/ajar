@@ -1,6 +1,6 @@
 import ProfilePersonalForm from '@/components/profile/institute/personal-information';
 import ProfileSidebar from '@/components/profile/profile-sidebar';
-import AppLayout from '@/layouts/app-layout';
+import LMSLayout from '@/layouts/lms-layout';
 import { Head } from '@inertiajs/react';
 import React, { useState } from 'react';
 
@@ -18,4 +18,4 @@ export default function ProfilePage({ profile }: any) {
     );
 }
 
-ProfilePage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
+ProfilePage.layout = (page: React.ReactNode) => <LMSLayout>{page}</LMSLayout>;

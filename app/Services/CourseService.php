@@ -190,16 +190,23 @@ class CourseService
         return $courses;
     }
 
-    public function getCourseByInstitution()
+    public function getCourseByInstitution($filters)
     {
         $user = Auth::user();
         if (!$user)
             return null;
 
+        $user = $user->load('institute');
+        $categories = Category::where('parent_id', $user->institute->category_id)
+            ->get();
         $courses = Course::where('institute_id', $user->id)
+            ->when(!empty($filters['search']), fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
+            ->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
+            ->when(!empty($filters['price_min']), fn($q) => $q->where('price', '>=', $filters['price_min']))
+            ->when(!empty($filters['price_max']), fn($q) => $q->where('price', '>=', $filters['price_max']))
             ->paginate(10);
 
-        return $courses;
+        return [$categories, $courses];
     }
 
     public function getCourseById($id)
