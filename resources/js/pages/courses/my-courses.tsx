@@ -1,13 +1,23 @@
+/* eslint-disable @typescript-eslint/no-wrapper-object-types */
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
-import AppLayout from '@/layouts/app-layout';
-import { Head, Link, router } from '@inertiajs/react';
+import LMSLayout from '@/layouts/lms-layout';
+import { Head, router } from '@inertiajs/react';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 
 export default function CourseList({ courses }: { courses: any }) {
     const [showModal, setShowModal] = useState(false);
     const [deleteCourse, setDeleteCourse] = useState<Number>();
+    const [filters, setFilters] = useState({
+        search: '',
+        category: '',
+        minPrice: '',
+        maxPrice: '',
+        minDuration: '',
+        maxDuration: '',
+    });
+
 
     const handleDeleteClick = (id: number) => {
         setDeleteCourse(id);
@@ -23,67 +33,150 @@ export default function CourseList({ courses }: { courses: any }) {
         router.get(route('institute.course-detail', courseId));
     };
 
+    const handleFilterChange = (key: string, value: string) => {
+        setFilters(prev => ({
+            ...prev,
+            [key]: value,
+        }));
+    };
+
+    const applyFilter = () => {
+        router.get(
+            route('institute.courses'),
+            {
+                ...filters,
+            },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    };
+
     return (
         <>
             <Head title="My Courses" />
-            <div className="flex min-h-screen flex-col bg-[#f9fdfd] px-3 py-6 sm:px-6">
-                <div className="mx-auto mt-4 w-full max-w-6xl rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:mt-10 sm:p-6 md:p-10">
-                    <h1 className="mb-6 cursor-default text-center text-xl font-semibold text-[#42C2FF] sm:mb-10 sm:text-2xl md:text-3xl">
-                        My Courses
-                    </h1>
-                    <div className="mb-6 flex justify-end">
+            <div className="flex min-h-screen flex-col gap-6">
+                <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">My Courses</h1>
+
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-4 rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
+                    <div className="w-full">
+                        <p className="text-sm mb-1 font-medium">Search by title</p>
+                        <input
+                            type="text"
+                            placeholder="Search course"
+                            value={filters.search}
+                            onChange={e => handleFilterChange('search', e.target.value)}
+                            className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-[#42C2FF] focus:ring-[#42C2FF] w-full"
+                        />
+                    </div>
+
+                    <div className="w-full">
+                        <p className="text-sm mb-1 font-medium">Category</p>
+                        <select
+                            value={filters.category}
+                            onChange={e => handleFilterChange('category', e.target.value)}
+                            className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-[#42C2FF] w-full"
+                        >
+                            <option value="">All Category</option>
+                            <option value="programming">Programming</option>
+                            <option value="design">Design</option>
+                            <option value="business">Business</option>
+                        </select>
+                    </div>
+
+                    <div className="w-full">
+                        <p className="text-sm mb-1 font-medium">Minimum Price</p>
+                        <input
+                            type="number"
+                            min={0}
+                            placeholder="Rp0,00"
+                            value={filters.minPrice}
+                            onChange={e => handleFilterChange('minPrice', e.target.value)}
+                            className="rounded-md border border-gray-300 px-3 py-2 text-sm w-full"
+                        />
+
+                    </div>
+                    <div className="w-full">
+                        <p className="text-sm mb-1 font-medium">Maximum Price</p>
+                        <input
+                            type="number"
+                            min={0}
+                            placeholder="Rp100.000,00"
+                            value={filters.maxPrice}
+                            onChange={e => handleFilterChange('maxPrice', e.target.value)}
+                            className="rounded-md border border-gray-300 px-3 py-2 text-sm w-full"
+                        />
+                    </div>
+
+                    {/* <button
+                        onClick={applyFilter}
+                        className="rounded-md bg-[#42C2FF] px-4 py-2 text-sm font-medium text-white hover:bg-[#42C2FF]/90"
+                    >
+                        Apply
+                    </button> */}
+                </div>
+
+                <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
+                    <div className="mb-6 flex justify-between items-center">
+                        <h3 className="font-semibold text-xl">Course List</h3>
                         <button
-                            onClick={() => router.get(route('institute.course-detail'))}
+                            onClick={() => router.get(route('institute.post-course'))}
                             className="flex cursor-pointer items-center gap-2 rounded-md bg-[#42C2FF] px-4 py-2 text-sm font-medium text-white shadow transition hover:bg-[#42C2FF]/90"
                         >
                             <Plus size={16} strokeWidth={3} /> Tambah Kursus
                         </button>
                     </div>
-                    {courses.length === 0 ? (
-                        <div className="py-10 text-center text-gray-500">Belum ada kursus.</div>
-                    ) : (
-                        <>
-                            <div className="hidden overflow-x-auto md:block">
-                                <table className="min-w-full rounded-lg border border-gray-200 text-sm text-gray-700">
-                                    <thead className="border-b border-gray-200 bg-[#42C2FF]/10">
-                                        <tr className="cursor-default">
-                                            <th className="px-4 py-3 text-left font-medium">Course</th>
-                                            <th className="px-4 py-3 text-left font-medium">Duration</th>
-                                            <th className="px-4 py-3 text-left font-medium">Price</th>
-                                            <th className="px-4 py-3 text-center font-medium">Actions</th>
-                                        </tr>
-                                    </thead>
+                    <div className="hidden overflow-x-auto md:block rounded-lg border border-gray-200 ">
+                        <table className="min-w-full rounded-lg text-sm text-gray-700">
+                            <thead className="border-b border-gray-200 bg-[#42C2FF]/10">
+                                <tr className="cursor-default">
+                                    <th className="p-3 text-left font-semibold">No</th>
+                                    <th className="p-3 text-left font-semibold">Course</th>
+                                    <th className="p-3 text-left font-semibold">Duration</th>
+                                    <th className="p-3 text-left font-semibold">Price</th>
+                                    <th className="p-3 text-center font-semibold">Actions</th>
+                                </tr>
+                            </thead>
+                            {courses.length === 0 ? (
+                                <div className="py-10 text-center text-gray-500">Belum ada kursus.</div>
+                            ) : (
+                                <>
+
                                     <tbody>
                                         {courses.data.map((course: any, index: number) => (
                                             <tr
                                                 key={course.id}
                                                 className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
                                             >
-                                                <td className="flex items-center gap-3 px-4 py-3">
+                                                <td className="p-3">
+                                                    <p>{index + 1}</p>
+                                                </td>
+                                                <td className="flex items-center gap-3 p-3">
                                                     <img
                                                         src={course?.image || 'https://placehold.co/400'}
                                                         alt={course.name}
-                                                        className="h-16 w-16 rounded-md object-cover"
+                                                        className="h-12 w-12 rounded-md object-cover"
                                                     />
                                                     <p className="cursor-default font-bold">{course.name}</p>
                                                 </td>
 
-                                                <td className="cursor-default px-4 py-3">
+                                                <td className="cursor-default p-3">
                                                     <div className="flex items-center gap-1">
                                                         <p className="font-bold">{course.duration}</p>
                                                         <p className="text-sm text-gray-600">mins</p>
                                                     </div>
                                                 </td>
 
-                                                <td className="cursor-default px-4 py-3 font-bold">
-                                                    Rp{' '}
+                                                <td className="cursor-default p-3 font-bold">
+                                                    Rp
                                                     {Number(course.price).toLocaleString('id-ID', {
                                                         minimumFractionDigits: 2,
                                                         maximumFractionDigits: 2,
                                                     })}
                                                 </td>
 
-                                                <td className="px-4 py-3 text-center">
+                                                <td className="p-3 text-center">
                                                     <div className="flex items-center justify-center gap-2">
                                                         <button
                                                             onClick={() => handleEditClick(course.id)}
@@ -103,56 +196,57 @@ export default function CourseList({ courses }: { courses: any }) {
                                             </tr>
                                         ))}
                                     </tbody>
-                                </table>
-                            </div>
-                            <div className="grid grid-cols-1 gap-4 md:hidden">
-                                {courses.data.map((course: any, index: number) => (
-                                    <div key={index} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-                                        <div className="flex gap-4">
-                                            <img
-                                                src={course?.image || 'https://placehold.co/400'}
-                                                alt={course.name}
-                                                className="h-20 w-20 rounded-md object-cover"
-                                            />
 
-                                            <div className="flex flex-grow flex-col justify-between">
-                                                <p className="font-bold text-gray-800">{course.name}</p>
+                                </>
+                            )}
+                        </table>
+                    </div>
+                    <div className="grid grid-cols-1 gap-4 md:hidden">
+                        {courses.data.map((course: any, index: number) => (
+                            <div key={index} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+                                <div className="flex gap-4">
+                                    <img
+                                        src={course?.image || 'https://placehold.co/400'}
+                                        alt={course.name}
+                                        className="h-20 w-20 rounded-md object-cover"
+                                    />
 
-                                                <p className="mt-1 text-sm text-gray-600">
-                                                    Duration: <span className="font-bold">{course.duration} mins</span>
-                                                </p>
+                                    <div className="flex flex-grow flex-col justify-between">
+                                        <p className="font-bold text-gray-800">{course.name}</p>
 
-                                                <p className="mt-1 text-sm font-bold text-gray-700">
-                                                    {course.price.toLocaleString('id-ID', {
-                                                        style: 'currency',
-                                                        currency: 'IDR',
-                                                        maximumFractionDigits: 0,
-                                                    })}
-                                                </p>
-                                            </div>
-                                        </div>
+                                        <p className="mt-1 text-sm text-gray-600">
+                                            Duration: <span className="font-bold">{course.duration} mins</span>
+                                        </p>
 
-                                        <div className="mt-4 flex justify-end gap-2">
-                                            <button
-                                                onClick={() => handleEditClick(course.id)}
-                                                className="rounded-md bg-[#42C2FF] p-2 text-white hover:bg-[#42C2FF]/90"
-                                            >
-                                                <Pencil size={16} strokeWidth={2} />
-                                            </button>
-
-                                            <button
-                                                onClick={() => handleDeleteClick(course)}
-                                                className="rounded-md bg-[#FF1818] p-2 text-white hover:bg-[#FF1818]/90"
-                                            >
-                                                <Trash2 size={16} strokeWidth={2} />
-                                            </button>
-                                        </div>
+                                        <p className="mt-1 text-sm font-bold text-gray-700">
+                                            {course.price.toLocaleString('id-ID', {
+                                                style: 'currency',
+                                                currency: 'IDR',
+                                                maximumFractionDigits: 0,
+                                            })}
+                                        </p>
                                     </div>
-                                ))}
+                                </div>
+
+                                <div className="mt-4 flex justify-start gap-2">
+                                    <button
+                                        onClick={() => handleEditClick(course.id)}
+                                        className="rounded-md bg-[#42C2FF] p-2 text-white hover:bg-[#42C2FF]/90"
+                                    >
+                                        <Pencil size={16} strokeWidth={2} />
+                                    </button>
+
+                                    <button
+                                        onClick={() => handleDeleteClick(course)}
+                                        className="rounded-md bg-[#FF1818] p-2 text-white hover:bg-[#FF1818]/90"
+                                    >
+                                        <Trash2 size={16} strokeWidth={2} />
+                                    </button>
+                                </div>
                             </div>
-                            <Pagination links={courses.links} />
-                        </>
-                    )}
+                        ))}
+                    </div>
+                    <Pagination links={courses.links} />
                 </div>
                 <DynamicModal
                     type="confirmation"
@@ -166,4 +260,4 @@ export default function CourseList({ courses }: { courses: any }) {
     );
 }
 
-CourseList.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
+CourseList.layout = (page: React.ReactNode) => <LMSLayout title="My Courses">{page}</LMSLayout>;

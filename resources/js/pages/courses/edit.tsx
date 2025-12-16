@@ -5,11 +5,11 @@ import DetailInput from "@/components/detail-input";
 import DetailImage from "@/components/detail-image";
 import { BenefitStudentProps, BenefitTeacherProps, CourseOverviewProps, CourseData, LearnObjProps, SkillProps, Category } from "@/interfaces/shared";
 // import TeacherListField from "@/components/ui/list-teacher-field";
-import AppLayout from "@/layouts/app-layout";
 import { dummyCourses } from "@/dummy-data/dummy-course";
 import InputError from "@/components/input-error";
 import { CirclePlus } from "lucide-react";
 import TeacherListField from "@/components/ui/list-teacher-field";
+import LMSLayout from "@/layouts/lms-layout";
 
 export default function EditCoursePage({ categories }: { categories: Category[] }) {
     const { props } = usePage();
@@ -170,12 +170,8 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
     }, [courseData]);
 
     return (
-        <div className="min-h-screen bg-[#F7FDFF] flex justify-center px-4 py-8">
+        <div className="flex min-h-screen flex-col gap-6">
             <div className="w-full bg-white rounded-2xl shadow-sm border p-6 sm:p-8 max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
-                <h1 className="text-xl sm:text-2xl font-semibold text-center text-[#42C2FF] mb-6 sm:mb-10 cursor-default">
-                    Edit Course
-                </h1>
-
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div className="items-center gap-2 mb-2">
                         <DetailInput
@@ -537,4 +533,4 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
 }
 
 
-EditCoursePage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
+EditCoursePage.layout = (page: React.ReactNode) => <LMSLayout title="Edit Course">{page}</LMSLayout>;
