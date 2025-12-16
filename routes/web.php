@@ -64,6 +64,7 @@ Route::middleware(['auth', 'verified'])
                     Route::post('detail', 'putDetail')->name('update-detail');
                 });
                 Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
+                Route::get('courses-taught', fn() => Inertia::render('teacher/courses-taught'))->name('courses-taught');
             });
         Route::middleware(['role:Institute'])
             ->prefix('institute')
