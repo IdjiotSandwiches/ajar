@@ -83,7 +83,25 @@ const MENU_INSTITUTE: NavItem[] = [
 
 const MENU_ADMIN: NavItem[] = [
     { id: "dashboard", label: "My Dashboard", icon: <Home size={18} />, route: "dashboard" },
-    { id: "coursesmanagement", label: "Courses Management", icon: <Book size={18} />, route: "admin.courses-management" },
+    {
+        id: "coursesmanagement",
+        label: "Courses Management",
+        icon: <User size={18} />,
+        children: [
+            {
+                id: "removecourse",
+                label: "Remove Course",
+                icon: <BookCheck size={16} />,
+                route: "admin.remove-course",
+            },
+            {
+                id: "coursecompletion",
+                label: "Courses Completion",
+                icon: <User size={16} />,
+                route: "admin.course-completion",
+            },
+        ],
+    },
     { id: "usersmanagement", label: "Users Management", icon: <User size={18} />, route: "admin.users-management" },
 ];
 

@@ -58,6 +58,7 @@ Route::middleware(['auth', 'verified'])
                 Route::controller(AdminController::class)->group(function () {
                     Route::post('register-institute', 'registerInstitute')->name('register-institute');
                     Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
+                    Route::get('remove-course', fn() => Inertia::render('admin/remove-course'))->name('remove-course');
                 });
             });
         Route::middleware(['role:Teacher'])
