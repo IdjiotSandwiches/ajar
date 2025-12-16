@@ -14,7 +14,7 @@ interface NavItem {
 
 const MENU_STUDENT: NavItem[] = [
     { id: "dashboard", label: "My Dashboard", icon: <Home size={18} />, route: "dashboard" },
-    { id: "mylearning", label: "My Learning", icon: <Book size={18} />, route: "mylearning" },
+    { id: "mylearning", label: "My Learning", icon: <Book size={18} />, route: "my-learning" },
     { id: "messages", label: "Messages", icon: <MessageSquare size={18} />, route: "chat" },
     { id: "payments", label: "Payments", icon: <FaMoneyBill size={18} />, route: "payments" },
     { id: "profile", label: "Profile", icon: <User size={18} />, route: "profile" },
@@ -22,12 +22,12 @@ const MENU_STUDENT: NavItem[] = [
 
 const MENU_TEACHER: NavItem[] = [
     { id: "dashboard", label: "My Dashboard", icon: <Home size={18} />, route: "dashboard" },
-    { id: "mylearning", label: "My Learning", icon: <Book size={18} />, route: "mylearning" },
+    { id: "mylearning", label: "My Learning", icon: <Book size={18} />, route: "my-learning" },
     { id: "applycourses", label: "Apply Courses", icon: <BookCheck size={18} />, route: "teacher.applycourses" },
     { id: "coursestaught", label: "Courses Taught", icon: <BookA size={18} />, route: "teacher.courses-taught" },
     // { id: "addschedule", label: "Add Schedule", icon: <Calendar size={18} />, route: "teacher.add-schedule" },
     { id: "messages", label: "Messages", icon: <MessageSquare size={18} />, route: "chat" },
-    { id: "profile", label: "Profile", icon: <User size={18} />, route: "profile" },
+    { id: "profile", label: "Profile", icon: <User size={18} />, route: "teacher.profile" },
 ];
 
 const MENU_INSTITUTE: NavItem[] = [
@@ -54,7 +54,7 @@ const MENU_INSTITUTE: NavItem[] = [
         ],
     },
     { id: "messages", label: "Messages", icon: <MessageSquare size={18} />, route: "chat" },
-    { id: "profile", label: "Profile", icon: <User size={18} />, route: "profile" },
+    { id: "profile", label: "Profile", icon: <User size={18} />, route: "institute.profile" },
 ];
 
 const MENU_ADMIN: NavItem[] = [
@@ -79,14 +79,6 @@ export default function Sidebar({ collapsed, mobileOpen, onClose, onToggleCollap
     if (user?.role_id === 1) MENU = MENU_ADMIN;
     else if (user?.role_id === 2) MENU = MENU_TEACHER;
     else if (user?.role_id === 3) MENU = MENU_INSTITUTE;
-
-    const ROUTE_MAP: Record<string, string> = {
-        dashboard: 'dashboard',
-        mylearning: 'my-learning',
-        messages: 'chat',
-        payments: 'payments',
-        profile: user?.role_id === roles.Teacher ? 'teacher.profile' : user?.role_id === roles.Institute ? 'institute.profile' : 'profile',
-    };
 
     const [openMenu, setOpenMenu] = useState<string | null>(null);
 
