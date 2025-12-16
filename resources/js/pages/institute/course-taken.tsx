@@ -1,5 +1,5 @@
 import CourseStatusCard from "@/components/institute/course-taken-card";
-import Filter from "@/components/lms/filter";
+import Filter from "@/components/lms/filter/institute/filter-mycourses";
 import AppLayout from "@/layouts/app-layout";
 import LMSLayout from "@/layouts/lms-layout";
 import React from "react";
@@ -41,7 +41,7 @@ export default function CoursesTakenPage() {
 
       <Filter />
 
-      <div className="mx-auto w-full rounded-2xl bg-white p-8 shadow-sm">
+      <div className="mx-auto w-full rounded-2xl bg-white p-4 sm:p-6 md:p-8 shadow-sm">
         <h3 className="font-semibold text-xl mb-6">Course List</h3>
         <div>
           {takenCourses.map((course, index) => (
