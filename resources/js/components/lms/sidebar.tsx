@@ -1,17 +1,44 @@
 import React, { useEffect } from "react";
 import { Home, MessageSquare, User, Book } from "react-feather";
 import { FaMoneyBill } from "react-icons/fa";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { router } from "@inertiajs/react";
+import { BookCheck, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { router, usePage } from "@inertiajs/react";
 
-type NavItem = { id: string; label: string; icon: React.ReactNode };
+interface NavItem {
+    id: string;
+    label: string;
+    icon: React.ReactNode
+};
 
-const MENU: NavItem[] = [
+const MENU_STUDENT: NavItem[] = [
     { id: "dashboard", label: "My Dashboard", icon: <Home size={18} /> },
     { id: "mylearning", label: "My Learning", icon: <Book size={18} /> },
     { id: "messages", label: "Messages", icon: <MessageSquare size={18} /> },
     { id: "payments", label: "Payments", icon: <FaMoneyBill size={18} /> },
     { id: "profile", label: "Profile", icon: <User size={18} /> },
+];
+
+const MENU_TEACHER: NavItem[] = [
+    { id: "dashboard", label: "My Dashboard", icon: <Home size={18} /> },
+    { id: "mylearning", label: "My Learning", icon: <Book size={18} /> },
+    { id: "applycourses", label: "Apply Courses", icon: <BookCheck size={18} /> },
+    { id: "messages", label: "Messages", icon: <MessageSquare size={18} /> },
+    { id: "profile", label: "Profile", icon: <User size={18} /> },
+];
+
+const MENU_INSTITUTE: NavItem[] = [
+    { id: "dashboard", label: "My Dashboard", icon: <Home size={18} /> },
+    { id: "mycourses", label: "My Courses", icon: <Book size={18} /> },
+    { id: "coursestaken", label: "Courses Taken", icon: <BookCheck size={18} /> },
+    { id: "teachermanagement", label: "Teacher Management", icon: <User size={18} /> },
+    { id: "messages", label: "Messages", icon: <MessageSquare size={18} /> },
+    { id: "profile", label: "Profile", icon: <User size={18} /> },
+];
+
+const MENU_ADMIN: NavItem[] = [
+    { id: "dashboard", label: "My Dashboard", icon: <Home size={18} /> },
+    { id: "coursesmanagement", label: "Courses Management", icon: <Book size={18} /> },
+    { id: "usersmanagement", label: "Users Management", icon: <User size={18} /> },
 ];
 
 const ROUTE_MAP: Record<string, string> = {
@@ -20,6 +47,17 @@ const ROUTE_MAP: Record<string, string> = {
     messages: "chat",
     payments: "payments",
     profile: "profile",
+
+    applycourses: "teacher.applycourses",
+
+    coursestaken: "institute.courses-taken",
+    teachermanagement: "institute.teacher-management",
+    mycourses: "institute.my-courses",
+    // teachermanagement: "institute.teacher-management",
+    // teachermanagement: "institute.teacher-management",
+
+    coursesmanagement: "admin.courses-management",
+    usersmanagement: "admin.users-management",
 };
 
 const getActiveId = () => {
@@ -39,6 +77,20 @@ export default function Sidebar({
     onClose,
     onToggleCollapse,
 }) {
+
+    const { props } = usePage();
+    const user = props.auth?.user;
+    // const roles = props.enums?.roles_enum;
+
+    let MENU: NavItem[] = MENU_STUDENT; 
+
+    if (user?.role_id === 2) {
+        MENU = MENU_TEACHER;
+    } else if (user?.role_id === 3) {
+        MENU = MENU_INSTITUTE;
+    } else if (user?.role_id === 1) {
+        MENU = MENU_ADMIN;
+    }
     return (
         <>
             <div
