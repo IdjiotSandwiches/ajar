@@ -1,6 +1,7 @@
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import AppLayout from '@/layouts/app-layout';
+import LMSLayout from '@/layouts/lms-layout';
 import { Head, router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import React, { useState } from 'react';
@@ -25,11 +26,10 @@ export default function TeacherApplicationsPage({ applications }: any) {
     return (
         <>
             <Head title="Teacher Applications" />
-            <div className="flex min-h-screen flex-col bg-[#f9fdfd] px-3 py-6 sm:px-6">
-                <div className="mx-auto mt-4 w-full max-w-6xl rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:mt-10 sm:p-6 md:p-10">
-                    <h1 className="mb-6 cursor-default text-center text-xl font-semibold text-[#42C2FF] sm:mb-10 sm:text-2xl">
-                        Teacher Applications
-                    </h1>
+            <div className="flex min-h-screen flex-col gap-6">
+                <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Teacher Applications</h1>
+                <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
+                    <h3 className="font-semibold text-xl mb-6">Applications</h3>
                     <div className="flex flex-col gap-4 md:hidden">
                         {applications.data.map((app: any) => {
                             const teacher = app?.teacher?.user;
@@ -59,12 +59,12 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                         <span className="font-medium">Submitted:</span>{' '}
                                         {teacher?.email_verified_at
                                             ? new Date(teacher?.email_verified_at).toLocaleString('id-ID', {
-                                                  day: '2-digit',
-                                                  month: 'short',
-                                                  year: 'numeric',
-                                                  hour: '2-digit',
-                                                  minute: '2-digit',
-                                              })
+                                                day: '2-digit',
+                                                month: 'short',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                            })
                                             : '-'}
                                     </p>
 
@@ -86,12 +86,13 @@ export default function TeacherApplicationsPage({ applications }: any) {
                             );
                         })}
                     </div>
-                    <div className="hidden overflow-x-auto md:block">
-                        <table className="min-w-full rounded-lg border border-gray-200 text-sm text-gray-700">
+                    <div className="hidden overflow-x-auto md:block rounded-lg border border-gray-200">
+                        <table className="min-w-full text-sm text-gray-700">
                             <thead className="border-b border-gray-200 bg-[#42C2FF]/10">
                                 <tr>
-                                    <th className="px-4 py-3 text-left font-medium">Teacher Applications</th>
-                                    <th className="w-32 px-4 py-3 text-center font-medium">Actions</th>
+                                    <th className="p-1 text-center font-semibold">No</th>
+                                    <th className="p-3 text-left font-semibold">Teacher Applications</th>
+                                    <th className="w-32 px-3 text-center font-semibold">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,15 +104,16 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                             key={app.id}
                                             className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
                                         >
-                                            <td className="px-4 py-4">
+                                            <td className="p-1 text-center">{index + 1}</td>
+                                            <td className="p-3">
                                                 <div
-                                                    className="flex cursor-pointer items-start gap-4"
+                                                    className="flex cursor-pointer items-center gap-4"
                                                     onClick={() => router.get(route('detail-teacher', app?.teacher_id))}
                                                 >
                                                     <img
                                                         src={teacher?.profile_picture || 'https://placehold.co/400'}
                                                         alt={teacher?.name}
-                                                        className="h-10 w-10 rounded-full border border-gray-300 object-cover"
+                                                        className="h-16 w-16 rounded-full border border-gray-300 object-cover"
                                                     />
                                                     <div>
                                                         <p className="font-semibold text-gray-800">{teacher?.name}</p>
@@ -126,18 +128,18 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                                             <span className="font-medium">Submitted:</span>{' '}
                                                             {teacher?.email_verified_at
                                                                 ? new Date(teacher?.email_verified_at).toLocaleString('id-ID', {
-                                                                      day: '2-digit',
-                                                                      month: 'short',
-                                                                      year: 'numeric',
-                                                                      hour: '2-digit',
-                                                                      minute: '2-digit',
-                                                                  })
+                                                                    day: '2-digit',
+                                                                    month: 'short',
+                                                                    year: 'numeric',
+                                                                    hour: '2-digit',
+                                                                    minute: '2-digit',
+                                                                })
                                                                 : '-'}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-4 text-center">
+                                            <td className="p-3 text-center">
                                                 <div className="flex items-center justify-center gap-2">
                                                     <button
                                                         onClick={() => handleAction(true, app?.teacher_id)}
@@ -173,4 +175,4 @@ export default function TeacherApplicationsPage({ applications }: any) {
     );
 }
 
-TeacherApplicationsPage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
+TeacherApplicationsPage.layout = (page: React.ReactNode) => <LMSLayout title="Teacher Applications">{page}</LMSLayout>;
