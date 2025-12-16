@@ -2,7 +2,7 @@ import { router, usePage } from "@inertiajs/react";
 import { Menu } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
-export default function MobileNavbar({ title, onMenu }) {
+export default function MobileNavbar({ title, onMenu }: any) {
   const { props } = usePage();
   const user = props.auth?.user;
 
@@ -20,7 +20,7 @@ export default function MobileNavbar({ title, onMenu }) {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-  
+
   return (
     <div className="md:hidden fixed top-0 left-0 right-0 bg-white shadow-sm z-20">
       <div className="flex items-center justify-between px-4 py-3">

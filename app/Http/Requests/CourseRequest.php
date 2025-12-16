@@ -21,6 +21,7 @@ class CourseRequest extends FormRequest
             'benefit_for_students.*.description' => 'Benefit for Students',
             'benefit_for_teachers.*.description' => 'Benefit for Teachers',
             'course_overviews.*.description' => 'Course Overviews',
+            'course_sessions.*.description' => 'Course Sessions',
             'course_skills.*.id' => 'Course Skills',
             'course_images.*' => 'Course Images'
         ];
@@ -53,6 +54,9 @@ class CourseRequest extends FormRequest
             'course_overviews' => 'required|array',
             'course_overviews.*.id' => 'numeric',
             'course_overviews.*.description' => 'required|string',
+            'course_sessions' => 'required|array',
+            'course_sessions.*.id' => 'numeric',
+            'course_sessions.*.description' => 'required|string',
             'course_skills' => 'required|array',
             'course_skills.*.id' => 'required|numeric|exists:skills,id',
             'course_images' => 'required|image|max:256',

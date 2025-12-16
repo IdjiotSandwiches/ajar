@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\MyLearningController;
@@ -29,10 +31,11 @@ Route::group([], function () {
 Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::group([], function () {
-            Route::controller(MyLearningController::class)->group(function () {
-                Route::get('my-learning', 'getMyLearning')->name('my-learning');
-            });
+            // Route::controller(MyLearningController::class)->group(function () {
+            //     Route::get('my-learning', 'getMyLearning')->name('my-learning');
+            // });
             Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
+            Route::get('dashboard', [DashboardController::class, 'getDashboardData'])->name('dashboard');
             Route::controller(UtilityController::class)->group(function () {
                 Route::post('update-image', 'postImage')->name('update-image');
             });
@@ -45,13 +48,17 @@ Route::middleware(['auth', 'verified'])
             Route::controller(StudentController::class)->group(function () {
                 Route::get('profile', 'getProfile')->name('profile');
                 Route::put('profile', 'putProfile')->name('update-profile');
+                Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
             });
         });
         Route::middleware(['role:Admin'])
             ->prefix('admin')
             ->name('admin.')
             ->group(function () {
-                Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
+                Route::controller(AdminController::class)->group(function () {
+                    Route::post('register-institute', 'registerInstitute')->name('register-institute');
+                    Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
+                });
             });
         Route::middleware(['role:Teacher'])
             ->prefix('teacher')
@@ -62,6 +69,7 @@ Route::middleware(['auth', 'verified'])
                     Route::get('profile', 'getProfile')->name('profile');
                     Route::put('profile', 'putProfile')->name('update-profile');
                     Route::post('detail', 'putDetail')->name('update-detail');
+                    Route::post('meeting-link/{id}', 'addMeetingLink')->name('add-meeting-link');
                 });
                 Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
                 Route::get('courses-taught', fn() => Inertia::render('teacher/courses-taught'))->name('courses-taught');
@@ -85,15 +93,18 @@ Route::middleware(['auth', 'verified'])
                     Route::get('profile', 'getProfile')->name('profile');
                     Route::put('profile', 'putProfile')->name('update-profile');
                 });
-                Route::get('coursea-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
+                Route::get('course-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
+            });
+
+        Route::middleware(['role:Student,Teacher'])
+            ->group(function () {
+                Route::get('my-learning', fn() => Inertia::render('mylearning'))->name('my-learning');
             });
     });
 
 // tampil di semua role
-Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
 
 // tampil hanya di student & teacher
-Route::get('mylearning', fn() => Inertia::render('mylearning'))->name('mylearning');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

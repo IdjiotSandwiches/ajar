@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Course;
@@ -40,7 +41,7 @@ class CourseService
 
         $categoryIds = $categories->pluck('id');
         $baseQuery = Course::query()
-            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachers.user'))
+            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teacherSchedules.teacher.user'))
             ->when($filters['search'] ?? null, fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
             ->with(['institute.user'])
             ->withAvg('courseReviews', 'rating')
@@ -132,8 +133,7 @@ class CourseService
                 'courseSkills.skill',
                 'courseLearningObjectives',
                 'courseOverviews',
-                'courseSchedules',
-                'teachers.user'
+                'teacherSchedules.teacher.user.socialMedias',
             ]
         )
             ->withAvg('courseReviews', 'rating')
@@ -156,12 +156,12 @@ class CourseService
 
         $user = Auth::user();
         $courses = Course::with(['institute.user', 'courseSkills.skill', 'category.parent'])
-            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachers.user'))
-            ->withCount('courseSchedules')
+            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teacherSchedules.teacher.user'))
+            ->withCount('teacherSchedules')
             ->withAvg('courseReviews', 'rating')
             ->where('category_id', $categoryId)
             ->whereNotIn('id', [$currentCourseId])
-            ->orderByDesc('course_schedules_count')
+            ->orderByDesc('teacher_schedules_count')
             ->inRandomOrder()
             ->limit(10)
             ->get();
@@ -174,12 +174,12 @@ class CourseService
 
             $filteredCourseIds = $courses->pluck('id');
             $moreCourses = Course::with(['institute.user', 'courseSkills.skill', 'category.parent'])
-                ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachers.user'))
-                ->withCount('courseSchedules')
+                ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teacherSchedules.teacher.user'))
+                ->withCount('teacherSchedules')
                 ->withAvg('courseReviews', 'rating')
                 ->whereRelation('category.parent', 'id', $parentCategory)
                 ->whereNotIn('id', $filteredCourseIds->merge($currentCourseId))
-                ->orderByDesc('course_schedules_count')
+                ->orderByDesc('teacher_schedules_count')
                 ->inRandomOrder()
                 ->limit($count - $coursesCount)
                 ->get();
@@ -267,6 +267,7 @@ class CourseService
             'benefit_for_teachers' => 'courseTeacherBenefits',
             'course_overviews' => 'courseOverviews',
             'course_skills' => 'courseSkills',
+            'course_sessions' => 'courseSessions'
         ];
 
         foreach ($relations as $key => $relationMethod) {
@@ -306,7 +307,7 @@ class CourseService
     public function getCourseTeachers($id)
     {
         $teachers = Teacher::whereHas(
-            'courses',
+            'teacherSchedules',
             fn($q) =>
             $q->where('course_id', $id)
         )
@@ -318,40 +319,48 @@ class CourseService
 
     public function getCourseSchedules($teacherId, $courseId)
     {
-        $schedules = CourseSchedule::where('teacher_id', $teacherId)
-            ->where('course_id', $courseId)
-            ->where('start_time', '>=', now()->addHour())
+        $schedules = CourseSchedule::with(['teacherSchedule'])
+            ->whereHas(
+                'teacherSchedule',
+                fn($q) =>
+                $q->where('teacher_id', $teacherId)
+                    ->where('course_id', $courseId)
+                    ->where('start_time', '>=', now()->addHour())
+            )
             ->get();
 
-        $result = $schedules->groupBy(function ($s) {
-            return \Carbon\Carbon::parse($s->start_time)->format('Y-m-d');
-        })
-            ->map(function ($items) {
-                return $items->map(function ($s) {
-                    return [
+        $result = $schedules->groupBy(
+            fn($s) =>
+            Carbon::parse($s->start_time)->format('Y-m-d')
+        )
+            ->map(
+                fn($items) =>
+                $items->map(fn(CourseSchedule $s) =>
+                    [
                         'id' => $s->id,
-                        'time' => \Carbon\Carbon::parse($s->start_time)->format('H:i')
-                    ];
-                })->values();
-            });
+                        'time' => Carbon::parse($s->teacherSchedule->start_time)->format('H:i')
+                    ])->values()
+            );
 
         return $result;
     }
 
     public function getCourseScheduleDetails($id)
     {
-        $schedule = CourseSchedule::with(['course'])
+        $schedule = CourseSchedule::with(['teacherSchedule.course'])
             ->where('id', $id)
             ->first();
 
+        $teacherSchedule = $schedule->teacherSchedule;
+        $course = $teacherSchedule->course;
         $detail = [
-            'title' => $schedule->course->name,
-            'date_time' => $schedule->start_time,
-            'duration' => \Carbon\Carbon::parse($schedule->start_time)
-                ->diffInMinutes(\Carbon\Carbon::parse($schedule->end_time)),
-            'discount' => $schedule->course->price * $schedule->course->discount,
-            'price' => $schedule->course->price,
-            'final_price' => $schedule->course->price - $schedule->course->price * $schedule->course->discount
+            'title' => $course->name,
+            'date_time' => $teacherSchedule->start_time,
+            'duration' => Carbon::parse($teacherSchedule->start_time)
+                ->diffInMinutes(Carbon::parse($teacherSchedule->end_time)),
+            'discount' => $course->price * $course->discount,
+            'price' => $course->price,
+            'final_price' => $course->price - $course->price * $course->discount
         ];
 
         return $detail;
@@ -360,7 +369,6 @@ class CourseService
     public function enrollCourse($id)
     {
         $user = Auth::user();
-
         $enroll = EnrolledCourse::where('course_schedule_id', $id)
             ->where('student_id', $user?->id)
             ->first();

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\RoleEnum;
 use App\Models\EnrolledCourse;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,5 +17,20 @@ class MyLearningService
             ->paginate(10);
 
         return $enrolled;
+    }
+
+    public function getOngoingCourses()
+    {
+        $user = Auth::user();
+        switch ($user->id) {
+            case RoleEnum::Teacher: {
+                break;
+            }
+            case RoleEnum::Student: {
+                break;
+            }
+            default:
+                break;
+        }
     }
 }

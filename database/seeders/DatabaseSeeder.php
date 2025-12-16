@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             CourseSkillSeeder::class,
             CourseStudentBenefitSeeder::class,
             CourseTeacherBenefitSeeder::class,
-            CourseScheduleSeeder::class,
+            // CourseScheduleSeeder::class,
         ]);
     }
 }
