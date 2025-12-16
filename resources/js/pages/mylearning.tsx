@@ -164,7 +164,7 @@ export default function MyLearningPage() {
                         </div>
 
                         <div className="rounded-2xl shadow-sm border-none">
-                            <div className="bg-white rounded-2xl p-6 border">
+                            <div className="bg-white rounded-2xl p-6 border mb-6">
                                 <h3 className="font-semibold text-lg mb-4">Completed Courses</h3>
 
                                 {completed.length === 0 ? (
