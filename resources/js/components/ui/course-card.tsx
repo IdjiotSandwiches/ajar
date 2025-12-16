@@ -19,7 +19,7 @@ export default function CourseCard({ course, isTag }: { course: any, isTag: bool
             </div>
 
             {(user !== null && (user?.role_id !== roles.Student && user?.role_id !== roles.Admin)) && (
-                <TeacherList teachers={course.teachers} />
+                <TeacherList teachers={course.teacher_schedules} />
             )}
 
             <div className="p-4 flex flex-col justify-between flex-grow cursor-default">

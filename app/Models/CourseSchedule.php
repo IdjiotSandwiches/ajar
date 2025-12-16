@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @mixin IdeHelperCourseSchedule
@@ -20,38 +18,18 @@ class CourseSchedule extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'start_time',
-        'end_time',
+        'session_date',
         'meeting_link',
-        'is_verified',
-        'teacher_id',
-        'course_id'
+        'teacher_schedule_id',
+        'status',
     ];
 
-    /**
-     * BelongsTo: Teacher
-     * @return BelongsTo<Teacher, CourseSchedule>
-     */
-    public function teacher(): BelongsTo
-    {
-        return $this->belongsTo(Teacher::class, 'teacher_id', 'user_id');
-    }
+    protected $casts = [
+        'status' => StatusEnum::class,
+    ];
 
-    /**
-     * BelongsTo: Course
-     * @return BelongsTo<Course, CourseSchedule>
-     */
-    public function course(): BelongsTo
+    public function teacherSchedule()
     {
-        return $this->belongsTo(Course::class);
-    }
-
-    /**
-     * HasMany: EnrolledCourses
-     * @return HasMany<EnrolledCourse, CourseSchedule>
-     */
-    public function enrolledCourses(): HasMany
-    {
-        return $this->hasMany(EnrolledCourse::class);
+        return $this->belongsTo(TeacherSchedule::class);
     }
 }

@@ -1,7 +1,7 @@
 import ProfileSidebar from '@/components/profile/profile-sidebar';
 import ProfilePersonalForm from '@/components/profile/teacher/personal-information';
 import ProfileTeacherForm from '@/components/profile/teacher/teacher-information';
-import AppLayout from '@/layouts/app-layout';
+import LMSLayout from '@/layouts/lms-layout';
 import React, { useState } from 'react';
 
 export default function ProfilePage({ profile, detail }: any) {
@@ -18,4 +18,4 @@ export default function ProfilePage({ profile, detail }: any) {
     );
 }
 
-ProfilePage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
+ProfilePage.layout = (page: React.ReactNode) => <LMSLayout title="Profile">{page}</LMSLayout>;

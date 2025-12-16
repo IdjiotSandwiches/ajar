@@ -62,7 +62,7 @@ export default function CourseDetailPage({ course, popularCourses }: any) {
             <div className="min-h-screen bg-[#F8FCFF]">
                 <CourseHero course={course} />
                 <div className="mt-4 block px-4 lg:hidden">
-                    <CourseSidebar institute={course.institute.user} teacher={course.teachers} />
+                    <CourseSidebar institute={course.institute.user} teacher={course.teacher_schedules} />
                 </div>
                 <div className="relative z-20 mt-6 mb-8 flex justify-center px-3 md:-mt-6">
                     <div className="scrollbar-hide flex max-w-full gap-4 overflow-x-auto rounded-full border bg-white px-6 py-1 shadow-md">
@@ -117,7 +117,7 @@ export default function CourseDetailPage({ course, popularCourses }: any) {
                         </section>
                     </div>
                     <div className="hidden md:flex lg:col-span-2 2xl:col-span-2">
-                        <CourseSidebar institute={course.institute.user} teacher={course.teachers} />
+                        <CourseSidebar institute={course.institute.user} teacher={course.teacher_schedules} />
                     </div>
                 </div>
                 <div className="mx-auto md:px-10">

@@ -108,30 +108,27 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             </TextLink>
                         )}
                     </div>
-                    <div className="mt-4 flex flex-col sm:flex-row justify-end gap-3">
+                    <div className="mt-4 flex justify-end gap-2">
                         <Button
                             type="button"
                             variant="ghost"
-                            onClick={() =>
-                                router.get(route('register.student'))
-                            }
-                            className="rounded-full hover:bg-[#42C2FF]/10 w-full sm:w-auto"
+                            onClick={() => router.get(route('register.student'))}
+                            className="rounded-full hover:bg-[#3ABEFF]/10"
                         >
-                            <p className="hover:text-[#42C2FF]">
-                                Create Account
-                            </p>
+                            <p className="hover:text-[#3ABEFF]">Create Account</p>
                         </Button>
                         <Button
                             type="submit"
-                            className="rounded-full bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white w-full sm:w-auto"
+                            className="rounded-full bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white"
                             disabled={processing}
                         >
                             {processing && (
-                                <LoaderCircle className="h-4 w-4 animate-spin" />
+                                <LoaderCircle className="h-4 w-4 animate-spin mr-1" />
                             )}
                             Log in
                         </Button>
                     </div>
+
                 </div>
             </form>
 

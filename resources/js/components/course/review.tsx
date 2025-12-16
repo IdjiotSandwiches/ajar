@@ -50,7 +50,7 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
                                     leftDisabled ? 'cursor-not-allowed opacity-40' : 'hover:bg-gray-100'
                                 }`}
                             >
-                                <ChevronLeft className="h-5 w-5 text-[#3ABEFF]" />
+                                <ChevronLeft className="h-5 w-5 text-[#3abeff]" />
                             </button>
                             <div ref={containerRef} className="flex flex-1 gap-8 overflow-hidden scroll-smooth">
                                 {reviews.map((review: any, index: number) => {

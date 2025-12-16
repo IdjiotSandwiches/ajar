@@ -23,7 +23,7 @@ export default function ProfileSidebar({ profile, activeSection, onSectionChange
     }, [errors]);
 
     return (
-        <aside className="flex w-full flex-col items-center p-4 md:w-80 md:py-10">
+        <aside className="flex w-full flex-col items-center md:w-60 2xl:w-80">
             <div className="flex w-full justify-center">
                 <ProfileCard user={profile} />
             </div>

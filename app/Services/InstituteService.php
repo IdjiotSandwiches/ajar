@@ -38,7 +38,7 @@ class InstituteService
         $courses = collect();
         if ($detail != null) {
             $courses = $detail->courses()
-                ->with(['teachers.user'])
+                ->with(['teacherSchedules.teacher.user', 'institute.user'])
                 ->paginate(10);
         }
 
@@ -75,7 +75,7 @@ class InstituteService
         }
 
         $categoryIds = $categories->pluck('id');
-        $institutes = Institute::with(['user'])
+        $institutes = Institute::with(['user','teacherApplications.teacher', 'teacherApplications' => fn($q) => $q->where('is_verified', true)])
             ->whereIn('category_id', $categoryIds)
             ->when(
                 $filters['search'] ?? null,
@@ -87,11 +87,6 @@ class InstituteService
                 )
             )
             ->paginate(10);
-
-        $institutes->getCollection()->transform(function ($inst) {
-            $inst->teacherList = $inst->teachers()->get();
-            return $inst;
-        });
 
         return $institutes;
     }
