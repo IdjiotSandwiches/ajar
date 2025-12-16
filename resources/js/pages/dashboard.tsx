@@ -40,16 +40,16 @@ export default function StudentDashboard() {
   ];
 
   const upcomingClasses: any[] = [
-    {
-      title: "Biology - Cell Division",
-      time: "Tomorrow · 10:00",
-      teacher: "Mr. James",
-    },
-    {
-      title: "English - Grammar",
-      time: "Tomorrow · 13:00",
-      teacher: "Mrs. Alice",
-    },
+    // {
+    //   title: "Biology - Cell Division",
+    //   time: "Tomorrow · 10:00",
+    //   teacher: "Mr. James",
+    // },
+    // {
+    //   title: "English - Grammar",
+    //   time: "Tomorrow · 13:00",
+    //   teacher: "Mrs. Alice",
+    // },
   ];
 
   return (
@@ -70,96 +70,97 @@ export default function StudentDashboard() {
         </CardContent>
       </Card>
 
-      <div className="md:hidden">
-        <MobileReminder />
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="col-span-1">
+          <MobileReminder />
+        </div>
+        
+        <div className="col-span-2 gap-6">
+          <Card className="rounded-2xl shadow-sm border-none mb-6">
+            <CardContent>
+              <h3 className="font-semibold text-lg mb-4">Today Classes</h3>
 
-      <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6">
-        <Card className="rounded-2xl shadow-sm border-none">
-          <CardContent>
-            <h3 className="font-semibold text-lg mb-4">Today Classes</h3>
+              {todayClasses.length === 0 ? (
+                <div className="flex flex-col items-center justify-center text-center py-10 text-gray-500">
+                  <p className="font-medium text-gray-700 mb-1">No classes today</p>
+                  <p className="text-sm mb-4 max-w-xs">
+                    You don’t have any scheduled classes today. Enroll a course to start learning!
+                  </p>
 
-            {todayClasses.length === 0 ? (
-              <div className="flex flex-col items-center justify-center text-center py-10 text-gray-500">
-                <p className="font-medium text-gray-700 mb-1">No classes today</p>
-                <p className="text-sm mb-4 max-w-xs">
-                  You don’t have any scheduled classes today. Enroll a course to start learning!
-                </p>
-
-                <p
-                  className="bg-[#3ABEFF] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#3ABEFF]/90 transition"
-                  onClick={() => router.get(route('list-course', { category_id: 1 }))}
-                >
-                  Enroll Now
-                </p>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                {todayClasses.map((item, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border"
+                  <p
+                    className="bg-[#3ABEFF] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#3ABEFF]/90 transition"
+                    onClick={() => router.get(route('list-course', { category_id: 1 }))}
                   >
-                    <div>
+                    Enroll Now
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4">
+                  {todayClasses.map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border"
+                    >
+                      <div>
+                        <span className="font-medium">{item.title}</span>
+                        <div className="text-sm text-gray-500 flex items-center gap-1">
+                          <Clock size={14} /> {item.time}
+                        </div>
+                        <span className="text-sm text-gray-500">{item.teacher}</span>
+                      </div>
+
+                      <a
+                        href={item.meetingUrl}
+                        className="flex items-center gap-2 bg-[#3ABEFF] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#3ABEFF]/90 transition"
+                      >
+                        <PlayCircle size={16} />
+                        Join
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl shadow-sm border-none">
+            <CardContent>
+              <h3 className="font-semibold text-lg mb-4">Upcoming Classes</h3>
+
+              {upcomingClasses.length === 0 ? (
+                <div className="flex flex-col items-center justify-center text-center py-10 text-gray-500">
+                  <p className="font-medium text-gray-700 mb-1">No upcoming classes</p>
+                  <p className="text-sm mb-4 max-w-xs">
+                    You don’t have any upcoming classes. Start exploring new courses now!
+                  </p>
+
+                  <p
+                    className="bg-[#3ABEFF] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#3ABEFF]/90 transition"
+                    onClick={() => router.get(route('list-course', { category_id: 1 }))}
+                  >
+                    Browse Courses
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4">
+                  {upcomingClasses.map((item, i) => (
+                    <div
+                      key={i}
+                      className="p-4 bg-white rounded-xl shadow-sm border"
+                    >
                       <span className="font-medium">{item.title}</span>
                       <div className="text-sm text-gray-500 flex items-center gap-1">
-                        <Clock size={14} /> {item.time}
+                        <Calendar size={14} /> {item.time}
                       </div>
                       <span className="text-sm text-gray-500">{item.teacher}</span>
                     </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-                    <a
-                      href={item.meetingUrl}
-                      className="flex items-center gap-2 bg-[#3ABEFF] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#3ABEFF]/90 transition"
-                    >
-                      <PlayCircle size={16} />
-                      Join
-                    </a>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-
-        <Card className="rounded-2xl shadow-sm border-none">
-          <CardContent>
-            <h3 className="font-semibold text-lg mb-4">Upcoming Classes</h3>
-
-            {upcomingClasses.length === 0 ? (
-              <div className="flex flex-col items-center justify-center text-center py-10 text-gray-500">
-                <p className="font-medium text-gray-700 mb-1">No upcoming classes</p>
-                <p className="text-sm mb-4 max-w-xs">
-                  You don’t have any upcoming classes. Start exploring new courses now!
-                </p>
-
-                <p
-                  className="bg-[#3ABEFF] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#3ABEFF]/90 transition"
-                  onClick={() => router.get(route('list-course', { category_id: 1 }))}
-                >
-                  Browse Courses
-                </p>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                {upcomingClasses.map((item, i) => (
-                  <div
-                    key={i}
-                    className="p-4 bg-white rounded-xl shadow-sm border"
-                  >
-                    <span className="font-medium">{item.title}</span>
-                    <div className="text-sm text-gray-500 flex items-center gap-1">
-                      <Calendar size={14} /> {item.time}
-                    </div>
-                    <span className="text-sm text-gray-500">{item.teacher}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
+        </div>
       </div>
     </div>
   );

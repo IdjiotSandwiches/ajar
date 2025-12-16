@@ -31,7 +31,7 @@ export default function CalendarSection({
   const filteredCourses = courses.filter((item) => item.date === selectedDate);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm h-fit w-full">
+    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm h-fit w-full">
       <h3 className="font-semibold text-gray-700 mb-1">My Learning Schedule</h3>
       <p className="text-sm text-gray-500 mb-4">
         {filteredCourses.length} class
@@ -122,7 +122,6 @@ export default function CalendarSection({
             </p>
           )}
         </div>
-
       </div>
     </div>
   );
