@@ -1,0 +1,94 @@
+import Filter from "@/components/lms/filter/institute/filter-mycourses";
+import TeacherCourseCardWrapper from "@/components/lms/teacher/TeacherCourseCardWrapper";
+import LMSLayout from "@/layouts/lms-layout";
+import React from "react";
+
+const dummyCourses = [
+    {
+        id: 1,
+        name: "React Fundamentals",
+        image: "https://placehold.co/600x400",
+        description: "Learn the fundamentals of React including hooks and component architecture.",
+        duration: 720,
+        price: 250000,
+        discount: 0,
+        institute: {
+            user: {
+                name: "Code Institute",
+            },
+        },
+        course_reviews_avg_rating: 4.6,
+        reviews_count: 128,
+        schedules: [
+            {
+                id: 1,
+                day: "Monday",
+                start_time: "19:00",
+                end_time: "21:00",
+            },
+            {
+                id: 2,
+                day: "Wednesday",
+                start_time: "19:00",
+                end_time: "21:00",
+            },
+            {
+                id: 3,
+                day: "Monday",
+                start_time: "19:00",
+                end_time: "21:00",
+            },
+            {
+                id: 4,
+                day: "Wednesday",
+                start_time: "19:00",
+                end_time: "21:00",
+            },
+        ],
+    },
+    {
+        id: 2,
+        name: "Advanced Laravel",
+        image: "https://placehold.co/600x400",
+        description: "Deep dive into Laravel advanced concepts and real-world patterns.",
+        duration: 840,
+        price: 300000,
+        discount: 10,
+        institute: {
+            user: {
+                name: "Backend Academy",
+            },
+        },
+        course_reviews_avg_rating: 4.8,
+        reviews_count: 89,
+        schedules: [],
+    },
+];
+
+
+export default function TeacherCourses() {
+    const courses = dummyCourses;
+
+    return (
+        <div className="grid grid-cols-1 gap-6">
+            <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Courses Taught</h1>
+
+            <Filter />
+
+            {courses?.length === 0 ? (
+                <p className="text-center text-gray-500 py-10">
+                    Belum ada kursus yang diajar.
+                </p>
+            ) : (
+                courses?.map((course) => (
+                    <TeacherCourseCardWrapper
+                        key={course.id}
+                        course={course}
+                    />
+                ))
+            )}
+        </div>
+    );
+}
+
+TeacherCourses.layout = (page: React.ReactNode) => <LMSLayout title="Courses Taught">{page}</LMSLayout>;

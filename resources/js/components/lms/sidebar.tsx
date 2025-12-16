@@ -1,5 +1,5 @@
 import { router, usePage } from '@inertiajs/react';
-import { BookCheck, ChevronDown, ChevronLeft, ChevronRight, LogOut, X } from 'lucide-react';
+import { BookA, BookCheck, ChevronDown, ChevronLeft, ChevronRight, LogOut, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Book, Home, MessageSquare, User } from 'react-feather';
 import { FaMoneyBill } from 'react-icons/fa';
@@ -13,53 +13,56 @@ interface NavItem {
 }
 
 const MENU_STUDENT: NavItem[] = [
-    { id: 'dashboard', label: 'My Dashboard', icon: <Home size={18} />, route: 'dashboard' },
-    { id: 'mylearning', label: 'My Learning', icon: <Book size={18} />, route: 'mylearning' },
-    { id: 'messages', label: 'Messages', icon: <MessageSquare size={18} />, route: 'chat' },
-    { id: 'payments', label: 'Payments', icon: <FaMoneyBill size={18} />, route: 'payments' },
-    { id: 'profile', label: 'Profile', icon: <User size={18} />, route: 'profile' },
+    { id: "dashboard", label: "My Dashboard", icon: <Home size={18} />, route: "dashboard" },
+    { id: "mylearning", label: "My Learning", icon: <Book size={18} />, route: "mylearning" },
+    { id: "messages", label: "Messages", icon: <MessageSquare size={18} />, route: "chat" },
+    { id: "payments", label: "Payments", icon: <FaMoneyBill size={18} />, route: "payments" },
+    { id: "profile", label: "Profile", icon: <User size={18} />, route: "profile" },
 ];
 
 const MENU_TEACHER: NavItem[] = [
-    { id: 'dashboard', label: 'My Dashboard', icon: <Home size={18} />, route: 'dashboard' },
-    { id: 'mylearning', label: 'My Learning', icon: <Book size={18} />, route: 'mylearning' },
-    { id: 'applycourses', label: 'Apply Courses', icon: <BookCheck size={18} />, route: 'teacher.applycourses' },
-    { id: 'messages', label: 'Messages', icon: <MessageSquare size={18} />, route: 'chat' },
-    { id: 'profile', label: 'Profile', icon: <User size={18} />, route: 'profile' },
+    { id: "dashboard", label: "My Dashboard", icon: <Home size={18} />, route: "dashboard" },
+    { id: "mylearning", label: "My Learning", icon: <Book size={18} />, route: "mylearning" },
+    { id: "applycourses", label: "Apply Courses", icon: <BookCheck size={18} />, route: "teacher.applycourses" },
+    { id: "coursestaught", label: "Courses Taught", icon: <BookA size={18} />, route: "teacher.courses-taught" },
+    // { id: "addschedule", label: "Add Schedule", icon: <Calendar size={18} />, route: "teacher.add-schedule" },
+    { id: "messages", label: "Messages", icon: <MessageSquare size={18} />, route: "chat" },
+    { id: "profile", label: "Profile", icon: <User size={18} />, route: "profile" },
 ];
 
 const MENU_INSTITUTE: NavItem[] = [
-    { id: 'dashboard', label: 'My Dashboard', icon: <Home size={18} />, route: 'dashboard' },
-    { id: 'mycourses', label: 'My Courses', icon: <Book size={18} />, route: 'institute.my-courses' },
-    { id: 'coursestaken', label: 'Courses Taken', icon: <BookCheck size={18} />, route: 'institute.courses-taken' },
+    { id: "dashboard", label: "My Dashboard", icon: <Home size={18} />, route: "dashboard" },
+    { id: "mycourses", label: "My Courses", icon: <Book size={18} />, route: "institute.my-courses" },
+    { id: "coursestaken", label: "Courses Taken", icon: <BookCheck size={18} />, route: "institute.courses-taken" },
     {
-        id: 'teachermanagement',
-        label: 'Teacher Management',
+        id: "teachermanagement",
+        label: "Teacher Management",
         icon: <User size={18} />,
         children: [
             {
-                id: 'teacherapplications',
-                label: 'Teacher Applications',
+                id: "teacherapplications",
+                label: "Teacher Applications",
                 icon: <BookCheck size={16} />,
-                route: 'institute.teacher-application',
+                route: "institute.teacher-application",
             },
             {
-                id: 'manageteachers',
-                label: 'Manage Teachers',
+                id: "manageteachers",
+                label: "Manage Teachers",
                 icon: <User size={16} />,
-                route: 'institute.list-teacher',
+                route: "institute.list-teacher",
             },
         ],
     },
-    { id: 'messages', label: 'Messages', icon: <MessageSquare size={18} />, route: 'chat' },
-    { id: 'profile', label: 'Profile', icon: <User size={18} />, route: 'profile' },
+    { id: "messages", label: "Messages", icon: <MessageSquare size={18} />, route: "chat" },
+    { id: "profile", label: "Profile", icon: <User size={18} />, route: "profile" },
 ];
 
 const MENU_ADMIN: NavItem[] = [
-    { id: 'dashboard', label: 'My Dashboard', icon: <Home size={18} />, route: 'dashboard' },
-    { id: 'coursesmanagement', label: 'Courses Management', icon: <Book size={18} />, route: 'admin.courses-management' },
-    { id: 'usersmanagement', label: 'Users Management', icon: <User size={18} />, route: 'admin.users-management' },
+    { id: "dashboard", label: "My Dashboard", icon: <Home size={18} />, route: "dashboard" },
+    { id: "coursesmanagement", label: "Courses Management", icon: <Book size={18} />, route: "admin.courses-management" },
+    { id: "usersmanagement", label: "Users Management", icon: <User size={18} />, route: "admin.users-management" },
 ];
+
 
 const isRouteActive = (routeName?: string) => {
     if (!routeName) return false;
@@ -197,10 +200,10 @@ export default function Sidebar({ collapsed, mobileOpen, onClose, onToggleCollap
                         <>
                             <div className="flex flex-1 flex-col">
                                 <span className="text-sm font-semibold">{user?.name}</span>
-                                <span className="text-xs text-gray-500 capitalize">{user?.role_id ?? 'User'}</span>
+                                <span className="text-xs text-gray-500 capitalize">{Object.keys(roles).find(key => roles[key] === user?.role_id) ?? 'User'}</span>
                             </div>
 
-                            <button onClick={() => router.post(route('logout'))} className="text-sm text-red-500 hover:underline">
+                            <button onClick={() => router.post(route('logout'))} className="text-sm text-red-500 hover:underline cursor-pointer">
                                 <LogOut size={20} />
                             </button>
                         </>
