@@ -93,12 +93,16 @@ Route::middleware(['auth', 'verified'])
                 });
                 Route::get('course-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
             });
+
+        Route::middleware(['role:Student,Teacher'])
+            ->group(function () {
+                Route::get('my-learning', fn() => Inertia::render('mylearning'))->name('my-learning');
+            });
     });
 
 // tampil di semua role
 
 // tampil hanya di student & teacher
-Route::get('my-learning', fn() => Inertia::render('mylearning'))->name('my-learning');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

@@ -45,12 +45,12 @@ export default function StudentDashboard({ today, upcoming, reminder }: any) {
                                     You don't have any scheduled classes today. Enroll a course to start learning!
                                 </p>
 
-                                <p
-                                    className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
+                                <button
+                                    className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90 cursor-pointer"
                                     onClick={() => router.get(route('list-course', { category_id: 1 }))}
                                 >
                                     Enroll Now
-                                </p>
+                                </button>
                             </div>
                         ) : (
                             <InfiniteScroll
@@ -102,12 +102,12 @@ export default function StudentDashboard({ today, upcoming, reminder }: any) {
                                 <p className="mb-1 font-medium text-gray-700">No upcoming classes</p>
                                 <p className="mb-4 max-w-xs text-sm">You don't have any upcoming classes. Start exploring new courses now!</p>
 
-                                <p
-                                    className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
+                                <button
+                                    className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90 cursor-pointer"
                                     onClick={() => router.get(route('list-course', { category_id: 1 }))}
                                 >
                                     Browse Courses
-                                </p>
+                                </button>
                             </div>
                         ) : (
                             <InfiniteScroll

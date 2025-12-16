@@ -8,7 +8,6 @@ use App\Enums\StatusEnum;
 use App\Enums\ReminderEnum;
 use App\Models\CourseSchedule;
 use App\Models\EnrolledCourse;
-use App\Models\TeacherSchedule;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardService
