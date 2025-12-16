@@ -39,14 +39,6 @@ class TeacherService
             $user = $user->load('teacher');
         }
 
-        $institute = Institute::with(['category.children'])
-            ->where('user_id', $id)
-            ->first();
-        $categories = $institute->category->children;
-        $isCorrectCategory = $categories->contains('id', $user?->teacher?->category_id);
-        if (!$isCorrectCategory)
-            throw new \Exception('Your category not the same as the insitution.');
-
         $application = TeacherApplication::firstOrNew([
             'teacher_id' => $user?->id,
             'institute_id' => $id

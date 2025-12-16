@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Institute;
 use App\Models\TeacherApplication;
@@ -48,23 +47,6 @@ class InstituteService
             'courses' => $courses,
             'teachers' => $teachers
         ];
-    }
-
-    public function canApplyAsTeacher($id)
-    {
-        $institute = Institute::with(['category.children'])
-            ->where('user_id', $id)
-            ->first();
-
-        $user = Auth::user();
-        if ($user && $user->role_id == RoleEnum::Teacher && $institute) {
-            $user = $user->load('teacher');
-            $categories = $institute->category->children;
-            $isCorrectCategory = $categories->contains('id', $user->teacher->category_id);
-            return $isCorrectCategory;
-        }
-
-        return false;
     }
 
     public function getTeacherApplication($id)

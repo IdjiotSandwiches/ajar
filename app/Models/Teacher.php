@@ -26,8 +26,7 @@ class Teacher extends Model
     protected $fillable = [
         'user_id',
         'description',
-        'is_verified',
-        'category_id'
+        'is_verified'
     ];
 
     /**

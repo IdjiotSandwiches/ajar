@@ -15,11 +15,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->primary();
             $table->text('description')->nullable();
             $table->boolean('is_verified')->nullable();
-            $table->unsignedBigInteger('category_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
