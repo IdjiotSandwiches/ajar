@@ -48,7 +48,7 @@ export default function TeacherApplyCourses({ courses, categories, counts, state
                             data="courses"
                             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
                         >
-                            {courses.data?.map((course: any, index: number) => <CourseCard key={index} course={course} isTag={false} />)}
+                            {courses.data?.map((course: any, index: number) => <CourseCard key={index} course={course} isTag={false} showTeacher={false} />)}
                         </InfiniteScroll>
                     )}
                 </div>

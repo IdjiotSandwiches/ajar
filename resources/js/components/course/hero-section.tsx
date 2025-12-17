@@ -43,7 +43,7 @@ export default function CourseHero({ course }: { course: any }) {
                     <div className="mt-4 flex items-center gap-6">
                         {(user?.role_id === roles.Student || !user) && (
                             <button
-                                className="rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8] cursor-pointer"
+                                className="cursor-pointer rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
                                 onClick={() => {
                                     if (!user) router.get(route('login'));
                                     else if (user?.email_verified_at == null) router.get(route('verification.notice'));
@@ -54,19 +54,36 @@ export default function CourseHero({ course }: { course: any }) {
                             </button>
                         )}
                         <div className="flex items-center gap-2">
-                            <p className="text-xl font-bold text-[#3ABEFF]">
-                                Rp{Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString('id-ID', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                })}
-                            </p>
-                            {Number(course.discount) > 0 && (
-                                <p className="text-sm text-gray-400 line-through">
-                                    Rp{Number(course.price).toLocaleString('id-ID', {
+                            {user !== null && user?.role_id !== roles.Student && user?.role_id !== roles.Admin ? (
+                                <p className="text-xl font-bold text-[#3ABEFF]">
+                                    Rp
+                                    {Number(course.teacher_salary).toLocaleString('id-ID', {
                                         minimumFractionDigits: 2,
                                         maximumFractionDigits: 2,
                                     })}
                                 </p>
+                            ) : (
+                                <>
+                                    <p className="text-xl font-bold text-[#3ABEFF]">
+                                        Rp
+                                        {Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString(
+                                            'id-ID',
+                                            {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            },
+                                        )}
+                                    </p>
+                                    {Number(course.discount) > 0 && (
+                                        <p className="text-sm text-gray-400 line-through">
+                                            Rp
+                                            {Number(course.price).toLocaleString('id-ID', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            })}
+                                        </p>
+                                    )}
+                                </>
                             )}
                         </div>
                     </div>

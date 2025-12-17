@@ -239,7 +239,7 @@ class TeacherService
             ->when($status === StateEnum::Accepted, fn($q) => $q->where('is_verified', true))
             ->pluck('course_id');
 
-        $courses = Course::with([])
+        $courses = Course::with(['institute.user'])
             ->whereIn('institute_id', $institutes)
             ->when(!empty($filters['search']), fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
             ->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
