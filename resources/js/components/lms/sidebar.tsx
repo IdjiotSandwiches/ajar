@@ -102,7 +102,31 @@ const MENU_ADMIN: NavItem[] = [
             },
         ],
     },
-    { id: "usersmanagement", label: "Users Management", icon: <User size={18} />, route: "admin.users-management" },
+    {
+        id: "usersmanagement",
+        label: "Users Management",
+        icon: <User size={18} />,
+        children: [
+            {
+                id: "manageinstitutes",
+                label: "Manage Institutes",
+                icon: <BookCheck size={16} />,
+                route: "admin.list-institute",
+            },
+            {
+                id: "manageteachers",
+                label: "Manage Teachers",
+                icon: <User size={16} />,
+                route: "admin.list-teacher",
+            },
+            {
+                id: "teacherapplications",
+                label: "Teacher Applications",
+                icon: <User size={16} />,
+                route: "admin.teacher-applications",
+            },
+        ],
+    },
 ];
 
 
