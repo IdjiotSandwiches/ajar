@@ -113,4 +113,12 @@ class InstituteController extends Controller
             return back()->with('success', 'Teacher has been deactivated.');
         }
     }
+
+    public function getCourseApplications()
+    {
+        $teachers = $this->service->getCourseApplications();
+        return Inertia::render('institute/course-teacher-applications', [
+            'applications' => $teachers
+        ]);
+    }
 }

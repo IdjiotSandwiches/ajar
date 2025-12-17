@@ -5,55 +5,11 @@ import { Head } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function CourseTeacherApplicationsPage() {
+export default function CourseTeacherApplicationsPage({ applications }: any) {
     const [showModal, setShowModal] = useState(false);
     const [action, setAction] = useState<boolean | null>(null);
     const [selectedId, setSelectedId] = useState<number | null>(null);
-
-    /** =======================
-     *  DUMMY DATA
-     ======================= */
-    const applications = {
-        data: [
-            {
-                id: 1,
-                status: 'pending',
-                created_at: '2024-10-01 14:30',
-                teacher: {
-                    id: 11,
-                    user: {
-                        name: 'Budi Santoso',
-                        profile_picture: 'https://placehold.co/100',
-                    },
-                    category: { name: 'Web Development' },
-                },
-                course: {
-                    id: 101,
-                    name: 'React for Beginners',
-                    image: 'https://placehold.co/400',
-                },
-            },
-            {
-                id: 2,
-                status: 'pending',
-                created_at: '2024-10-03 09:20',
-                teacher: {
-                    id: 12,
-                    user: {
-                        name: 'Siti Rahma',
-                        profile_picture: 'https://placehold.co/100',
-                    },
-                    category: { name: 'UI / UX Design' },
-                },
-                course: {
-                    id: 102,
-                    name: 'Figma Masterclass',
-                    image: 'https://placehold.co/400',
-                },
-            },
-        ],
-        links: [],
-    };
+    console.log(applications);
 
     const handleAction = (type: boolean, id: number) => {
         setAction(type);
@@ -71,8 +27,6 @@ export default function CourseTeacherApplicationsPage() {
 
     return (
         <>
-            <Head title="Course Teacher Applications" />
-
             <div className="flex min-h-screen flex-col gap-6">
                 <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">
                     Course Teacher Applications
@@ -85,7 +39,7 @@ export default function CourseTeacherApplicationsPage() {
 
                     {/* ================= MOBILE ================= */}
                     <div className="flex flex-col gap-4 md:hidden">
-                        {applications.data.map((app) => (
+                        {applications.data.map((app: any) => (
                             <div
                                 key={app.id}
                                 className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
@@ -174,7 +128,7 @@ export default function CourseTeacherApplicationsPage() {
                             </thead>
 
                             <tbody>
-                                {applications.data.map((app, index) => (
+                                {applications.data.map((app: any, index: number) => (
                                     <tr
                                         key={app.id}
                                         className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0

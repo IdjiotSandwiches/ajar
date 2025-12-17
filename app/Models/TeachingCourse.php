@@ -16,11 +16,17 @@ class TeachingCourse extends Model
      */
     protected $fillable = [
         'teacher_id',
-        'course_id'
+        'course_id',
+        'is_verified'
     ];
 
-    public function teacherSchedules()
+    public function teacher()
     {
-        return $this->hasMany(TeacherSchedule::class);
+        return $this->belongsTo(Teacher::class, 'teacher_id', 'user_id');
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 }

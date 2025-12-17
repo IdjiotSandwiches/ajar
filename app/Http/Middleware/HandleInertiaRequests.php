@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Enums\DegreeTypeEnum;
 use App\Enums\ReminderEnum;
 use App\Enums\RoleEnum;
+use App\Enums\StateEnum;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -52,7 +53,8 @@ class HandleInertiaRequests extends Middleware
             'enums' => [
                 'roles_enum' => RoleEnum::asArray(),
                 'degree_type_enum' => DegreeTypeEnum::asArray(),
-                'reminder_enum' => ReminderEnum::asArray()
+                'reminder_enum' => ReminderEnum::asArray(),
+                'state_enum' => StateEnum::asArray(),
             ],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('teaching_courses', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_verified')->nullable();
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('teacher_id');
             $table->timestamps();

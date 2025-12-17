@@ -26,15 +26,14 @@ export default function CourseList({ categories, courses }: any) {
     };
 
     const onFilterChange = (filters: any) => {
-        router.visit(route('institute.my-courses'), {
+        router.reload({
+            only: ['courses'],
             data: {
                 search: filters.search,
                 category_id: filters.category,
                 price_min: filters.minPrice,
                 price_max: filters.maxPrice,
             },
-            preserveState: true,
-            replace: true,
         });
     };
 

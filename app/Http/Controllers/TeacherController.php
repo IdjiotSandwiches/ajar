@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StateEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TeacherApplicationRequest;
 use App\Http\Requests\TeacherDetailRequest;
 use App\Http\Requests\TeacherProfileRequest;
 use App\Services\TeacherService;
@@ -81,5 +83,22 @@ class TeacherController extends Controller
         } else {
             return back()->with(['success', 'Meeting Link added.']);
         }
+    }
+
+    public function getTeacherApplications(TeacherApplicationRequest $request)
+    {
+        $validated = $request->validated();
+        $status = StateEnum::Available;
+
+        if (!empty($validated['status']))
+            $status = StateEnum::from($validated['status']);
+
+        $institutes = $this->service->getInstituteApplications($status);
+        $counts = $this->service->getInstituteApplicationCount();
+        return Inertia::render('teacher/institute-applications', [
+            'institutes' => Inertia::scroll($institutes),
+            'counts' => $counts,
+            'state' => $status
+        ]);
     }
 }

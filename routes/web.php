@@ -70,11 +70,11 @@ Route::middleware(['auth', 'verified'])
                     Route::put('profile', 'putProfile')->name('update-profile');
                     Route::post('detail', 'putDetail')->name('update-detail');
                     Route::post('meeting-link/{id}', 'addMeetingLink')->name('add-meeting-link');
+                    Route::get('institute-applications', 'getTeacherApplications')->name('institute-applications');
                 });
                 Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
                 Route::get('courses-taught', fn() => Inertia::render('teacher/courses-taught'))->name('courses-taught');
                 Route::get('course-applications', fn() => Inertia::render('teacher/course-application'))->name('course-applications');
-                Route::get('institute-applications', fn() => Inertia::render('teacher/institute-applications'))->name('institute-applications');
             });
         Route::middleware(['role:Institute'])
             ->prefix('institute')
@@ -88,16 +88,18 @@ Route::middleware(['auth', 'verified'])
                     Route::delete('course-detail/{id}', 'removeCourse')->name('delete-course');
                 });
                 Route::controller(InstituteController::class)->group(function () {
-                    Route::get('teacher-application', 'getTeacherApplications')->name('teacher-application');
                     Route::get('list-teacher', 'getTeacherList')->name('list-teacher');
                     Route::delete('deactivate-teacher/{id}', 'removeTeacher')->name('deactivate-teacher');
-                    Route::post('accept-verification/{id}', 'acceptTeacher')->name('accept-teacher');
-                    Route::post('reject-verification/{id}', 'rejectTeacher')->name('reject-teacher');
+                    Route::get('teacher-application', 'getTeacherApplications')->name('teacher-application');
+                    Route::post('accept-teacher/{id}', 'acceptTeacher')->name('accept-teacher');
+                    Route::post('reject-teacher/{id}', 'rejectTeacher')->name('reject-teacher');
+                    Route::get('course-application', 'getCourseApplications')->name('course-application');
+                    Route::post('accept-course/{id}', 'acceptCourse')->name('accept-course');
+                    Route::post('reject-course/{id}', 'rejectCourse')->name('reject-course');
                     Route::get('profile', 'getProfile')->name('profile');
                     Route::put('profile', 'putProfile')->name('update-profile');
                 });
                 Route::get('course-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
-                Route::get('course-teacher-applications', fn() => Inertia::render('institute/course-teacher-applications'))->name('course-teacher-applications');
             });
 
         Route::middleware(['role:Student,Teacher'])

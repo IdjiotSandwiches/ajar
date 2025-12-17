@@ -116,4 +116,9 @@ class Course extends Model
     {
         return $this->hasMany(TeacherSchedule::class);
     }
+
+    public function teachingCourses()
+    {
+        return $this->hasMany(TeachingCourse::class);
+    }
 }

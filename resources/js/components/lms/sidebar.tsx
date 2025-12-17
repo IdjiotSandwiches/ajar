@@ -66,7 +66,7 @@ const MENU_INSTITUTE: NavItem[] = [
                 id: "courseteacherapplications",
                 label: "Course Teaching",
                 icon: <BookCheck size={16} />,
-                route: "institute.course-teacher-applications",
+                route: "institute.course-application",
             },
             {
                 id: "manageteachers",
@@ -85,7 +85,6 @@ const MENU_ADMIN: NavItem[] = [
     { id: "coursesmanagement", label: "Courses Management", icon: <Book size={18} />, route: "admin.courses-management" },
     { id: "usersmanagement", label: "Users Management", icon: <User size={18} />, route: "admin.users-management" },
 ];
-
 
 const isRouteActive = (routeName?: string) => {
     if (!routeName) return false;

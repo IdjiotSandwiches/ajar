@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Category;
 use App\Models\Institute;
 use App\Models\TeacherApplication;
+use App\Models\TeachingCourse;
 use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
 use function PHPUnit\Framework\isEmpty;
@@ -159,7 +160,7 @@ class InstituteService
         $teachers = TeacherApplication::with([
             'teacher.user',
             'teacher' => function ($q) {
-                $q->withCount('teachingCourses')
+                $q->withCount(['teachingCourses' => fn($query) => $query->where('is_verified', true)])
                     ->withCount('reviews')
                     ->withAvg('reviews', 'rating');
             }
@@ -171,10 +172,11 @@ class InstituteService
                     fn($q) => $q->where('name', 'like', "%{$filters['search']}%")
                 )
             )
+            ->where('institute_id', $user->id)
             ->where('is_verified', true)
             ->paginate(10)
             ->through(fn($item) => [
-                'id' => $item->teacher->user_id,
+                'id' => $item->teacher->user->id,
                 'name' => $item->teacher->user->name,
                 'profile_picture' => $item->teacher->user->profile_picture,
                 'course_taught' => $item->teaching_courses_count ?? 0,
@@ -196,5 +198,29 @@ class InstituteService
         $teacher->is_verified = false;
         $teacher->save();
         return $teacher;
+    }
+
+    public function getCourseApplications()
+    {
+        $user = Auth::user();
+        if (!$user)
+            return null;
+
+        $applications = TeachingCourse::with(['course', 'teacher.user'])
+            ->whereHas('course', fn($q) => $q->where('institute_id', $user->id))
+            ->paginate(10)
+            ->through(fn($item) => [
+                'id' => $item->id,
+                'teacher' => [
+                    'name' => $item->teacher->user->name,
+                    'profile_picture' => $item->teacher->user->profile_picture,
+                ],
+                'course' => [
+                    'name' => $item->course->name,
+                    'image' => $item->course->image
+                ]
+            ]);
+
+        return $applications;
     }
 }

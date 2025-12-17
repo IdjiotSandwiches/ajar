@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\StateEnum;
 use App\Models\CourseSchedule;
 use App\Models\Institute;
 use App\Models\Teacher;
@@ -129,5 +130,67 @@ class TeacherService
         ]);
 
         return $schedule;
+    }
+
+    public function getInstituteApplications($status)
+    {
+        $user = Auth::user();
+        if (!$user)
+            return null;
+
+        $application = TeacherApplication::where('teacher_id', $user->id)
+            ->when($status === StateEnum::Available, fn($q) => $q->whereNull('is_verified')
+                ->orWhere('is_verified', true))
+            ->when($status === StateEnum::Pending, fn($q) => $q->whereNull('is_verified'))
+            ->when($status === StateEnum::Accepted, fn($q) => $q->where('is_verified', true))
+            ->pluck('institute_id');
+
+        $institutes = Institute::with(['user'])
+            ->when($status === StateEnum::Available, fn($q) => $q->whereNotIn('user_id', $application))
+            ->when($status === StateEnum::Pending || $status === StateEnum::Accepted, fn($q) => $q->whereIn('user_id', $application))
+            ->paginate(10)
+            ->through(function ($item) use ($status) {
+                $item->status = $status;
+                return $item;
+            });
+
+        return $institutes;
+    }
+
+    public function getInstituteApplicationCount()
+    {
+        $user = Auth::user();
+        if (!$user)
+            return null;
+
+        $base = TeacherApplication::query()
+            ->where('teacher_id', $user->id);
+
+        $applications = [
+            StateEnum::Available->value => (clone $base)
+                ->whereNull('is_verified')
+                ->orWhere('is_verified', true)
+                ->pluck('institute_id'),
+            StateEnum::Pending->value => (clone $base)
+                ->whereNull('is_verified')
+                ->pluck('institute_id'),
+            StateEnum::Accepted->value => (clone $base)
+                ->where('is_verified', true)
+                ->pluck('institute_id'),
+        ];
+
+        $counts = [
+            StateEnum::Available->value => Institute::query()
+                ->whereNotIn('user_id', $applications[StateEnum::Available->value])
+                ->count(),
+            StateEnum::Pending->value => Institute::query()
+                ->whereIn('user_id', $applications[StateEnum::Pending->value])
+                ->count(),
+            StateEnum::Accepted->value => Institute::query()
+                ->whereIn('user_id', $applications[StateEnum::Accepted->value])
+                ->count(),
+        ];
+
+        return $counts;
     }
 }
