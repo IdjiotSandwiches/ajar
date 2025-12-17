@@ -156,25 +156,45 @@ class InstituteService
         if (!$user)
             return null;
 
-        $teachers = TeacherApplication::with(['teacher.user', 'teacher.teachingCourses'])
+        $teachers = TeacherApplication::with([
+            'teacher.user',
+            'teacher' => function ($q) {
+                $q->withCount('teachingCourses')
+                    ->withCount('reviews')
+                    ->withAvg('reviews', 'rating');
+            }
+        ])
             ->when(
-                !isEmpty($filters['name']),
+                !empty($filters['search']),
                 fn($query) => $query->whereHas(
                     'teacher.user',
-                    fn($q) => $q->where('name', $filters['name'])
+                    fn($q) => $q->where('name', 'like', "%{$filters['search']}%")
                 )
             )
-            ->withCount('teachingCourses')
-            ->withCount('teacher.reviews')
-            ->withAvg('teacher.reviews', 'rating')
+            ->where('is_verified', true)
             ->paginate(10)
             ->through(fn($item) => [
+                'id' => $item->teacher->user_id,
                 'name' => $item->teacher->user->name,
-                'course_taught' => $item->teaching_courses_count,
-                'review_count' => $item->teacher_reviews_count,
+                'profile_picture' => $item->teacher->user->profile_picture,
+                'course_taught' => $item->teaching_courses_count ?? 0,
+                'review_count' => $item->teacher_reviews_count ?? 0,
                 'review_rating' => round($item->teacher_reviews_avg_rating ?? 0, 1)
             ]);
 
         return $teachers;
+    }
+
+    public function deactiveTeacher($id)
+    {
+        $teacher = TeacherApplication::where('teacher_id', $id)
+            ->first();
+
+        if (!$teacher)
+            return null;
+
+        $teacher->is_verified = false;
+        $teacher->save();
+        return $teacher;
     }
 }

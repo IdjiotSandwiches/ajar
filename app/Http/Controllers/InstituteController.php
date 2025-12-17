@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
 use App\Http\Requests\InstituteProfileRequest;
+use App\Http\Requests\TeacherFilterRequest;
 use App\Services\InstituteService;
 use Inertia\Inertia;
 
@@ -90,6 +91,26 @@ class InstituteController extends Controller
             return back()->with('success', 'Update success.');
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to update profile.');
+        }
+    }
+
+    public function getTeacherList(TeacherFilterRequest $request)
+    {
+        $filters = $request->validated();
+        $teachers = $this->service->teacherList($filters);
+        return Inertia::render('institute/teacher-list', [
+            'teachers' => $teachers
+        ]);
+    }
+
+    public function removeTeacher($id)
+    {
+        $deactivated = $this->service->deactiveTeacher($id);
+        if (!$deactivated) {
+            return back()->with('error', 'Teacher not found!');
+        }
+        else {
+            return back()->with('success', 'Teacher has been deactivated.');
         }
     }
 }

@@ -2,7 +2,7 @@ import MobileNavbar from '@/components/lms/dashboard-navbar';
 import Sidebar from '@/components/lms/sidebar';
 import { Head, router, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { toast, Toaster } from 'sonner';
 
 export default function LMSLayout({ children, title = 'Dashboard' }: any) {
     const { props } = usePage();
@@ -42,6 +42,7 @@ export default function LMSLayout({ children, title = 'Dashboard' }: any) {
                     <div className="flex flex-1 flex-col p-6 md:p-8">{children}</div>
                 </main>
             </div>
+            <Toaster richColors={true} />
         </>
     );
 }

@@ -70,13 +70,13 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                     <div className="flex justify-end gap-2">
                                         <button
                                             onClick={() => handleAction(true, app?.teacher_id)}
-                                            className="rounded-md bg-[#42C2FF] p-2 text-white shadow-sm hover:bg-[#42C2FF]/90"
+                                            className="rounded-md bg-[#42C2FF] p-2 text-white shadow-sm hover:bg-[#42C2FF]/90 cursor-pointer"
                                         >
                                             <Check size={16} />
                                         </button>
                                         <button
                                             onClick={() => handleAction(false, app?.teacher_id)}
-                                            className="rounded-md bg-[#FF5C5C] p-2 text-white shadow-sm hover:bg-[#E04343]"
+                                            className="rounded-md bg-[#FF5C5C] p-2 text-white shadow-sm hover:bg-[#E04343] cursor-pointer"
                                         >
                                             <X size={16} />
                                         </button>
@@ -142,13 +142,13 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                                 <div className="flex items-center justify-center gap-2">
                                                     <button
                                                         onClick={() => handleAction(true, app?.teacher_id)}
-                                                        className="rounded-md bg-[#42C2FF] p-2 text-white shadow-sm transition hover:bg-[#42C2FF]/90"
+                                                        className="rounded-md bg-[#42C2FF] p-2 text-white shadow-sm transition hover:bg-[#42C2FF]/90 cursor-pointer"
                                                     >
                                                         <Check size={16} strokeWidth={2.5} />
                                                     </button>
                                                     <button
                                                         onClick={() => handleAction(false, app?.teacher_id)}
-                                                        className="rounded-md bg-[#FF5C5C] p-2 text-white shadow-sm transition hover:bg-[#E04343]"
+                                                        className="rounded-md bg-[#FF5C5C] p-2 text-white shadow-sm transition hover:bg-[#E04343] cursor-pointer"
                                                     >
                                                         <X size={16} strokeWidth={2.5} />
                                                     </button>
