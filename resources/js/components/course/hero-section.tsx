@@ -1,15 +1,26 @@
 import { router, usePage } from '@inertiajs/react';
-import { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa6';
-import RegisterFlow from '../modal/register-course/register-modal';
 
 export default function CourseHero({ course }: { course: any }) {
-    const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-
-    const { props } = usePage();
+    const { props } = usePage<any>();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
+
+    const handleRegister = () => {
+        if (!user) {
+            router.get(route('login'));
+            return;
+        }
+
+        if (!user.email_verified_at) {
+            router.get(route('verification.notice'));
+            return;
+        }
+
+        router.get(route('payment-register', course.id));
+    };
+
     return (
         <section className="w-full border-b border-gray-200 bg-white py-10">
             <div className="mx-auto mt-8 grid grid-cols-1 items-start gap-10 px-4 md:px-20 lg:grid-cols-3">
@@ -20,52 +31,73 @@ export default function CourseHero({ course }: { course: any }) {
                                 <FaStar key={i} />
                             ))}
                         </div>
-                        <span className="font-semibold text-gray-800">{course.course_reviews_avg_rating ?? 0}</span>
-                        <span className="text-[#3ABEFF]">({course.course_reviews_count} reviews)</span>
+                        <span className="font-semibold text-gray-800">
+                            {course.course_reviews_avg_rating ?? 0}
+                        </span>
+                        <span className="text-[#3ABEFF]">
+                            ({course.course_reviews_count} reviews)
+                        </span>
                     </div>
 
-                    <h1 className="mb-3 text-3xl leading-snug font-bold text-gray-800">{course.name}</h1>
+                    <h1 className="mb-3 text-3xl font-bold leading-snug text-gray-800">
+                        {course.name}
+                    </h1>
 
                     <p className="mb-4 text-gray-700">
-                        <span className="font-semibold">Duration:</span> {course.duration} Minutes
+                        <span className="font-semibold">Duration:</span>{' '}
+                        {course.duration} Minutes
                     </p>
 
-                    <p className="mb-6 max-w-2xl leading-relaxed text-gray-600">{course.description}</p>
+                    <p className="mb-6 max-w-2xl leading-relaxed text-gray-600">
+                        {course.description}
+                    </p>
 
                     <div className="mb-8 grid gap-x-6 gap-y-3 text-gray-700 md:grid-cols-3">
                         {course.benefits?.map((item: any) => (
-                            <p key={item.id} className="flex items-center gap-2 text-sm">
-                                <FaCheck className="text-[#3ABEFF]" /> {item.description}
+                            <p
+                                key={item.id}
+                                className="flex items-center gap-2 text-sm"
+                            >
+                                <FaCheck className="text-[#3ABEFF]" />
+                                {item.description}
                             </p>
                         ))}
                     </div>
 
-                    <div className="mt-4 flex items-center gap-6">
+                    <div className="mt-4 flex flex-wrap items-center gap-6">
                         {(user?.role_id === roles.Student || !user) && (
                             <button
-                                className="rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8] cursor-pointer"
-                                onClick={() => {
-                                    if (!user) router.get(route('login'));
-                                    else if (user?.email_verified_at == null) router.get(route('verification.notice'));
-                                    else setIsRegisterOpen(true);
-                                }}
+                                onClick={handleRegister}
+                                className="cursor-pointer rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
                             >
                                 Register Now
                             </button>
                         )}
+
                         <div className="flex items-center gap-2">
                             <p className="text-xl font-bold text-[#3ABEFF]">
-                                Rp{Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString('id-ID', {
+                                Rp
+                                {(
+                                    Number(course.price) -
+                                    (Number(course.price) *
+                                        Number(course.discount)) /
+                                        100
+                                ).toLocaleString('id-ID', {
                                     minimumFractionDigits: 2,
                                     maximumFractionDigits: 2,
                                 })}
                             </p>
+
                             {Number(course.discount) > 0 && (
                                 <p className="text-sm text-gray-400 line-through">
-                                    Rp{Number(course.price).toLocaleString('id-ID', {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    })}
+                                    Rp
+                                    {Number(course.price).toLocaleString(
+                                        'id-ID',
+                                        {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        }
+                                    )}
                                 </p>
                             )}
                         </div>
@@ -80,7 +112,6 @@ export default function CourseHero({ course }: { course: any }) {
                     />
                 </div>
             </div>
-            <RegisterFlow isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
         </section>
     );
 }

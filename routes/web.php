@@ -52,6 +52,8 @@ Route::middleware(['auth', 'verified'])
                 Route::put('profile', 'putProfile')->name('update-profile');
                 Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
             });
+            Route::get('payment-lms', fn() => Inertia::render('student/payment-lms'))->name('payment-lms');
+            Route::get('payment-register', fn() => Inertia::render('courses/payment'))->name('payment-register');
         });
         Route::middleware(['role:Admin'])
             ->prefix('admin')

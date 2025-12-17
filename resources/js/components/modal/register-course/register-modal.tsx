@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import TeacherSelectModal from './select-teacher';
-import PaymentSelectModal from './payment';
+import PaymentSelectModal from '../../../pages/courses/payment';
 import TimeSelectModal from './select-timetable';
 
 const RegisterFlow = ({ isOpen, onClose }: any) => {
