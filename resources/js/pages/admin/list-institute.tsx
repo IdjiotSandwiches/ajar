@@ -60,7 +60,7 @@ export default function InstituteList() {
                     <div className="mb-6 flex items-center justify-between">
                         <h3 className="text-xl font-semibold">Institute List</h3>
                         <button
-                            onClick={() => router.get(route('institute.create'))}
+                            onClick={() => router.get(route('admin.register-institute'))}
                             className="flex items-center gap-2 rounded-md bg-[#42C2FF] px-4 py-2 text-sm font-medium text-white hover:bg-[#42C2FF]/90"
                         >
                             <Plus size={16} /> Add Institute

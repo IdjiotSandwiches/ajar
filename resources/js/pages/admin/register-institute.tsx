@@ -1,3 +1,4 @@
+
 import DetailInput from '@/components/detail-input';
 import LMSLayout from '@/layouts/lms-layout';
 import { Form, Head } from '@inertiajs/react';
@@ -24,11 +25,11 @@ export default function InstituteForm({ institute, errors }: any) {
                 <div className="rounded-2xl bg-white p-8 shadow-sm">
                     <Form
                         method="post"
-                        action={
-                            institute
-                                ? route('institute.update', institute.id)
-                                : route('institute.store')
-                        }
+                        // action={
+                        //     institute
+                        //         ? route('institute.update', institute.id)
+                        //         : route('institute.store')
+                        // }
                         className="flex flex-col gap-4"
                     >
                         {institute && (
@@ -40,25 +41,14 @@ export default function InstituteForm({ institute, errors }: any) {
                             title="Institute Name"
                             name="name"
                             id="name"
+                            type="text"
                             value={institute?.name}
                         />
                         {errors?.name && (
                             <p className="text-red-500">{errors.name}</p>
                         )}
 
-                        {/* ================= EMAIL ================= */}
-                        <DetailInput
-                            title="Email"
-                            name="email"
-                            id="email"
-                            type="email"
-                            value={institute?.email}
-                        />
-                        {errors?.email && (
-                            <p className="text-red-500">{errors.email}</p>
-                        )}
-
-                        {/* ================= CATEGORY ================= */}
+                                                {/* ================= CATEGORY ================= */}
                         <div>
                             <p className="mb-2 text-sm font-medium text-gray-800">
                                 Institute Category
@@ -100,6 +90,18 @@ export default function InstituteForm({ institute, errors }: any) {
                                 </p>
                             )}
                         </div>
+
+                        {/* ================= EMAIL ================= */}
+                        <DetailInput
+                            title="Email"
+                            name="email"
+                            id="email"
+                            type="email"
+                            value={institute?.email}
+                        />
+                        {errors?.email && (
+                            <p className="text-red-500">{errors.email}</p>
+                        )}
 
                         {/* ================= PASSWORD ================= */}
                         <DetailInput
