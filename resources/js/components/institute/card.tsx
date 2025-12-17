@@ -54,7 +54,7 @@ export default function InstituteCard({ institute, showTeacher = true }: any) {
 
                 {institute?.status == states.Available && (
                     <button
-                        onClick={() => router.post(route('teacher.apply-as-teacher', institute?.user_id))}
+                        onClick={() => router.get(route('detail-institute', institute.user_id))}
                         className="mt-0.5 w-full cursor-pointer rounded-2xl bg-[#3ABEFF] py-2 text-sm font-medium text-white transition hover:bg-[#2fa5d8]"
                     >
                         Apply as Teacher

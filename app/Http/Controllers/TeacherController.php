@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\StateEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TeacherApplicationRequest;
+use App\Http\Requests\ApplicationRequest;
 use App\Http\Requests\TeacherDetailRequest;
 use App\Http\Requests\TeacherProfileRequest;
 use App\Services\TeacherService;
@@ -85,7 +85,7 @@ class TeacherController extends Controller
         }
     }
 
-    public function getTeacherApplications(TeacherApplicationRequest $request)
+    public function getTeacherApplications(ApplicationRequest $request)
     {
         $validated = $request->validated();
         $status = StateEnum::Available;
@@ -93,12 +93,33 @@ class TeacherController extends Controller
         if (!empty($validated['status']))
             $status = StateEnum::from($validated['status']);
 
-        $institutes = $this->service->getInstituteApplications($status);
+        $categories = $this->service->getParentCategories();
+        $institutes = $this->service->getInstituteApplications($status, $validated);
         $counts = $this->service->getInstituteApplicationCount();
         return Inertia::render('teacher/institute-applications', [
             'institutes' => Inertia::scroll($institutes),
+            'categories' => $categories,
             'counts' => $counts,
-            'state' => $status
+            'state' => $status,
+        ]);
+    }
+
+    public function getCourseApplications(ApplicationRequest $request)
+    {
+        $validated = $request->validated();
+        $status = StateEnum::Available;
+
+        if (!empty($validated['status']))
+            $status = StateEnum::from($validated['status']);
+
+        $categories = $this->service->getSubCategories();
+        $courses = $this->service->getCourseApplications($status, $validated);
+        $counts = $this->service->getCourseApplicationCount();
+        return Inertia::render('teacher/course-application', [
+            'courses' => Inertia::scroll($courses),
+            'categories' => $categories,
+            'counts' => $counts,
+            'state' => $status,
         ]);
     }
 }

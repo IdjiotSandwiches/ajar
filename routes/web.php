@@ -71,10 +71,10 @@ Route::middleware(['auth', 'verified'])
                     Route::post('detail', 'putDetail')->name('update-detail');
                     Route::post('meeting-link/{id}', 'addMeetingLink')->name('add-meeting-link');
                     Route::get('institute-applications', 'getTeacherApplications')->name('institute-applications');
+                    Route::get('course-applications', 'getCourseApplications')->name('course-applications');
                 });
                 Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
                 Route::get('courses-taught', fn() => Inertia::render('teacher/courses-taught'))->name('courses-taught');
-                Route::get('course-applications', fn() => Inertia::render('teacher/course-application'))->name('course-applications');
             });
         Route::middleware(['role:Institute'])
             ->prefix('institute')

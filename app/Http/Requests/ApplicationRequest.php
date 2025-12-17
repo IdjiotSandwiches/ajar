@@ -6,7 +6,7 @@ use App\Enums\StateEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class TeacherApplicationRequest extends FormRequest
+class ApplicationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,7 @@ class TeacherApplicationRequest extends FormRequest
     {
         return [
             'search' => 'nullable|string',
+            'category_id' => 'nullable|integer|exists:categories,id',
             'status' => new Enum(StateEnum::class)
         ];
     }
