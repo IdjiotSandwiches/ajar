@@ -114,4 +114,9 @@ class Teacher extends Model
     {
         return $this->hasMany(TeacherApplication::class, 'teacher_id', 'user_id');
     }
+
+    public function teachingCourses()
+    {
+        return $this->hasMany(TeachingCourse::class, 'teacher_id', 'user_id');
+    }
 }

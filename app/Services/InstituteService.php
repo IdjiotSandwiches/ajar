@@ -7,6 +7,7 @@ use App\Models\Institute;
 use App\Models\TeacherApplication;
 use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
+use function PHPUnit\Framework\isEmpty;
 
 class InstituteService
 {
@@ -75,7 +76,7 @@ class InstituteService
         }
 
         $categoryIds = $categories->pluck('id');
-        $institutes = Institute::with(['user','teacherApplications.teacher', 'teacherApplications' => fn($q) => $q->where('is_verified', true)])
+        $institutes = Institute::with(['user', 'teacherApplications.teacher', 'teacherApplications' => fn($q) => $q->where('is_verified', true)])
             ->whereIn('category_id', $categoryIds)
             ->when(
                 $filters['search'] ?? null,
@@ -147,5 +148,33 @@ class InstituteService
         ]);
 
         Utility::updateSocialMedias($user, $data);
+    }
+
+    public function teacherList($filters)
+    {
+        $user = Auth::user();
+        if (!$user)
+            return null;
+
+        $teachers = TeacherApplication::with(['teacher.user', 'teacher.teachingCourses'])
+            ->when(
+                !isEmpty($filters['name']),
+                fn($query) => $query->whereHas(
+                    'teacher.user',
+                    fn($q) => $q->where('name', $filters['name'])
+                )
+            )
+            ->withCount('teachingCourses')
+            ->withCount('teacher.reviews')
+            ->withAvg('teacher.reviews', 'rating')
+            ->paginate(10)
+            ->through(fn($item) => [
+                'name' => $item->teacher->user->name,
+                'course_taught' => $item->teaching_courses_count,
+                'review_count' => $item->teacher_reviews_count,
+                'review_rating' => round($item->teacher_reviews_avg_rating ?? 0, 1)
+            ]);
+
+        return $teachers;
     }
 }

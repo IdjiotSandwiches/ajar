@@ -1,5 +1,5 @@
 import { router, usePage } from '@inertiajs/react';
-import { BookA, BookCheck, ChevronDown, ChevronLeft, ChevronRight, LogOut, X } from 'lucide-react';
+import { BookA, BookCheck, Calendar, ChevronDown, ChevronLeft, ChevronRight, LogOut, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Book, Home, MessageSquare, User } from 'react-feather';
 import { FaMoneyBill } from 'react-icons/fa';
@@ -23,9 +23,8 @@ const MENU_STUDENT: NavItem[] = [
 const MENU_TEACHER: NavItem[] = [
     { id: "dashboard", label: "My Dashboard", icon: <Home size={18} />, route: "dashboard" },
     { id: "mylearning", label: "My Learning", icon: <Book size={18} />, route: "my-learning" },
-    { id: "applycourses", label: "Apply Courses", icon: <BookCheck size={18} />, route: "teacher.applycourses" },
+    { id: "applycourses", label: "Apply Courses", icon: <BookCheck size={18} />, route: "teacher.apply-courses" },
     { id: "coursestaught", label: "Courses Taught", icon: <BookA size={18} />, route: "teacher.courses-taught" },
-    // { id: "addschedule", label: "Add Schedule", icon: <Calendar size={18} />, route: "teacher.add-schedule" },
     { id: "messages", label: "Messages", icon: <MessageSquare size={18} />, route: "chat" },
     { id: "profile", label: "Profile", icon: <User size={18} />, route: "teacher.profile" },
 ];

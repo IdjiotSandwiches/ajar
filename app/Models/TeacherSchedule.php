@@ -22,6 +22,7 @@ class TeacherSchedule extends Model
         'is_verified',
         'course_id',
         'teacher_id',
+        'teaching_course_id'
     ];
 
     protected $casts = [
@@ -41,5 +42,10 @@ class TeacherSchedule extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function teachingCourse()
+    {
+        return $this->belongsTo(TeachingCourse::class);
     }
 }

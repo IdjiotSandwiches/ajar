@@ -102,9 +102,5 @@ Route::middleware(['auth', 'verified'])
             });
     });
 
-// tampil di semua role
-
-// tampil hanya di student & teacher
-
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
