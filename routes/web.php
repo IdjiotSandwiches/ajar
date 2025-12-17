@@ -73,6 +73,8 @@ Route::middleware(['auth', 'verified'])
                 });
                 Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
                 Route::get('courses-taught', fn() => Inertia::render('teacher/courses-taught'))->name('courses-taught');
+                Route::get('course-applications', fn() => Inertia::render('teacher/course-application'))->name('course-applications');
+                Route::get('institute-applications', fn() => Inertia::render('teacher/institute-applications'))->name('institute-applications');
             });
         Route::middleware(['role:Institute'])
             ->prefix('institute')
@@ -94,6 +96,7 @@ Route::middleware(['auth', 'verified'])
                     Route::put('profile', 'putProfile')->name('update-profile');
                 });
                 Route::get('course-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
+                Route::get('course-teacher-applications', fn() => Inertia::render('institute/course-teacher-applications'))->name('course-teacher-applications');
             });
 
         Route::middleware(['role:Student,Teacher'])

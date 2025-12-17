@@ -23,7 +23,25 @@ const MENU_STUDENT: NavItem[] = [
 const MENU_TEACHER: NavItem[] = [
     { id: "dashboard", label: "My Dashboard", icon: <Home size={18} />, route: "dashboard" },
     { id: "mylearning", label: "My Learning", icon: <Book size={18} />, route: "my-learning" },
-    { id: "applycourses", label: "Apply Courses", icon: <BookCheck size={18} />, route: "teacher.apply-courses" },
+    {
+        id: "applications",
+        label: "Applications",
+        icon: <User size={18} />,
+        children: [
+            {
+                id: "instituteapplications",
+                label: "Institute Applications",
+                icon: <BookCheck size={16} />,
+                route: "teacher.institute-applications",
+            },
+            {
+                id: "courseapplications",
+                label: "Course Applications",
+                icon: <User size={16} />,
+                route: "teacher.course-applications",
+            },
+        ],
+    },
     { id: "coursestaught", label: "Courses Taught", icon: <BookA size={18} />, route: "teacher.courses-taught" },
     { id: "messages", label: "Messages", icon: <MessageSquare size={18} />, route: "chat" },
     { id: "profile", label: "Profile", icon: <User size={18} />, route: "teacher.profile" },
@@ -43,6 +61,12 @@ const MENU_INSTITUTE: NavItem[] = [
                 label: "Teacher Applications",
                 icon: <BookCheck size={16} />,
                 route: "institute.teacher-application",
+            },
+            {
+                id: "courseteacherapplications",
+                label: "Course Teaching",
+                icon: <BookCheck size={16} />,
+                route: "institute.course-teacher-applications",
             },
             {
                 id: "manageteachers",
