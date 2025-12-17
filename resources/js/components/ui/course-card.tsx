@@ -46,7 +46,7 @@ export default function CourseCard({ course, isTag, showTeacher = true }: any) {
                 <div className="mt-4 flex items-center justify-between">
                     <div>
                         <p className="text-sm font-semibold text-gray-800">
-                            {user !== null && user?.role_id !== roles.Student && user?.role_id !== roles.Admin ? (
+                            {(user?.role_id === roles.Teacher || !user) ? (
                                 <p className="text-sm font-semibold text-gray-800">
                                     Rp
                                     {Number(course.teacher_salary).toLocaleString('id-ID', {

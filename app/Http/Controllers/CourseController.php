@@ -46,27 +46,13 @@ class CourseController extends Controller
         ]);
     }
 
-    public function getCourseDetail(Request $request, int $id)
+    public function getCourseDetail($id)
     {
-        $selectedTeacherId = $request->query('selected_teacher_id');
-        $selectedScheduleId = $request->query('selected_schedule_id');
-        [$course, $popularCourses] = $this->service->getCourseDetail($id);
+        [$course, $popularCourses, $teaching] = $this->service->getCourseDetail($id);
         return Inertia::render('courses/detail', [
             'course' => $course,
             'popularCourses' => $popularCourses,
-            'teachers' => Inertia::lazy(fn() => $this->service->getCourseTeachers($id)),
-            'schedules' => Inertia::lazy(
-                fn() =>
-                $selectedTeacherId
-                ? $this->service->getCourseSchedules($selectedTeacherId, $id)
-                : null
-            ),
-            'paymentDetail' => Inertia::lazy(
-                fn() =>
-                $selectedScheduleId
-                ? $this->service->getCourseScheduleDetails($selectedScheduleId)
-                : null
-            )
+            'teaching' => $teaching
         ]);
     }
 

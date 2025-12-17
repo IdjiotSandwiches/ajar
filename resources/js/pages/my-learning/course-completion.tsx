@@ -1,6 +1,7 @@
 import DynamicModal from "@/components/modal/modal";
 import CourseCompletionCard from "@/components/my-learning/course-completion-card";
 import AppLayout from "@/layouts/app-layout";
+import LMSLayout from "@/layouts/lms-layout";
 import React, { useState } from "react";
 
 export default function CourseCompletionPage() {
@@ -40,12 +41,10 @@ export default function CourseCompletionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FCFF] flex flex-col">
-      <div className="max-w-4xl mx-auto py-12 md:py-16 px-4 md:px-6 w-full">
-        <h1 className="text-xl md:text-2xl font-semibold text-center text-[#42C2FF] mb-8">
-          Course Completion
-        </h1>
-
+    <div className="min-h-screen flex flex-col gap-6">
+      <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Courses Completion</h1>
+      <div className="mx-auto w-full rounded-2xl bg-white p-4 sm:p-6 md:p-8 shadow-sm">
+        <h3 className="font-semibold text-xl mb-6">Course List</h3>
         <div>
           {courseList.map((course, index) => (
             <CourseCompletionCard
@@ -69,6 +68,4 @@ export default function CourseCompletionPage() {
   );
 }
 
-CourseCompletionPage.layout = (page: React.ReactNode) => (
-  <AppLayout useContainer>{page}</AppLayout>
-);
+CourseCompletionPage.layout = (page: React.ReactNode) => <LMSLayout title="Courses Completion">{page}</LMSLayout>;

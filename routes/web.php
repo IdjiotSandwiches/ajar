@@ -28,6 +28,8 @@ Route::group([], function () {
     });
 });
 
+
+
 Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::group([], function () {
@@ -50,14 +52,20 @@ Route::middleware(['auth', 'verified'])
                 Route::put('profile', 'putProfile')->name('update-profile');
                 Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
             });
+            Route::get('payment-lms', fn() => Inertia::render('student/payment-lms'))->name('payment-lms');
+            Route::get('payment-register', fn() => Inertia::render('courses/payment'))->name('payment-register');
         });
         Route::middleware(['role:Admin'])
             ->prefix('admin')
             ->name('admin.')
             ->group(function () {
                 Route::controller(AdminController::class)->group(function () {
-                    Route::post('register-institute', 'registerInstitute')->name('register-institute');
+                    Route::get('register-institute', fn() => Inertia::render('admin/register-institute'))->name('register-institute');
                     Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
+                    Route::get('remove-course', fn() => Inertia::render('admin/remove-course'))->name('remove-course');
+                    Route::get('teacher-applications', fn() => Inertia::render('admin/teacher-application'))->name('teacher-applications');
+                    Route::get('list-teacher', fn() => Inertia::render('admin/list-teacher'))->name('list-teacher');
+                    Route::get('list-institute', fn() => Inertia::render('admin/list-institute'))->name('list-institute');
                 });
             });
         Route::middleware(['role:Teacher'])

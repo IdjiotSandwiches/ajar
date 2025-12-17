@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\TeacherApplication;
+use App\Models\TeachingCourse;
 use Carbon\Carbon;
 use App\Enums\RoleEnum;
 use App\Models\Category;
@@ -146,8 +148,23 @@ class CourseService
             $course->setRelation('benefits', $course->courseStudentBenefits);
         }
 
+        $teaching = null;
+        if ($user?->role_id == RoleEnum::Teacher) {
+            $application = TeacherApplication::query()
+                ->where('teacher_id', $user->id)
+                ->where('institute_id', $course->institute->user_id)
+                ->where('is_verified', true)
+                ->exists();
+
+            if ($application) {
+                $teaching = TeachingCourse::where('teacher_id', $user->id)
+                    ->where('course_id', $course->id)
+                    ->first();
+            }
+        }
+
         $popularCourses = $this->getPopularCourseByCategory($course->category_id, $course->id);
-        return [$course, $popularCourses];
+        return [$course, $popularCourses, $teaching];
     }
 
     public function getPopularCourseByCategory($categoryId, $currentCourseId)
