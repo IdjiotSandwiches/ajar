@@ -8,7 +8,6 @@ use App\Models\TeacherApplication;
 use App\Models\TeachingCourse;
 use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
-use function PHPUnit\Framework\isEmpty;
 
 class InstituteService
 {

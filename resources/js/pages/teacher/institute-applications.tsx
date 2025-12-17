@@ -10,15 +10,23 @@ export default function ApplyTeacherInstitutePage({ institutes, counts, state, c
     const states = props.enums?.state_enum;
 
     const [activeStatus, setActiveStatus] = useState<number>(state || states.Available);
-    const onFilterChange = (filters: any, value: any) => {
-        setActiveStatus(value ?? activeStatus);
+    const reload = (status: any, filters: any) => {
         router.reload({
             data: {
                 search: filters.search,
-                status: value || activeStatus,
+                status: status || activeStatus,
                 category_id: filters.category
             },
         });
+    };
+
+    const handleStatusChange = (status: any) => {
+        setActiveStatus(status || activeStatus);
+        reload(status, {});
+    }
+
+    const handleFilterChange = (filters: any) => {
+        reload(activeStatus, filters);
     };
 
     return (
@@ -29,8 +37,8 @@ export default function ApplyTeacherInstitutePage({ institutes, counts, state, c
                         <h1 className="text-2xl font-semibold text-gray-800">Apply to Become Institute's Teachers</h1>
                         <p className="text-gray-500">Ajukan diri Anda sebagai guru di institute pilihan.</p>
                     </header>
-                    <StatusTabs active={activeStatus} onChange={onFilterChange} counts={counts} states={states} accepted={'My Institutes'} />
-                    <Filter key={activeStatus} categories={categories} onFilterChange={onFilterChange} />
+                    <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} accepted={'My Institutes'} />
+                    <Filter key={activeStatus} categories={categories} onFilterChange={handleFilterChange} />
                     {institutes.data?.length === 0 ? (
                         <p className="py-20 text-center text-gray-500 italic">Tidak ada institute pada kategori ini.</p>
                     ) : (

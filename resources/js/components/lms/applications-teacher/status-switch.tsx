@@ -4,7 +4,7 @@ export function StatusTabs({ active, onChange, counts, states, accepted }: any) 
             {Object.entries(states).map(([label, value]: any) => (
                 <button
                     key={label}
-                    onClick={() => onChange({}, value)}
+                    onClick={() => onChange(value, {})}
                     className={`rounded-md px-4 py-2 text-sm font-medium transition ${
                         active === value ? 'bg-white text-gray-800 shadow' : 'text-gray-500 hover:text-gray-700'
                     } `}

@@ -106,6 +106,10 @@ class TeacherController extends Controller
 
     public function getCourseApplications(ApplicationRequest $request)
     {
+        // if (!$request->header('X-Inertia') && $request->query()) {
+        //     return redirect()->route('teacher.course-applications');
+        // }
+
         $validated = $request->validated();
         $status = StateEnum::Available;
 

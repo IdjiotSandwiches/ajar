@@ -241,6 +241,8 @@ class TeacherService
 
         $courses = Course::with([])
             ->whereIn('institute_id', $institutes)
+            ->when(!empty($filters['search']), fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
+            ->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
             ->when($status === StateEnum::Available, fn($q) => $q->whereNotIn('course_id', $application))
             ->when($status === StateEnum::Pending || $status === StateEnum::Accepted, fn($q) => $q->whereIn('course_id', $application))
             ->paginate(10)

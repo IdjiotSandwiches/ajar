@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Filter({ categories, onFilterChange }: any) {
+    const isMounted = useRef(false);
     const [filters, setFilters] = useState({
         search: '',
         category: '',
@@ -16,6 +17,11 @@ export default function Filter({ categories, onFilterChange }: any) {
     };
 
     useEffect(() => {
+        if (!isMounted.current) {
+            isMounted.current = true;
+            return;
+        }
+
         const timeout = setTimeout(() => {
             onFilterChange(filters);
         }, 400);

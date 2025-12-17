@@ -10,39 +10,50 @@ export default function TeacherApplyCourses({ courses, categories, counts, state
     const states = props.enums?.state_enum;
 
     const [activeStatus, setActiveStatus] = useState<number>(state || states.Available);
-    const onFilterChange = (filters: any, value: any) => {
-        setActiveStatus(value ?? activeStatus);
+    const reload = (status: any, filters: any) => {
         router.reload({
             data: {
                 search: filters.search,
-                status: value || activeStatus,
-                category_id: filters.category,
+                status: status || activeStatus,
+                category_id: filters.category
             },
         });
     };
 
-    return (
-        <div className="space-y-6">
-            <header>
-                <h1 className="text-2xl font-semibold text-gray-800">Apply to Teach Courses</h1>
-                <p className="text-gray-500">Pilih kursus yang ingin Anda ajar atau kelola pengajuan Anda.</p>
-            </header>
-            <StatusTabs active={activeStatus} onChange={onFilterChange} counts={counts} states={states} accepted={'My Courses'} />
-            <Filter key={activeStatus} categories={categories} onFilterChange={onFilterChange} />
+    const handleStatusChange = (status: any) => {
+        setActiveStatus(status || activeStatus);
+        reload(status, {});
+    }
 
-            {courses.data?.length === 0 ? (
-                <p className="py-10 text-sm text-gray-500 italic">Tidak ada kursus pada kategori ini.</p>
-            ) : (
-                <InfiniteScroll
-                    buffer={1}
-                    loading={() => 'Loading more courses...'}
-                    data="courses"
-                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-                >
-                    {courses.data?.map((course: any, index: number) => <CourseCard key={index} course={course} isTag={false} />)}
-                </InfiniteScroll>
-            )}
-        </div>
+    const handleFilterChange = (filters: any) => {
+        reload(activeStatus, filters);
+    };
+
+    return (
+        <>
+            <section className="min-h-screen bg-[#F7FDFD]">
+                <div className="space-y-6">
+                    <header>
+                        <h1 className="text-2xl font-semibold text-gray-800">Apply to Teach Courses</h1>
+                        <p className="text-gray-500">Pilih kursus yang ingin Anda ajar atau kelola pengajuan Anda.</p>
+                    </header>
+                    <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} accepted={'My Courses'} />
+                    <Filter key={activeStatus} categories={categories} onFilterChange={handleFilterChange} />
+                    {courses.data?.length === 0 ? (
+                        <p className="py-10 text-sm text-gray-500 italic text-center">Tidak ada kursus pada kategori ini.</p>
+                    ) : (
+                        <InfiniteScroll
+                            buffer={1}
+                            loading={() => 'Loading more courses...'}
+                            data="courses"
+                            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+                        >
+                            {courses.data?.map((course: any, index: number) => <CourseCard key={index} course={course} isTag={false} />)}
+                        </InfiniteScroll>
+                    )}
+                </div>
+            </section>
+        </>
     );
 }
 
