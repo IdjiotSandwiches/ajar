@@ -40,6 +40,16 @@ class TeacherController extends Controller
         }
     }
 
+    public function applyToCourse($id)
+    {
+        try {
+            $this->service->applyToCourse($id);
+            return back()->with('success', 'You have applied, please wait for a moment!');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
     public function getProfile()
     {
         return Inertia::render('teacher/edit-profile', [
@@ -106,10 +116,6 @@ class TeacherController extends Controller
 
     public function getCourseApplications(ApplicationRequest $request)
     {
-        // if (!$request->header('X-Inertia') && $request->query()) {
-        //     return redirect()->route('teacher.course-applications');
-        // }
-
         $validated = $request->validated();
         $status = StateEnum::Available;
 

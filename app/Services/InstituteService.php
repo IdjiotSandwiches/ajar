@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Category;
+use App\Models\Course;
 use App\Models\Institute;
 use App\Models\TeacherApplication;
 use App\Models\TeachingCourse;
@@ -206,6 +207,7 @@ class InstituteService
             return null;
 
         $applications = TeachingCourse::with(['course', 'teacher.user'])
+            ->whereNull('is_verified')
             ->whereHas('course', fn($q) => $q->where('institute_id', $user->id))
             ->paginate(10)
             ->through(fn($item) => [
@@ -221,5 +223,26 @@ class InstituteService
             ]);
 
         return $applications;
+    }
+
+    public function verifyCourse($id, $isVerified)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user = $user->load('institute');
+        }
+
+        $teaching = TeachingCourse::with(['course'])
+            ->where('id', $id)
+            ->whereHas('course', fn($q) => $q->where('institute_id', $user?->id))
+            ->first();
+
+        if (!$teaching) {
+            return false;
+        }
+
+        $teaching->is_verified = $isVerified;
+        $teaching->save();
+        return true;
     }
 }

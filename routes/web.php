@@ -73,7 +73,8 @@ Route::middleware(['auth', 'verified'])
             ->name('teacher.')
             ->group(function () {
                 Route::controller(TeacherController::class)->group(function () {
-                    Route::post('apply/{id}', 'applyAsTeacher')->name('apply-as-teacher');
+                    Route::post('apply/institute/{id}', 'applyAsTeacher')->name('apply-as-teacher');
+                    Route::post('apply/course/{id}', 'applyToCourse')->name('apply-to-course');
                     Route::get('profile', 'getProfile')->name('profile');
                     Route::put('profile', 'putProfile')->name('update-profile');
                     Route::post('detail', 'putDetail')->name('update-detail');

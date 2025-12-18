@@ -50,7 +50,7 @@ export default function CourseHero({ course, teaching }: any) {
                         {user?.role_id === roles.Teacher &&
                             (!teaching?.is_verified ? (
                                 <button
-                                    // onClick={() => router.post(route('teacher.apply-as-teacher', institute?.user_id))}
+                                    onClick={() => router.post(route('teacher.apply-to-course', course?.id))}
                                     disabled={teaching && teaching?.is_verified == null}
                                     className="cursor-pointer rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
                                 >
@@ -63,7 +63,7 @@ export default function CourseHero({ course, teaching }: any) {
                             ))}
 
                         <div className="flex items-center gap-2">
-                            {user?.role_id === roles.Teacher || !user ? (
+                            {(user && user.role_id === roles.Teacher) ? (
                                 <p className="text-xl font-bold text-[#3ABEFF]">
                                     Rp
                                     {Number(course.teacher_salary).toLocaleString('id-ID', {

@@ -243,8 +243,8 @@ class TeacherService
             ->whereIn('institute_id', $institutes)
             ->when(!empty($filters['search']), fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
             ->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
-            ->when($status === StateEnum::Available, fn($q) => $q->whereNotIn('course_id', $application))
-            ->when($status === StateEnum::Pending || $status === StateEnum::Accepted, fn($q) => $q->whereIn('course_id', $application))
+            ->when($status === StateEnum::Available, fn($q) => $q->whereNotIn('id', $application))
+            ->when($status === StateEnum::Pending || $status === StateEnum::Accepted, fn($q) => $q->whereIn('id', $application))
             ->paginate(10)
             ->through(function ($item) use ($status) {
                 $item->status = $status;
@@ -283,18 +283,34 @@ class TeacherService
         $counts = [
             StateEnum::Available->value => Course::query()
                 ->whereIn('institute_id', $institutes)
-                ->whereNotIn('user_id', $applications[StateEnum::Available->value])
+                ->whereNotIn('id', $applications[StateEnum::Available->value])
                 ->count(),
             StateEnum::Pending->value => Course::query()
                 ->whereIn('institute_id', $institutes)
-                ->whereIn('user_id', $applications[StateEnum::Pending->value])
+                ->whereIn('id', $applications[StateEnum::Pending->value])
                 ->count(),
             StateEnum::Accepted->value => Course::query()
                 ->whereIn('institute_id', $institutes)
-                ->whereIn('user_id', $applications[StateEnum::Accepted->value])
+                ->whereIn('id', $applications[StateEnum::Accepted->value])
                 ->count(),
         ];
 
         return $counts;
+    }
+
+    public function applyToCourse($id)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user = $user->load('teacher');
+        }
+
+        $application = TeachingCourse::firstOrNew([
+            'teacher_id' => $user?->id,
+            'course_id' => $id
+        ]);
+
+        $application->is_verified = null;
+        $application->save();
     }
 }

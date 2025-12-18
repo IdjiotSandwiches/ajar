@@ -121,4 +121,26 @@ class InstituteController extends Controller
             'applications' => $teachers
         ]);
     }
+
+    public function acceptCourse($id)
+    {
+        $isAccepted = $this->service->verifyCourse($id, true);
+        if (!$isAccepted) {
+            return back()->with('error', 'Course not found!');
+        }
+        else {
+            return back()->with('success', 'Course Application has been verified.');
+        }
+    }
+
+    public function rejectCourse($id)
+    {
+        $isAccepted = $this->service->verifyCourse($id, false);
+        if (!$isAccepted) {
+            return back()->with('error', 'Course not found!');
+        }
+        else {
+            return back()->with('success', 'Course Application has been declined.');
+        }
+    }
 }
