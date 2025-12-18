@@ -15,7 +15,7 @@ export default function InstituteList({ institutes }: any) {
     };
 
     const confirmDelete = () => {
-        console.log('DELETE INSTITUTE ID:', deleteInstitute);
+        router.delete(route('admin.delete-institute', { id: deleteInstitute }));
         setShowModal(false);
     };
 
@@ -29,7 +29,7 @@ export default function InstituteList({ institutes }: any) {
                         <h3 className="text-xl font-semibold">Institute List</h3>
                         <button
                             onClick={() => router.get(route('admin.register-institute'))}
-                            className="flex items-center gap-2 rounded-md bg-[#42C2FF] px-4 py-2 text-sm font-medium text-white hover:bg-[#42C2FF]/90 cursor-pointer"
+                            className="flex cursor-pointer items-center gap-2 rounded-md bg-[#42C2FF] px-4 py-2 text-sm font-medium text-white hover:bg-[#42C2FF]/90"
                         >
                             <Plus size={16} /> Add Institute
                         </button>
@@ -42,6 +42,7 @@ export default function InstituteList({ institutes }: any) {
                                 <tr>
                                     <th className="p-2 text-center">No</th>
                                     <th className="p-3 text-left">Institute Name</th>
+                                    <th className="p-3 text-center">Category</th>
                                     <th className="p-3 text-center">Courses</th>
                                     <th className="p-3 text-center">Rating</th>
                                     <th className="p-3 text-center">Action</th>
@@ -52,6 +53,7 @@ export default function InstituteList({ institutes }: any) {
                                     <tr key={inst.id} className={`border-b hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}>
                                         <td className="p-2 text-center">{index + 1}</td>
                                         <td className="p-3 font-semibold">{inst.name}</td>
+                                        <td className="p-3 text-center">{inst.category}</td>
                                         <td className="p-3 text-center">{inst.courses_count}</td>
                                         <td className="p-3 text-center">
                                             {inst.rating ? (
@@ -87,6 +89,7 @@ export default function InstituteList({ institutes }: any) {
                         {institutes.data?.map((inst: any) => (
                             <div key={inst.id} className="rounded-xl border bg-white p-4 shadow-sm">
                                 <p className="font-semibold text-gray-800">{inst.name}</p>
+                                <p className="text-sm text-gray-600">Category: {inst.category}</p>
                                 <p className="text-sm text-gray-600">Courses: {inst.courses_count}</p>
                                 <p className="text-sm text-gray-600">
                                     Rating: {inst.rating ? `⭐ ${inst.reviews_avg_rating} (${inst.reviews_count})` : 'No review'}

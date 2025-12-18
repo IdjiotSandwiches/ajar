@@ -1,52 +1,14 @@
-/* eslint-disable @typescript-eslint/no-wrapper-object-types */
 import Filter from '@/components/lms/filter/institute/filter-mycourses';
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
-import { Head } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function ManageTeachersPage() {
+export default function ManageTeachersPage({ teachers }: any) {
     const [showModal, setShowModal] = useState(false);
-    const [selectedTeacherId, setSelectedTeacherId] = useState<number | null>(null);
-
-    /* =========================
-        DUMMY DATA
-    ========================= */
-    const teachers = {
-        data: [
-            {
-                id: 1,
-                full_name: 'Budi Santoso',
-                avatar: 'https://placehold.co/200',
-                institute: {
-                    name: 'Ajar Academy',
-                },
-                courses: [
-                    { id: 1, name: 'React Fundamentals' },
-                    { id: 2, name: 'Advanced TypeScript' },
-                ],
-            },
-            {
-                id: 2,
-                full_name: 'Siti Rahma',
-                avatar: 'https://placehold.co/200',
-                institute: null,
-                courses: [],
-            },
-            {
-                id: 3,
-                full_name: 'Andi Wijaya',
-                avatar: null,
-                institute: {
-                    name: 'Tech Edu Indonesia',
-                },
-                courses: [{ id: 3, name: 'Flutter for Beginner' }],
-            },
-        ],
-        links: [],
-    };
+    const [selectedTeacherId, setSelectedTeacherId] = useState<number>();
 
     const handleRemoveClick = (id: number) => {
         setSelectedTeacherId(id);
@@ -54,29 +16,19 @@ export default function ManageTeachersPage() {
     };
 
     const confirmRemove = () => {
-        console.log('REMOVE TEACHER ID:', selectedTeacherId);
+        router.delete(route('admin.delete-teacher', { id: selectedTeacherId }));
         setShowModal(false);
     };
 
-    const selectedTeacherName = teachers.data.find(
-        (t: any) => t.id === selectedTeacherId
-    )?.full_name;
-
     return (
         <>
-            <Head title="Manage Teachers" />
-
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">
-                    Manage Teachers
-                </h1>
-
+                <h1 className="hidden text-2xl font-semibold text-gray-800 md:flex">Manage Teachers</h1>
                 <Filter />
-
                 <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
                     <h3 className="mb-6 text-xl font-semibold">Teacher List</h3>
 
-                    <div className="hidden overflow-x-auto md:block rounded-lg border border-gray-200">
+                    <div className="hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
                         <table className="min-w-full text-sm text-gray-700">
                             <thead className="border-b bg-[#42C2FF]/10">
                                 <tr>
@@ -89,72 +41,50 @@ export default function ManageTeachersPage() {
                             </thead>
 
                             <tbody>
-                                {teachers.data.length === 0 ? (
+                                {teachers.data?.length === 0 ? (
                                     <tr>
-                                        <td
-                                            colSpan={5}
-                                            className="py-10 text-center text-gray-500"
-                                        >
+                                        <td colSpan={5} className="py-10 text-center text-gray-500">
                                             No teachers found.
                                         </td>
                                     </tr>
                                 ) : (
-                                    teachers.data.map((teacher: any, index: number) => (
+                                    teachers.data?.map((teacher: any, index: number) => (
                                         <tr
                                             key={teacher.id}
-                                            className={`border-b transition hover:bg-[#42C2FF]/10 ${
-                                                index % 2 === 0
-                                                    ? 'bg-[#f9fcff]'
-                                                    : 'bg-white'
-                                            }`}
+                                            className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
                                         >
-                                            <td className="p-2 text-center">
-                                                {index + 1}
-                                            </td>
+                                            <td className="p-2 text-center">{index + 1}</td>
 
                                             <td className="p-3">
                                                 <div className="flex items-center gap-3">
                                                     <img
-                                                        src={
-                                                            teacher.avatar ||
-                                                            'https://placehold.co/400'
-                                                        }
-                                                        alt={teacher.full_name}
+                                                        src={teacher.avatar || 'https://placehold.co/400'}
+                                                        alt={teacher.name}
                                                         className="h-10 w-10 rounded-full border object-cover"
                                                     />
-                                                    <span className="font-semibold">
-                                                        {teacher.full_name}
-                                                    </span>
+                                                    <span className="font-semibold">{teacher.name}</span>
                                                 </div>
                                             </td>
 
                                             <td className="p-3">
-                                                {teacher.institute?.name ?? (
-                                                    <span className="text-gray-400 italic">
-                                                        Not assigned
-                                                    </span>
-                                                )}
+                                                {teacher.institute?.name ?? <span className="text-gray-400 italic">Not assigned</span>}
                                             </td>
 
                                             <td className="p-3">
-                                                {teacher.courses.length === 0 ? (
-                                                    <span className="text-gray-400 italic">
-                                                        No course
-                                                    </span>
+                                                {/* {teacher.courses.length === 0 ? (
+                                                    <span className="text-gray-400 italic">No course</span>
                                                 ) : (
-                                                    <ul className="list-disc list-inside space-y-1">
+                                                    <ul className="list-inside list-disc space-y-1">
                                                         {teacher.courses.map((c: any) => (
                                                             <li key={c.id}>{c.name}</li>
                                                         ))}
                                                     </ul>
-                                                )}
+                                                )} */}
                                             </td>
 
                                             <td className="p-3 text-center">
                                                 <button
-                                                    onClick={() =>
-                                                        handleRemoveClick(teacher.id)
-                                                    }
+                                                    onClick={() => handleRemoveClick(teacher.id)}
                                                     className="rounded-md bg-[#FF5C5C] p-2 text-white hover:bg-[#E04343]"
                                                 >
                                                     <Trash2 size={16} />
@@ -168,55 +98,35 @@ export default function ManageTeachersPage() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 md:hidden">
-                        {teachers.data.map((teacher: any) => (
-                            <div
-                                key={teacher.id}
-                                className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-                            >
+                        {teachers.data?.map((teacher: any) => (
+                            <div key={teacher.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
                                 <div className="mb-3 flex items-center gap-3">
                                     <img
-                                        src={
-                                            teacher.avatar ||
-                                            'https://placehold.co/400'
-                                        }
-                                        alt={teacher.full_name}
+                                        src={teacher.avatar || 'https://placehold.co/400'}
+                                        alt={teacher.name}
                                         className="h-12 w-12 rounded-full border object-cover"
                                     />
                                     <div>
-                                        <p className="font-semibold text-gray-800">
-                                            {teacher.full_name}
-                                        </p>
-                                        <p className="text-xs text-gray-500">
-                                            {teacher.institute?.name ??
-                                                'Not assigned to institute'}
-                                        </p>
+                                        <p className="font-semibold text-gray-800">{teacher.name}</p>
+                                        <p className="text-xs text-gray-500">{teacher.institute?.name ?? 'Not assigned to institute'}</p>
                                     </div>
                                 </div>
 
                                 <div className="mb-3 text-sm">
-                                    <p className="font-medium text-gray-700 mb-1">
-                                        Courses Taught:
-                                    </p>
-                                    {teacher.courses.length === 0 ? (
-                                        <p className="italic text-gray-400">
-                                            No course
-                                        </p>
+                                    <p className="mb-1 font-medium text-gray-700">Courses Taught:</p>
+                                    {/* {teacher.courses.length === 0 ? (
+                                        <p className="text-gray-400 italic">No course</p>
                                     ) : (
-                                        <ul className="list-disc list-inside text-gray-600">
+                                        <ul className="list-inside list-disc text-gray-600">
                                             {teacher.courses.map((c: any) => (
                                                 <li key={c.id}>{c.name}</li>
                                             ))}
                                         </ul>
-                                    )}
+                                    )} */}
                                 </div>
 
                                 <div className="flex justify-end">
-                                    <button
-                                        onClick={() =>
-                                            handleRemoveClick(teacher.id)
-                                        }
-                                        className="rounded-md bg-[#FF5C5C] p-2 text-white"
-                                    >
+                                    <button onClick={() => handleRemoveClick(teacher.id)} className="rounded-md bg-[#FF5C5C] p-2 text-white">
                                         <Trash2 size={16} />
                                     </button>
                                 </div>
@@ -232,13 +142,11 @@ export default function ManageTeachersPage() {
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
                     onConfirm={confirmRemove}
-                    description={`Are you sure you want to remove ${selectedTeacherName} from the system?`}
+                    description={`Are you sure you want to remove ${teachers.data?.find((x: any) => x.id == selectedTeacherId)?.name} from the system?`}
                 />
             </div>
         </>
     );
 }
 
-ManageTeachersPage.layout = (page: React.ReactNode) => (
-    <LMSLayout title="Manage Teachers">{page}</LMSLayout>
-);
+ManageTeachersPage.layout = (page: React.ReactNode) => <LMSLayout title="Manage Teachers">{page}</LMSLayout>;

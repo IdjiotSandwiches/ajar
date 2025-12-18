@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Institute;
+use App\Models\Teacher;
+use App\Models\User;
 
 class AdminService
 {
@@ -23,5 +25,74 @@ class AdminService
             ]);
 
         return $institutes;
+    }
+
+    public function removeInstitute($id)
+    {
+        $institute = Institute::where('user_id', $id)
+            ->pluck('user_id');
+
+        if (!$institute) {
+            throw new \Exception('Institute not found.');
+        }
+
+        User::where('id', $institute)
+            ->delete();
+    }
+
+    public function getTeacherList()
+    {
+        $teachers = Teacher::with(['user'])
+            ->paginate(10)
+            ->through(fn($item) => [
+                'id' => $item->user_id,
+                'name' => $item->user->name,
+            ]);
+
+        return $teachers;
+    }
+
+    public function removeTeacher($id)
+    {
+        $teacher = Teacher::where('user_id', $id)
+            ->pluck('user_id');
+
+        if (!$teacher) {
+            throw new \Exception('Teacher not found.');
+        }
+
+        User::where('id', $teacher)
+            ->delete();
+    }
+
+    public function getUnverifiedTeachers()
+    {
+        $teachers = Teacher::query()
+            ->with(['user'])
+            ->whereNull('is_verified')
+            ->whereHas('user', fn($q) => $q->whereNotNull('email_verified_at'))
+            ->paginate(10)
+            ->through(fn($item) => [
+                'id' => $item->user_id,
+                'name' => $item->user->name,
+                'profile_picture' => $item->user->profile_picture,
+                'created_at' => $item->user->email_verified_at?->toDateTimeString()
+            ]);
+
+        return $teachers;
+    }
+
+    public function verifyTeacher($id, $isVerified)
+    {
+        $teacher = Teacher::where('user_id', $id)
+            ->first();
+
+        if (!$teacher) {
+            return false;
+        }
+
+        $teacher->is_verified = $isVerified;
+        $teacher->save();
+        return true;
     }
 }

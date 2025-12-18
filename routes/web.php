@@ -60,10 +60,13 @@ Route::middleware(['auth', 'verified'])
                 Route::controller(AdminController::class)->group(function () {
                     Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
                     Route::get('remove-course', fn() => Inertia::render('admin/remove-course'))->name('remove-course');
-                    Route::get('teacher-applications', fn() => Inertia::render('admin/teacher-application'))->name('teacher-applications');
-                    Route::get('list-teacher', fn() => Inertia::render('admin/list-teacher'))->name('list-teacher');
+                    Route::get('teacher-applications', 'getUnverifiedTeachers')->name('teacher-applications');
+                    Route::post('accept-teacher/{id}', 'acceptTeacher')->name('accept-teacher');
+                    Route::post('reject-teacher/{id}', 'rejectTeacher')->name('reject-teacher');
+                    Route::get('list-teacher', 'getTeacherList')->name('list-teacher');
+                    Route::delete('delete-teacher/{id}', 'deleteTeacher')->name('delete-teacher');
                     Route::get('list-institute', 'getInstituteList')->name('list-institute');
-                    Route::delete('institute', 'removeInstitute')->name('delete-institute');
+                    Route::delete('delete-institute/{id}', 'deleteInstitute')->name('delete-institute');
                     Route::get('register-institute', 'getRegisterInstitute')->name('register-institute');
                     Route::post('register-institute', 'registerInstitute')->name('post-institute');
                 });

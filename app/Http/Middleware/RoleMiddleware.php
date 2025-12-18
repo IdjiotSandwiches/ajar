@@ -22,7 +22,7 @@ class RoleMiddleware
         $user = Auth::user();
         $roleName = $user->role_id->name;
 
-        if (! in_array($roleName, $roles))
+        if (!\in_array($roleName, $roles))
             abort(403, 'Unauthorized action.');
 
         return $next($request);
