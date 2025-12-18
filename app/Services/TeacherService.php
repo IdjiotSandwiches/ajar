@@ -16,16 +16,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TeacherService
 {
-    public function getParentCategories()
-    {
-        $categories = Category::query()
-            ->whereNull('parent_id')
-            ->select(['id', 'name'])
-            ->get();
-
-        return $categories;
-    }
-
     public function getSubCategories()
     {
         $categories = Category::query()
@@ -38,7 +28,16 @@ class TeacherService
 
     public function getTeacherDetail($id)
     {
-        $teacher = Teacher::with(['user', 'category', 'reviews.reviewer.role', 'graduates', 'workExperiences', 'certificates', 'teacherSchedules.course'])
+        $teacher = Teacher::with([
+            'user',
+            'category',
+            'reviews.reviewer.role',
+            'graduates',
+            'workExperiences',
+            'certificates',
+            'teachingCourses' => fn($q) => $q->where('is_verified', true),
+            'teachingCourses.course.institute.user'
+        ])
             ->where('user_id', $id)
             ->first();
 

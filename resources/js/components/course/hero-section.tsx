@@ -2,10 +2,11 @@ import { router, usePage } from '@inertiajs/react';
 import { FaStar } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa6';
 
-export default function CourseHero({ course, teaching }: any) {
+export default function CourseHero({ course, teaching, canApply }: any) {
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
+    console.log(course);
 
     return (
         <section className="w-full border-b border-gray-200 bg-white py-10">
@@ -47,7 +48,7 @@ export default function CourseHero({ course, teaching }: any) {
                                 Register Now
                             </button>
                         )}
-                        {user?.role_id === roles.Teacher &&
+                        {(user?.role_id === roles.Teacher && canApply) &&
                             (!teaching?.is_verified ? (
                                 <button
                                     onClick={() => router.post(route('teacher.apply-to-course', course?.id))}

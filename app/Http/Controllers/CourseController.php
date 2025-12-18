@@ -7,7 +7,7 @@ use App\Http\Requests\CourseFilterRequest;
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\FilterRequest;
 use App\Services\CourseService;
-use Illuminate\Http\Request;
+use App\Utilities\Utility;
 use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
 
@@ -24,7 +24,7 @@ class CourseController extends Controller
     {
         $filters = $request->validated();
 
-        $parentCategories = $this->service->getParentCategories();
+        $parentCategories = Utility::getParentCategories();
         [$courses, $subCategories, $minPrice, $maxPrice] = $this->service->getCourses($filters);
 
         return Inertia::render('courses/list-courses', [
@@ -48,11 +48,12 @@ class CourseController extends Controller
 
     public function getCourseDetail($id)
     {
-        [$course, $popularCourses, $teaching] = $this->service->getCourseDetail($id);
+        [$course, $popularCourses, $teaching, $canApply] = $this->service->getCourseDetail($id);
         return Inertia::render('courses/detail', [
             'course' => $course,
             'popularCourses' => $popularCourses,
-            'teaching' => $teaching
+            'teaching' => $teaching,
+            'canApply' => $canApply
         ]);
     }
 

@@ -45,25 +45,23 @@ export default function CourseCard({ course, isTag, showTeacher = true }: any) {
 
                 <div className="mt-4 flex items-center justify-between">
                     <div>
-                        <p className="text-sm font-semibold text-gray-800">
-                            {(user && user.role_id === roles.Teacher) ? (
-                                <p className="text-sm font-semibold text-gray-800">
-                                    Rp
-                                    {Number(course.teacher_salary).toLocaleString('id-ID', {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    })}
-                                </p>
-                            ) : (
-                                <p className="text-sm font-semibold text-gray-800">
-                                    Rp
-                                    {Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString('id-ID', {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    })}
-                                </p>
-                            )}
-                        </p>
+                        {(user && user.role_id === roles.Teacher) ? (
+                            <p className="text-sm font-semibold text-gray-800">
+                                Rp
+                                {Number(course.teacher_salary).toLocaleString('id-ID', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                            </p>
+                        ) : (
+                            <p className="text-sm font-semibold text-gray-800">
+                                Rp
+                                {Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString('id-ID', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                            </p>
+                        )}
                         <p className="text-xs text-gray-500">{course.duration} Minutes</p>
                     </div>
                     <button

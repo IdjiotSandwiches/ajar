@@ -6,7 +6,7 @@ interface DetailInputProps {
   name: string;
   title: string;
   min?: number;
-  value: string | number;
+  value?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;

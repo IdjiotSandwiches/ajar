@@ -6,7 +6,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 
-export default function CourseDetailPage({ course, popularCourses, teaching }: any) {
+export default function CourseDetailPage({ course, popularCourses, teaching, canApply }: any) {
     const [activeTab, setActiveTab] = useState('syllabus');
 
     const syllabusRef = useRef<HTMLHeadingElement | null>(null);
@@ -60,7 +60,7 @@ export default function CourseDetailPage({ course, popularCourses, teaching }: a
         <>
             <Head title={course?.name || "Not Found"} />
             <div className="min-h-screen bg-[#F8FCFF]">
-                <CourseHero course={course} teaching={teaching} />
+                <CourseHero course={course} teaching={teaching} canApply={canApply} />
                 <div className="mt-4 block px-4 lg:hidden">
                     <CourseSidebar institute={course.institute.user} teacher={course.teacher_schedules} />
                 </div>
@@ -117,7 +117,7 @@ export default function CourseDetailPage({ course, popularCourses, teaching }: a
                         </section>
                     </div>
                     <div className="hidden md:flex lg:col-span-2 2xl:col-span-2">
-                        <CourseSidebar institute={course.institute.user} teacher={course.teacher_schedules} />
+                        <CourseSidebar institute={course.institute.user} teacher={course.teaching_courses} />
                     </div>
                 </div>
                 <div className="mx-auto md:px-10">

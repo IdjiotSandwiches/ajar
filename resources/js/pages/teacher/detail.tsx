@@ -102,7 +102,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                 <h3 className="font-semibold text-gray-700">Courses taught</h3>
                             </div>
                             <div className="scrollbar-thin scrollbar-thumb-[#42C2FF]/30 scrollbar-track-transparent flex gap-6 overflow-x-auto pb-4">
-                                {teacher.teacher_schedules.map((course: any, index: number) => {
+                                {teacher.teaching_courses.map((course: any, index: number) => {
                                     return <CourseCard key={index} course={course.course} isTag={false} />;
                                 })}
                             </div>

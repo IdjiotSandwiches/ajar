@@ -8,6 +8,7 @@ use App\Http\Requests\ApplicationRequest;
 use App\Http\Requests\TeacherDetailRequest;
 use App\Http\Requests\TeacherProfileRequest;
 use App\Services\TeacherService;
+use App\Utilities\Utility;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -103,7 +104,7 @@ class TeacherController extends Controller
         if (!empty($validated['status']))
             $status = StateEnum::from($validated['status']);
 
-        $categories = $this->service->getParentCategories();
+        $categories = Utility::getParentCategories();
         $institutes = $this->service->getInstituteApplications($status, $validated);
         $counts = $this->service->getInstituteApplicationCount();
         return Inertia::render('teacher/institute-applications', [

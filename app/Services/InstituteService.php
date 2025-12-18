@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Category;
 use App\Models\Course;
 use App\Models\Institute;
 use App\Models\TeacherApplication;
@@ -12,16 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class InstituteService
 {
-    public function getParentCategories()
-    {
-        $categories = Category::with('parent')
-            ->whereNull('parent_id')
-            ->select(['id', 'name'])
-            ->get();
-
-        return $categories;
-    }
-
     public function getInstituteDetail($id)
     {
         $detail = Institute::with(['user.socialMedias.socialMediaType'])
@@ -67,7 +56,7 @@ class InstituteService
 
     public function getInstituteList($filters)
     {
-        $categories = $this->getParentCategories();
+        $categories = Utility::getParentCategories();
         if (isset($filters['category_id'])) {
             $categories = $categories->where('id', $filters['category_id']);
         }
@@ -195,6 +184,14 @@ class InstituteService
         if (!$teacher)
             return null;
 
+        $courses = Course::where('institute_id', $teacher->institute_id)
+            ->pluck('id');
+
+        TeachingCourse::query()
+            ->where('teacher_id', $id)
+            ->whereIn('course_id', $courses)
+            ->update(['is_verified' => false]);
+
         $teacher->is_verified = false;
         $teacher->save();
         return $teacher;
@@ -234,6 +231,7 @@ class InstituteService
 
         $teaching = TeachingCourse::with(['course'])
             ->where('id', $id)
+            ->whereNull('is_verified')
             ->whereHas('course', fn($q) => $q->where('institute_id', $user?->id))
             ->first();
 

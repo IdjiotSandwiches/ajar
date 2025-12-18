@@ -1,9 +1,8 @@
-import { dummyCourses } from "@/dummy-data/dummy-course";
-import AppLayout from "@/layouts/app-layout";
-import LMSLayout from "@/layouts/lms-layout";
-import { router } from "@inertiajs/react";
-import { Plus } from "lucide-react";
-import React, { useState } from "react";
+import { availableCourses } from '@/dummy-data/dummy-courses';
+import LMSLayout from '@/layouts/lms-layout';
+import { router } from '@inertiajs/react';
+import { Plus } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface ScheduleSlot {
     day: string;
@@ -12,23 +11,20 @@ interface ScheduleSlot {
 }
 
 export default function AddSchedulePage() {
-    const currentTeacher = { id: 1, name: "Dodi", avatar: "/images/teacher-dodi.png" };
-    const course = dummyCourses[0];
+    const currentTeacher = { id: 1, name: 'Dodi', avatar: '/images/teacher-dodi.png' };
+    const course = availableCourses[0];
 
     const handleBack = () => {
         if (window.history.length > 1) {
             window.history.back();
         } else {
-            router.visit("/");
+            router.visit('/');
         }
-    }
+    };
 
-    const hours = [
-        "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
-        "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM",
-    ];
+    const hours = ['09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM'];
 
-    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const [schedule, setSchedule] = useState<ScheduleSlot[]>([]);
 
     const handleSlotClick = (day: string, hour: string) => {
@@ -53,113 +49,104 @@ export default function AddSchedulePage() {
             return (
                 <button
                     onClick={() => handleSlotClick(day, hour)}
-                    className="p-1 md:p-2 bg-transparent border-2 border-[#42C2FF] rounded-md hover:bg-[#42C2FF]/20"
+                    className="rounded-md border-2 border-[#42C2FF] bg-transparent p-1 hover:bg-[#42C2FF]/20 md:p-2"
                 >
                     <Plus size={14} className="md:size-4" color="#42C2FF" />
                 </button>
             );
         }
         const isCurrentTeacher = slot.bookedBy === currentTeacher.id;
-        const avatar = isCurrentTeacher ? currentTeacher.avatar : "/images/unknown.png";
+        const avatar = isCurrentTeacher ? currentTeacher.avatar : '/images/unknown.png';
         return (
             <button
                 onClick={() => handleSlotClick(day, hour)}
-                className="w-6 h-6 md:w-8 md:h-8 rounded-full overflow-hidden border-2 border-[#42C2FF]"
+                className="h-6 w-6 overflow-hidden rounded-full border-2 border-[#42C2FF] md:h-8 md:w-8"
             >
-                <img src={`/${avatar}`} alt="teacher" className="w-full h-full object-cover" />
+                <img src={`/${avatar}`} alt="teacher" className="h-full w-full object-cover" />
             </button>
         );
     };
 
     return (
         <div className="flex min-h-screen flex-col gap-6">
-            <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Add Schedule Course</h1>
-            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow">
+            <h1 className="hidden text-2xl font-semibold text-gray-800 md:flex">Add Schedule Course</h1>
+            <div className="rounded-2xl bg-white p-4 shadow sm:p-6">
                 <div className="space-y-4">
                     <div>
-                        <h2 className="font-semibold text-base sm:text-lg">Title</h2>
+                        <h2 className="text-base font-semibold sm:text-lg">Title</h2>
                         <p className="text-sm sm:text-base">{course.name}</p>
                     </div>
 
                     <div>
-                        <h2 className="font-semibold text-base sm:text-lg">Description</h2>
+                        <h2 className="text-base font-semibold sm:text-lg">Description</h2>
                         <p className="text-sm sm:text-base">{course.description}</p>
                     </div>
 
                     <div>
-                        <h2 className="font-semibold text-base sm:text-lg">Learning Objectives</h2>
-                        <ul className="list-disc list-inside mt-2 text-gray-700 space-y-1 text-sm sm:text-base">
-                            {course.learning_objectives?.map((obj, i) => (
-                                <li key={i}>{obj.description}</li>
-                            ))}
+                        <h2 className="text-base font-semibold sm:text-lg">Learning Objectives</h2>
+                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-700 sm:text-base">
+                            {course.learning_objectives?.map((obj, i) => <li key={i}>{obj.description}</li>)}
                         </ul>
                     </div>
 
                     <div>
-                        <h2 className="font-semibold text-base sm:text-lg">Course Overviews</h2>
-                        <ul className="list-disc list-inside mt-2 text-gray-700 space-y-1 text-sm sm:text-base">
-                            {course.course_overviews?.map((co, i) => (
-                                <li key={i}>{co.description}</li>
-                            ))}
+                        <h2 className="text-base font-semibold sm:text-lg">Course Overviews</h2>
+                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-700 sm:text-base">
+                            {course.course_overviews?.map((co, i) => <li key={i}>{co.description}</li>)}
                         </ul>
                     </div>
 
                     <div>
-                        <h2 className="font-semibold text-base sm:text-lg">Course Skills</h2>
-                        <ul className="list-disc list-inside mt-2 text-gray-700 space-y-1 text-sm sm:text-base">
-                            {course.course_skills?.map((pl, i) => (
-                                <li key={i}>{pl.name}</li>
-                            ))}
+                        <h2 className="text-base font-semibold sm:text-lg">Course Skills</h2>
+                        <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-700 sm:text-base">
+                            {course.course_skills?.map((pl, i) => <li key={i}>{pl.name}</li>)}
                         </ul>
                     </div>
 
                     <div>
-                        <h2 className="font-semibold text-base sm:text-lg">Duration</h2>
+                        <h2 className="text-base font-semibold sm:text-lg">Duration</h2>
                         <p className="text-sm sm:text-base">{course.duration} Minutes</p>
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
-                <div className="col-span-1 bg-white p-4 sm:p-6 rounded-2xl shadow">
-                    <h2 className="font-semibold text-lg mb-4 text-left text-black">Teachers</h2>
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8">
+                <div className="col-span-1 rounded-2xl bg-white p-4 shadow sm:p-6">
+                    <h2 className="mb-4 text-left text-lg font-semibold text-black">Teachers</h2>
                     <div className="space-y-4">
                         {course.teacher?.map((t: any) => (
-                            <div
-                                key={t.name}
-                                className="flex items-center gap-3 border border-[#42C2FF]/30 p-3 rounded-xl"
-                            >
+                            <div key={t.name} className="flex items-center gap-3 rounded-xl border border-[#42C2FF]/30 p-3">
                                 <img
-                                    src={`/${t.image || "/images/default-avatar.png"}`}
+                                    src={`/${t.image || '/images/default-avatar.png'}`}
                                     alt={t.name}
-                                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover"
+                                    className="h-9 w-9 rounded-full object-cover sm:h-10 sm:w-10"
                                 />
-                                <span className="font-medium text-sm sm:text-base">{t.name}</span>
+                                <span className="text-sm font-medium sm:text-base">{t.name}</span>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="col-span-1 lg:col-span-3 bg-white p-4 sm:p-6 rounded-2xl shadow">
-                    <h2 className="font-semibold text-lg mb-4 text-black">Schedule</h2>
+                <div className="col-span-1 rounded-2xl bg-white p-4 shadow sm:p-6 lg:col-span-3">
+                    <h2 className="mb-4 text-lg font-semibold text-black">Schedule</h2>
 
                     <div className="overflow-x-auto rounded-2xl border border-[#42C2FF]">
                         <table className="min-w-full text-center text-xs sm:text-sm">
                             <thead className="bg-[#42C2FF] text-white">
                                 <tr>
-                                    <th className="py-2 px-2 sm:px-3 border border-[#42C2FF]">Hours</th>
+                                    <th className="border border-[#42C2FF] px-2 py-2 sm:px-3">Hours</th>
                                     {days.map((day) => (
-                                        <th key={day} className="py-2 px-2 sm:px-3 border border-[#42C2FF]">{day}</th>
+                                        <th key={day} className="border border-[#42C2FF] px-2 py-2 sm:px-3">
+                                            {day}
+                                        </th>
                                     ))}
                                 </tr>
                             </thead>
 
                             <tbody>
                                 {hours.map((hour, i) => (
-                                    <tr key={hour} className={i % 2 === 0 ? "bg-black/5" : "bg-white"}>
-                                        <td className="border border-[#42C2FF] py-2 px-2 sm:px-3 font-medium">
-                                            {hour}
-                                        </td>
+                                    <tr key={hour} className={i % 2 === 0 ? 'bg-black/5' : 'bg-white'}>
+                                        <td className="border border-[#42C2FF] px-2 py-2 font-medium sm:px-3">{hour}</td>
                                         {days.map((day) => (
                                             <td key={day} className="border border-[#42C2FF] py-2 text-center">
                                                 {renderCell(day, hour)}
@@ -171,7 +158,6 @@ export default function AddSchedulePage() {
                         </table>
                     </div>
                 </div>
-
             </div>
 
             <div className="flex justify-end gap-2">
@@ -182,10 +168,7 @@ export default function AddSchedulePage() {
                 >
                     Back
                 </button>
-                <button
-                    type="submit"
-                    className="rounded-lg bg-[#42C2FF] px-6 py-2 font-semibold text-white transition-all hover:bg-[#42C2FF]/90"
-                >
+                <button type="submit" className="rounded-lg bg-[#42C2FF] px-6 py-2 font-semibold text-white transition-all hover:bg-[#42C2FF]/90">
                     Submit
                 </button>
             </div>

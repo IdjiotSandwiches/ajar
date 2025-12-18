@@ -135,7 +135,8 @@ class CourseService
                 'courseSkills.skill',
                 'courseLearningObjectives',
                 'courseOverviews',
-                'teacherSchedules.teacher.user.socialMedias',
+                'teachingCourses' => fn($q) => $q->where('is_verified', true),
+                'teachingCourses.teacher.user.socialMedias',
             ]
         )
             ->withAvg('courseReviews', 'rating')
@@ -149,14 +150,15 @@ class CourseService
         }
 
         $teaching = null;
+        $canApply = false;
         if ($user?->role_id == RoleEnum::Teacher) {
-            $application = TeacherApplication::query()
+            $canApply = TeacherApplication::query()
                 ->where('teacher_id', $user->id)
                 ->where('institute_id', $course->institute->user_id)
                 ->where('is_verified', true)
                 ->exists();
 
-            if ($application) {
+            if ($canApply) {
                 $teaching = TeachingCourse::where('teacher_id', $user->id)
                     ->where('course_id', $course->id)
                     ->first();
@@ -164,7 +166,7 @@ class CourseService
         }
 
         $popularCourses = $this->getPopularCourseByCategory($course->category_id, $course->id);
-        return [$course, $popularCourses, $teaching];
+        return [$course, $popularCourses, $teaching, $canApply];
     }
 
     public function getPopularCourseByCategory($categoryId, $currentCourseId)

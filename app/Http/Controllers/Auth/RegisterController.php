@@ -42,20 +42,7 @@ class RegisterController extends Controller
     public function teacherForm(): Response
     {
         return Inertia::render('auth/register/form', [
-            'role' => RoleEnum::Teacher,
-            'categories' => Category::with('children')->whereNull('parent_id')->get()
-        ]);
-    }
-
-    /**
-     * Institute Registration Form
-     *
-     * @return \Inertia\Response
-     */
-    public function instituteForm(): Response
-    {
-        return Inertia::render('auth/register/form', [
-            'role' => RoleEnum::Institute
+            'role' => RoleEnum::Teacher
         ]);
     }
 

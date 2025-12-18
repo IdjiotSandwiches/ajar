@@ -63,8 +63,6 @@ export default function RegisterForm({ role, categories }: any) {
         },
     ];
 
-    console.log(form);
-
     if (role === roles.Teacher) {
         steps.push({
             title: 'Detail Information',

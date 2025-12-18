@@ -7,6 +7,7 @@ use App\Http\Requests\FilterRequest;
 use App\Http\Requests\InstituteProfileRequest;
 use App\Http\Requests\TeacherFilterRequest;
 use App\Services\InstituteService;
+use App\Utilities\Utility;
 use Inertia\Inertia;
 
 class InstituteController extends Controller
@@ -34,10 +35,8 @@ class InstituteController extends Controller
     public function getInstituteList(FilterRequest $request)
     {
         $filters = $request->validated();
-
-        $parentCategories = $this->service->getParentCategories();
+        $parentCategories = Utility::getParentCategories();
         $institutes = $this->service->getInstituteList($filters);
-
         return Inertia::render('institute/list-institute', [
             'parentCategories' => $parentCategories,
             'institutes' => Inertia::scroll($institutes),

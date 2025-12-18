@@ -2,6 +2,7 @@
 
 namespace App\Utilities;
 
+use App\Models\Category;
 use App\Models\SocialMediaType;
 
 class Utility
@@ -33,5 +34,15 @@ class Utility
                     ->delete();
             }
         }
+    }
+
+    public static function getParentCategories()
+    {
+        $categories = Category::with('parent')
+            ->whereNull('parent_id')
+            ->select(['id', 'name'])
+            ->get();
+
+        return $categories;
     }
 }
