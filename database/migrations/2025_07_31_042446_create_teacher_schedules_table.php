@@ -24,13 +24,13 @@ return new class extends Migration {
             $table->time('start_time');
             $table->time('end_time');
             $table->boolean('is_verified');
-            $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('teacher_id');
-            $table->unsignedBigInteger('teaching_course_id');
+            $table->unsignedBigInteger('course_id')->nullable();
+            $table->unsignedBigInteger('teaching_course_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->foreign('teacher_id')->references('user_id')->on('teachers')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->foreign('teaching_course_id')->references('id')->on('teaching_courses')->onDelete('cascade');
         });
     }

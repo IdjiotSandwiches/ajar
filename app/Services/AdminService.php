@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Institute;
 use App\Models\Teacher;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class AdminService
 {
@@ -84,6 +85,9 @@ class AdminService
 
     public function verifyTeacher($id, $isVerified)
     {
+        // KALAU VERIF TRUE, BUAT SCHEDULE TEACHER 1 MINGGU & JAMNYA => TEACHER SCHEDULE
+        // LALU BUAT SCHEDULER/QUEUE JOB UTK BUAT SCHEDULE PERMINGGU => COURSE SCHEDULE
+        // STUDENT AMBIL DATANYA LEWAT COURSE SCHEDULE
         $teacher = Teacher::where('user_id', $id)
             ->first();
 
@@ -91,8 +95,15 @@ class AdminService
             return false;
         }
 
-        $teacher->is_verified = $isVerified;
-        $teacher->save();
-        return true;
+        return DB::transaction(function() use ($isVerified, $teacher) {
+            $teacher->is_verified = $isVerified;
+            $teacher->teacherSchedules()->updateOrCreate(
+                ['teacher_id', $teacher->user_id],
+                [
+
+                ]);
+            $teacher->save();
+            return true;
+        });
     }
 }
