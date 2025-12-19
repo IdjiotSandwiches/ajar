@@ -1,24 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 
-interface CourseCardProps {
-  title: string;
-  mentor: string;
-  institute: string;
-  duration: string;
-  date: string;
-  time: string;
-  image: string;
-  role: "student" | "teacher";
-  status: "progress" | "completed";
-  isCourseFinished: boolean;
-  meetingLink?: string;
-  recordingLink?: string;
-  isApproved?: boolean;
-  onActionClick: () => void;
-  onAddReview: () => void;
-}
-
 export default function CourseCard({
   title,
   mentor,
@@ -35,7 +17,7 @@ export default function CourseCard({
   isApproved,
   onActionClick,
   onAddReview,
-}: CourseCardProps) {
+}: any) {
   const formattedDate = new Date(date).toLocaleDateString("id-ID", {
     day: "2-digit",
     month: "long",
@@ -51,13 +33,10 @@ export default function CourseCard({
   };
 
   return (
-    <div className="flex flex-col sm:flex-row border border-[#42C2FF]/40 bg-white rounded-xl p-3 gap-4 shadow-sm">
+    <div className="flex flex-col sm:flex-row border hover:border-[#3ABEFF]/70 bg-white rounded-xl p-3 gap-4 shadow-sm">
       <img
         src={`/${image || null}`}
-        className="
-          w-full h-36 object-cover rounded-md
-          sm:w-32 sm:h-32
-        "
+        className="w-full h-36 object-cover rounded-md sm:w-32 sm:h-32"
         alt={title}
       />
       <div className="flex flex-col justify-between flex-grow">
@@ -85,7 +64,7 @@ export default function CourseCard({
             role === "student" ? (
               <button
                 onClick={onAddReview}
-                className="bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white text-sm px-4 py-2 rounded-lg transition"
+                className="bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white text-sm px-4 py-2 rounded-lg transition"
               >
                 Add Review
               </button>
@@ -93,15 +72,15 @@ export default function CourseCard({
           ) : (
             <button
               onClick={handleButtonClick}
-              className="text-white text-sm px-4 py-2 rounded-lg transition bg-[#42C2FF] hover:bg-[#42C2FF]/90"
+              className="text-white text-sm px-4 py-2 rounded-lg transition bg-[#3ABEFF] hover:bg-[#3ABEFF]/90"
             >
-              {role === "student"
+              {role === "student" 
                 ? "Join Meeting"
                 : isCourseFinished
-                ? "Finish"
-                : meetingLink
-                ? "Join Meeting"
-                : "Add Meeting"}
+                  ? "Finish"
+                  : meetingLink
+                    ? "Join Meeting"
+                    : "Add Meeting"}
             </button>
           )}
         </div>

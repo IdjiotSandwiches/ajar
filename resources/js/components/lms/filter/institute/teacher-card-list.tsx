@@ -8,10 +8,20 @@ interface MobileTeacherCardProps {
     coursesCount: number;
     rating: number;
     totalReviews: number;
+    registerDate: Date;
     onDelete: () => void;
 }
 
-const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({ avatar, fullName, category, coursesCount, rating, totalReviews, onDelete }) => {
+const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({
+    avatar,
+    fullName,
+    category,
+    coursesCount,
+    rating,
+    totalReviews,
+    registerDate,
+    onDelete,
+}) => {
     return (
         <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
             <div className="flex items-center gap-4">
@@ -34,10 +44,12 @@ const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({ avatar, fullName,
                     <span className="font-semibold">{rating.toFixed(1)}</span>
                     <span className="text-gray-500">/ 5 ({totalReviews} reviews)</span>
                 </p>
+
+                <p className="text-xs text-gray-500">Registered on {new Date(registerDate).toLocaleDateString('id-ID')}</p>
             </div>
 
             <div className="mt-4 flex justify-end">
-                <button onClick={onDelete} className="rounded-md bg-[#FF1818] p-2 text-white hover:bg-[#FF1818]/90 cursor-pointer">
+                <button onClick={onDelete} className="cursor-pointer rounded-md bg-[#FF1818] p-2 text-white hover:bg-[#FF1818]/90">
                     <Trash2 size={16} />
                 </button>
             </div>

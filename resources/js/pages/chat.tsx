@@ -149,30 +149,35 @@ export default function ChatPage() {
   if (isMobile) {
     return (
       <div className="flex-1 bg-white overflow-hidden flex flex-col rounded-2xl shadow-sm">
-        {!isChatOpen && (
-          <div className="flex-1 overflow-y-auto">
-            <h2 className="text-xl font-semibold mb-3 px-4 pt-4">Chats</h2>
 
-            {sortedUsers.map((user) => (
-              <div
-                key={user.id}
-                onClick={() => handleSelectUser(user)}
-                className="flex items-center gap-3 p-4 bg-white shadow-sm cursor-pointer hover:bg-[#3ABEFF]/10 transition"
-              >
-                <img src={user.image} className="w-12 h-12 rounded-full" />
-                <div className="flex-1">
-                  <p className="font-semibold">{user.name}</p>
-                  <p className="text-sm text-gray-500 truncate">{user.lastMessage}</p>
+        {!isChatOpen && (
+          <div>
+            <div className="flex items-center gap-2 px-4 py-4 border-b">
+              <h2 className="text-lg font-semibold text-gray-700">Chats</h2>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              {sortedUsers.map((user) => (
+                <div
+                  key={user.id}
+                  onClick={() => handleSelectUser(user)}
+                  className="flex items-center gap-3 p-4 bg-white shadow-sm cursor-pointer hover:bg-[#3ABEFF]/10 transition"
+                >
+                  <img src={user.image} className="w-12 h-12 rounded-full" />
+                  <div className="flex-1">
+                    <p className="font-semibold">{user.name}</p>
+                    <p className="text-sm text-gray-500 truncate">{user.lastMessage}</p>
+                  </div>
+                  <span className="text-xs text-gray-400">{user.time}</span>
                 </div>
-                <span className="text-xs text-gray-400">{user.time}</span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
         )}
 
         {isChatOpen && selectedUser && (
           <div className="flex flex-col flex-1">
-            <div className="flex items-center gap-3 bg-white p-4 flex-shrink-0 border-b">
+            <div className="flex items-center gap-3 bg-white p-2 flex-shrink-0 border-b">
               <button onClick={handleBackFromChat}>
                 <ChevronLeft size={22} />
               </button>
@@ -191,8 +196,8 @@ export default function ChatPage() {
                 >
                   <div
                     className={`max-w-[75%] px-4 py-2 rounded-2xl text-sm ${msg.sender === "me"
-                        ? "bg-[#42C2FF] text-white rounded-br-none"
-                        : "border border-[#42C2FF] text-gray-800 rounded-tl-none"
+                      ? "bg-[#3ABEFF] text-white rounded-br-none"
+                      : "border border-[#3ABEFF] text-gray-800 rounded-tl-none"
                       }`}
                   >
                     <p>{msg.message}</p>
@@ -213,7 +218,7 @@ export default function ChatPage() {
                 rows={1}
                 className="flex-1 border rounded-xl px-3 py-2 text-sm resize-none overflow-hidden"
               />
-              <button onClick={handleSend} className="ml-2 bg-[#42C2FF] text-white p-2 rounded-xl">
+              <button onClick={handleSend} className="ml-2 bg-[#3ABEFF] text-white p-2 rounded-xl">
                 <Send size={18} />
               </button>
             </div>
@@ -225,102 +230,99 @@ export default function ChatPage() {
 
 
   return (
-    <div>
-      <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Chat</h1>
-      <div className="flex max-h-[80vh] my-6">
-        <div className="border-r bg-white rounded-2xl shadow-sm">
-          <div className="flex items-center gap-2 px-4 py-3 border-b">
-            <h2 className="text-lg font-semibold text-gray-700">Chats</h2>
-          </div>
-
-          <div className="overflow-y-auto h-[calc(80vh-60px)] md:w-[240px] 2xl:w-[320px]">
-            {sortedUsers.map((user) => (
-              <div
-                key={user.id}
-                onClick={() => handleSelectUser(user)}
-                className={`flex items-center gap-3 p-4 shadow-sm cursor-pointer transition ${selectedUser?.id === user.id ? "bg-[#3ABEFF]/20" : "hover:bg-[#3ABEFF]/10"
-                  }`}
-              >
-                <img src={user.image} className="w-12 h-12 rounded-full object-cover" />
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-gray-800 truncate">{user.name}</p>
-                  <p className="text-sm text-gray-500 truncate">
-                    {truncateText(user.lastMessage, 35)}
-                  </p>
-                </div>
-                <span className="text-xs text-gray-400 flex-shrink-0">{user.time}</span>
-              </div>
-            ))}
-          </div>
+    <div className="flex max-h-[80vh]">
+      <div className="border-r bg-white rounded-2xl shadow-sm">
+        <div className="flex items-center gap-2 px-4 py-3 border-b">
+          <h2 className="text-lg font-semibold text-gray-700">Chats</h2>
         </div>
 
-        <div className="flex-1 flex flex-col bg-white rounded-2xl shadow-sm ml-4 p-6">
-          {selectedUser ? (
-            <>
-              <div
-                className="flex items-center gap-3 border-b pb-3 cursor-pointer"
-                onClick={() =>
-                  router.get(route("detail-teacher", { teacherName: slugify(selectedUser.name) }))
-                }
-              >
-                <img
-                  src={selectedUser.image}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-semibold text-gray-800">{selectedUser.name}</p>
-                  <p className="text-sm text-gray-500">{selectedUser.role}</p>
-                </div>
+        <div className="overflow-y-auto h-[calc(80vh-60px)] md:w-[240px] 2xl:w-[320px]">
+          {sortedUsers.map((user) => (
+            <div
+              key={user.id}
+              onClick={() => handleSelectUser(user)}
+              className={`flex items-center gap-3 p-4 shadow-sm cursor-pointer transition ${selectedUser?.id === user.id ? "bg-[#3ABEFF]/20" : "hover:bg-[#3ABEFF]/10"
+                }`}
+            >
+              <img src={user.image} className="w-12 h-12 rounded-full object-cover" />
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-gray-800 truncate">{user.name}</p>
+                <p className="text-sm text-gray-500 truncate">
+                  {truncateText(user.lastMessage, 35)}
+                </p>
               </div>
-
-              <div className="flex-1 overflow-y-auto py-6 space-y-3">
-                {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}
-                  >
-                    <div
-                      className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm ${msg.sender === "me"
-                          ? "bg-[#42C2FF] text-white rounded-br-none"
-                          : "border border-[#42C2FF] text-gray-800 rounded-tl-none"
-                        }`}
-                    >
-                      <p>{msg.message}</p>
-                      <p className="text-[10px] text-right opacity-70 mt-1">{msg.time}</p>
-                    </div>
-                  </div>
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
-
-              <div className="flex items-end border-t pt-3">
-                <textarea
-                  ref={textareaRef}
-                  value={newMessage}
-                  onChange={handleInputChange}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Type message..."
-                  rows={1}
-                  className="flex-1 border border-gray-200 rounded-xl px-4 py-2 text-sm resize-none overflow-y-auto"
-                  style={{ maxHeight: "120px" }}
-                />
-                <button
-                  onClick={handleSend}
-                  className="ml-2 bg-[#42C2FF] text-white p-2 rounded-xl hover:bg-[#42C2FF]/90"
-                >
-                  <Send size={20} />
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="flex items-center justify-center h-full text-gray-400">
-              Select a conversation to start chatting
+              <span className="text-xs text-gray-400 flex-shrink-0">{user.time}</span>
             </div>
-          )}
+          ))}
         </div>
+      </div>
+
+      <div className="flex-1 flex flex-col bg-white rounded-2xl shadow-sm ml-4 p-6">
+        {selectedUser ? (
+          <>
+            <div
+              className="flex items-center gap-3 border-b pb-3 cursor-pointer"
+              onClick={() =>
+                router.get(route("detail-teacher", { teacherName: slugify(selectedUser.name) }))
+              }
+            >
+              <img
+                src={selectedUser.image}
+                className="w-12 h-12 rounded-full object-cover"
+              />
+              <div>
+                <p className="font-semibold text-gray-800">{selectedUser.name}</p>
+                <p className="text-sm text-gray-500">{selectedUser.role}</p>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto py-6 space-y-3">
+              {messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}
+                >
+                  <div
+                    className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm ${msg.sender === "me"
+                      ? "bg-[#3ABEFF] text-white rounded-br-none"
+                      : "border border-[#3ABEFF] text-gray-800 rounded-tl-none"
+                      }`}
+                  >
+                    <p>{msg.message}</p>
+                    <p className="text-[10px] text-right opacity-70 mt-1">{msg.time}</p>
+                  </div>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+
+            <div className="flex items-end border-t pt-3">
+              <textarea
+                ref={textareaRef}
+                value={newMessage}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+                placeholder="Type message..."
+                rows={1}
+                className="flex-1 border border-gray-200 rounded-xl px-4 py-2 text-sm resize-none overflow-y-auto"
+                style={{ maxHeight: "120px" }}
+              />
+              <button
+                onClick={handleSend}
+                className="ml-2 bg-[#3ABEFF] text-white p-2 rounded-xl hover:bg-[#3ABEFF]/90"
+              >
+                <Send size={20} />
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-400">
+            Select a conversation to start chatting
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-ChatPage.layout = (page: React.ReactNode) => <LMSLayout title="Chat">{page}</LMSLayout>;
+ChatPage.layout = (page: React.ReactNode) => <LMSLayout title="Messages">{page}</LMSLayout>;

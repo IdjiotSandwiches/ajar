@@ -1,4 +1,5 @@
-import Filter from '@/components/lms/filter/institute/filter-mycourses';
+import { manageTeacherAdminFilter } from '@/components/lms/filter/dictionary/manage-teacher-admin';
+import Filter from '@/components/lms/filter/filter';
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
@@ -23,19 +24,25 @@ export default function ManageTeachersPage({ teachers }: any) {
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden text-2xl font-semibold text-gray-800 md:flex">Manage Teachers</h1>
-                <Filter />
+                <Filter
+                    schema={manageTeacherAdminFilter}
+                    onChange={(filters: any) => {
+                        console.log(filters);
+                    }}
+                />
+
                 <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
                     <h3 className="mb-6 text-xl font-semibold">Teacher List</h3>
 
                     <div className="hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#42C2FF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="p-2 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Teacher</th>
-                                    <th className="p-3 text-left font-semibold">Institute</th>
-                                    <th className="p-3 text-left font-semibold">Courses Taught</th>
+                                    {/* <th className="p-3 text-left font-semibold">Institute</th>
+                                    <th className="p-3 text-left font-semibold">Courses Taught</th> */}
+                                    <th className="p-3 text-left font-semibold">Register Date</th>
                                     <th className="w-24 p-3 text-center font-semibold">Action</th>
                                 </tr>
                             </thead>
@@ -43,7 +50,7 @@ export default function ManageTeachersPage({ teachers }: any) {
                             <tbody>
                                 {teachers.data?.length === 0 ? (
                                     <tr>
-                                        <td colSpan={5} className="py-10 text-center text-gray-500">
+                                        <td colSpan={6} className="py-10 text-center text-gray-500">
                                             No teachers found.
                                         </td>
                                     </tr>
@@ -54,7 +61,6 @@ export default function ManageTeachersPage({ teachers }: any) {
                                             className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
                                         >
                                             <td className="p-2 text-center">{index + 1}</td>
-
                                             <td className="p-3">
                                                 <div className="flex items-center gap-3">
                                                     <img
@@ -65,13 +71,12 @@ export default function ManageTeachersPage({ teachers }: any) {
                                                     <span className="font-semibold">{teacher.name}</span>
                                                 </div>
                                             </td>
-
-                                            <td className="p-3">
+                                            {/* <td className="p-3">
                                                 {teacher.institute?.name ?? <span className="text-gray-400 italic">Not assigned</span>}
                                             </td>
 
                                             <td className="p-3">
-                                                {/* {teacher.courses.length === 0 ? (
+                                                {teacher.courses.length === 0 ? (
                                                     <span className="text-gray-400 italic">No course</span>
                                                 ) : (
                                                     <ul className="list-inside list-disc space-y-1">
@@ -79,9 +84,9 @@ export default function ManageTeachersPage({ teachers }: any) {
                                                             <li key={c.id}>{c.name}</li>
                                                         ))}
                                                     </ul>
-                                                )} */}
-                                            </td>
-
+                                                )}
+                                            </td> */}
+                                            <td className="p-3 text-left">{teacher.register_date}</td>
                                             <td className="p-3 text-center">
                                                 <button
                                                     onClick={() => handleRemoveClick(teacher.id)}
@@ -108,13 +113,13 @@ export default function ManageTeachersPage({ teachers }: any) {
                                     />
                                     <div>
                                         <p className="font-semibold text-gray-800">{teacher.name}</p>
-                                        <p className="text-xs text-gray-500">{teacher.institute?.name ?? 'Not assigned to institute'}</p>
+                                        {/* <p className="text-xs text-gray-500">{teacher.institute?.name ?? 'Not assigned to institute'}</p> */}
                                     </div>
                                 </div>
 
-                                <div className="mb-3 text-sm">
+                                {/* <div className="mb-3 text-sm">
                                     <p className="mb-1 font-medium text-gray-700">Courses Taught:</p>
-                                    {/* {teacher.courses.length === 0 ? (
+                                    {teacher.courses.length === 0 ? (
                                         <p className="text-gray-400 italic">No course</p>
                                     ) : (
                                         <ul className="list-inside list-disc text-gray-600">
@@ -122,8 +127,10 @@ export default function ManageTeachersPage({ teachers }: any) {
                                                 <li key={c.id}>{c.name}</li>
                                             ))}
                                         </ul>
-                                    )} */}
-                                </div>
+                                    )}
+                                </div> */}
+
+                                <p className="text-xs text-gray-500">Registered on {new Date(teacher.register_date).toLocaleDateString('id-ID')}</p>
 
                                 <div className="flex justify-end">
                                     <button onClick={() => handleRemoveClick(teacher.id)} className="rounded-md bg-[#FF5C5C] p-2 text-white">

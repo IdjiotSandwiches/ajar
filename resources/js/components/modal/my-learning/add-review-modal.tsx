@@ -87,7 +87,7 @@ export function AddReviewModal({
   );
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#42C2FF]/40 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm">
       <div className="animate-fadeIn relative w-[90%] max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl text-center">
         {step === 1 &&
           renderSection({
@@ -132,7 +132,7 @@ export function AddReviewModal({
             <div
               key={num}
               className={`w-2 h-2 mx-1 rounded-full ${
-                step === num ? "bg-[#42C2FF]" : "bg-gray-300"
+                step === num ? "bg-[#3ABEFF]" : "bg-gray-300"
               }`}
             ></div>
           ))}
@@ -158,14 +158,14 @@ export function AddReviewModal({
           {step < 3 ? (
             <button
               onClick={() => setStep(step + 1)}
-              className="flex-1 bg-[#42C2FF] text-white py-2 rounded-lg"
+              className="flex-1 bg-[#3ABEFF] text-white py-2 rounded-lg"
             >
               Next
             </button>
           ) : (
             <button
               onClick={handleSubmit}
-              className="flex-1 bg-[#42C2FF] text-white py-2 rounded-lg"
+              className="flex-1 bg-[#3ABEFF] text-white py-2 rounded-lg"
             >
               Submit
             </button>

@@ -1,7 +1,7 @@
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -24,9 +24,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
 
     return (
         <>
-            <Head title="Teacher Applications" />
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden text-2xl font-semibold text-gray-800 md:flex">Teacher Applications</h1>
                 <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
                     <h3 className="mb-6 text-xl font-semibold">Applications</h3>
                     <div className="flex flex-col gap-4 md:hidden">
@@ -45,7 +43,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                         />
                                         <p className="font-semibold text-gray-800">{teacher?.name}</p>
                                     </div>
-                                    <p className="mb-2 text-sm text-gray-600">I applied to be a Teacher.</p>
+                                    <p className="mb-2 text-sm text-gray-600">I applied to be a Teacher at Ajar.</p>
                                     <p className="mb-3 text-xs text-gray-500">
                                         <span className="font-medium">Submitted:</span>{' '}
                                         {teacher?.email_verified_at
@@ -79,7 +77,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                     </div>
                     <div className="hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b border-gray-200 bg-[#42C2FF]/10">
+                            <thead className="border-b border-gray-200 bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="p-1 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Teacher Applications</th>
@@ -92,7 +90,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                     return (
                                         <tr
                                             key={app.id}
-                                            className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
+                                            className={`border-b transition hover:bg-[#3ABEFF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
                                         >
                                             <td className="p-1 text-center">{index + 1}</td>
                                             <td className="p-3">
@@ -107,7 +105,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                                     />
                                                     <div>
                                                         <p className="font-semibold text-gray-800">{teacher?.name}</p>
-                                                        <p className="mb-1 text-sm text-gray-600">I applied to be a Teacher.</p>
+                                                        <p className="mb-1 text-sm text-gray-600">I applied to be a Teacher at Ajar.</p>
                                                         <p className="text-sm text-gray-700">
                                                             <span className="font-medium">Submitted:</span>{' '}
                                                             {teacher?.email_verified_at

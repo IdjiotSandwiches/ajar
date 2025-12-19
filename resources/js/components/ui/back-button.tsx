@@ -7,7 +7,7 @@ interface BackButtonProps {
   className?: string;
 }
 
-const BackButton: React.FC<BackButtonProps> = ({ label = "Back", className }) => {
+const BackButton: React.FC<BackButtonProps> = ({ className }) => {
   const handleBack = () => {
   if (window.history.length > 1) {
     window.history.back();
@@ -21,10 +21,10 @@ const BackButton: React.FC<BackButtonProps> = ({ label = "Back", className }) =>
       type="button"
       onClick={handleBack}
       className={`flex items-center gap-2 text-gray-700 dark:text-white
-                  hover:text-[#42C2FF] transition-colors duration-200 cursor-pointer
+                  hover:text-[#3ABEFF] transition-colors duration-200 cursor-pointer
                   ${className ?? ""}`}
     >
-      <ChevronLeft size={24} className="text-[#42C2FF]" />
+      <ChevronLeft size={24} className="text-[#3ABEFF]" />
       {/* <span className="font-medium">{label}</span> */}
     </button>
   );

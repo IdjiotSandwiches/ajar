@@ -18,12 +18,10 @@ export default function InstituteCard({ institute, showTeacher = true }: any) {
         setIndex((prev) => (prev - 1 + teachers.length) % teachers.length);
     };
 
-    /** Reset index if teachers length changes */
     useEffect(() => {
         setIndex(0);
     }, [teachers.length]);
 
-    /** Auto slide */
     useEffect(() => {
         if (!hasTeachers || teachers.length <= 1) return;
 
@@ -35,9 +33,8 @@ export default function InstituteCard({ institute, showTeacher = true }: any) {
     }, [hasTeachers, teachers.length]);
 
     return (
-        <div className="mb-4 rounded-2xl bg-[#42C2FF] p-1 shadow-lg">
+        <div className="mb-4 rounded-2xl bg-[#3ABEFF] p-1 shadow-lg">
             <div className="rounded-2xl bg-white p-0.5">
-                {/* ================= HEADER ================= */}
                 <div
                     className="cursor-pointer rounded-2xl bg-[#42C2FF] p-6 text-center"
                     onClick={() => router.get(route('detail-institute', institute.user_id))}

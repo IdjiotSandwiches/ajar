@@ -47,7 +47,7 @@ export default function CalendarSection({
 
       <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-1 gap-5">
         <div>
-          <div className="flex justify-between items-center text-[#42C2FF] mb-3">
+          <div className="flex justify-between items-center text-[#3ABEFF] mb-3">
             <button
               onClick={() => {
                 if (month === 0) {
@@ -94,7 +94,7 @@ export default function CalendarSection({
                   key={day}
                   onClick={() => setSelectedDate(val)}
                   className={`py-1 rounded-full w-8 h-8 mx-auto transition-all ${
-                    isSelected ? "bg-[#42C2FF] text-white" : "hover:bg-gray-50"
+                    isSelected ? "bg-[#3ABEFF] text-white" : "hover:bg-gray-50"
                   }`}
                 >
                   {day}
@@ -109,7 +109,7 @@ export default function CalendarSection({
             filteredCourses.map((item) => (
               <div
                 key={item.id}
-                className="border-l-2 border-[#42C2FF] text-sm text-gray-600 px-3 mb-2"
+                className="border-l-2 border-[#3ABEFF] text-sm text-gray-600 px-3 mb-2"
               >
                 <p className="font-medium text-gray-800">{item.title}</p>
                 <p>Duration: {item.duration}</p>

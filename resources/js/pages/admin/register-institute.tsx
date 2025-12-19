@@ -50,7 +50,6 @@ export default function InstituteForm({ categories, errors }: any) {
                         <DetailInput title="Password" name="password" id="password" type="password" />
                         {errors?.password && <p className="text-red-500">{errors.password}</p>}
 
-                        {/* ================= ACTION ================= */}
                         <div className="flex justify-end gap-2 pt-4">
                             <button
                                 type="button"

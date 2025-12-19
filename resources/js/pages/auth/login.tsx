@@ -93,7 +93,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     setData('remember', !data.remember)
                                 }
                                 tabIndex={3}
-                                className="data-[state=checked]:bg-[#42C2FF] data-[state=checked]:border-[#42C2FF]"
+                                className="data-[state=checked]:bg-[#3ABEFF] data-[state=checked]:border-[#3ABEFF]"
                             />
                             <Label htmlFor="remember">Remember me</Label>
                         </div>
@@ -101,7 +101,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         {canResetPassword && (
                             <TextLink
                                 href={route('password.request')}
-                                className="text-sm text-gray-600 hover:text-[#42C2FF] transition-colors"
+                                className="text-sm text-gray-600 hover:text-[#3ABEFF] transition-colors"
                                 tabIndex={5}
                             >
                                 Forgot password?

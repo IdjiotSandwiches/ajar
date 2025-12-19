@@ -1,4 +1,5 @@
-import Filter from '@/components/lms/filter/institute/filter-mycourses';
+import { myCoursesFilter } from '@/components/lms/filter/dictionary/mycourses';
+import Filter from '@/components/lms/filter/filter';
 import MobileCourseCard from '@/components/lms/mycourses/mobile-card-list';
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
@@ -8,6 +9,7 @@ import { Pencil, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 
 export default function CourseList({ categories, courses }: any) {
+    console.log(courses);
     const [showModal, setShowModal] = useState(false);
     const [deleteCourse, setDeleteCourse] = useState<Number>();
 
@@ -38,10 +40,9 @@ export default function CourseList({ categories, courses }: any) {
     };
 
     return (
-        <>
+        <section>
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden text-2xl font-semibold text-gray-800 md:flex">My Courses</h1>
-                <Filter categories={categories} onFilterChange={onFilterChange} />
+                <Filter schema={myCoursesFilter(categories)} onChange={onFilterChange} />
                 <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
                     <div className="mb-6 flex items-center justify-between">
                         <h3 className="text-xl font-semibold">Course List</h3>
@@ -74,7 +75,7 @@ export default function CourseList({ categories, courses }: any) {
                                                 className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
                                             >
                                                 <td className="p-1 text-center">
-                                                    <p>{index + 1}</p>
+                                                    <p>{courses.from + index}</p>
                                                 </td>
                                                 <td className="flex items-center gap-3 p-3">
                                                     <img
@@ -152,7 +153,7 @@ export default function CourseList({ categories, courses }: any) {
                     description="Once you confirm delete course, the course will be gone."
                 />
             </div>
-        </>
+        </section>
     );
 }
 

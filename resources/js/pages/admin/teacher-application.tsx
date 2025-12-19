@@ -1,7 +1,7 @@
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -24,14 +24,9 @@ export default function TeacherApplicationsPage({ applications }: any) {
 
     return (
         <>
-            <Head title="Teacher Applications" />
-
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden text-2xl font-semibold text-gray-800 md:flex">Teacher Applications</h1>
-
                 <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
                     <h3 className="mb-6 text-xl font-semibold">Applications</h3>
-
                     <div className="flex flex-col gap-4 md:hidden">
                         {applications.data.map((app: any) => {
                             return (
@@ -58,10 +53,16 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                             : '-'}
                                     </p>
                                     <div className="flex justify-end gap-2">
-                                        <button onClick={() => handleAction(true, app.id)} className="rounded-md bg-[#42C2FF] p-2 text-white cursor-pointer">
+                                        <button
+                                            onClick={() => handleAction(true, app.id)}
+                                            className="cursor-pointer rounded-md bg-[#42C2FF] p-2 text-white"
+                                        >
                                             <Check size={16} />
                                         </button>
-                                        <button onClick={() => handleAction(false, app.id)} className="rounded-md bg-[#FF5C5C] p-2 text-white cursor-pointer">
+                                        <button
+                                            onClick={() => handleAction(false, app.id)}
+                                            className="cursor-pointer rounded-md bg-[#FF5C5C] p-2 text-white"
+                                        >
                                             <X size={16} />
                                         </button>
                                     </div>
@@ -72,7 +73,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
 
                     <div className="hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#42C2FF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="p-1 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Teacher Applications</th>
@@ -119,13 +120,13 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                                 <div className="flex justify-center gap-2">
                                                     <button
                                                         onClick={() => handleAction(true, app.id)}
-                                                        className="rounded-md bg-[#42C2FF] p-2 text-white cursor-pointer"
+                                                        className="cursor-pointer rounded-md bg-[#42C2FF] p-2 text-white"
                                                     >
                                                         <Check size={16} />
                                                     </button>
                                                     <button
                                                         onClick={() => handleAction(false, app.id)}
-                                                        className="rounded-md bg-[#FF5C5C] p-2 text-white cursor-pointer"
+                                                        className="cursor-pointer rounded-md bg-[#FF5C5C] p-2 text-white"
                                                     >
                                                         <X size={16} />
                                                     </button>

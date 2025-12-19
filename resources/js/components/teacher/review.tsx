@@ -40,14 +40,14 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
           disabled={currentIndex === 0}
           className={`absolute -left-1 top-1/2 -translate-y-1/2 z-20 bg-white border shadow-md p-2 rounded-full transition-opacity ${currentIndex === 0 ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-100"}`}
         >
-          <ChevronLeft className="w-5 h-5 text-[#42C2FF]" />
+          <ChevronLeft className="w-5 h-5 text-[#3ABEFF]" />
         </button>
         <button
           onClick={goRight}
           disabled={currentIndex === maxIndex}
           className={`absolute -right-1 top-1/2 -translate-y-1/2 z-20 bg-white border shadow-md p-2 rounded-full transition-opacity ${currentIndex === maxIndex ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-100"}`}
         >
-          <ChevronRight className="w-5 h-5 text-[#42C2FF]" />
+          <ChevronRight className="w-5 h-5 text-[#3ABEFF]" />
         </button>
         <div className="overflow-hidden">
           <div

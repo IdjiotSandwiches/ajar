@@ -51,7 +51,7 @@ export default function AddSchedulePage() {
                     onClick={() => handleSlotClick(day, hour)}
                     className="rounded-md border-2 border-[#42C2FF] bg-transparent p-1 hover:bg-[#42C2FF]/20 md:p-2"
                 >
-                    <Plus size={14} className="md:size-4" color="#42C2FF" />
+                    <Plus size={14} className="md:size-4" color="#3ABEFF" />
                 </button>
             );
         }
@@ -130,9 +130,9 @@ export default function AddSchedulePage() {
                 <div className="col-span-1 rounded-2xl bg-white p-4 shadow sm:p-6 lg:col-span-3">
                     <h2 className="mb-4 text-lg font-semibold text-black">Schedule</h2>
 
-                    <div className="overflow-x-auto rounded-2xl border border-[#42C2FF]">
+                    <div className="overflow-x-auto rounded-2xl border border-[#3ABEFF]">
                         <table className="min-w-full text-center text-xs sm:text-sm">
-                            <thead className="bg-[#42C2FF] text-white">
+                            <thead className="bg-[#3ABEFF] text-white">
                                 <tr>
                                     <th className="border border-[#42C2FF] px-2 py-2 sm:px-3">Hours</th>
                                     {days.map((day) => (
@@ -148,7 +148,7 @@ export default function AddSchedulePage() {
                                     <tr key={hour} className={i % 2 === 0 ? 'bg-black/5' : 'bg-white'}>
                                         <td className="border border-[#42C2FF] px-2 py-2 font-medium sm:px-3">{hour}</td>
                                         {days.map((day) => (
-                                            <td key={day} className="border border-[#42C2FF] py-2 text-center">
+                                            <td key={day} className="border border-[#3ABEFF] py-2 text-center">
                                                 {renderCell(day, hour)}
                                             </td>
                                         ))}

@@ -72,7 +72,7 @@ export default function TimeSelectModal({ isOpen, onPrevious, onNext, onClose, s
     return (
         <>
             {schedules && (
-                <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#42C2FF]/40 backdrop-blur-sm">
+                <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm">
                     <div className="animate-fadeIn relative w-[90%] max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl bg-white p-4 sm:p-6 shadow-2xl">
                         <button onClick={onClose} className="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
                             <X size={20} />
@@ -82,8 +82,8 @@ export default function TimeSelectModal({ isOpen, onPrevious, onNext, onClose, s
                         <p className="mb-6 text-center text-sm text-gray-500">Select the available course schedule</p>
 
                         <div className="grid grid-cols-3 overflow-hidden rounded-2xl border">
-                            <div className="col-span-2 flex h-[260px] sm:h-[300px] flex-col bg-[#42C2FF]/10 p-3 sm:p-4">
-                                <div className="mb-3 flex items-center justify-between text-[#42C2FF]">
+                            <div className="col-span-2 flex h-[260px] sm:h-[300px] flex-col bg-[#3ABEFF]/10 p-3 sm:p-4">
+                                <div className="mb-3 flex items-center justify-between text-[#3ABEFF]">
                                     <button onClick={prevMonth} className="rounded-full p-1 hover:bg-white">
                                         <ChevronLeft size={16} />
                                     </button>
@@ -122,7 +122,7 @@ export default function TimeSelectModal({ isOpen, onPrevious, onNext, onClose, s
                                                     disabled:cursor-not-allowed 
                                                     disabled:bg-[#d9e1e6]
 
-                                                    ${selectedDate === val ? 'bg-[#42C2FF] text-white' : 'hover:bg-white'}
+                                                    ${selectedDate === val ? 'bg-[#3ABEFF] text-white' : 'hover:bg-white'}
 
                                                     w-6 h-6 sm:w-8 sm:h-8
                                                 `}
@@ -134,7 +134,7 @@ export default function TimeSelectModal({ isOpen, onPrevious, onNext, onClose, s
                                 </div>
                             </div>
 
-                            <div className="flex h-[260px] sm:h-[300px] flex-col gap-2 overflow-y-auto border-l bg-[#42C2FF]/10 p-3 sm:p-4">
+                            <div className="flex h-[260px] sm:h-[300px] flex-col gap-2 overflow-y-auto border-l bg-[#3ABEFF]/10 p-3 sm:p-4">
                                 {selectedDate &&
                                     schedules[selectedDate]?.map((time: any, index: number) => (
                                         <button
@@ -143,7 +143,7 @@ export default function TimeSelectModal({ isOpen, onPrevious, onNext, onClose, s
                                             className={`
                                                 rounded-lg px-2 py-1.5 text-left 
                                                 text-[10px] sm:text-xs transition-all
-                                                ${selectedTime === time.id ? 'bg-[#42C2FF] text-white' : 'hover:bg-white'}
+                                                ${selectedTime === time.id ? 'bg-[#3ABEFF] text-white' : 'hover:bg-white'}
                                             `}
                                         >
                                             {time.time}
@@ -165,7 +165,7 @@ export default function TimeSelectModal({ isOpen, onPrevious, onNext, onClose, s
                                 className={`
                                     w-1/2 rounded-xl py-2 sm:py-3 
                                     text-sm sm:text-base font-medium text-white
-                                    ${selectedDate && selectedTime ? 'bg-[#42C2FF] hover:bg-[#42C2FF]/90' : 'cursor-not-allowed bg-gray-300'}
+                                    ${selectedDate && selectedTime ? 'bg-[#3ABEFF] hover:bg-[#3ABEFF]/90' : 'cursor-not-allowed bg-gray-300'}
                                 `}
                             >
                                 Next
