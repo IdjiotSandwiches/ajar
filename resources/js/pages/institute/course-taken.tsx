@@ -1,6 +1,6 @@
 import CourseStatusCard from "@/components/institute/course-taken-card";
-import Filter from "@/components/lms/filter/institute/filter-mycourses";
-import AppLayout from "@/layouts/app-layout";
+import { coursesTakenFilter } from "@/components/lms/filter/dictionary/courses-taken";
+import Filter from "@/components/lms/filter/filter";
 import LMSLayout from "@/layouts/lms-layout";
 import React from "react";
 
@@ -37,9 +37,14 @@ export default function CoursesTakenPage() {
 
   return (
     <div className="flex min-h-screen flex-col gap-6">
-      <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Courses Taken</h1>
+      {/* <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Courses Taken</h1> */}
 
-      <Filter />
+      <Filter
+        schema={coursesTakenFilter}
+        onChange={(filters: any) => {
+          console.log(filters);
+        }}
+      />
 
       <div className="mx-auto w-full rounded-2xl bg-white p-4 sm:p-6 md:p-8 shadow-sm">
         <h3 className="font-semibold text-xl mb-6">Course List</h3>

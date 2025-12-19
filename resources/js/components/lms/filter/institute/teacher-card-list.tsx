@@ -8,6 +8,7 @@ interface MobileTeacherCardProps {
     coursesCount: number;
     rating: number;
     totalReviews: number;
+    registerDate: Date;
     onDelete: () => void;
 }
 
@@ -18,6 +19,7 @@ const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({
     coursesCount,
     rating,
     totalReviews,
+    registerDate,
     onDelete,
 }) => {
     return (
@@ -51,6 +53,12 @@ const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({
                         / 5 ({totalReviews} reviews)
                     </span>
                 </p>
+
+                <p className="text-xs text-gray-500">
+                    Registered on{" "}
+                    {new Date(registerDate).toLocaleDateString("id-ID")}
+                </p>
+
             </div>
 
             <div className="mt-4 flex justify-end">

@@ -31,7 +31,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
                     <p>Resend verification email</p>
                 </Button>
 
-                <TextLink href={route('logout')} method="post" className="mx-auto block text-sm hover:text-[#42C2FF] cursor-pointer">
+                <TextLink href={route('logout')} method="post" className="mx-auto block text-sm hover:text-[#3ABEFF] cursor-pointer">
                     Log out
                 </TextLink>
             </form>

@@ -1,11 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import LMSLayout from "@/layouts/lms-layout";
 import { Head, router } from "@inertiajs/react";
 import { CreditCard, Wallet } from "lucide-react";
 import React from "react";
-
-/* =======================
-   Dummy Data
-======================= */
 
 const payments = [
     {
@@ -42,10 +39,6 @@ const totalPaid = payments
     .filter((p) => p.status === "paid")
     .reduce((sum, p) => sum + p.price, 0);
 
-/* =======================
-   Page Component
-======================= */
-
 export default function PaymentsPage() {
     const handlePay = (courseId: number) => {
         router.get(route("student.checkout", courseId));
@@ -56,10 +49,6 @@ export default function PaymentsPage() {
             <Head title="Payments" />
 
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="text-2xl font-semibold text-gray-800">
-                    Payments
-                </h1>
-
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="rounded-xl bg-white p-6 shadow-sm flex items-center gap-4">
                         <div className="rounded-full bg-red-100 p-3">
@@ -69,8 +58,8 @@ export default function PaymentsPage() {
                             <p className="text-sm text-gray-500">
                                 Total Unpaid Amount
                             </p>
-                            <p className="text-xl font-bold text-gray-800">
-                                Rp{" "}
+                            <p className="text-lg md:text-xl font-bold text-gray-800">
+                                Rp
                                 {totalUnpaid.toLocaleString("id-ID")}
                             </p>
                         </div>
@@ -87,8 +76,8 @@ export default function PaymentsPage() {
                             <p className="text-sm text-gray-500">
                                 Total Paid Amount
                             </p>
-                            <p className="text-xl font-bold text-gray-800">
-                                Rp{" "}
+                            <p className="text-lg md:text-xl font-bold text-gray-800">
+                                Rp
                                 {totalPaid.toLocaleString("id-ID")}
                             </p>
                         </div>
@@ -100,9 +89,65 @@ export default function PaymentsPage() {
                         Payment History
                     </h3>
 
-                    <div className="overflow-x-auto">
+                    <div className="space-y-4 md:hidden">
+                        {payments.map((course) => (
+                            <div
+                                key={course.id}
+                                className="rounded-xl border bg-white p-4 shadow-sm"
+                            >
+                                <div className="mb-2">
+                                    <p className="text-sm text-gray-500">Course</p>
+                                    <p className="font-semibold text-gray-800">
+                                        {course.course_name}
+                                    </p>
+                                </div>
+
+                                <div className="mb-2">
+                                    <p className="text-sm text-gray-500">Teacher</p>
+                                    <p className="text-gray-700">{course.teacher}</p>
+                                </div>
+
+                                <div className="mb-2">
+                                    <p className="text-sm text-gray-500">Schedule</p>
+                                    <p className="text-gray-700">{course.schedule}</p>
+                                </div>
+
+                                <div className="flex items-center justify-between mt-4">
+                                    <div>
+                                        <p className="text-sm text-gray-500">Price</p>
+                                        <p className="font-semibold">
+                                            Rp {course.price.toLocaleString("id-ID")}
+                                        </p>
+                                    </div>
+
+                                    <span
+                                        className={`rounded-full px-3 py-1 text-xs font-semibold ${course.status === "paid"
+                                                ? "bg-green-100 text-green-600"
+                                                : "bg-red-100 text-red-600"
+                                            }`}
+                                    >
+                                        {course.status.toUpperCase()}
+                                    </span>
+                                </div>
+
+                                {course.status === "unpaid" && (
+                                    <button
+                                        onClick={() =>
+                                            router.get(route("payment-register", course.id))
+                                        }
+                                        className="mt-4 w-full rounded-md bg-[#3ABEFF] py-2 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
+                                    >
+                                        Pay Now
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+
+
+                    <div className="hidden md:block overflow-x-auto rounded-lg border">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#42C2FF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="p-3 text-left font-semibold">
                                         Course
@@ -129,11 +174,10 @@ export default function PaymentsPage() {
                                 {payments.map((course, index) => (
                                     <tr
                                         key={course.id}
-                                        className={`border-b ${
-                                            index % 2 === 0
+                                        className={`border-b ${index % 2 === 0
                                                 ? "bg-[#F9FCFF]"
                                                 : "bg-white"
-                                        }`}
+                                            }`}
                                     >
                                         <td className="p-3 font-medium">
                                             {course.course_name}
@@ -145,19 +189,18 @@ export default function PaymentsPage() {
                                             {course.schedule}
                                         </td>
                                         <td className="p-3 font-semibold">
-                                            Rp{" "}
+                                            Rp
                                             {course.price.toLocaleString(
                                                 "id-ID",
                                             )}
                                         </td>
                                         <td className="p-3 text-center">
                                             <span
-                                                className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                                                    course.status ===
-                                                    "paid"
+                                                className={`rounded-full px-3 py-1 text-xs font-semibold ${course.status ===
+                                                        "paid"
                                                         ? "bg-green-100 text-green-600"
                                                         : "bg-red-100 text-red-600"
-                                                }`}
+                                                    }`}
                                             >
                                                 {course.status.toUpperCase()}
                                             </span>
@@ -168,7 +211,7 @@ export default function PaymentsPage() {
                                                     onClick={() =>
                                                         router.get(route('payment-register', course.id))
                                                     }
-                                                    className="rounded-md bg-[#42C2FF] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#2FB4F5]"
+                                                    className="rounded-md bg-[#3ABEFF] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#3ABEFF]/90"
                                                 >
                                                     Pay Now
                                                 </button>

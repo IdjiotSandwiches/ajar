@@ -10,9 +10,6 @@ export default function CourseTeacherApplicationsPage() {
     const [action, setAction] = useState<boolean | null>(null);
     const [selectedId, setSelectedId] = useState<number | null>(null);
 
-    /** =======================
-     *  DUMMY DATA
-     ======================= */
     const applications = {
         data: [
             {
@@ -74,23 +71,21 @@ export default function CourseTeacherApplicationsPage() {
             <Head title="Course Teacher Applications" />
 
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">
+                {/* <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">
                     Course Teacher Applications
-                </h1>
+                </h1> */}
 
                 <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm sm:p-6 md:p-8">
                     <h3 className="mb-6 text-xl font-semibold">
                         Applications to Teach Courses
                     </h3>
 
-                    {/* ================= MOBILE ================= */}
                     <div className="flex flex-col gap-4 md:hidden">
                         {applications.data.map((app) => (
                             <div
                                 key={app.id}
                                 className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
                             >
-                                {/* Teacher */}
                                 <div className="mb-3 flex items-center gap-3">
                                     <img
                                         src={app.teacher.user.profile_picture}
@@ -107,7 +102,10 @@ export default function CourseTeacherApplicationsPage() {
                                     </div>
                                 </div>
 
-                                {/* Course */}
+                                <p className="mb-2 text-sm font-medium text-gray-600">
+                                    Saya ingin mengajar di kursus ini
+                                </p>
+
                                 <div className="mb-3 flex items-center gap-3 rounded-lg bg-[#F9FCFF] p-3">
                                     <img
                                         src={app.course.image}
@@ -118,6 +116,7 @@ export default function CourseTeacherApplicationsPage() {
                                         {app.course.name}
                                     </p>
                                 </div>
+
 
                                 <p className="mb-3 text-xs text-gray-500">
                                     Submitted:{' '}
@@ -138,7 +137,7 @@ export default function CourseTeacherApplicationsPage() {
                                         onClick={() =>
                                             handleAction(true, app.id)
                                         }
-                                        className="rounded-md bg-[#42C2FF] p-2 text-white shadow-sm hover:bg-[#42C2FF]/90"
+                                        className="rounded-md bg-[#3ABEFF] p-2 text-white shadow-sm hover:bg-[#3ABEFF]/90"
                                     >
                                         <Check size={16} />
                                     </button>
@@ -155,10 +154,9 @@ export default function CourseTeacherApplicationsPage() {
                         ))}
                     </div>
 
-                    {/* ================= DESKTOP ================= */}
                     <div className="hidden overflow-x-auto md:block rounded-lg border border-gray-200">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#42C2FF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="p-1 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">
@@ -177,13 +175,12 @@ export default function CourseTeacherApplicationsPage() {
                                 {applications.data.map((app, index) => (
                                     <tr
                                         key={app.id}
-                                        className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0
-                                                ? 'bg-[#f9fcff]'
-                                                : 'bg-white'
+                                        className={`border-b transition hover:bg-[#3ABEFF]/10 ${index % 2 === 0
+                                            ? 'bg-[#f9fcff]'
+                                            : 'bg-white'
                                             }`}
                                     >
                                         <td className="p-1 text-center">{index + 1}</td>
-                                        {/* Teacher */}
                                         <td className="p-3">
                                             <div className="flex items-center gap-3">
                                                 <img
@@ -210,7 +207,6 @@ export default function CourseTeacherApplicationsPage() {
                                             </div>
                                         </td>
 
-                                        {/* Course */}
                                         <td className="p-3">
                                             <div className="flex items-center gap-3">
                                                 <img
@@ -223,7 +219,6 @@ export default function CourseTeacherApplicationsPage() {
                                             </div>
                                         </td>
 
-                                        {/* Action */}
                                         <td className="p-3 text-center">
                                             <div className="flex justify-center gap-2">
                                                 <button
@@ -233,7 +228,7 @@ export default function CourseTeacherApplicationsPage() {
                                                             app.id
                                                         )
                                                     }
-                                                    className="rounded-md bg-[#42C2FF] p-2 text-white shadow-sm hover:bg-[#42C2FF]/90"
+                                                    className="rounded-md bg-[#3ABEFF] p-2 text-white shadow-sm hover:bg-[#3ABEFF]/90"
                                                 >
                                                     <Check
                                                         size={16}

@@ -12,7 +12,7 @@ export default function TeacherCourseCardWrapper({ course }: { course: any }) {
                 <button
                     type="button"
                     onClick={() => router.get(route("teacher.add-schedule", course.id))}
-                    className="rounded-lg bg-[#42C2FF] w-full py-2 mt-4 font-semibold text-white transition-all hover:bg-[#42C2FF]/90"
+                    className="rounded-lg bg-[#3ABEFF] w-full py-2 mt-4 font-semibold text-white transition-all hover:bg-[#3ABEFF]/90"
                 >
                     Add Schedule
                 </button>

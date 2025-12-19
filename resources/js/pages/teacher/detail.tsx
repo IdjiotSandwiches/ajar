@@ -27,13 +27,13 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                             <div className="mt-6 flex w-full flex-col">
                                 <button
                                     onClick={() => router.post(route('institute.accept-teacher', teacher?.user_id))}
-                                    className="mb-3 w-full cursor-pointer rounded-lg bg-[#42C2FF] py-2 font-medium text-white transition hover:bg-[#34a9dd]"
+                                    className="mb-3 w-full cursor-pointer rounded-lg bg-[#3ABEFF] py-2 font-medium text-white transition hover:bg-[#34a9dd]"
                                 >
                                     Accept
                                 </button>
                                 <button
                                     onClick={() => router.post(route('institute.reject-teacher', teacher?.user_id))}
-                                    className="w-full cursor-pointer rounded-lg border border-[#42C2FF] py-2 font-medium text-[#42C2FF] transition hover:bg-[#42C2FF]/10"
+                                    className="w-full cursor-pointer rounded-lg border border-[#3ABEFF] py-2 font-medium text-[#3ABEFF] transition hover:bg-[#3ABEFF]/10"
                                 >
                                     Reject
                                 </button>
@@ -44,7 +44,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                         <div className="w-full rounded-xl border border-gray-200 bg-white p-4 shadow md:p-6">
                             <div className="mb-6 grid gap-4 md:grid-cols-3">
                                 <div className="flex items-start gap-2">
-                                    <GraduationCap size={24} className="text-[#42C2FF]" />
+                                    <GraduationCap size={24} className="text-[#3ABEFF]" />
                                     <h3 className="font-semibold text-gray-700">Graduate</h3>
                                 </div>
                                 <div className="space-y-2 pl-1 text-gray-600 md:col-span-2 md:pl-0">
@@ -57,11 +57,11 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                 </div>
                             </div>
 
-                            <hr className="my-6 border-[#42C2FF]/30" />
+                            <hr className="my-6 border-[#3ABEFF]/30" />
 
                             <div className="mb-6 grid gap-4 md:grid-cols-3">
                                 <div className="flex items-start gap-2">
-                                    <BriefcaseBusiness size={24} className="text-[#42C2FF]" />
+                                    <BriefcaseBusiness size={24} className="text-[#3ABEFF]" />
                                     <h3 className="font-semibold text-gray-700">Work Experience</h3>
                                 </div>
                                 <div className="space-y-3 pl-1 text-gray-600 md:col-span-2 md:pl-0">
@@ -74,11 +74,11 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                 </div>
                             </div>
 
-                            <hr className="my-6 border-[#42C2FF]/30" />
+                            <hr className="my-6 border-[#3ABEFF]/30" />
 
                             <div className="grid gap-4 md:grid-cols-3">
                                 <div className="flex items-start gap-2">
-                                    <FileBadge size={24} className="text-[#42C2FF]" />
+                                    <FileBadge size={24} className="text-[#3ABEFF]" />
                                     <h3 className="font-semibold text-gray-700">Certificate</h3>
                                 </div>
                                 <div className="flex flex-col gap-3 pl-1 md:col-span-2 md:pl-0">
@@ -86,7 +86,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                         <button
                                             key={index}
                                             onClick={() => setPreviewImage(item?.image || 'https://placehold.co/400')}
-                                            className="flex items-center gap-3 rounded-lg border border-[#42C2FF]/40 bg-[#42C2FF]/20 px-3 py-2 text-left transition hover:bg-[#42C2FF]/30 cursor-pointer"
+                                            className="flex items-center gap-3 rounded-lg border border-[#3ABEFF]/40 bg-[#3ABEFF]/20 px-3 py-2 text-left transition hover:bg-[#3ABEFF]/30 cursor-pointer"
                                         >
                                             <img src={item?.image || 'https://placehold.co/400'} className="h-10 w-14 rounded object-cover" />
                                             <span className="text-sm font-medium text-gray-700">Certificate {index + 1}</span>
@@ -98,10 +98,10 @@ export default function TeacherDetailPage({ teacher, application }: any) {
 
                         <div className="rounded-xl border border-gray-200 bg-white p-4 shadow md:p-6">
                             <div className="mb-4 flex gap-2">
-                                <Album size={24} className="text-[#42C2FF]" />
+                                <Album size={24} className="text-[#3ABEFF]" />
                                 <h3 className="font-semibold text-gray-700">Courses taught</h3>
                             </div>
-                            <div className="scrollbar-thin scrollbar-thumb-[#42C2FF]/30 scrollbar-track-transparent flex gap-6 overflow-x-auto pb-4">
+                            <div className="scrollbar-thin scrollbar-thumb-[#3ABEFF]/30 scrollbar-track-transparent flex gap-6 overflow-x-auto pb-4">
                                 {teacher.teacher_schedules.map((course: any, index: number) => {
                                     return <CourseCard key={index} course={course.course} isTag={false} />;
                                 })}
@@ -109,7 +109,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                         </div>
                         <div className="rounded-xl border border-gray-200 bg-white p-4 shadow md:p-6">
                             <div className="mb-4 flex gap-2">
-                                <Star size={24} className="text-[#42C2FF]" />
+                                <Star size={24} className="text-[#3ABEFF]" />
                                 <h3 className="font-semibold text-gray-700">Reviews</h3>
                             </div>
                             <ReviewSection reviews={teacher.reviews} />
@@ -126,7 +126,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                         <img src={previewImage} className="max-h-[80vh] max-w-[90vw] rounded-xl border-4 border-white object-contain shadow-lg" />
                         <button
                             onClick={() => setPreviewImage(null)}
-                            className="absolute -top-4 -right-4 rounded-full bg-white p-2 text-gray-600 shadow hover:bg-gray-100 hover:text-[#42C2FF]"
+                            className="absolute -top-4 -right-4 rounded-full bg-white p-2 text-gray-600 shadow hover:bg-gray-100 hover:text-[#3ABEFF]"
                         >
                             <X />
                         </button>

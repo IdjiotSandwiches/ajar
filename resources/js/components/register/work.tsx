@@ -103,7 +103,7 @@ export default function WorkForm({ form }: any) {
                                         <div className="h-4"></div>
                                         {idx === (form.data.works ?? []).length - 1 ? (
                                             <Button asChild type="button" variant="ghost" size="icon" className="rounded-full" onClick={addData}>
-                                                <CirclePlus className="h-6 w-6 text-gray-500 hover:text-[#42C2FF]" />
+                                                <CirclePlus className="h-6 w-6 text-gray-500 hover:text-[#3ABEFF]" />
                                             </Button>
                                         ) : (
                                             <Button

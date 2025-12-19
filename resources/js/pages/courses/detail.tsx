@@ -75,7 +75,7 @@ export default function CourseDetailPage({ course, popularCourses }: any) {
                                 key={tab.id}
                                 onClick={() => handleScrollTo(tab.ref, tab.id)}
                                 className={`rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all md:px-5 md:py-2 md:text-sm ${
-                                    activeTab === tab.id ? 'bg-[#42C2FF] text-white' : 'text-gray-600 hover:bg-gray-100'
+                                    activeTab === tab.id ? 'bg-[#3ABEFF] text-white' : 'text-gray-600 hover:bg-gray-100'
                                 }`}
                             >
                                 {tab.label}
@@ -86,7 +86,7 @@ export default function CourseDetailPage({ course, popularCourses }: any) {
                 <div className="mx-auto grid grid-cols-1 gap-10 px-4 md:px-10 lg:grid-cols-6 lg:px-20 2xl:grid-cols-8">
                     <div className="space-y-10 lg:col-span-4 2xl:col-span-6">
                         <section>
-                            <h4 ref={syllabusRef} className="mb-2 text-xs font-medium text-[#42C2FF]">
+                            <h4 ref={syllabusRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
                                 Syllabus
                             </h4>
                             <h2 className="mb-4 text-lg font-semibold text-gray-800">Learning Objectives</h2>
@@ -101,7 +101,7 @@ export default function CourseDetailPage({ course, popularCourses }: any) {
                             </ul>
                         </section>
                         <section>
-                            <h4 ref={infoRef} className="mb-2 text-xs font-medium text-[#42C2FF]">
+                            <h4 ref={infoRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
                                 Course Information
                             </h4>
                             <h2 className="mb-4 text-lg font-semibold text-gray-800">Skills to be Learned</h2>

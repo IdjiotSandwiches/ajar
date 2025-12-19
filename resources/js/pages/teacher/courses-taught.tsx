@@ -1,4 +1,6 @@
-import Filter from "@/components/lms/filter/institute/filter-mycourses";
+
+import { coursesTaughtFilter } from "@/components/lms/filter/dictionary/course-taught";
+import Filter from "@/components/lms/filter/filter";
 import TeacherCourseCardWrapper from "@/components/lms/teacher/TeacherCourseCardWrapper";
 import LMSLayout from "@/layouts/lms-layout";
 import React from "react";
@@ -71,9 +73,12 @@ export default function TeacherCourses() {
 
     return (
         <div className="grid grid-cols-1 gap-6">
-            <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Courses Taught</h1>
-
-            <Filter />
+            <Filter
+                schema={coursesTaughtFilter}
+                onChange={(filters: any) => {
+                    console.log(filters);
+                }}
+            />
 
             {courses?.length === 0 ? (
                 <p className="text-center text-gray-500 py-10">

@@ -16,12 +16,10 @@ export default function InstituteCard({ institute }: any) {
         setIndex((prev) => (prev - 1 + teachers.length) % teachers.length);
     };
 
-    /** Reset index if teachers length changes */
     useEffect(() => {
         setIndex(0);
     }, [teachers.length]);
 
-    /** Auto slide */
     useEffect(() => {
         if (!hasTeachers || teachers.length <= 1) return;
 
@@ -33,11 +31,10 @@ export default function InstituteCard({ institute }: any) {
     }, [hasTeachers, teachers.length]);
 
     return (
-        <div className="mb-4 rounded-2xl bg-[#42C2FF] p-1 shadow-lg">
+        <div className="mb-4 rounded-2xl bg-[#3ABEFF] p-1 shadow-lg">
             <div className="rounded-2xl bg-white p-0.5">
-                {/* ================= HEADER ================= */}
                 <div
-                    className="cursor-pointer rounded-2xl bg-[#42C2FF] p-6 text-center"
+                    className="cursor-pointer rounded-2xl bg-[#3ABEFF] p-6 text-center"
                     onClick={() =>
                         router.get(route("detail-institute", institute.user_id))
                     }
@@ -58,7 +55,6 @@ export default function InstituteCard({ institute }: any) {
                     </h2>
                 </div>
 
-                {/* ================= TEACHERS ================= */}
                 <div className="group relative mt-2 rounded-2xl bg-white p-4">
                     {!hasTeachers && (
                         <p className="py-3 text-center text-sm text-gray-500">
@@ -124,7 +120,7 @@ export default function InstituteCard({ institute }: any) {
                                                 e.stopPropagation();
                                                 prev();
                                             }}
-                                            className="absolute top-1/2 -left-3 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-[#42C2FF] text-white shadow transition opacity-80 hover:opacity-100"
+                                            className="absolute top-1/2 -left-3 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-[#3ABEFF] text-white shadow transition opacity-80 hover:opacity-100"
                                         >
                                             <ChevronLeft size={18} />
                                         </button>
@@ -135,7 +131,7 @@ export default function InstituteCard({ institute }: any) {
                                                 e.stopPropagation();
                                                 next();
                                             }}
-                                            className="absolute top-1/2 -right-3 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-[#42C2FF] text-white shadow transition opacity-80 hover:opacity-100"
+                                            className="absolute top-1/2 -right-3 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-[#3ABEFF] text-white shadow transition opacity-80 hover:opacity-100"
                                         >
                                             <ChevronRight size={18} />
                                         </button>

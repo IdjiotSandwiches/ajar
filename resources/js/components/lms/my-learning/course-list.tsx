@@ -1,5 +1,5 @@
 import React from "react";
-import CourseCard from "@/components/my-learning/course-card";
+import CourseCard from "@/components/lms/my-learning/course-card";
 
 interface CourseListProps {
   courses: any[];

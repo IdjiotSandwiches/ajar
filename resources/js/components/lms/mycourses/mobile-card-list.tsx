@@ -19,7 +19,7 @@ const MobileCourseCard: React.FC<MobileCourseCardProps> = ({
     onDelete,
 }) => {
     return (
-        <div className="border border-[#42C2FF]/50 bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden p-4 mb-5 flex flex-col md:flex-row gap-4">
+        <div className="border border-[#3ABEFF]/50 bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden p-4 mb-5 flex flex-col md:flex-row gap-4">
             <img
                 src={image || "https://placehold.co/600x400"}
                 alt={title}
@@ -58,7 +58,7 @@ const MobileCourseCard: React.FC<MobileCourseCardProps> = ({
                 <div className="flex justify-end gap-2 pt-2">
                     <button
                         onClick={onEdit}
-                        className="p-2 rounded-md bg-[#42C2FF] text-white hover:bg-[#42C2FF]/90 transition"
+                        className="p-2 rounded-md bg-[#3ABEFF] text-white hover:bg-[#3ABEFF]/90 transition"
                     >
                         <Pencil size={16} />
                     </button>

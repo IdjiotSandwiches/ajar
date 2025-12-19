@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-wrapper-object-types */
-import Filter from "@/components/lms/filter/institute/filter-mycourses";
+import { manageTeachersFilter } from "@/components/lms/filter/dictionary/manage-teachers";
+import Filter from "@/components/lms/filter/filter";
 import MobileTeacherCard from "@/components/lms/filter/institute/teacher-card-list";
 import DynamicModal from "@/components/modal/modal";
 import Pagination from "@/components/pagination";
@@ -22,6 +23,7 @@ export default function TeacherList() {
                 courses_count: 5,
                 rating_avg: 4.6,
                 review_count: 42,
+                registered_at: "2024-01-12",
             },
             {
                 id: 2,
@@ -31,6 +33,7 @@ export default function TeacherList() {
                 courses_count: 3,
                 rating_avg: 4.8,
                 review_count: 30,
+                registered_at: "2024-02-03",
             },
             {
                 id: 3,
@@ -40,10 +43,12 @@ export default function TeacherList() {
                 courses_count: 4,
                 rating_avg: 4.4,
                 review_count: 21,
+                registered_at: "2024-03-18",
             },
         ],
         links: [],
     };
+
 
     const handleDeleteClick = (id: number) => {
         setDeleteTeacher(id);
@@ -60,11 +65,16 @@ export default function TeacherList() {
             <Head title="Teacher List" />
 
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">
+                {/* <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">
                     Manage Teacher
-                </h1>
+                </h1> */}
 
-                <Filter />
+                <Filter
+                    schema={manageTeachersFilter}
+                    onChange={(filters: any) => {
+                        console.log(filters);
+                    }}
+                />
 
                 <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
                     <div className="mb-6">
@@ -73,15 +83,15 @@ export default function TeacherList() {
 
                     <div className="hidden md:block overflow-x-auto rounded-lg border border-gray-200">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#42C2FF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="p-3 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Full Name</th>
-                                    <th className="p-3 text-left font-semibold">Category</th>
                                     <th className="p-3 text-center font-semibold">
                                         Courses Taught
                                     </th>
                                     <th className="p-3 text-center font-semibold">Rating</th>
+                                    <th className="p-3 text-left font-semibold">Register Date</th>
                                     <th className="p-3 text-center font-semibold">Action</th>
                                 </tr>
                             </thead>
@@ -90,11 +100,10 @@ export default function TeacherList() {
                                 {teachers.data.map((teacher, index) => (
                                     <tr
                                         key={teacher.id}
-                                        className={`border-b transition hover:bg-[#42C2FF]/10
-                                            ${
-                                                index % 2 === 0
-                                                    ? "bg-[#f9fcff]"
-                                                    : "bg-white"
+                                        className={`border-b transition hover:bg-[#3ABEFF]/10
+                                            ${index % 2 === 0
+                                                ? "bg-[#f9fcff]"
+                                                : "bg-white"
                                             }
                                         `}
                                     >
@@ -106,9 +115,6 @@ export default function TeacherList() {
                                             {teacher.full_name}
                                         </td>
 
-                                        <td className="p-3">
-                                            {teacher.category.name}
-                                        </td>
 
                                         <td className="p-3 text-center font-semibold">
                                             {teacher.courses_count}
@@ -128,6 +134,14 @@ export default function TeacherList() {
                                                 </span>
                                             </div>
                                         </td>
+                                        <td className="p-3 text-sm text-gray-600">
+                                            {new Date(teacher.registered_at).toLocaleDateString("id-ID", {
+                                                day: "2-digit",
+                                                month: "long",
+                                                year: "numeric",
+                                            })}
+                                        </td>
+
 
                                         <td className="p-3 text-center">
                                             <button
@@ -155,10 +169,10 @@ export default function TeacherList() {
                                 coursesCount={teacher.courses_count}
                                 rating={teacher.rating_avg}
                                 totalReviews={teacher.review_count}
-                                onDelete={() =>
-                                    handleDeleteClick(teacher.id)
-                                }
+                                registerDate={teacher.registered_at}
+                                onDelete={() => handleDeleteClick(teacher.id)}
                             />
+
                         ))}
                     </div>
 
@@ -178,5 +192,5 @@ export default function TeacherList() {
 }
 
 TeacherList.layout = (page: React.ReactNode) => (
-    <LMSLayout title="Teacher List">{page}</LMSLayout>
+    <LMSLayout title="Manage Teachers">{page}</LMSLayout>
 );

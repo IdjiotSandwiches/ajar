@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-wrapper-object-types */
-import Filter from '@/components/lms/filter/institute/filter-mycourses';
+import { manageTeacherAdminFilter } from '@/components/lms/filter/dictionary/manage-teacher-admin';
+import Filter from '@/components/lms/filter/filter';
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
@@ -11,15 +12,13 @@ export default function ManageTeachersPage() {
     const [showModal, setShowModal] = useState(false);
     const [selectedTeacherId, setSelectedTeacherId] = useState<number | null>(null);
 
-    /* =========================
-        DUMMY DATA
-    ========================= */
     const teachers = {
         data: [
             {
                 id: 1,
                 full_name: 'Budi Santoso',
                 avatar: 'https://placehold.co/200',
+                register_date: '12 Dec 2025 12:00',
                 institute: {
                     name: 'Ajar Academy',
                 },
@@ -32,6 +31,7 @@ export default function ManageTeachersPage() {
                 id: 2,
                 full_name: 'Siti Rahma',
                 avatar: 'https://placehold.co/200',
+                register_date: '05 Jan 2025 09:30',
                 institute: null,
                 courses: [],
             },
@@ -39,6 +39,7 @@ export default function ManageTeachersPage() {
                 id: 3,
                 full_name: 'Andi Wijaya',
                 avatar: null,
+                register_date: '20 Feb 2025 15:45',
                 institute: {
                     name: 'Tech Edu Indonesia',
                 },
@@ -71,19 +72,25 @@ export default function ManageTeachersPage() {
                     Manage Teachers
                 </h1>
 
-                <Filter />
+                <Filter
+                    schema={manageTeacherAdminFilter}
+                    onChange={(filters: any) => {
+                        console.log(filters);
+                    }}
+                />
 
                 <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
                     <h3 className="mb-6 text-xl font-semibold">Teacher List</h3>
 
                     <div className="hidden overflow-x-auto md:block rounded-lg border border-gray-200">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#42C2FF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="p-2 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Teacher</th>
                                     <th className="p-3 text-left font-semibold">Institute</th>
                                     <th className="p-3 text-left font-semibold">Courses Taught</th>
+                                    <th className="p-3 text-left font-semibold">Register Date</th>
                                     <th className="w-24 p-3 text-center font-semibold">Action</th>
                                 </tr>
                             </thead>
@@ -92,7 +99,7 @@ export default function ManageTeachersPage() {
                                 {teachers.data.length === 0 ? (
                                     <tr>
                                         <td
-                                            colSpan={5}
+                                            colSpan={6}
                                             className="py-10 text-center text-gray-500"
                                         >
                                             No teachers found.
@@ -102,11 +109,10 @@ export default function ManageTeachersPage() {
                                     teachers.data.map((teacher: any, index: number) => (
                                         <tr
                                             key={teacher.id}
-                                            className={`border-b transition hover:bg-[#42C2FF]/10 ${
-                                                index % 2 === 0
-                                                    ? 'bg-[#f9fcff]'
-                                                    : 'bg-white'
-                                            }`}
+                                            className={`border-b transition hover:bg-[#3ABEFF]/10 ${index % 2 === 0
+                                                ? 'bg-[#f9fcff]'
+                                                : 'bg-white'
+                                                }`}
                                         >
                                             <td className="p-2 text-center">
                                                 {index + 1}
@@ -148,6 +154,10 @@ export default function ManageTeachersPage() {
                                                         ))}
                                                     </ul>
                                                 )}
+                                            </td>
+
+                                            <td className="p-3 text-left">
+                                                {teacher.register_date}
                                             </td>
 
                                             <td className="p-3 text-center">
@@ -209,6 +219,11 @@ export default function ManageTeachersPage() {
                                         </ul>
                                     )}
                                 </div>
+
+                                <p className="text-xs text-gray-500">
+                                    Registered on{" "}
+                                    {new Date(teacher.register_date).toLocaleDateString("id-ID")}
+                                </p>
 
                                 <div className="flex justify-end">
                                     <button

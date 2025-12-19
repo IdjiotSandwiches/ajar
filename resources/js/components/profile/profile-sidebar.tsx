@@ -23,12 +23,12 @@ export default function ProfileSidebar({ profile, activeSection, onSectionChange
     }, [errors]);
 
     return (
-        <aside className="flex w-full flex-col items-center md:w-60 2xl:w-80">
+        <aside className="flex w-full flex-col items-center lg:w-60 xl:w-80">
             <div className="flex w-full justify-center">
                 <ProfileCard user={profile} />
             </div>
             {menuItems.length > 0 && (
-                <nav className="mt-5 flex w-full flex-col gap-1 rounded-xl border border-[#42C2FF] bg-white py-2">
+                <nav className="mt-5 flex w-full flex-col gap-1 rounded-xl border border-[#3ABEFF] bg-white py-2">
                     {menuItems.map((item) => {
                         const isActive = activeSection === item.name;
                         return (
@@ -37,11 +37,11 @@ export default function ProfileSidebar({ profile, activeSection, onSectionChange
                                 onClick={() => onSectionChange(item.name)}
                                 className={`flex items-center gap-3 border-l-4 px-4 py-3 text-left text-sm font-medium transition md:text-base ${
                                     isActive
-                                        ? 'border-[#42C2FF] text-black'
+                                        ? 'border-[#3ABEFF] text-black'
                                         : 'border-transparent text-gray-400 hover:bg-gray-100 hover:text-gray-600'
                                 }`}
                             >
-                                <span className={`${isActive ? 'text-[#42C2FF]' : 'text-gray-400'} flex items-center`}>{item.icon}</span>
+                                <span className={`${isActive ? 'text-[#3ABEFF]' : 'text-gray-400'} flex items-center`}>{item.icon}</span>
                                 {item.name}
                             </button>
                         );

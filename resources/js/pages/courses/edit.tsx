@@ -240,7 +240,7 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
                                             <button
                                                 type="button"
                                                 onClick={handleAddLearnObj}
-                                                className="text-gray-500 hover:text-[#42C2FF] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
                                             >
                                                 <CirclePlus size={18} />
                                             </button>
@@ -293,7 +293,7 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
                                             <button
                                                 type="button"
                                                 onClick={handleAddBenefitStudent}
-                                                className="text-gray-500 hover:text-[#42C2FF] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
                                             >
                                                 <CirclePlus size={18} />
                                             </button>
@@ -344,7 +344,7 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
                                             <button
                                                 type="button"
                                                 onClick={handleAddBenefitTeacher}
-                                                className="text-gray-500 hover:text-[#42C2FF] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
                                             >
                                                 <CirclePlus size={18} />
                                             </button>
@@ -395,7 +395,7 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
                                             <button
                                                 type="button"
                                                 onClick={handleAddCourseOverview}
-                                                className="text-gray-500 hover:text-[#42C2FF] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
                                             >
                                                 <CirclePlus size={18} />
                                             </button>
@@ -446,7 +446,7 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
                                             <button
                                                 type="button"
                                                 onClick={handleAddCourseSkill}
-                                                className="text-gray-500 hover:text-[#42C2FF] p-2 rounded-full"
+                                                className="text-gray-500 hover:text-[#3ABEFF] p-2 rounded-full"
                                             >
                                                 <CirclePlus size={18} />
                                             </button>
@@ -522,7 +522,7 @@ export default function EditCoursePage({ categories }: { categories: Category[] 
 
                     <button
                         type="submit"
-                        className="bg-[#42C2FF] hover:bg-[#42C2FF]/90 text-white font-semibold py-2 rounded-lg transition-all"
+                        className="bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 text-white font-semibold py-2 rounded-lg transition-all"
                     >
                         Submit
                     </button>

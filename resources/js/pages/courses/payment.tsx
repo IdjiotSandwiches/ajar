@@ -4,9 +4,6 @@ import AppLayout from '@/layouts/app-layout';
 import { CheckCircle } from 'lucide-react';
 
 export default function PaymentPage() {
-    /* ======================
-        DUMMY DATA
-    ====================== */
     const teachers = [
         { id: 1, name: 'John Doe', expertise: 'React Specialist' },
         { id: 2, name: 'Jane Smith', expertise: 'Frontend Architect' },
@@ -33,9 +30,6 @@ export default function PaymentPage() {
         discount: 150000,
     };
 
-    /* ======================
-        STATE
-    ====================== */
     const [selectedTeacher, setSelectedTeacher] = useState<any>(null);
     const [selectedSchedule, setSelectedSchedule] = useState<any>(null);
 
@@ -49,9 +43,6 @@ export default function PaymentPage() {
 
     const canPay = selectedTeacher && selectedSchedule;
 
-    /* ======================
-        RENDER
-    ====================== */
     return (
         <>
             <Head title="Course Payment" />
@@ -63,11 +54,7 @@ export default function PaymentPage() {
                     </h1>
 
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                        {/* =====================
-                            LEFT SECTION
-                        ====================== */}
                         <div className="lg:col-span-2 space-y-6">
-                            {/* STEP 1: TEACHER */}
                             <div className="rounded-2xl bg-white p-6 shadow-sm">
                                 <h2 className="mb-1 text-lg font-semibold text-gray-800">
                                     1. Choose Teacher
@@ -87,8 +74,8 @@ export default function PaymentPage() {
                                             className={`flex items-center justify-between rounded-xl border p-4 text-left transition
                                                 ${
                                                     selectedTeacher?.id === teacher.id
-                                                        ? 'border-[#42C2FF] bg-[#42C2FF]/10'
-                                                        : 'border-gray-200 hover:border-[#42C2FF]'
+                                                        ? 'border-[#3ABEFF] bg-[#3ABEFF]/10'
+                                                        : 'border-gray-200 hover:border-[#3ABEFF]'
                                                 }`}
                                         >
                                             <div>
@@ -101,14 +88,13 @@ export default function PaymentPage() {
                                             </div>
 
                                             {selectedTeacher?.id === teacher.id && (
-                                                <CheckCircle className="text-[#42C2FF]" size={20} />
+                                                <CheckCircle className="text-[#3ABEFF]" size={20} />
                                             )}
                                         </button>
                                     ))}
                                 </div>
                             </div>
 
-                            {/* STEP 2: SCHEDULE */}
                             <div className="rounded-2xl bg-white p-6 shadow-sm">
                                 <h2 className="mb-1 text-lg font-semibold text-gray-800">
                                     2. Choose Schedule
@@ -130,8 +116,8 @@ export default function PaymentPage() {
                                                 className={`rounded-xl border p-4 text-left transition
                                                     ${
                                                         selectedSchedule?.id === schedule.id
-                                                            ? 'border-[#42C2FF] bg-[#42C2FF]/10'
-                                                            : 'border-gray-200 hover:border-[#42C2FF]'
+                                                            ? 'border-[#3ABEFF] bg-[#3ABEFF]/10'
+                                                            : 'border-gray-200 hover:border-[#3ABEFF]'
                                                     }`}
                                             >
                                                 <p className="font-medium text-gray-800">
@@ -147,9 +133,6 @@ export default function PaymentPage() {
                             </div>
                         </div>
 
-                        {/* =====================
-                            RIGHT SECTION
-                        ====================== */}
                         <div className="lg:col-span-1">
                             <div className="sticky top-6 rounded-2xl bg-white p-6 shadow-sm">
                                 <h3 className="mb-4 text-lg font-semibold text-gray-800">
@@ -213,7 +196,7 @@ export default function PaymentPage() {
                                     className={`mt-6 w-full rounded-xl py-3 text-sm font-semibold
                                         ${
                                             canPay
-                                                ? 'bg-[#42C2FF] text-white hover:bg-[#42C2FF]/90'
+                                                ? 'bg-[#3ABEFF] text-white hover:bg-[#3ABEFF]/90'
                                                 : 'cursor-not-allowed bg-gray-300 text-gray-500'
                                         }`}
                                 >

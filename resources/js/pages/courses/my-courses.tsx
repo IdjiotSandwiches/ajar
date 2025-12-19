@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-wrapper-object-types */
-import Filter from '@/components/lms/filter/institute/filter-mycourses';
+import { myCoursesFilter } from '@/components/lms/filter/dictionary/mycourses';
+import Filter from '@/components/lms/filter/filter';
 import MobileCourseCard from '@/components/lms/mycourses/mobile-card-list';
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
@@ -30,9 +31,14 @@ export default function CourseList({ courses }: { courses: any }) {
         <>
             <Head title="My Courses" />
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">My Courses</h1>
+                {/* <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">My Courses</h1> */}
 
-                <Filter />
+                <Filter
+                    schema={myCoursesFilter}
+                    onChange={(filters: any) => {
+                        console.log(filters);
+                    }}
+                />
 
                 <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
                     <div className="mb-6 flex justify-between items-center">

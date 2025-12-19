@@ -36,7 +36,6 @@ export default function InstituteForm({ institute, errors }: any) {
                             <input type="hidden" name="_method" value="PUT" />
                         )}
 
-                        {/* ================= NAME ================= */}
                         <DetailInput
                             title="Institute Name"
                             name="name"
@@ -48,7 +47,6 @@ export default function InstituteForm({ institute, errors }: any) {
                             <p className="text-red-500">{errors.name}</p>
                         )}
 
-                                                {/* ================= CATEGORY ================= */}
                         <div>
                             <p className="mb-2 text-sm font-medium text-gray-800">
                                 Institute Category
@@ -63,7 +61,7 @@ export default function InstituteForm({ institute, errors }: any) {
                                         onChange={() =>
                                             setCategory('technology')
                                         }
-                                        className="accent-[#42C2FF]"
+                                        className="accent-[#3ABEFF]"
                                     />
                                     <span className="text-sm text-gray-700">
                                         Technology
@@ -77,7 +75,7 @@ export default function InstituteForm({ institute, errors }: any) {
                                         value="design"
                                         checked={category === 'design'}
                                         onChange={() => setCategory('design')}
-                                        className="accent-[#42C2FF]"
+                                        className="accent-[#3ABEFF]"
                                     />
                                     <span className="text-sm text-gray-700">
                                         Design
@@ -91,7 +89,6 @@ export default function InstituteForm({ institute, errors }: any) {
                             )}
                         </div>
 
-                        {/* ================= EMAIL ================= */}
                         <DetailInput
                             title="Email"
                             name="email"
@@ -103,7 +100,6 @@ export default function InstituteForm({ institute, errors }: any) {
                             <p className="text-red-500">{errors.email}</p>
                         )}
 
-                        {/* ================= PASSWORD ================= */}
                         <DetailInput
                             title="Password"
                             name="password"
@@ -114,7 +110,6 @@ export default function InstituteForm({ institute, errors }: any) {
                             <p className="text-red-500">{errors.password}</p>
                         )}
 
-                        {/* ================= ACTION ================= */}
                         <div className="flex justify-end gap-2 pt-4">
                             <button
                                 type="button"
@@ -125,7 +120,7 @@ export default function InstituteForm({ institute, errors }: any) {
                             </button>
                             <button
                                 type="submit"
-                                className="rounded-lg bg-[#42C2FF] px-6 py-2 font-semibold text-white hover:bg-[#42C2FF]/90"
+                                className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white hover:bg-[#3ABEFF]/90"
                             >
                                 Submit
                             </button>

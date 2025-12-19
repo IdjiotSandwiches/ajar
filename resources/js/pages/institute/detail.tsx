@@ -1,3 +1,4 @@
+import DynamicModal from '@/components/modal/modal';
 import CourseCard from '@/components/ui/course-card';
 import AppLayout from '@/layouts/app-layout';
 import { Head, InfiniteScroll, router, usePage } from '@inertiajs/react';
@@ -9,6 +10,14 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
+
+    const [showApplyModal, setShowApplyModal] = React.useState(false);
+
+    const handleConfirmApply = () => {
+        router.post(route('teacher.apply-as-teacher', institute?.user_id));
+        setShowApplyModal(false);
+    };
+
 
     const icons: any = {
         Github: FaGithub,
@@ -26,14 +35,14 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
             <div className="flex min-h-screen flex-col bg-[#F8FCFF]">
                 <div className="mx-auto w-full max-w-6xl p-6">
                     <div className="flex flex-col items-stretch overflow-hidden rounded-xl shadow-md md:flex-row">
-                        <div className="flex items-center justify-center bg-[#42C2FF] p-6 py-8 md:p-6 md:py-6">
+                        <div className="flex items-center justify-center bg-[#3ABEFF] p-6 py-8 md:p-6 md:py-6">
                             <img
                                 src={institute.user?.profile_picture || 'https://placehold.co/400'}
                                 alt={institute.user.name}
                                 className="h-28 w-28 rounded-lg object-cover outline-6 outline-white md:h-40 md:w-40"
                             />
                         </div>
-                        <div className="relative flex flex-1 cursor-default flex-col items-center justify-between gap-4 bg-[#42C2FF] p-4 text-white md:flex-row md:items-center md:gap-0 md:p-6">
+                        <div className="relative flex flex-1 cursor-default flex-col items-center justify-between gap-4 bg-[#3ABEFF] p-4 text-white md:flex-row md:items-center md:gap-0 md:p-6">
                             <div className="pointer-events-none absolute top-0 right-0 h-full opacity-100">
                                 <img src="/images/gear.png" alt="gear-bg" className="h-full object-contain" />
                             </div>
@@ -94,14 +103,15 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                     {user?.role_id === roles.Teacher &&
                         (!application?.is_verified ? (
                             <button
-                                onClick={() => router.post(route('teacher.apply-as-teacher', institute?.user_id))}
+                                // onClick={() => router.post(route('teacher.apply-as-teacher', institute?.user_id))}
+                                onClick={() => setShowApplyModal(true)}
                                 disabled={application && application?.is_verified == null}
-                                className="mt-5 w-full cursor-pointer rounded-lg bg-[#42C2FF] py-2 font-semibold text-white transition-all hover:bg-[#42C2FF]/90 disabled:cursor-not-allowed disabled:bg-[#42C2FF]/90"
+                                className="mt-5 w-full cursor-pointer rounded-lg bg-[#3ABEFF] py-2 font-semibold text-white transition-all hover:bg-[#3ABEFF]/90 disabled:cursor-not-allowed disabled:bg-[#3ABEFF]/90"
                             >
                                 {application && application?.is_verified == null ? 'Please wait a moment' : 'Apply As Teacher'}
                             </button>
                         ) : (
-                            <div className="mt-5 w-full rounded-lg bg-[#42C2FF] py-2 text-center font-semibold text-white">
+                            <div className="mt-5 w-full rounded-lg bg-[#3ABEFF] py-2 text-center font-semibold text-white">
                                 You are verified teacher
                             </div>
                         ))}
@@ -154,6 +164,15 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                     </div>
                 </div>
             </div>
+
+            <DynamicModal
+                type="confirmation"
+                isOpen={showApplyModal}
+                onClose={() => setShowApplyModal(false)}
+                onConfirm={handleConfirmApply}
+                description={`Are you sure you want to apply as a teacher at ${institute.user.name}?`}
+            />
+
         </>
     );
 }

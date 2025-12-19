@@ -65,7 +65,7 @@ const DetailImage: React.FC<DetailImageProps> = ({ Index, onFilesChange, onRemov
                 <button
                     type="button"
                     onClick={() => document.getElementById(inputId)?.click()}
-                    className="rounded-lg bg-[#42C2FF] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#42C2FF]/90 focus:ring-4 focus:ring-[#42C2FF] focus:outline-none"
+                    className="rounded-lg bg-[#3ABEFF] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#3ABEFF]/90 focus:ring-4 focus:ring-[#3ABEFF] focus:outline-none"
                 >
                     Upload a file
                 </button>

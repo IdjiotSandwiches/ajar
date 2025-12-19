@@ -58,9 +58,9 @@ export default function NavigationList({ role }: any) {
                 className="p-3 rounded-full bg-white shadow-md transition flex items-center justify-center"
             >
                 {open ? (
-                    <X className="w-5 h-5 text-[#42C2FF]" />
+                    <X className="w-5 h-5 text-[#3ABEFF]" />
                 ) : (
-                    <List className="w-5 h-5 text-[#42C2FF]" />
+                    <List className="w-5 h-5 text-[#3ABEFF]" />
                 )}
             </button>
 

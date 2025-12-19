@@ -131,7 +131,7 @@ export default function TeacherApplicationsPage() {
                                             onClick={() =>
                                                 handleAction(true, app.teacher_id)
                                             }
-                                            className="rounded-md bg-[#42C2FF] p-2 text-white"
+                                            className="rounded-md bg-[#3ABEFF] p-2 text-white"
                                         >
                                             <Check size={16} />
                                         </button>
@@ -151,7 +151,7 @@ export default function TeacherApplicationsPage() {
 
                     <div className="hidden overflow-x-auto md:block rounded-lg border border-gray-200">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#42C2FF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="p-1 text-center font-semibold">
                                         No
@@ -173,7 +173,7 @@ export default function TeacherApplicationsPage() {
                                         return (
                                             <tr
                                                 key={app.id}
-                                                className={`border-b transition hover:bg-[#42C2FF]/10 ${
+                                                className={`border-b transition hover:bg-[#3ABEFF]/10 ${
                                                     index % 2 === 0
                                                         ? 'bg-[#f9fcff]'
                                                         : 'bg-white'
@@ -223,7 +223,7 @@ export default function TeacherApplicationsPage() {
                                                                     app.teacher_id
                                                                 )
                                                             }
-                                                            className="rounded-md bg-[#42C2FF] p-2 text-white"
+                                                            className="rounded-md bg-[#3ABEFF] p-2 text-white"
                                                         >
                                                             <Check size={16} />
                                                         </button>

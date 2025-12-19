@@ -135,7 +135,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">{course ? "Course Edit" : "Course Create"}</h1>
+                {/* <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">{course ? "Course Edit" : "Course Create"}</h1> */}
                 <div className="rounded-2xl bg-white p-8 shadow-sm">
                     <Form
                         action={course ? route('institute.put-course', course?.id) : route('institute.post-course')}
@@ -177,7 +177,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                                                 <button
                                                     type="button"
                                                     onClick={handleAddLearnObj}
-                                                    className="rounded-full p-2 text-gray-500 hover:text-[#42C2FF]"
+                                                    className="rounded-full p-2 text-gray-500 hover:text-[#3ABEFF]"
                                                 >
                                                     <CirclePlus size={18} />
                                                 </button>
@@ -220,7 +220,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                                                 <button
                                                     type="button"
                                                     onClick={handleAddStudentBenefit}
-                                                    className="rounded-full p-2 text-gray-500 hover:text-[#42C2FF]"
+                                                    className="rounded-full p-2 text-gray-500 hover:text-[#3ABEFF]"
                                                 >
                                                     <CirclePlus size={18} />
                                                 </button>
@@ -263,7 +263,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                                                 <button
                                                     type="button"
                                                     onClick={handleAddTeacherBenefit}
-                                                    className="rounded-full p-2 text-gray-500 hover:text-[#42C2FF]"
+                                                    className="rounded-full p-2 text-gray-500 hover:text-[#3ABEFF]"
                                                 >
                                                     <CirclePlus size={18} />
                                                 </button>
@@ -306,7 +306,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                                                 <button
                                                     type="button"
                                                     onClick={handleAddCourseOverview}
-                                                    className="rounded-full p-2 text-gray-500 hover:text-[#42C2FF]"
+                                                    className="rounded-full p-2 text-gray-500 hover:text-[#3ABEFF]"
                                                 >
                                                     <CirclePlus size={18} />
                                                 </button>
@@ -426,7 +426,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                             </button>
                             <button
                                 type="submit"
-                                className="rounded-lg bg-[#42C2FF] px-6 py-2 font-semibold text-white transition-all hover:bg-[#42C2FF]/90"
+                                className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white transition-all hover:bg-[#3ABEFF]/90"
                             >
                                 Submit
                             </button>
@@ -438,4 +438,13 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
     );
 }
 
-CreateCoursePage.layout = (page: React.ReactNode) => <LMSLayout title="Create Course">{page}</LMSLayout>;
+CreateCoursePage.layout = (page: any) => {
+    const course = page.props.course;
+
+    return (
+        <LMSLayout title={course ? "Course Edit" : "Course Create"}>
+            {page}
+        </LMSLayout>
+    );
+};
+

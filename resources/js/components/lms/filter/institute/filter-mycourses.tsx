@@ -19,19 +19,6 @@ export default function Filter() {
         }));
     };
 
-    // const applyFilter = () => {
-    //     router.get(
-    //         route('institute.courses'),
-    //         {
-    //             ...filters,
-    //         },
-    //         {
-    //             preserveState: true,
-    //             replace: true,
-    //         }
-    //     );
-    // };
-
     return (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4 rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
             <div className="w-full">
@@ -41,7 +28,7 @@ export default function Filter() {
                     placeholder="Search course"
                     value={filters.search}
                     onChange={e => handleFilterChange('search', e.target.value)}
-                    className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-[#42C2FF] focus:ring-[#42C2FF] w-full"
+                    className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-[#3ABEFF] focus:ring-[#3ABEFF] w-full"
                 />
             </div>
 
@@ -50,7 +37,7 @@ export default function Filter() {
                 <select
                     value={filters.category}
                     onChange={e => handleFilterChange('category', e.target.value)}
-                    className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-[#42C2FF] w-full"
+                    className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-[#3ABEFF] w-full"
                 >
                     <option value="">All Category</option>
                     <option value="programming">Programming</option>
@@ -82,13 +69,6 @@ export default function Filter() {
                     className="rounded-md border border-gray-300 px-3 py-2 text-sm w-full"
                 />
             </div>
-
-            {/* <button
-                        onClick={applyFilter}
-                        className="rounded-md bg-[#42C2FF] px-4 py-2 text-sm font-medium text-white hover:bg-[#42C2FF]/90"
-                    >
-                        Apply
-                    </button> */}
         </div>
     );
 }

@@ -1,4 +1,5 @@
-import Filter from '@/components/lms/filter/institute/filter-mycourses';
+import { removeCourseFilter } from '@/components/lms/filter/dictionary/remove-course';
+import Filter from '@/components/lms/filter/filter';
 import DynamicModal from '@/components/modal/modal';
 import LMSLayout from '@/layouts/lms-layout';
 import { Head } from '@inertiajs/react';
@@ -8,6 +9,7 @@ import React, { useState } from 'react';
 export default function RemoveCoursePage() {
     const [showModal, setShowModal] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState<any>(null);
+
     const courses = [
         {
             id: 1,
@@ -56,20 +58,83 @@ export default function RemoveCoursePage() {
             <Head title="Remove Course" />
 
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">
-                    Remove Course
-                </h1>
-
-                <Filter />
+                <Filter
+                    schema={removeCourseFilter}
+                    onChange={(filters: any) => {
+                        console.log(filters);
+                    }}
+                />
 
                 <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6 md:p-8">
                     <h3 className="mb-6 text-xl font-semibold">
                         Course Management
                     </h3>
 
-                    <div className="overflow-x-auto rounded-lg border border-gray-200">
+                    <div className="flex flex-col gap-4 md:hidden">
+                        {courses.map((course, index) => (
+                            <div
+                                key={course.id}
+                                className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+                            >
+                                <div className="mb-3 flex items-center gap-3">
+                                    <img
+                                        src={course.image}
+                                        alt={course.name}
+                                        className="h-14 w-14 rounded-lg border object-cover"
+                                    />
+
+                                    <div className="flex-1">
+                                        <p className="font-semibold text-gray-800">
+                                            {course.name}
+                                        </p>
+                                        <p className="text-xs text-gray-500">
+                                            {course.institute.name}
+                                        </p>
+                                    </div>
+
+                                    <span className="text-xs text-gray-400">
+                                        #{index + 1}
+                                    </span>
+                                </div>
+
+                                <div className="mb-4">
+                                    <p className="mb-1 text-xs font-medium text-gray-500">
+                                        Teachers
+                                    </p>
+
+                                    {course.teachers.length === 0 ? (
+                                        <span className="italic text-sm text-gray-400">
+                                            No teacher
+                                        </span>
+                                    ) : (
+                                        <ul className="list-disc pl-5 text-sm text-gray-700">
+                                            {course.teachers.map(
+                                                (t: any, i: number) => (
+                                                    <li key={i}>{t.name}</li>
+                                                )
+                                            )}
+                                        </ul>
+                                    )}
+                                </div>
+
+                                <div className="flex justify-end">
+                                    <button
+                                        onClick={() =>
+                                            openDeleteModal(course)
+                                        }
+                                        className="inline-flex items-center gap-2 rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-red-600"
+                                    >
+                                        <Trash2 size={16} />
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="hidden overflow-x-auto md:block rounded-lg border border-gray-200">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#42C2FF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="w-12 p-3 text-center font-semibold">
                                         No
@@ -93,18 +158,16 @@ export default function RemoveCoursePage() {
                                 {courses.map((course, index) => (
                                     <tr
                                         key={course.id}
-                                        className={`border-b transition hover:bg-[#42C2FF]/10 ${
+                                        className={`border-b transition hover:bg-[#3ABEFF]/10 ${
                                             index % 2 === 0
                                                 ? 'bg-[#f9fcff]'
                                                 : 'bg-white'
                                         }`}
                                     >
-                                        {/* NO */}
                                         <td className="p-3 text-center">
                                             {index + 1}
                                         </td>
 
-                                        {/* COURSE */}
                                         <td className="p-3">
                                             <div className="flex items-center gap-3">
                                                 <img
@@ -118,12 +181,10 @@ export default function RemoveCoursePage() {
                                             </div>
                                         </td>
 
-                                        {/* INSTITUTE */}
                                         <td className="p-3">
                                             {course.institute.name}
                                         </td>
 
-                                        {/* TEACHERS */}
                                         <td className="p-3">
                                             {course.teachers.length === 0 ? (
                                                 <span className="italic text-gray-400">
@@ -142,7 +203,6 @@ export default function RemoveCoursePage() {
                                             )}
                                         </td>
 
-                                        {/* ACTION */}
                                         <td className="p-3 text-center">
                                             <button
                                                 onClick={() =>

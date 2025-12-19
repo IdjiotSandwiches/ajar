@@ -9,9 +9,9 @@ export default function TeacherProfileCard({ teacher }: any) {
     };
 
     return (
-        <div className="rounded-2xl bg-[#42C2FF] p-1 shadow-lg">
+        <div className="rounded-2xl bg-[#3ABEFF] p-1 shadow-lg">
             <div className="rounded-2xl bg-white p-0.5">
-                <div className="relative flex flex-col items-center overflow-hidden rounded-2xl bg-[#42C2FF] p-6 text-center">
+                <div className="relative flex flex-col items-center overflow-hidden rounded-2xl bg-[#3ABEFF] p-6 text-center">
                     <div className="z-10 mb-4 h-28 w-28 overflow-hidden rounded-full border-2 border-white shadow-md">
                         <img
                             src={teacher.user?.profile_picture || 'https://placehold.co/400'}
@@ -21,7 +21,7 @@ export default function TeacherProfileCard({ teacher }: any) {
                     </div>
                     <h2 className="z-10 cursor-default text-xl font-bold text-white">{teacher.user?.name}</h2>
                     <p className="z-10 mb-4 cursor-default text-sm text-white/90">{teacher.description}</p>
-                    <button className="z-10 mb-5 flex cursor-pointer items-center gap-2 rounded-lg bg-white px-4 py-2 font-medium text-[#42C2FF] shadow transition hover:bg-blue-50">
+                    <button className="z-10 mb-5 flex cursor-pointer items-center gap-2 rounded-lg bg-white px-4 py-2 font-medium text-[#3ABEFF] shadow transition hover:bg-blue-50">
                         <Send size={18} /> Send Message
                     </button>
                     <div className="z-10 flex cursor-pointer gap-8 text-xl text-white">

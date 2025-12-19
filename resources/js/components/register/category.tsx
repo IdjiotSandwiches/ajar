@@ -34,10 +34,10 @@ export default function CategoryForm({ categories, form }: any) {
                         />
                         <span
                             className={`h-4 w-4 rounded-full border-2 ${
-                                selectedParent === parent.name ? 'border-[#42C2FF]/70 bg-[#42C2FF]/70' : 'border-gray-400'
+                                selectedParent === parent.name ? 'border-[#3ABEFF]/70 bg-[#3ABEFF]/70' : 'border-gray-400'
                             } flex items-center justify-center transition-all`}
                         >
-                            {selectedParent === parent.name && <span className="h-2 w-2 rounded-full bg-[#42C2FF]"></span>}
+                            {selectedParent === parent.name && <span className="h-2 w-2 rounded-full bg-[#3ABEFF]"></span>}
                         </span>
                         <span className="select-none">{parent.name}</span>
                     </label>
@@ -52,7 +52,7 @@ export default function CategoryForm({ categories, form }: any) {
                                 <input type="checkbox" checked={category === sub.id} onChange={() => onSelectSub(sub.id)} className="peer hidden" />
                                 <span
                                     className={`flex h-4 w-4 items-center justify-center rounded border ${
-                                        category === sub.id ? 'border-[#42C2FF] bg-[#42C2FF]' : 'border-gray-400 bg-white'
+                                        category === sub.id ? 'border-[#3ABEFF] bg-[#3ABEFF]' : 'border-gray-400 bg-white'
                                     } transition-all`}
                                 >
                                     {category === sub.id && (

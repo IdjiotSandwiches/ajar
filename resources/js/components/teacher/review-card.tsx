@@ -2,7 +2,7 @@ export default function ReviewCardNew({ review }: any) {
   return (
     <div
       data-card
-      className="bg-white border rounded-lg shadow-sm p-6 sm:p-8 flex flex-col justify-between w-full h-full hover:shadow-md transition-all border-[#42C2FF]"
+      className="bg-white border rounded-lg shadow-sm p-6 sm:p-8 flex flex-col justify-between w-full h-full hover:shadow-md transition-all border-[#3ABEFF]"
     >
       <div>
         <div className="flex items-center gap-3 mb-4">

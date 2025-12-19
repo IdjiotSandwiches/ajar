@@ -58,7 +58,7 @@ export default function ProfileTeacherForm({ detail }: any) {
 
     return (
         <div className="rounded-2xl bg-white p-6 shadow-sm md:p-8">
-            <h3 className="mb-8 text-center text-xl font-semibold text-[#42C2FF] md:text-2xl">Teacher Information</h3>
+            <h3 className="mb-8 text-center text-xl font-semibold text-[#3ABEFF] md:text-2xl">Teacher Information</h3>
             {detail && (
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
@@ -91,7 +91,7 @@ export default function ProfileTeacherForm({ detail }: any) {
                     <div className="mt-6">
                         <button
                             type="submit"
-                            className="w-full rounded-lg bg-[#42C2FF] py-2.5 font-medium text-white transition hover:bg-[#42C2FF]/90"
+                            className="w-full rounded-lg bg-[#3ABEFF] py-2.5 font-medium text-white transition hover:bg-[#3ABEFF]/90"
                         >
                             Save Changes
                         </button>
