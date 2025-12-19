@@ -50,10 +50,9 @@ export default function TeacherList({ teachers }: any) {
                                 <tr>
                                     <th className="p-3 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Full Name</th>
-                                    <th className="p-3 text-left font-semibold">Category</th>
                                     <th className="p-3 text-center font-semibold">Courses Taught</th>
                                     <th className="p-3 text-center font-semibold">Rating</th>
-                                    <th className="p-3 text-left font-semibold">Register Date</th>
+                                    <th className="p-3 text-center font-semibold">Register Date</th>
                                     <th className="p-3 text-center font-semibold">Action</th>
                                 </tr>
                             </thead>
@@ -65,7 +64,6 @@ export default function TeacherList({ teachers }: any) {
                                     >
                                         <td className="p-3 text-center">{teachers.from + index}</td>
                                         <td className="p-3 font-semibold">{teacher.name}</td>
-                                        <td className="p-3">{teacher?.category?.name}</td>
                                         <td className="p-3 text-center font-semibold">{teacher.course_taught}</td>
                                         <td className="p-3 text-center">
                                             <div className="flex items-center justify-center gap-1">
@@ -74,7 +72,7 @@ export default function TeacherList({ teachers }: any) {
                                                 <span className="text-gray-500">/ 5 ({teacher.review_count})</span>
                                             </div>
                                         </td>
-                                        <td className="p-3 text-sm text-gray-600">
+                                        <td className="p-3 text-sm text-gray-600 text-center">
                                             {new Date(teacher.registered_at).toLocaleDateString('id-ID', {
                                                 day: '2-digit',
                                                 month: 'long',
@@ -102,7 +100,6 @@ export default function TeacherList({ teachers }: any) {
                                 key={index}
                                 avatar={teacher.profile_picture}
                                 fullName={teacher.name}
-                                category={teacher?.category?.name}
                                 coursesCount={teacher.course_taught}
                                 rating={teacher.review_rating}
                                 totalReviews={teacher.review_count}

@@ -4,7 +4,6 @@ import React from 'react';
 interface MobileTeacherCardProps {
     avatar?: string;
     fullName: string;
-    category: string;
     coursesCount: number;
     rating: number;
     totalReviews: number;
@@ -15,7 +14,6 @@ interface MobileTeacherCardProps {
 const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({
     avatar,
     fullName,
-    category,
     coursesCount,
     rating,
     totalReviews,
@@ -29,7 +27,6 @@ const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({
 
                 <div className="flex-1">
                     <p className="font-semibold text-gray-800">{fullName}</p>
-                    <p className="text-sm text-gray-500">{category}</p>
                 </div>
             </div>
 
