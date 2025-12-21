@@ -112,8 +112,13 @@ class Course extends Model
         return $this->hasMany(CourseSession::class);
     }
 
-    public function teacherSchedules()
+    public function teachingCourses()
     {
-        return $this->hasMany(TeacherSchedule::class);
+        return $this->hasMany(TeachingCourse::class);
+    }
+
+    public function courseSchedules()
+    {
+        return $this->hasMany(CourseSchedule::class);
     }
 }

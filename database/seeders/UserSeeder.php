@@ -160,7 +160,7 @@ class UserSeeder extends Seeder
             User::firstOrCreate(
                 ['email' => $user['email']],
                 $user
-            );
+            )->markEmailAsVerified();
         }
     }
 }

@@ -48,7 +48,6 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|unique:users,phone_number|phone:ID',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-            'password' => ['required', 'confirmed', Password::defaults()],
             'role_id' => ['required', new Enum(RoleEnum::class)],
         ];
 
@@ -68,6 +67,14 @@ class RegisterRequest extends FormRequest
 
             $rules['certificates'] = 'array';
             $rules['certificates.*'] = 'file|image|mimes:jpeg,png,jpg|max:256';
+        }
+
+        if ($role === RoleEnum::Institute) {
+            $rules['password'] = ['required', Password::defaults()];
+            $rules['category'] = 'required|numeric|exists:categories,id';
+        }
+        else {
+            $rules['password'] = ['required', 'confirmed', Password::defaults()];
         }
 
         return $rules;

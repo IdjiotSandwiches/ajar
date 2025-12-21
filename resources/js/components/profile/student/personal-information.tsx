@@ -5,7 +5,7 @@ export default function ProfilePersonalForm({ profile }: any) {
     const { errors } = usePage<any>().props;
     return (
         <div className="rounded-2xl bg-white shadow-sm p-6 md:p-8">
-            <h3 className="mb-8 text-center text-xl font-semibold text-[#42C2FF] md:text-2xl">Personal Information</h3>
+            <h3 className="mb-8 text-center text-xl font-semibold text-black md:text-xl">Personal Information</h3>
             <Form action={route('update-profile')} method="post" className="flex flex-col gap-4">
                 {profile && <input type="hidden" name="_method" value="PUT" />}
                 <div>
@@ -21,7 +21,7 @@ export default function ProfilePersonalForm({ profile }: any) {
                     {errors.email && <p className="text-red-500">{errors.email}</p>}
                 </div>
                 <div className="mt-6">
-                    <button type="submit" className="w-full rounded-lg bg-[#42C2FF] py-2.5 font-semibold text-white transition hover:bg-[#42C2FF]/90">
+                    <button type="submit" className="w-full rounded-lg bg-[#3ABEFF] py-2.5 font-semibold text-white transition hover:bg-[#3ABEFF]/90">
                         Save Changes
                     </button>
                 </div>

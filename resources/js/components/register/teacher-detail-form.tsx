@@ -4,7 +4,7 @@ import InputError from '../input-error';
 import GraduateForm from './graduate';
 import WorkForm from './work';
 
-export default function TeacherDetailForm({ form, categories }: any) {
+export default function TeacherDetailForm({ form }: any) {
     const getError = (field: any) => form.errors[field];
     const handleCertificatesChange = (files: File[]) => {
         form.setData('certificates', files);

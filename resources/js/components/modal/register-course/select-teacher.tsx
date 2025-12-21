@@ -24,9 +24,9 @@ export default function TeacherSelectModal({ isOpen, onClose, onSelect }: any) {
     return (
         <>
             {teachers && (
-                <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#42C2FF]/40 backdrop-blur-sm">
+                <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm">
                     <div className="animate-fadeIn relative max-h-[85vh] w-[90%] max-w-lg overflow-y-auto rounded-2xl bg-white p-4 shadow-2xl sm:w-full sm:p-6">
-                        <button onClick={onClose} className="absolute top-3 right-3 text-gray-400 hover:text-[#42C2FF]">
+                        <button onClick={onClose} className="absolute top-3 right-3 text-gray-400 hover:text-[#3ABEFF]">
                             <X size={20} />
                         </button>
                         <h2 className="mb-1 text-center text-lg font-semibold text-gray-800">Select a Teacher</h2>
@@ -43,8 +43,8 @@ export default function TeacherSelectModal({ isOpen, onClose, onSelect }: any) {
                                             onClick={() => setSelectedTeacher(teacher?.id)}
                                             className={`flex cursor-pointer items-center justify-between rounded-xl border p-3 ${
                                                 selectedTeacher === teacher?.id
-                                                    ? 'border-[#42C2FF] bg-[#42C2FF]/10'
-                                                    : 'border-gray-200 hover:border-[#42C2FF]'
+                                                    ? 'border-[#3ABEFF] bg-[#3ABEFF]/10'
+                                                    : 'border-gray-200 hover:border-[#3ABEFF]'
                                             } `}
                                         >
                                             <div className="flex items-center gap-3">
@@ -70,7 +70,7 @@ export default function TeacherSelectModal({ isOpen, onClose, onSelect }: any) {
                                                     e.stopPropagation();
                                                     router.get(route('detail-teacher', teacher?.id));
                                                 }}
-                                                className="text-xs font-medium text-[#42C2FF] hover:text-[#42C2FF]/90 sm:text-sm"
+                                                className="text-xs font-medium text-[#3ABEFF] hover:text-[#3ABEFF]/90 sm:text-sm"
                                             >
                                                 Detail
                                             </button>
@@ -85,7 +85,7 @@ export default function TeacherSelectModal({ isOpen, onClose, onSelect }: any) {
                                 onClick={handleSelect}
                                 disabled={!selectedTeacher}
                                 className={`w-full cursor-pointer rounded-lg px-6 py-2 text-sm font-medium sm:w-auto ${
-                                    selectedTeacher ? 'bg-[#42C2FF] text-white hover:bg-[#42C2FF]/90' : 'cursor-not-allowed bg-gray-300 text-gray-500'
+                                    selectedTeacher ? 'bg-[#3ABEFF] text-white hover:bg-[#3ABEFF]/90' : 'cursor-not-allowed bg-gray-300 text-gray-500'
                                 } `}
                             >
                                 Select

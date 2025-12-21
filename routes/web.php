@@ -50,14 +50,25 @@ Route::middleware(['auth', 'verified'])
                 Route::put('profile', 'putProfile')->name('update-profile');
                 Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
             });
+            Route::get('payment-lms', fn() => Inertia::render('student/payment-lms'))->name('payment-lms');
+            Route::get('payment-register', fn() => Inertia::render('courses/payment'))->name('payment-register');
         });
         Route::middleware(['role:Admin'])
             ->prefix('admin')
             ->name('admin.')
             ->group(function () {
                 Route::controller(AdminController::class)->group(function () {
-                    Route::post('register-institute', 'registerInstitute')->name('register-institute');
                     Route::get('course-completion', fn() => Inertia::render('my-learning/course-completion'))->name('course-completion');
+                    Route::get('remove-course', fn() => Inertia::render('admin/remove-course'))->name('remove-course');
+                    Route::get('teacher-applications', 'getUnverifiedTeachers')->name('teacher-applications');
+                    Route::post('accept-teacher/{id}', 'acceptTeacher')->name('accept-teacher');
+                    Route::post('reject-teacher/{id}', 'rejectTeacher')->name('reject-teacher');
+                    Route::get('list-teacher', 'getTeacherList')->name('list-teacher');
+                    Route::delete('delete-teacher/{id}', 'deleteTeacher')->name('delete-teacher');
+                    Route::get('list-institute', 'getInstituteList')->name('list-institute');
+                    Route::delete('delete-institute/{id}', 'deleteInstitute')->name('delete-institute');
+                    Route::get('register-institute', 'getRegisterInstitute')->name('register-institute');
+                    Route::post('register-institute', 'registerInstitute')->name('post-institute');
                 });
             });
         Route::middleware(['role:Teacher'])
@@ -65,14 +76,19 @@ Route::middleware(['auth', 'verified'])
             ->name('teacher.')
             ->group(function () {
                 Route::controller(TeacherController::class)->group(function () {
-                    Route::post('apply/{id}', 'applyAsTeacher')->name('apply-as-teacher');
+                    Route::post('apply/institute/{id}', 'applyAsTeacher')->name('apply-as-teacher');
+                    Route::post('apply/course/{id}', 'applyToCourse')->name('apply-to-course');
                     Route::get('profile', 'getProfile')->name('profile');
                     Route::put('profile', 'putProfile')->name('update-profile');
                     Route::post('detail', 'putDetail')->name('update-detail');
                     Route::post('meeting-link/{id}', 'addMeetingLink')->name('add-meeting-link');
+                    Route::get('institute-applications', 'getTeacherApplications')->name('institute-applications');
+                    Route::get('course-applications', 'getCourseApplications')->name('course-applications');
+                    Route::get('manage-weekly-course', 'getScheduleManagement')->name('get-weekly-course');
+                    Route::post('manage-weekly-course', 'manageWeeklyCourse')->name('manage-weekly-course');
+                    Route::post('manage-availability', 'manageAvailability')->name('manage-availability');
+                    Route::get('courses-taught', 'getTeachingCourses')->name('courses-taught');
                 });
-                Route::get('add-schedule', fn() => Inertia::render('courses/add-schedule'))->name('add-schedule');
-                Route::get('courses-taught', fn() => Inertia::render('teacher/courses-taught'))->name('courses-taught');
             });
         Route::middleware(['role:Institute'])
             ->prefix('institute')
@@ -86,10 +102,14 @@ Route::middleware(['auth', 'verified'])
                     Route::delete('course-detail/{id}', 'removeCourse')->name('delete-course');
                 });
                 Route::controller(InstituteController::class)->group(function () {
+                    Route::get('list-teacher', 'getTeacherList')->name('list-teacher');
+                    Route::delete('deactivate-teacher/{id}', 'removeTeacher')->name('deactivate-teacher');
                     Route::get('teacher-application', 'getTeacherApplications')->name('teacher-application');
-                    Route::get('list-teacher', fn() => Inertia::render('institute/teacher-list'))->name('list-teacher');
-                    Route::post('accept-verification/{id}', 'acceptTeacher')->name('accept-teacher');
-                    Route::post('reject-verification/{id}', 'rejectTeacher')->name('reject-teacher');
+                    Route::post('accept-teacher/{id}', 'acceptTeacher')->name('accept-teacher');
+                    Route::post('reject-teacher/{id}', 'rejectTeacher')->name('reject-teacher');
+                    Route::get('course-application', 'getCourseApplications')->name('course-application');
+                    Route::post('accept-course/{id}', 'acceptCourse')->name('accept-course');
+                    Route::post('reject-course/{id}', 'rejectCourse')->name('reject-course');
                     Route::get('profile', 'getProfile')->name('profile');
                     Route::put('profile', 'putProfile')->name('update-profile');
                 });
@@ -101,10 +121,6 @@ Route::middleware(['auth', 'verified'])
                 Route::get('my-learning', fn() => Inertia::render('mylearning'))->name('my-learning');
             });
     });
-
-// tampil di semua role
-
-// tampil hanya di student & teacher
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

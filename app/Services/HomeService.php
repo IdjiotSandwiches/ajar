@@ -12,16 +12,27 @@ class HomeService
     public function getCoursesPreview()
     {
         $courses = Course::with([
-            'teacherSchedules.teacher.user',
+            'teachingCourses.teacher.user',
             'institute.user',
             'courseSkills.skill'
         ])
-            ->withCount('teacherSchedules')
+            ->withCount('teachingCourses')
+            ->withCount('courseReviews')
             ->withAvg('courseReviews', 'rating')
-            ->orderByDesc('teacher_schedules_count')
+            ->orderByDesc('teaching_courses_count')
             ->inRandomOrder()
             ->limit(10)
-            ->get();
+            ->get()
+            ->map(fn($item) => [
+                'id' => $item->id,
+                'name' => $item->name,
+                'description' => $item->description,
+                'institute' => $item->institute->user->name,
+                'duration' => $item->duration,
+                'teacher_salary' => $item->teacher_salary,
+                'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
+                'course_reviews_count' => $item->course_reviews_count
+            ]);
 
         return $courses;
     }

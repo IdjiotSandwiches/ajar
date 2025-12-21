@@ -5,9 +5,9 @@ import DynamicModal from '@/components/modal/modal';
 import AddLinkModal from '@/components/modal/my-learning/add-link-modal';
 import { AddReviewModal } from '@/components/modal/my-learning/add-review-modal';
 
-import CalendarSection from '@/components/my-learning/calender-section';
-import CourseList from '@/components/my-learning/course-list';
-import Sidebar from '@/components/my-learning/sidebar';
+import CalendarSection from '@/components/lms/my-learning/calender-section';
+import CourseList from '@/components/lms/my-learning/course-list';
+import Sidebar from '@/components/lms/my-learning/sidebar';
 
 import useMediaQuery from '@/hooks/use-media-query';
 import { CalendarDays } from 'lucide-react';
@@ -157,7 +157,7 @@ export default function MyLearningPage() {
 
                 {showCalendarModal && isMedium && (
                     <div
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-[#42C2FF]/40 backdrop-blur-sm"
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm"
                         onClick={() => setShowCalendarModal(false)}
                     >
                         <div className="w-11/12 max-w-md rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>

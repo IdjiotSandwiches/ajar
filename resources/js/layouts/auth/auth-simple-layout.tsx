@@ -44,7 +44,7 @@ export default function AuthSimpleLayout({
             </div>
 
             <div className="lg:w-1/2 w-full flex flex-col justify-center px-6 sm:px-10 py-10">
-              <h1 className="text-3xl font-semibold text-center text-[#42C2FF] mb-8">
+              <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">
                 {title}
               </h1>
               {children}
@@ -52,7 +52,7 @@ export default function AuthSimpleLayout({
           </div>
         ) : (
           <div className="bg-white w-full max-w-4xl rounded-2xl shadow-sm px-6 sm:px-12 py-10">
-            <h1 className="text-3xl font-semibold text-center text-[#42C2FF] mb-8">
+            <h1 className="text-3xl font-semibold text-center text-[#3ABEFF] mb-8">
               {title}
             </h1>
             {children}

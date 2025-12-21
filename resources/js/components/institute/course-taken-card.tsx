@@ -40,7 +40,7 @@ const CourseStatusCard: React.FC<CourseStatusCardProps> = ({
   });
 
   return (
-    <div className="border border-[#42C2FF]/50 bg-white rounded-xl p-4 mb-5 flex flex-col md:flex-row gap-4 shadow-sm hover:shadow-md transition">
+    <div className="border border-[#3ABEFF]/50 bg-white rounded-xl p-4 mb-5 flex flex-col md:flex-row gap-4 shadow-sm hover:shadow-md transition">
       <img
         src={`/${image || null}`}
         alt={title}
@@ -88,7 +88,7 @@ const CourseStatusCard: React.FC<CourseStatusCardProps> = ({
                 href={recordingLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 text-[#42C2FF] hover:underline break-all font-medium"
+                className="flex-1 text-[#3ABEFF] hover:underline break-all font-medium"
               >
                 {recordingLink}
               </a>

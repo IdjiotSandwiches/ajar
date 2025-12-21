@@ -38,31 +38,6 @@ class TeacherSeeder extends Seeder
                 'description' => 'Data Scientist experienced in Big Data.',
                 'is_verified' => true
             ],
-            [
-                'user_id' => 7,
-                'description' => 'Fullstack Web Developer (MERN & Laravel).',
-                'is_verified' => true
-            ],
-            [
-                'user_id' => 8,
-                'description' => 'Professional Digital Artist and Retoucher.',
-                'is_verified' => false
-            ],
-            [
-                'user_id' => 9,
-                'description' => 'Vector Artist and Logo Designer.',
-                'is_verified' => null
-            ],
-            [
-                'user_id' => 10,
-                'description' => '3D Generalist specializing in Blender.',
-                'is_verified' => true
-            ],
-            [
-                'user_id' => 11,
-                'description' => 'UI/UX Designer using Figma.',
-                'is_verified' => true
-            ],
         ];
 
         foreach ($teachers as $teacher) {

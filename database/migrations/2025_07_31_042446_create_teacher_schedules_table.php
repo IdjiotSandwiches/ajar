@@ -21,15 +21,14 @@ return new class extends Migration {
                 'Saturday',
                 'Sunday'
             ]);
-            $table->time('start_time');
-            $table->time('end_time');
-            $table->boolean('is_verified');
-            $table->unsignedBigInteger('course_id');
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+            $table->boolean('active')->default(true);
             $table->unsignedBigInteger('teacher_id');
             $table->timestamps();
 
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->foreign('teacher_id')->references('user_id')->on('teachers')->onDelete('cascade');
+            $table->unique(['teacher_id', 'day']);
         });
     }
 

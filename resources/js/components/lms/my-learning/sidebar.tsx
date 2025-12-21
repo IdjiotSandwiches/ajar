@@ -14,7 +14,7 @@ export default function Sidebar({ tab, setTab }: SidebarProps) {
         onClick={() => setTab("progress")}
         className={`min-w-[140px] px-4 flex items-center justify-center gap-2 py-3 rounded-full border text-sm font-medium ${
           tab === "progress"
-            ? "bg-[#E6F8FF] border-[#42C2FF] text-[#42C2FF]"
+            ? "bg-[#E6F8FF] border-[#3ABEFF] text-[#3ABEFF]"
             : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
         }`}
       >

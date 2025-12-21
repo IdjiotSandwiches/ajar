@@ -18,9 +18,11 @@ class CourseSchedule extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'session_date',
+        'start_time',
+        'end_time',
         'meeting_link',
-        'teacher_schedule_id',
+        'course_id',
+        'teacher_id',
         'status',
     ];
 
@@ -28,8 +30,13 @@ class CourseSchedule extends Model
         'status' => StatusEnum::class,
     ];
 
-    public function teacherSchedule()
+    public function course()
     {
-        return $this->belongsTo(TeacherSchedule::class);
+        return $this->belongsTo(Course::class);
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id', 'user_id');
     }
 }

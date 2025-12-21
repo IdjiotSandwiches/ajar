@@ -1,14 +1,15 @@
-/* eslint-disable @typescript-eslint/no-wrapper-object-types */
-import Filter from '@/components/lms/filter/institute/filter-mycourses';
+import { myCoursesFilter } from '@/components/lms/filter/dictionary/mycourses';
+import Filter from '@/components/lms/filter/filter';
 import MobileCourseCard from '@/components/lms/mycourses/mobile-card-list';
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function CourseList({ courses }: { courses: any }) {
+export default function CourseList({ categories, courses }: any) {
+    console.log(courses);
     const [showModal, setShowModal] = useState(false);
     const [deleteCourse, setDeleteCourse] = useState<Number>();
 
@@ -26,17 +27,25 @@ export default function CourseList({ courses }: { courses: any }) {
         router.get(route('institute.course-detail', courseId));
     };
 
+    const onFilterChange = (filters: any) => {
+        router.reload({
+            only: ['courses'],
+            data: {
+                search: filters.search,
+                category_id: filters.category,
+                price_min: filters.minPrice,
+                price_max: filters.maxPrice,
+            },
+        });
+    };
+
     return (
-        <>
-            <Head title="My Courses" />
+        <section>
             <div className="flex min-h-screen flex-col gap-6">
-                <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">My Courses</h1>
-
-                <Filter />
-
+                <Filter schema={myCoursesFilter(categories)} onChange={onFilterChange} />
                 <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
-                    <div className="mb-6 flex justify-between items-center">
-                        <h3 className="font-semibold text-xl">Course List</h3>
+                    <div className="mb-6 flex items-center justify-between">
+                        <h3 className="text-xl font-semibold">Course List</h3>
                         <button
                             onClick={() => router.get(route('institute.post-course'))}
                             className="flex cursor-pointer items-center gap-2 rounded-md bg-[#42C2FF] px-4 py-2 text-sm font-medium text-white shadow transition hover:bg-[#42C2FF]/90"
@@ -44,7 +53,7 @@ export default function CourseList({ courses }: { courses: any }) {
                             <Plus size={16} strokeWidth={3} /> Tambah Kursus
                         </button>
                     </div>
-                    <div className="hidden overflow-x-auto md:block rounded-lg border border-gray-200 ">
+                    <div className="hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
                         <table className="min-w-full rounded-lg text-sm text-gray-700">
                             <thead className="border-b border-gray-200 bg-[#42C2FF]/10">
                                 <tr className="cursor-default">
@@ -59,7 +68,6 @@ export default function CourseList({ courses }: { courses: any }) {
                                 <div className="py-10 text-center text-gray-500">Belum ada kursus.</div>
                             ) : (
                                 <>
-
                                     <tbody>
                                         {courses.data.map((course: any, index: number) => (
                                             <tr
@@ -67,7 +75,7 @@ export default function CourseList({ courses }: { courses: any }) {
                                                 className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
                                             >
                                                 <td className="p-1 text-center">
-                                                    <p>{index + 1}</p>
+                                                    <p>{courses.from + index}</p>
                                                 </td>
                                                 <td className="flex items-center gap-3 p-3">
                                                     <img
@@ -113,16 +121,13 @@ export default function CourseList({ courses }: { courses: any }) {
                                             </tr>
                                         ))}
                                     </tbody>
-
                                 </>
                             )}
                         </table>
                     </div>
                     <div className="grid grid-cols-1 gap-4 md:hidden">
                         {courses.data.length === 0 ? (
-                            <p className="text-center text-gray-500 py-10">
-                                Belum ada kursus.
-                            </p>
+                            <p className="py-10 text-center text-gray-500">Belum ada kursus.</p>
                         ) : (
                             courses.data.map((course: any) => (
                                 <MobileCourseCard
@@ -148,7 +153,7 @@ export default function CourseList({ courses }: { courses: any }) {
                     description="Once you confirm delete course, the course will be gone."
                 />
             </div>
-        </>
+        </section>
     );
 }
 

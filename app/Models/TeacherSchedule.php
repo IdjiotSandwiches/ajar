@@ -19,27 +19,18 @@ class TeacherSchedule extends Model
         'day',
         'start_time',
         'end_time',
-        'is_verified',
-        'course_id',
-        'teacher_id',
+        'active',
+        'teacher_id'
     ];
 
     protected $casts = [
         'day' => DayEnum::class,
+        'start_time' => 'datetime:H:i',
+        'end_time' => 'datetime:H:i',
     ];
-
-    public function courseSchedules()
-    {
-        return $this->hasMany(CourseSchedule::class);
-    }
 
     public function teacher()
     {
         return $this->belongsTo(Teacher::class,  'teacher_id', 'user_id');
-    }
-
-    public function course()
-    {
-        return $this->belongsTo(Course::class);
     }
 }

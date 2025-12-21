@@ -101,10 +101,6 @@ class Teacher extends Model
         return $this->reviews()->count();
     }
 
-    /**
-     * HasMany: Courses
-     * @return HasMany<CourseSchedule, Teacher>
-     */
     public function teacherSchedules(): HasMany
     {
         return $this->hasMany(TeacherSchedule::class, 'teacher_id', 'user_id');
@@ -113,5 +109,20 @@ class Teacher extends Model
     public function teacherApplications(): HasMany
     {
         return $this->hasMany(TeacherApplication::class, 'teacher_id', 'user_id');
+    }
+
+    public function teachingCourses()
+    {
+        return $this->hasMany(TeachingCourse::class, 'teacher_id', 'user_id');
+    }
+
+    public function courseSchedules()
+    {
+        return $this->hasMany(CourseSchedule::class);
+    }
+
+    public function courseWeeklyRules()
+    {
+        return $this->hasMany(CourseWeeklyRule::class);
     }
 }
