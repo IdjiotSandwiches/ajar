@@ -43,7 +43,7 @@ class CourseService
 
         $categoryIds = $categories->pluck('id');
         $baseQuery = Course::query()
-            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teacherSchedules.teacher.user'))
+            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachingCourses.teacher.user'))
             ->when($filters['search'] ?? null, fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
             ->with(['institute.user'])
             ->withAvg('courseReviews', 'rating')
@@ -121,7 +121,17 @@ class CourseService
                 break;
         }
 
-        $courses = $filteredQuery->paginate(10);
+        $courses = $filteredQuery->paginate(10)
+            ->through(fn($item) => [
+                'id' => $item->id,
+                'name' => $item->name,
+                'description' => $item->description,
+                'institute' => $item->institute->user->name,
+                'duration' => $item->duration,
+                'teacher_salary' => $item->teacher_salary,
+                'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
+                'course_reviews_count' => $item->course_reviews_count
+            ]);
         return [$courses, $categories, $minPrice, $maxPrice];
     }
 

@@ -20,14 +20,5 @@ export const courseApplicationFilter = (categories: any): FilterSchema => [
             { label: '< Rp 100.000', value: 'low' },
             { label: '> Rp 100.000', value: 'high' },
         ],
-    },
-    {
-        key: 'has_teacher',
-        label: 'Have a Teacher',
-        type: 'dropdown',
-        options: [
-            { label: 'Yes', value: '1' },
-            { label: 'No', value: '0' },
-        ],
-    },
+    }
 ];
