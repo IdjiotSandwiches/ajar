@@ -31,7 +31,8 @@ class HomeService
                 'duration' => $item->duration,
                 'teacher_salary' => $item->teacher_salary,
                 'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
-                'course_reviews_count' => $item->course_reviews_count
+                'course_reviews_count' => $item->course_reviews_count,
+                'image' => $item->image
             ]);
 
         return $courses;

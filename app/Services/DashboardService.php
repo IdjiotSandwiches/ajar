@@ -24,13 +24,12 @@ class DashboardService
                     ->where('start_time', '>', Carbon::now('Asia/Jakarta'))
                     ->paginate(5)
                     ->through(function ($item) {
-                        $schedule = $item->teacherSchedule;
-                        $course = $schedule->course;
-                        $teacher = $schedule->teacher;
+                        $course = $item->course;
+                        $teacher = $item->teacher;
                         return [
                             'name' => $course->name,
-                            'start_time' => $schedule->start_time,
-                            'end_time' => $schedule->end_time,
+                            'start_time' => $item->start_time,
+                            'end_time' => $item->end_time,
                             'teacher' => $teacher->user->name,
                             'meeting_link' => $item->meeting_link
                         ];
@@ -39,16 +38,16 @@ class DashboardService
             case RoleEnum::Teacher: {
                 $courses = CourseSchedule::with(['teacher.user'])
                     ->where('teacher_id', $user->id)
+                    ->whereToday('start_time')
                     ->where('start_time', '>', Carbon::now('Asia/Jakarta'))
                     ->paginate(5)
                     ->through(function ($item) {
-                        $schedule = $item->teacherSchedule;
-                        $course = $schedule->course;
-                        $teacher = $schedule->teacher;
+                        $course = $item->course;
+                        $teacher = $item->teacher;
                         return [
                             'name' => $course->name,
-                            'start_time' => $schedule->start_time,
-                            'end_time' => $schedule->end_time,
+                            'start_time' => $item->start_time,
+                            'end_time' => $item->end_time,
                             'teacher' => $teacher->user->name,
                             'meeting_link' => $item->meeting_link
                         ];
@@ -59,7 +58,8 @@ class DashboardService
                 $courses = EnrolledCourse::with(['courseSchedule.course', 'courseSchedule.teacher.user'])
                     ->where('student_id', $user->id)
                     ->whereHas('courseSchedule', function ($query) {
-                        $query->where('start_time', '>', Carbon::now('Asia/Jakarta'));
+                        $query->whereToday('start_time')
+                            ->where('start_time', '>', Carbon::now('Asia/Jakarta'));
                     })
                     ->paginate(5)
                     ->through(function ($item) {
@@ -95,13 +95,12 @@ class DashboardService
                     ->whereAfterToday('start_time')
                     ->paginate(5)
                     ->through(function ($item) {
-                        $schedule = $item->teacherSchedule;
-                        $course = $schedule->course;
-                        $teacher = $schedule->teacher;
+                        $course = $item->course;
+                        $teacher = $item->teacher;
                         return [
                             'name' => $course->name,
-                            'start_time' => $schedule->start_time,
-                            'end_time' => $schedule->end_time,
+                            'start_time' => $item->start_time,
+                            'end_time' => $item->end_time,
                             'teacher' => $teacher->user->name
                         ];
                     });
@@ -112,13 +111,12 @@ class DashboardService
                     ->whereAfterToday('start_time')
                     ->paginate(5)
                     ->through(function ($item) {
-                        $schedule = $item->teacherSchedule;
-                        $course = $schedule->course;
-                        $teacher = $schedule->teacher;
+                        $course = $item->course;
+                        $teacher = $item->teacher;
                         return [
                             'name' => $course->name,
-                            'start_time' => $schedule->start_time,
-                            'end_time' => $schedule->end_time,
+                            'start_time' => $item->start_time,
+                            'end_time' => $item->end_time,
                             'teacher' => $teacher->user->name
                         ];
                     });
@@ -185,20 +183,20 @@ class DashboardService
                 $review = (clone $query)
                     ->where('is_complete', true)
                     ->whereHas(
-                        'courseSchedule.teacherSchedule.course.courseReviews',
+                        'courseSchedule.course.courseReviews',
                         fn($q) => $q->where('reviewer_id', $user->id)
                     )
                     ->whereHas(
-                        'courseSchedule.teacherSchedule.teacher.reviews',
+                        'courseSchedule.teacher.reviews',
                         fn($q) => $q->where('reviewer_id', $user->id)
                     )
                     ->exists();
                 $meeting = (clone $query)
                     ->where('is_complete', false)
                     ->whereHas('courseSchedule', function ($query) {
-                        $query->whereToday('session_date');
+                        $query->whereToday('start_time');
                     })
-                    ->whereHas('courseSchedule.teacherSchedule', function ($query) {
+                    ->whereHas('courseSchedule', function ($query) {
                         $now = now('Asia/Jakarta')->toTimeString();
                         $query->where('start_time', '>=', $now)
                             ->whereRaw("start_time <= ADDTIME(?, '00:15:00')", [$now]);
