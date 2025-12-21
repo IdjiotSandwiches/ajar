@@ -1,6 +1,7 @@
 import { InputSwitch } from '@/components/ui/input-switch';
 import LMSLayout from '@/layouts/lms-layout';
 import { Form, router, usePage } from '@inertiajs/react';
+import { Info } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 export default function AddSchedulePage({ sessions, teachings, availability, errors }: any) {
@@ -83,6 +84,10 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
 
     return (
         <div className="flex min-h-screen flex-col gap-6">
+            <div className="flex gap-2 bg-[#3ABEFF]/10 p-2 text-sm">
+                <Info />
+                <p>Note: Any changes you make will only affect schedules starting next week.</p>
+            </div>
             {/* Ini buat nyimpen nanti teacher ny bisa kapan buat ngajar kek jadwal kerja dia gitu lah */}
             <Form method="post" action={route('teacher.manage-availability')}>
                 <div className="overflow-x-auto rounded-lg border border-gray-200">
