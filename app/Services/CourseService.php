@@ -131,7 +131,9 @@ class CourseService
                 'teacher_salary' => $item->teacher_salary,
                 'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
                 'course_reviews_count' => $item->course_reviews_count,
-                'image' => $item->image
+                'image' => $item->image,
+                'price' => $item->price,
+                'discount' => $item->discount
             ]);
         return [$courses, $categories, $minPrice, $maxPrice];
     }
@@ -223,10 +225,11 @@ class CourseService
                     'institute' => $item->institute->user->name,
                     'duration' => $item->duration,
                     'teacher_salary' => $item->teacher_salary,
-                    'price' => $item->price,
                     'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
                     'course_reviews_count' => $item->course_reviews_count,
-                    'image' => $item->image
+                    'image' => $item->image,
+                    'price' => $item->price,
+                    'discount' => $item->discount
                 ]);
         }
 
