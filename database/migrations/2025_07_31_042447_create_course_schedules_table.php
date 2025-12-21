@@ -12,14 +12,17 @@ return new class extends Migration {
     {
         Schema::create('course_schedules', function (Blueprint $table) {
             $table->id();
-            $table->date('session_date');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->string('meeting_link')->nullable();
-            $table->unsignedBigInteger('teacher_schedule_id');
+            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('teacher_id');
             $table->enum('status', ['scheduled', 'canceled', 'completed'])
                 ->default('scheduled');
             $table->timestamps();
 
-            $table->foreign('teacher_schedule_id')->references('id')->on('teacher_schedules')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('restrict');
+            $table->foreign('teacher_id')->references('user_id')->on('teachers')->onDelete('restrict');
         });
     }
 

@@ -29,4 +29,9 @@ class TeachingCourse extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
+    public function courseWeeklyRules()
+    {
+        return $this->hasMany(CourseWeeklyRule::class);
+    }
 }

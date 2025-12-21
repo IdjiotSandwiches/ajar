@@ -19,12 +19,9 @@ class DashboardService
             case RoleEnum::Admin:
                 break;
             case RoleEnum::Institute:
-                $courses = CourseSchedule::with(['teacherSchedule.teacher.user', 'teacherSchedule.course'])
-                    ->whereToday('session_date')
-                    ->whereHas('teacherSchedule', function ($query) use ($user) {
-                        $query->where('teacher_id', $user->id)
-                            ->where('start_time', '>', Carbon::now('Asia/Jakarta')->toTimeString());
-                    })
+                $courses = CourseSchedule::with(['teacher.user'])
+                    ->where('teacher_id', $user->id)
+                    ->where('start_time', '>', Carbon::now('Asia/Jakarta'))
                     ->paginate(5)
                     ->through(function ($item) {
                         $schedule = $item->teacherSchedule;
@@ -40,12 +37,9 @@ class DashboardService
                     });
                 break;
             case RoleEnum::Teacher: {
-                $courses = CourseSchedule::with(['teacherSchedule.teacher.user', 'teacherSchedule.course'])
-                    ->whereToday('session_date')
-                    ->whereHas('teacherSchedule', function ($query) use ($user) {
-                        $query->where('teacher_id', $user->id)
-                            ->where('start_time', '>', Carbon::now('Asia/Jakarta')->toTimeString());
-                    })
+                $courses = CourseSchedule::with(['teacher.user'])
+                    ->where('teacher_id', $user->id)
+                    ->where('start_time', '>', Carbon::now('Asia/Jakarta'))
                     ->paginate(5)
                     ->through(function ($item) {
                         $schedule = $item->teacherSchedule;
@@ -62,13 +56,10 @@ class DashboardService
                 break;
             }
             case RoleEnum::Student: {
-                $courses = EnrolledCourse::with(['courseSchedule.teacherSchedule.course', 'courseSchedule.teacherSchedule.teacher.user'])
+                $courses = EnrolledCourse::with(['courseSchedule.course', 'courseSchedule.teacher.user'])
                     ->where('student_id', $user->id)
                     ->whereHas('courseSchedule', function ($query) {
-                        $query->whereToday('session_date');
-                    })
-                    ->whereHas('courseSchedule.teacherSchedule', function ($query) {
-                        $query->where('start_time', '>', Carbon::now('Asia/Jakarta')->toTimeString());
+                        $query->where('start_time', '>', Carbon::now('Asia/Jakarta'));
                     })
                     ->paginate(5)
                     ->through(function ($item) {
@@ -99,11 +90,9 @@ class DashboardService
             case RoleEnum::Admin:
                 break;
             case RoleEnum::Institute:
-                $courses = CourseSchedule::with(['teacherSchedule.teacher.user', 'teacherSchedule.course'])
-                    ->whereAfterToday('session_date')
-                    ->whereHas('teacherSchedule', function ($query) use ($user) {
-                        $query->where('teacher_id', $user->id);
-                    })
+                $courses = CourseSchedule::with(['teacher.user'])
+                    ->where('teacher_id', $user->id)
+                    ->whereAfterToday('start_time')
                     ->paginate(5)
                     ->through(function ($item) {
                         $schedule = $item->teacherSchedule;
@@ -118,11 +107,9 @@ class DashboardService
                     });
                 break;
             case RoleEnum::Teacher: {
-                $courses = CourseSchedule::with(['teacherSchedule.teacher.user', 'teacherSchedule.course'])
-                    ->whereAfterToday('session_date')
-                    ->whereHas('teacherSchedule', function ($query) use ($user) {
-                        $query->where('teacher_id', $user->id);
-                    })
+                $courses = CourseSchedule::with(['teacher.user'])
+                    ->where('teacher_id', $user->id)
+                    ->whereAfterToday('start_time')
                     ->paginate(5)
                     ->through(function ($item) {
                         $schedule = $item->teacherSchedule;
@@ -138,10 +125,10 @@ class DashboardService
                 break;
             }
             case RoleEnum::Student: {
-                $courses = EnrolledCourse::with(['courseSchedule.teacherSchedule.course', 'courseSchedule.teacherSchedule.teacher.user'])
+                $courses = EnrolledCourse::with(['courseSchedule.course', 'courseSchedule.teacher.user'])
                     ->where('student_id', $user->id)
                     ->whereHas('courseSchedule', function ($query) {
-                        $query->whereAfterToday('session_date');
+                        $query->whereAfterToday('start_time');
                     })
                     ->paginate(5)
                     ->through(function ($item) {
@@ -177,17 +164,14 @@ class DashboardService
                 $now = now('Asia/Jakarta')->toTimeString();
                 $query = CourseSchedule::query();
                 $addMeeting = (clone $query)
-                    ->whereHas('teacherSchedule', function ($query) use ($user, $now) {
-                        $query->where('teacher_id', $user->id)
-                            ->where('start_time', '>=', $now)
-                            ->whereRaw("start_time <= ADDTIME(?, '00:30:00')", [$now]);
-                    })
-                    ->whereToday('session_date')
+                    ->where('teacher_id', $user->id)
+                    ->where('start_time', '>=', $now)
+                    ->whereRaw("start_time <= ADDTIME(?, '00:30:00')", [$now])
                     ->whereNull('meeting_link')
                     ->exists();
                 $complete = (clone $query)
                     ->where('status', StatusEnum::Completed)
-                    ->whereHas('teacherSchedule', fn($q) => $q->where('end_time', '>', $now))
+                    ->where('end_time', '>', $now)
                     ->exists();
 
                 if ($addMeeting)

@@ -2,7 +2,6 @@ export function StatusTabs({ active, onChange, counts, states }: any) {
     return (
         <div className="flex w-fit gap-2 rounded-lg bg-gray-100 p-1">
             {Object.entries(states).map(([label, value]: any) => {
-                const state = Object.keys(states).find((key) => states[key] === active);
                 return (
                     <button
                         key={label}
