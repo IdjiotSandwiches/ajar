@@ -43,7 +43,7 @@ class CourseService
 
         $categoryIds = $categories->pluck('id');
         $baseQuery = Course::query()
-            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teacherSchedules.teacher.user'))
+            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachingCourses.teacher.user'))
             ->when($filters['search'] ?? null, fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
             ->with(['institute.user'])
             ->withAvg('courseReviews', 'rating')
@@ -121,7 +121,17 @@ class CourseService
                 break;
         }
 
-        $courses = $filteredQuery->paginate(10);
+        $courses = $filteredQuery->paginate(10)
+            ->through(fn($item) => [
+                'id' => $item->id,
+                'name' => $item->name,
+                'description' => $item->description,
+                'institute' => $item->institute->user->name,
+                'duration' => $item->duration,
+                'teacher_salary' => $item->teacher_salary,
+                'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
+                'course_reviews_count' => $item->course_reviews_count
+            ]);
         return [$courses, $categories, $minPrice, $maxPrice];
     }
 
@@ -175,35 +185,47 @@ class CourseService
 
         $user = Auth::user();
         $courses = Course::with(['institute.user', 'courseSkills.skill', 'category.parent'])
-            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teacherSchedules.teacher.user'))
-            ->withCount('teacherSchedules')
+            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachingCourses.teacher.user'))
+            ->withCount('teachingCourses')
             ->withAvg('courseReviews', 'rating')
             ->where('category_id', $categoryId)
             ->whereNotIn('id', [$currentCourseId])
-            ->orderByDesc('teacher_schedules_count')
+            ->orderByDesc('teaching_courses_count')
             ->inRandomOrder()
             ->limit(10)
             ->get();
 
         $coursesCount = $courses->count();
         if ($coursesCount < $count) {
-            $parentCategory = Category::whereNotNull('parent_id')
+            $parentCategory = Category::query()
+                ->whereNotNull('parent_id')
                 ->where('id', $categoryId)
                 ->value('parent_id');
 
             $filteredCourseIds = $courses->pluck('id');
             $moreCourses = Course::with(['institute.user', 'courseSkills.skill', 'category.parent'])
-                ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teacherSchedules.teacher.user'))
-                ->withCount('teacherSchedules')
+                ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachingCourses.teacher.user'))
+                ->withCount('teachingCourses')
                 ->withAvg('courseReviews', 'rating')
                 ->whereRelation('category.parent', 'id', $parentCategory)
                 ->whereNotIn('id', $filteredCourseIds->merge($currentCourseId))
-                ->orderByDesc('teacher_schedules_count')
+                ->orderByDesc('teaching_courses_count')
                 ->inRandomOrder()
                 ->limit($count - $coursesCount)
                 ->get();
 
-            $courses = $courses->merge($moreCourses);
+            $courses = $courses->merge($moreCourses)
+                ->map(fn($item) => [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                    'institute' => $item->institute->user->name,
+                    'duration' => $item->duration,
+                    'teacher_salary' => $item->teacher_salary,
+                    'price' => $item->price,
+                    'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
+                    'course_reviews_count' => $item->course_reviews_count
+                ]);
         }
 
         return $courses;

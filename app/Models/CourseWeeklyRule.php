@@ -6,7 +6,7 @@ use App\Enums\DayEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TeacherSchedule extends Model
+class CourseWeeklyRule extends Model
 {
     use HasFactory;
 
@@ -20,7 +20,8 @@ class TeacherSchedule extends Model
         'start_time',
         'end_time',
         'active',
-        'teacher_id'
+        'teacher_id',
+        'teaching_course_id'
     ];
 
     protected $casts = [
@@ -32,5 +33,10 @@ class TeacherSchedule extends Model
     public function teacher()
     {
         return $this->belongsTo(Teacher::class,  'teacher_id', 'user_id');
+    }
+
+    public function teachingCourse()
+    {
+        return $this->belongsTo(TeachingCourse::class);
     }
 }

@@ -146,7 +146,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
                     onConfirm={confirmAction}
-                    description={`Are you sure you want to ${action ? 'accept' : 'reject'} ${applications.data?.find((x: any) => x.teacher_id == teacherId)?.teacher?.user?.name}'s application?`}
+                    description={`Are you sure you want to ${action ? 'accept' : 'reject'} ${applications.data?.find((x: any) => x.id == teacherId)?.name}'s application?`}
                 />
             </div>
         </>

@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Enums\DayEnum;
 use App\Models\Institute;
 use App\Models\Teacher;
+use App\Models\TeacherSchedule;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AdminService
@@ -16,7 +19,7 @@ class AdminService
             ->withCount('reviews')
             ->withCount('courses')
             ->paginate(10)
-            ->through(fn ($item) => [
+            ->through(fn($item) => [
                 'id' => $item->user_id,
                 'name' => $item->user->name,
                 'reviews_avg_rating' => round($item->reviews_avg_rating ?? 0, 1),
@@ -85,9 +88,6 @@ class AdminService
 
     public function verifyTeacher($id, $isVerified)
     {
-        // KALAU VERIF TRUE, BUAT SCHEDULE TEACHER 1 MINGGU & JAMNYA => TEACHER SCHEDULE
-        // LALU BUAT SCHEDULER/QUEUE JOB UTK BUAT SCHEDULE PERMINGGU => COURSE SCHEDULE
-        // STUDENT AMBIL DATANYA LEWAT COURSE SCHEDULE
         $teacher = Teacher::where('user_id', $id)
             ->first();
 
@@ -95,15 +95,7 @@ class AdminService
             return false;
         }
 
-        return DB::transaction(function() use ($isVerified, $teacher) {
-            $teacher->is_verified = $isVerified;
-            $teacher->teacherSchedules()->updateOrCreate(
-                ['teacher_id', $teacher->user_id],
-                [
-
-                ]);
-            $teacher->save();
-            return true;
-        });
+        $teacher->is_verified = $isVerified;
+        $teacher->save();
     }
 }

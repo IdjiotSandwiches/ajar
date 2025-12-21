@@ -10,14 +10,5 @@ export const instituteApplicationFilter = (categories: any): FilterSchema => [
             label: cat.name,
             value: cat.id,
         })),
-    },
-    {
-        key: 'has_teacher',
-        label: 'Have a Teacher',
-        type: 'dropdown',
-        options: [
-            { label: 'Yes', value: '1' },
-            { label: 'No', value: '0' },
-        ],
-    },
+    }
 ];

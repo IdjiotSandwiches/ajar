@@ -29,7 +29,7 @@ class InstituteService
         $courses = collect();
         if ($detail != null) {
             $courses = $detail->courses()
-                ->with(['teacherSchedules.teacher.user', 'institute.user'])
+                ->with(['teachingCourses.teacher.user', 'institute.user'])
                 ->paginate(10);
         }
 

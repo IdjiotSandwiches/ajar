@@ -1,6 +1,6 @@
 import { Calendar } from 'lucide-react';
 
-export default function TeacherCourseScheduleSection({ schedules }: { schedules: any[]; onAddSchedule: () => void }) {
+export default function TeacherCourseScheduleSection({ schedules }: any) {
     return (
         <div className="w-full py-4 md:px-4 md:py-2">
             <div className="mb-3 flex items-center justify-between">
@@ -14,14 +14,17 @@ export default function TeacherCourseScheduleSection({ schedules }: { schedules:
                 <p className="text-sm text-gray-500 italic">Tidak ada jadwal mengajar.</p>
             ) : (
                 <ul className="grid grid-cols-1 gap-2 lg:grid-cols-2 2xl:grid-cols-3">
-                    {schedules.map((schedule) => (
-                        <li key={schedule.id} className="flex justify-between rounded-md bg-[#F9FCFF] p-2 text-sm">
-                            <span className="font-medium text-gray-700">{schedule.day}</span>
-                            <span className="text-gray-600">
-                                {schedule.start_time} - {schedule.end_time}
-                            </span>
-                        </li>
-                    ))}
+                    {schedules.map((schedule: any, index: number) => {
+                        const formatTime = (iso: string) => iso.slice(11, 16);
+                        return (
+                            <li key={index} className="flex justify-between rounded-md bg-[#F9FCFF] p-2 text-sm">
+                                <span className="font-medium text-gray-700">{schedule.day}</span>
+                                <span className="text-gray-600">
+                                    {formatTime(schedule.start_time)} - {formatTime(schedule.end_time)}
+                                </span>
+                            </li>
+                        );
+                    })}
                 </ul>
             )}
         </div>
