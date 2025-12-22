@@ -27,7 +27,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           placeholder=" "
           autoComplete="off"
           className={cn(
-            "peer w-full border border-gray-300 rounded-lg px-3 py-3 text-gray-900 text-sm transition-all duration-200",
+            "peer w-full border border-gray-300 dark:border-white/50 rounded-lg px-3 py-3 text-gray-900 dark:text-white text-sm transition-all duration-200",
             "focus:border-[#3ABEFF] focus:ring-2 focus:ring-[#3ABEFF]/30 focus:outline-none",
             "[&:-webkit-autofill]:shadow-[inset_0_0_0_30px_white] [&:-webkit-autofill]:text-fill-color:#000",
             className
@@ -37,13 +37,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <label
           htmlFor={name}
           className={cn(
-            "absolute left-3 bg-white px-1 text-sm transition-all duration-200 pointer-events-none",
+            "absolute left-3 bg-white dark:bg-[#222831] px-1 text-sm transition-all duration-200 pointer-events-none",
             isActive
               ? "top-[-0.55rem] text-xs"
               : "top-[0.9rem] text-gray-500",
             isFocused
               ? "text-[#3ABEFF]"
-              : "text-gray-500"
+              : "text-gray-500 dark:text-white/50"
           )}
         >
           {label}

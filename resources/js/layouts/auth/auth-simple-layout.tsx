@@ -13,10 +13,10 @@ export default function AuthSimpleLayout({
   const isFullPage = step > 2;
 
   return (
-    <div className="min-h-screen bg-[#F8FEFF] flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-8">
         {!isFullPage ? (
-          <div className="bg-white w-full max-w-4xl rounded-2xl shadow-sm overflow-hidden flex flex-col lg:flex-row">
+          <div className="bg-white dark:bg-[#222831] w-full max-w-4xl rounded-2xl shadow-sm overflow-hidden flex flex-col lg:flex-row">
             <div className="hidden lg:flex lg:w-1/2 w-full flex-col items-center justify-center p-8 sm:p-10 text-center">
               <div className="text-[#3ABEFF] mb-4">
                 <svg

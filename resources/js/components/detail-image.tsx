@@ -51,8 +51,8 @@ const DetailImage: React.FC<DetailImageProps> = ({ Index, onFilesChange, onRemov
     const inputId = `hidden-input-${Index}`;
 
     return (
-        <div className="my-6 rounded-lg border p-6">
-            <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-400 py-24">
+        <div className="my-6 rounded-lg border dark:border-white/20 p-6">
+            <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed dark:border-white/20 py-24">
                 <input
                     type="file"
                     name={name}
@@ -72,11 +72,11 @@ const DetailImage: React.FC<DetailImageProps> = ({ Index, onFilesChange, onRemov
             </div>
 
             <div className="mt-4">
-                <h3 className="text-sm font-semibold text-gray-900">To Upload</h3>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">To Upload</h3>
                 <ul className="mt-4 flex flex-wrap gap-4">
                     {previewUrls.length > 0 ? (
                         previewUrls.map((url, index) => (
-                            <li key={index} className="relative h-24 w-24 rounded-md border">
+                            <li key={index} className="relative h-24 w-24 rounded-md border dark:border-white/20">
                                 <img src={url} alt="preview" className="h-full w-full rounded-md object-cover" />
                                 <button
                                     type="button"

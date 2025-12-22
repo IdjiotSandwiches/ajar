@@ -4,7 +4,7 @@ import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
     return (
-        <footer className="relative bg-[#42C2FF] text-white pt-12 overflow-hidden mt-24 mb-20 sm:mb-0">
+        <footer className="relative bg-[#3ABEFF] dark:bg-[#222831] text-white pt-12 overflow-hidden mt-24 mb-20 sm:mb-0">
             <img
                 src="/images/gear.png"
                 alt="gear-bg"

@@ -21,7 +21,7 @@ export default function CourseHero({ course, teaching, canApply }: any) {
 
     return (
         <>
-            <section className="w-full border-b border-gray-200 bg-white py-10">
+            <section className="w-full border-b dark:border-white/20 border-gray-200 bg-white dark:bg-[#222831] py-10">
                 <div className="mx-auto mt-8 grid grid-cols-1 items-start gap-10 px-4 md:px-20 lg:grid-cols-3">
                     <div className="lg:col-span-2">
                         <div className="mb-3 flex items-center gap-2 text-sm">
@@ -30,7 +30,7 @@ export default function CourseHero({ course, teaching, canApply }: any) {
                                     <FaStar key={i} />
                                 ))}
                             </div>
-                            <span className="font-semibold text-gray-800">
+                            <span className="font-semibold text-gray-800 dark:text-white">
                                 {course.course_reviews_avg_rating ?? 0}
                             </span>
                             <span className="text-[#3ABEFF]">
@@ -38,20 +38,20 @@ export default function CourseHero({ course, teaching, canApply }: any) {
                             </span>
                         </div>
 
-                        <h1 className="mb-3 text-3xl font-bold leading-snug text-gray-800">
+                        <h1 className="mb-3 text-3xl font-bold leading-snug text-gray-800 dark:text-white">
                             {course.name}
                         </h1>
 
-                        <p className="mb-4 text-gray-700">
+                        <p className="mb-4 text-gray-700 dark:text-white/90">
                             <span className="font-semibold">Duration:</span>{' '}
                             {course.duration} Minutes
                         </p>
 
-                        <p className="mb-6 max-w-2xl leading-relaxed text-gray-600">
+                        <p className="mb-6 max-w-2xl leading-relaxed text-gray-600 dark:text-white/80">
                             {course.description}
                         </p>
 
-                        <div className="mb-8 grid gap-x-6 gap-y-3 text-gray-700 md:grid-cols-3">
+                        <div className="mb-8 grid gap-x-6 gap-y-3 text-gray-700 dark:text-white/90 md:grid-cols-3">
                             {course.benefits?.map((item: any) => (
                                 <p
                                     key={item.id}

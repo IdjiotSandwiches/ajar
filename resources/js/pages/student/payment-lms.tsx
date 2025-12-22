@@ -50,22 +50,22 @@ export default function PaymentsPage() {
 
             <div className="flex min-h-screen flex-col gap-6">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div className="rounded-xl bg-white p-6 shadow-sm flex items-center gap-4">
+                    <div className="rounded-xl border dark:border-white/20 p-6 shadow-sm dark:shadow-[#ffffff]/20 flex items-center gap-4">
                         <div className="rounded-full bg-red-100 p-3">
                             <Wallet className="text-red-500" size={24} />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500 dark:text-white/70">
                                 Total Unpaid Amount
                             </p>
-                            <p className="text-lg md:text-xl font-bold text-gray-800">
+                            <p className="text-lg md:text-xl font-bold text-gray-800 dark:text-white">
                                 Rp
                                 {totalUnpaid.toLocaleString("id-ID")}
                             </p>
                         </div>
                     </div>
 
-                    <div className="rounded-xl bg-white p-6 shadow-sm flex items-center gap-4">
+                    <div className="rounded-xl border dark:border-white/20 p-6 shadow-sm dark:shadow-[#ffffff]/20 flex items-center gap-4">
                         <div className="rounded-full bg-green-100 p-3">
                             <CreditCard
                                 className="text-green-500"
@@ -73,10 +73,10 @@ export default function PaymentsPage() {
                             />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500 dark:text-white/70">
                                 Total Paid Amount
                             </p>
-                            <p className="text-lg md:text-xl font-bold text-gray-800">
+                            <p className="text-lg md:text-xl font-bold text-gray-800 dark:text-white">
                                 Rp
                                 {totalPaid.toLocaleString("id-ID")}
                             </p>
@@ -84,8 +84,8 @@ export default function PaymentsPage() {
                     </div>
                 </div>
 
-                <div className="rounded-2xl bg-white p-6 shadow-sm">
-                    <h3 className="mb-4 text-lg font-semibold text-gray-800">
+                <div className="rounded-2xl border dark:border-white/20 p-6 shadow-sm dark:shadow-[#ffffff]/20">
+                    <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">
                         Payment History
                     </h3>
 
@@ -93,28 +93,28 @@ export default function PaymentsPage() {
                         {payments.map((course) => (
                             <div
                                 key={course.id}
-                                className="rounded-xl border bg-white p-4 shadow-sm"
+                                className="rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-[#ffffff]/20"
                             >
                                 <div className="mb-2">
-                                    <p className="text-sm text-gray-500">Course</p>
-                                    <p className="font-semibold text-gray-800">
+                                    <p className="text-sm text-gray-500  dark:text-white/70">Course</p>
+                                    <p className="font-semibold text-gray-800  dark:text-white">
                                         {course.course_name}
                                     </p>
                                 </div>
 
                                 <div className="mb-2">
-                                    <p className="text-sm text-gray-500">Teacher</p>
-                                    <p className="text-gray-700">{course.teacher}</p>
+                                    <p className="text-sm text-gray-500  dark:text-white/70">Teacher</p>
+                                    <p className="text-gray-700  dark:text-white/90">{course.teacher}</p>
                                 </div>
 
                                 <div className="mb-2">
-                                    <p className="text-sm text-gray-500">Schedule</p>
-                                    <p className="text-gray-700">{course.schedule}</p>
+                                    <p className="text-sm text-gray-500  dark:text-white/70">Schedule</p>
+                                    <p className="text-gray-700  dark:text-white/90">{course.schedule}</p>
                                 </div>
 
                                 <div className="flex items-center justify-between mt-4">
                                     <div>
-                                        <p className="text-sm text-gray-500">Price</p>
+                                        <p className="text-sm text-gray-500  dark:text-white/70">Price</p>
                                         <p className="font-semibold">
                                             Rp {course.price.toLocaleString("id-ID")}
                                         </p>
@@ -145,9 +145,9 @@ export default function PaymentsPage() {
                     </div>
 
 
-                    <div className="hidden md:block overflow-x-auto rounded-lg border">
+                    <div className="hidden md:block overflow-x-auto rounded-lg border dark:border-white/20">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#3ABEFF]/10">
+                            <thead className="border-b dark:border-white/20 bg-[#3ABEFF]/10 dark:text-white/80">
                                 <tr>
                                     <th className="p-3 text-left font-semibold">
                                         Course
@@ -174,9 +174,9 @@ export default function PaymentsPage() {
                                 {payments.map((course, index) => (
                                     <tr
                                         key={course.id}
-                                        className={`border-b ${index % 2 === 0
-                                                ? "bg-[#F9FCFF]"
-                                                : "bg-white"
+                                        className={`border-b dark:border-white/20 dark:text-white/70 ${index % 2 === 0
+                                                ? "bg-[#F9FCFF] dark:bg-[#31363F]"
+                                                : "bg-white dark:bg-[#222831]"
                                             }`}
                                     >
                                         <td className="p-3 font-medium">

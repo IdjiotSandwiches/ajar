@@ -47,16 +47,16 @@ export default function PaymentPage() {
         <>
             <Head title="Course Payment" />
 
-            <div className="min-h-screen bg-gray-50 py-10">
+            <div className="min-h-screen py-12">
                 <div className="mx-auto max-w-7xl px-4">
-                    <h1 className="mb-6 text-2xl font-semibold text-gray-800">
+                    <h1 className="mb-6 text-2xl font-semibold text-gray-800 dark:text-white">
                         Course Registration & Payment
                     </h1>
 
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                         <div className="lg:col-span-2 space-y-6">
-                            <div className="rounded-2xl bg-white p-6 shadow-sm">
-                                <h2 className="mb-1 text-lg font-semibold text-gray-800">
+                            <div className="rounded-2xl bg-white dark:bg-[#222831] p-6 shadow-sm">
+                                <h2 className="mb-1 text-lg font-semibold text-gray-800 dark:text-white">
                                     1. Choose Teacher
                                 </h2>
                                 <p className="mb-4 text-sm text-gray-500">
@@ -79,7 +79,7 @@ export default function PaymentPage() {
                                                 }`}
                                         >
                                             <div>
-                                                <p className="font-medium text-gray-800">
+                                                <p className="font-medium text-gray-800 dark:text-white">
                                                     {teacher.name}
                                                 </p>
                                                 <p className="text-xs text-gray-500">
@@ -95,8 +95,8 @@ export default function PaymentPage() {
                                 </div>
                             </div>
 
-                            <div className="rounded-2xl bg-white p-6 shadow-sm">
-                                <h2 className="mb-1 text-lg font-semibold text-gray-800">
+                            <div className="rounded-2xl bg-white dark:bg-[#222831] p-6 shadow-sm">
+                                <h2 className="mb-1 text-lg font-semibold text-gray-800 dark:text-white">
                                     2. Choose Schedule
                                 </h2>
                                 <p className="mb-4 text-sm text-gray-500">
@@ -120,7 +120,7 @@ export default function PaymentPage() {
                                                             : 'border-gray-200 hover:border-[#3ABEFF]'
                                                     }`}
                                             >
-                                                <p className="font-medium text-gray-800">
+                                                <p className="font-medium text-gray-800 dark:text-white">
                                                     {schedule.date}
                                                 </p>
                                                 <p className="text-sm text-gray-600">
@@ -134,36 +134,36 @@ export default function PaymentPage() {
                         </div>
 
                         <div className="lg:col-span-1">
-                            <div className="sticky top-6 rounded-2xl bg-white p-6 shadow-sm">
-                                <h3 className="mb-4 text-lg font-semibold text-gray-800">
+                            <div className="sticky top-6 rounded-2xl bg-white dark:bg-[#222831] p-6 shadow-sm">
+                                <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">
                                     Course Summary
                                 </h3>
 
                                 <div className="space-y-3 text-sm">
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Course</span>
-                                        <span className="font-medium text-gray-800 text-right">
+                                        <span className="font-medium text-gray-800 dark:text-white text-right">
                                             {course.title}
                                         </span>
                                     </div>
 
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Duration</span>
-                                        <span className="font-medium text-gray-800">
+                                        <span className="font-medium text-gray-800 dark:text-white">
                                             {course.duration} Minutes
                                         </span>
                                     </div>
 
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Teacher</span>
-                                        <span className="font-medium text-gray-800">
+                                        <span className="font-medium text-gray-800 dark:text-white">
                                             {selectedTeacher?.name || '-'}
                                         </span>
                                     </div>
 
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Schedule</span>
-                                        <span className="font-medium text-gray-800 text-right">
+                                        <span className="font-medium text-gray-800 dark:text-white text-right">
                                             {selectedSchedule
                                                 ? `${selectedSchedule.date}, ${selectedSchedule.time}`
                                                 : '-'}

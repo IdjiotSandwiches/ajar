@@ -32,13 +32,13 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
     const roles = props.enums?.roles_enum;
 
     return (
-        <section className="bg-[#F7FDFD] pb-16">
+        <section className="pb-16">
             <h2 className="mb-10 text-base sm:text-lg md:text-xl font-semibold -gray-800">Reviews from Students and Teachers</h2>
             <div className="mx-auto grid items-center gap-16 md:grid-cols-4">
                 <div className="relative flex items-center md:col-span-4">
                     {reviews.length === 0
                     ?
-                        <p className='text-gray-500 text-sm'>
+                        <p className='text-gray-500 text-sm dark:text-white/70'>
                             No Reviews
                         </p>
                     : (

@@ -161,15 +161,13 @@ export default function Sidebar({ collapsed, mobileOpen, onClose, onToggleCollap
             />
 
             <aside
-                className={`fixed inset-y-0 left-0 z-50 flex h-full flex-col bg-white md:bg-[#f9fafb] transition-all duration-300 md:static
+                className={`fixed inset-y-0 left-0 z-50 flex h-full flex-col bg-white dark:bg-[#222831] md:bg-transparent dark:md:bg-transparent transition-all duration-300 md:static
                     ${collapsed ? 'md:w-20' : 'md:w-64'}
                     ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
             `}
             >
-
-
                 <div className="my-4">
-                    <div className={`flex h-16 items-center ${!collapsed ? "justify-between" : "justify-center"} border-b mx-4`}>
+                    <div className={`flex h-16 items-center ${!collapsed ? "justify-between" : "justify-center"} border-b dark:border-white/20 mx-4`}>
                         <div
                             className="flex cursor-pointer items-center gap-2"
                             onClick={() => router.get(route('home'))}
@@ -214,8 +212,8 @@ export default function Sidebar({ collapsed, mobileOpen, onClose, onToggleCollap
                                         }}
                                         className={`group flex items-center rounded-xl transition-all
                                             ${isParentActive
-                                                ? 'bg-[#EEF6FF] text-[#3ABEFF]'
-                                                : 'text-gray-600 hover:bg-gray-100'}
+                                                ? 'bg-[#EEF6FF] dark:bg-gray-700 text-[#3ABEFF]'
+                                                : 'text-gray-600 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/20'}
                                             ${collapsed
                                                 ? 'mx-auto h-10 w-10 justify-center'
                                                 : 'w-full justify-between px-4 py-3'}
@@ -244,8 +242,8 @@ export default function Sidebar({ collapsed, mobileOpen, onClose, onToggleCollap
                                                         onClick={() => router.get(route(child.route!))}
                                                         className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors
                                                             ${isRouteActive(child.route)
-                                                                ? 'bg-[#EEF6FF] text-[#3ABEFF]'
-                                                                : 'text-gray-600 hover:bg-gray-100'
+                                                                ? 'bg-[#EEF6FF] dark:bg-gray-700 text-[#3ABEFF]'
+                                                                : 'text-gray-600 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/20'
                                                             }
                                                         `}
                                                     >
@@ -262,7 +260,7 @@ export default function Sidebar({ collapsed, mobileOpen, onClose, onToggleCollap
                     </ul>
                 </nav>
 
-                <div className={`flex items-center gap-3 mx-4 py-4 ${collapsed ? 'justify-center' : ''} border-t`}>
+                <div className={`flex items-center gap-3 mx-4 py-4 ${collapsed ? 'justify-center' : ''} border-t dark:border-white/20`}>
                     <img
                         src={user?.profile_picture || 'https://placehold.co/40'}
                         alt="profile"
@@ -273,7 +271,7 @@ export default function Sidebar({ collapsed, mobileOpen, onClose, onToggleCollap
                         <>
                             <div className="flex flex-1 flex-col">
                                 <span className="text-sm font-semibold">{user?.name}</span>
-                                <span className="text-xs text-gray-500 capitalize">
+                                <span className="text-xs text-gray-500 dark:text-white/50 capitalize">
                                     {Object.keys(roles).find((key) => roles[key] === user?.role_id) ?? 'User'}
                                 </span>
                             </div>

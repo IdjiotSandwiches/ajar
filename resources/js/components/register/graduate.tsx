@@ -23,7 +23,7 @@ export default function GraduateForm({ form }: any) {
 
     return (
         <div className="w-full">
-            <h3 className="mb-5 font-medium text-gray-800">Graduate</h3>
+            <h3 className="mb-2 font-medium text-gray-800 dark:text-white">Graduate</h3>
             {form.data.graduates?.map((g: any, idx: number) => {
                 {
                     return (

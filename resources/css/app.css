@@ -117,7 +117,7 @@
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
+  --card: #222831;
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
@@ -158,8 +158,16 @@
     @apply bg-background text-foreground;
     background-color: #f9fafb;
   }
+
+  .dark body{
+    @apply bg-background text-foreground;
+    background-color: #31363F;
+  }
 }
 
+.dark input[type="time"]::-webkit-calendar-picker-indicator{
+  filter: invert(100%) sepia(0%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+}
 
 @keyframes fadeIn {
   from {

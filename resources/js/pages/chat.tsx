@@ -148,24 +148,24 @@ export default function ChatPage() {
 
   if (isMobile) {
     return (
-      <div className="flex-1 bg-white overflow-hidden flex flex-col rounded-2xl shadow-sm">
+      <div className="flex-1 overflow-hidden flex flex-col rounded-2xl shadow-sm dark:shadow-[#ffffff]/20 border dark:border-white/20 ">
 
         {!isChatOpen && (
           <div>
-            <div className="flex items-center gap-2 px-4 py-4 border-b">
-              <h2 className="text-lg font-semibold text-gray-700">Chats</h2>
+            <div className="flex items-center gap-2 px-4 py-4 border-b dark:border-white/20">
+              <h2 className="text-lg font-semibold text-gray-700 dark:text-white">Chats</h2>
             </div>
             <div className="flex-1 overflow-y-auto">
               {sortedUsers.map((user) => (
                 <div
                   key={user.id}
                   onClick={() => handleSelectUser(user)}
-                  className="flex items-center gap-3 p-4 bg-white shadow-sm cursor-pointer hover:bg-[#3ABEFF]/10 transition"
+                  className="flex items-center gap-3 p-4 shadow-sm cursor-pointer hover:bg-[#3ABEFF]/10 transition"
                 >
                   <img src={user.image} className="w-12 h-12 rounded-full" />
                   <div className="flex-1">
-                    <p className="font-semibold">{user.name}</p>
-                    <p className="text-sm text-gray-500 truncate">{user.lastMessage}</p>
+                    <p className="font-semibold dark:text-white">{user.name}</p>
+                    <p className="text-sm text-gray-500 truncate dark:text-white/70">{user.lastMessage}</p>
                   </div>
                   <span className="text-xs text-gray-400">{user.time}</span>
                 </div>
@@ -177,14 +177,14 @@ export default function ChatPage() {
 
         {isChatOpen && selectedUser && (
           <div className="flex flex-col flex-1">
-            <div className="flex items-center gap-3 bg-white p-2 flex-shrink-0 border-b">
+            <div className="flex items-center gap-3 p-2 flex-shrink-0 border-b dark:border-white/20">
               <button onClick={handleBackFromChat}>
                 <ChevronLeft size={22} />
               </button>
               <img src={selectedUser.image} className="w-10 h-10 rounded-full" />
               <div>
-                <p className="font-semibold">{selectedUser.name}</p>
-                <p className="text-sm text-gray-500">{selectedUser.role}</p>
+                <p className="font-semibold dark:text-white">{selectedUser.name}</p>
+                <p className="text-sm text-gray-500 dark:text-white/70">{selectedUser.role}</p>
               </div>
             </div>
 
@@ -197,7 +197,7 @@ export default function ChatPage() {
                   <div
                     className={`max-w-[75%] px-4 py-2 rounded-2xl text-sm ${msg.sender === "me"
                       ? "bg-[#3ABEFF] text-white rounded-br-none"
-                      : "border border-[#3ABEFF] text-gray-800 rounded-tl-none"
+                      : "border border-[#3ABEFF] text-gray-800 dark:text-white rounded-tl-none"
                       }`}
                   >
                     <p>{msg.message}</p>
@@ -208,7 +208,7 @@ export default function ChatPage() {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="p-3 bg-white border-t flex items-end flex-shrink-0">
+            <div className="p-3 border-t dark:border-white/20 flex items-end flex-shrink-0">
               <textarea
                 ref={textareaRef}
                 value={newMessage}
@@ -216,7 +216,7 @@ export default function ChatPage() {
                 onKeyDown={handleKeyDown}
                 placeholder="Type message..."
                 rows={1}
-                className="flex-1 border rounded-xl px-3 py-2 text-sm resize-none overflow-hidden"
+                className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm resize-none overflow-hidden"
               />
               <button onClick={handleSend} className="ml-2 bg-[#3ABEFF] text-white p-2 rounded-xl">
                 <Send size={18} />
@@ -231,9 +231,9 @@ export default function ChatPage() {
 
   return (
     <div className="flex max-h-[80vh]">
-      <div className="border-r bg-white rounded-2xl shadow-sm">
-        <div className="flex items-center gap-2 px-4 py-3 border-b">
-          <h2 className="text-lg font-semibold text-gray-700">Chats</h2>
+      <div className="border dark:border-white/20 rounded-2xl shadow-sm dark:shadow-[#ffffff]/20">
+        <div className="flex items-center gap-2 px-4 py-3 border-b dark:border-white/20">
+          <h2 className="text-lg font-semibold text-gray-700 dark:text-white">Chats</h2>
         </div>
 
         <div className="overflow-y-auto h-[calc(80vh-60px)] md:w-[240px] 2xl:w-[320px]">
@@ -246,8 +246,8 @@ export default function ChatPage() {
             >
               <img src={user.image} className="w-12 h-12 rounded-full object-cover" />
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-gray-800 truncate">{user.name}</p>
-                <p className="text-sm text-gray-500 truncate">
+                <p className="font-semibold text-gray-800 truncate dark:text-white">{user.name}</p>
+                <p className="text-sm text-gray-500 truncate dark:text-white/70">
                   {truncateText(user.lastMessage, 35)}
                 </p>
               </div>
@@ -257,11 +257,11 @@ export default function ChatPage() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col bg-white rounded-2xl shadow-sm ml-4 p-6">
+      <div className="flex-1 flex flex-col rounded-2xl shadow-sm ml-4 p-6 dark:shadow-[#ffffff]/20 border dark:border-white/20">
         {selectedUser ? (
           <>
             <div
-              className="flex items-center gap-3 border-b pb-3 cursor-pointer"
+              className="flex items-center gap-3 border-b dark:border-white/20 pb-3 cursor-pointer"
               onClick={() =>
                 router.get(route("detail-teacher", { teacherName: slugify(selectedUser.name) }))
               }
@@ -271,8 +271,8 @@ export default function ChatPage() {
                 className="w-12 h-12 rounded-full object-cover"
               />
               <div>
-                <p className="font-semibold text-gray-800">{selectedUser.name}</p>
-                <p className="text-sm text-gray-500">{selectedUser.role}</p>
+                <p className="font-semibold text-gray-800 dark:text-white">{selectedUser.name}</p>
+                <p className="text-sm text-gray-500 dark:text-white/70">{selectedUser.role}</p>
               </div>
             </div>
 
@@ -285,7 +285,7 @@ export default function ChatPage() {
                   <div
                     className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm ${msg.sender === "me"
                       ? "bg-[#3ABEFF] text-white rounded-br-none"
-                      : "border border-[#3ABEFF] text-gray-800 rounded-tl-none"
+                      : "border border-[#3ABEFF] text-gray-800 dark:text-white rounded-tl-none"
                       }`}
                   >
                     <p>{msg.message}</p>

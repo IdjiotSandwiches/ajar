@@ -1,6 +1,7 @@
 import { router, usePage } from '@inertiajs/react';
-import { Bell, Book, GraduationCap, Home } from 'lucide-react';
+import { Book, GraduationCap, Home } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import SwitchDarkMode from './ui/switch-dark-mode';
 
 export default function Navbar() {
     const { props } = usePage();
@@ -25,7 +26,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="sticky top-0 z-50 w-full bg-white shadow-sm">
+            <nav className="sticky top-0 z-50 w-full bg-white dark:bg-[#222831] shadow-sm dark:shadow-[#ffffff]/20">
                 <div className="relative mx-auto flex max-w-[1870px] items-center justify-between px-8 py-4">
                     <div className="flex items-center">
                         <svg width="64" height="36" viewBox="0 0 78 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +55,10 @@ export default function Navbar() {
                     </div>
 
                     <div className="relative flex items-center space-x-4">
-                        <span className="hidden font-medium text-[#3ABEFF] md:inline">Hello, {user?.name ?? 'Guest'}</span>
+                        <div className="relative flex items-center space-x-4">
+                            <SwitchDarkMode />
+                            <span className="hidden font-medium text-[#3ABEFF] md:inline">Hello, {user?.name ?? 'Guest'}</span>
+                        </div>
                         <div className="relative" ref={dropdownRef}>
                             <img
                                 src={user?.profile_picture || 'https://placehold.co/400'}
@@ -64,7 +68,7 @@ export default function Navbar() {
                             />
 
                             {dropdownOpen && (
-                                <div className="animate-fadeIn absolute right-0 mt-3 w-48 origin-top-right rounded-xl border bg-white p-2 shadow-lg">
+                                <div className="animate-fadeIn absolute right-0 mt-3 w-48 origin-top-right rounded-xl border bg-white dark:bg-[#242124] p-2 shadow-lg">
                                     {isLoggedIn ? (
                                         <>
                                             <button
@@ -73,7 +77,7 @@ export default function Navbar() {
                                                     else if (user?.role_id === roles.Teacher) router.get(route('teacher.profile'));
                                                     else if (user?.role_id === roles.Institute) router.get(route('institute.profile'));
                                                 }}
-                                                className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-100"
+                                                className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-white/20"
                                             >
                                                 Profile
                                             </button>
@@ -82,7 +86,7 @@ export default function Navbar() {
 
                                             <button
                                                 onClick={() => router.post(route('logout'))}
-                                                className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium text-red-500 hover:bg-gray-100"
+                                                className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium text-red-500 hover:bg-gray-100 dark:hover:bg-white/20"
                                             >
                                                 Logout
                                             </button>
@@ -90,7 +94,7 @@ export default function Navbar() {
                                     ) : (
                                         <button
                                             onClick={() => router.get(route('login'))}
-                                            className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium hover:bg-gray-100"
+                                            className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium hover:bg-gray-100 dark:hover:bg-white/20"
                                         >
                                             Login
                                         </button>
@@ -102,10 +106,10 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            <div className="fixed right-0 bottom-0 left-0 z-50 flex justify-around border-t bg-white py-3 shadow-lg md:hidden">
+            <div className="fixed right-0 bottom-0 left-0 z-50 flex justify-around border-t dark:border-white/30 bg-white dark:bg-[#222831] py-3 shadow-lg md:hidden">
                 <button onClick={() => router.get(route('home'))} className="group flex flex-col items-center">
                     <div
-                        className={`rounded-full p-2 transition-all ${currentRoute === 'home' ? 'bg-[#3ABEFF] text-white' : 'text-[#3ABEFF] group-hover:bg-blue-100'}`}
+                        className={`rounded-full p-2 transition-all ${currentRoute === 'home' ? 'bg-[#3ABEFF] text-white' : 'text-[#3ABEFF] group-hover:bg-blue-100 dark:group-hover:bg-white/20'}`}
                     >
                         <Home size={22} />
                     </div>
@@ -114,7 +118,7 @@ export default function Navbar() {
 
                 <button onClick={() => router.get(route('list-course'))} className="group flex flex-col items-center">
                     <div
-                        className={`rounded-full p-2 transition-all ${currentRoute === 'list-course' ? 'bg-[#3ABEFF] text-white' : 'text-[#3ABEFF] group-hover:bg-blue-100'}`}
+                        className={`rounded-full p-2 transition-all ${currentRoute === 'list-course' ? 'bg-[#3ABEFF] text-white' : 'text-[#3ABEFF] group-hover:bg-blue-100 dark:group-hover:bg-white/20'}`}
                     >
                         <Book size={22} />
                     </div>
@@ -125,12 +129,12 @@ export default function Navbar() {
 
                 <button onClick={() => router.get(route('my-learning'))} className="group flex flex-col items-center">
                     <div
-                        className={`rounded-full p-2 transition-all ${currentRoute === 'my-learning' ? 'bg-[#3ABEFF] text-white' : 'text-[#3ABEFF] group-hover:bg-blue-100'}`}
+                        className={`rounded-full p-2 transition-all ${currentRoute === 'my-learning' ? 'bg-[#3ABEFF] text-white' : 'text-[#3ABEFF] group-hover:bg-blue-100 dark:group-hover:bg-white/20'}`}
                     >
                         <GraduationCap size={22} />
                     </div>
                     <span className={`mt-1 text-xs ${currentRoute === 'my-learning' ? 'font-semibold text-[#3ABEFF]' : 'text-[#3ABEFF]'}`}>
-                        MyLearning
+                        MyDashboard
                     </span>
                 </button>
             </div>

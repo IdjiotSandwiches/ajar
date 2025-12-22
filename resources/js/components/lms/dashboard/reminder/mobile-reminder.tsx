@@ -47,7 +47,7 @@ export default function MobileReminder({ reminder }: any) {
     }, [isDesktop]);
 
     return (
-        <Card className="rounded-2xl border-none shadow-sm">
+        <Card className="rounded-2xl border-none shadow-sm dark:shadow-[#ffffff]/20">
             <CardContent>
                 <button
                     onClick={() => setIsOpen((prev) => !prev)}

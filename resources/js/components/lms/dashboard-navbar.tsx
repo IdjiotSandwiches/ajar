@@ -1,6 +1,7 @@
 import { router, usePage } from "@inertiajs/react";
 import { Menu } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
+import SwitchDarkMode from "../ui/switch-dark-mode";
 
 export default function MobileNavbar({ title, onMenu }: any) {
   const { props } = usePage();
@@ -22,7 +23,7 @@ export default function MobileNavbar({ title, onMenu }: any) {
   }, []);
 
   return (
-    <div className="md:hidden fixed top-0 left-0 right-0 bg-white shadow-sm z-20">
+    <div className="md:hidden fixed top-0 left-0 right-0 bg-white dark:bg-[#222831] shadow-sm z-20">
       <div className="flex items-center justify-between px-4 py-3">
         <button
           onClick={onMenu}
@@ -31,7 +32,8 @@ export default function MobileNavbar({ title, onMenu }: any) {
           <Menu />
         </button>
 
-        <h1 className="text-lg font-semibold text-gray-700">{title}</h1>
+        <h1 className="text-lg font-semibold text-gray-700 dark:text-white">{title}</h1>
+        <SwitchDarkMode />
         <div className="relative" ref={dropdownRef}>
           <img
             src={user?.profile_picture || 'https://placehold.co/400'}
@@ -41,12 +43,12 @@ export default function MobileNavbar({ title, onMenu }: any) {
           />
 
           {dropdownOpen && (
-            <div className="animate-fadeIn absolute right-0 mt-3 w-48 origin-top-right rounded-xl border bg-white p-2 shadow-lg">
+            <div className="animate-fadeIn absolute right-0 mt-3 w-48 origin-top-right rounded-xl border bg-white dark:bg-[#222831] p-2 shadow-lg">
               {isLoggedIn ? (
                 <>
                   <button
                     onClick={() => router.post(route('logout'))}
-                    className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium text-red-500 hover:bg-gray-100"
+                    className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium text-red-500 hover:bg-gray-100 dark:hover:bg-white/20"
                   >
                     Logout
                   </button>

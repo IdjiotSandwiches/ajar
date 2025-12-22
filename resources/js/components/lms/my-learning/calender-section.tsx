@@ -31,9 +31,9 @@ export default function CalendarSection({
   const filteredCourses = courses.filter((item) => item.date === selectedDate);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm h-fit w-full">
-      <h3 className="font-semibold text-gray-700 mb-1">My Learning Schedule</h3>
-      <p className="text-sm text-gray-500 mb-4">
+    <div className="border dark:border-white/20 dark:shadow-[#ffffff]/20  rounded-xl p-6 shadow-sm h-fit w-full">
+      <h3 className="font-semibold text-gray-700 mb-1 dark:text-white">My Learning Schedule</h3>
+      <p className="text-sm text-gray-500 mb-4 dark:text-white/50">
         {filteredCourses.length} class
         {filteredCourses.length > 1 ? "es" : ""} on{" "}
         {selectedDate === todayString
@@ -94,7 +94,7 @@ export default function CalendarSection({
                   key={day}
                   onClick={() => setSelectedDate(val)}
                   className={`py-1 rounded-full w-8 h-8 mx-auto transition-all ${
-                    isSelected ? "bg-[#3ABEFF] text-white" : "hover:bg-gray-50"
+                    isSelected ? "bg-[#3ABEFF] text-white" : "hover:bg-gray-50 dark:hover:bg-white/20"
                   }`}
                 >
                   {day}
@@ -104,20 +104,20 @@ export default function CalendarSection({
           </div>
         </div>
 
-        <div className="border-t md:border-t-0 md:border-l md:pl-4 pt-2 md:pt-0 2xl:border-t 2xl:border-l-0 2xl:pl-0 2xl:pt-2">
+        <div className="border-t dark:border-white/20 md:border-t-0 md:border-l md:pl-4 pt-2 md:pt-0 2xl:border-t 2xl:border-l-0 2xl:pl-0 2xl:pt-2">
           {filteredCourses.length > 0 ? (
             filteredCourses.map((item) => (
               <div
                 key={item.id}
                 className="border-l-2 border-[#3ABEFF] text-sm text-gray-600 px-3 mb-2"
               >
-                <p className="font-medium text-gray-800">{item.title}</p>
-                <p>Duration: {item.duration}</p>
-                <p>Time: {item.time}</p>
+                <p className="font-medium text-gray-800 dark:text-white">{item.title}</p>
+                <p className="dark:text-white/50">Duration: {item.duration}</p>
+                <p className="dark:text-white/50">Time: {item.time}</p>
               </div>
             ))
           ) : (
-            <p className="text-gray-500 text-sm italic">
+            <p className="text-gray-500 dark:text-white/50 text-sm italic">
               No schedule on this date
             </p>
           )}

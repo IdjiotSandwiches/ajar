@@ -8,7 +8,7 @@ export default function CourseCard({ course, isTag, showTeacher = true, showRevi
     const roles = props.enums?.roles_enum;
 
     return (
-        <div className="flex w-full max-w-100 flex-shrink-0 flex-col overflow-hidden rounded-xl border-2 border-[#3ABEFF]/20 bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md">
+        <div className="flex w-full max-w-100 flex-shrink-0 flex-col overflow-hidden rounded-xl border-2 shadow-sm dark:shadow-[#ffffff]/20 bg-white dark:bg-[#222831] transition duration-200 hover:-translate-y-1 hover:shadow-md">
             <div className="relative">
                 <img src={course?.image || 'https://placehold.co/400'} alt={course.name} className="h-40 w-full object-cover" />
                 {isTag && (
@@ -24,19 +24,19 @@ export default function CourseCard({ course, isTag, showTeacher = true, showRevi
 
             <div className="flex flex-grow cursor-default flex-col justify-between p-4">
                 <div>
-                    <h3 className="mb-1 text-base leading-tight font-semibold text-gray-800">{course.name}</h3>
+                    <h3 className="mb-1 text-base leading-tight font-semibold text-gray-800 dark:text-white">{course.name}</h3>
 
-                    <p className="mb-2 text-xs text-gray-500">
+                    <p className="mb-2 text-xs text-gray-500 dark:text-white/50">
                         by <span className="font-medium">{course.institute}</span>
                     </p>
 
-                    <p className="mb-3 line-clamp-2 min-h-10 text-sm text-gray-600">{course.description}</p>
+                    <p className="mb-3 line-clamp-2 min-h-10 text-sm text-gray-600 dark:text-white/80">{course.description}</p>
                     {showReview && (
                         <div className="mb-2 flex items-center text-xs">
                             <Star className="mr-1 h-4 w-4 fill-yellow-400 stroke-yellow-400" />
-                            <span className="font-medium text-gray-700">{course.course_reviews_avg_rating ?? 0}</span>
-                            <span className="mx-1 text-gray-400">•</span>
-                            <span className="text-gray-400">{course.reviews_count ?? 0} reviews</span>
+                            <span className="font-medium text-gray-700 dark:text-white/80">{course.course_reviews_avg_rating ?? 0}</span>
+                            <span className="mx-1 text-gray-400 dark:text-white/60">•</span>
+                            <span className="text-gray-400 dark:text-white/60">{course.reviews_count ?? 0} reviews</span>
                         </div>
                     )}
                 </div>
@@ -44,7 +44,7 @@ export default function CourseCard({ course, isTag, showTeacher = true, showRevi
                 <div className="mt-4 flex items-center justify-between">
                     <div>
                         {(user && user.role_id === roles.Teacher) ? (
-                            <p className="text-sm font-semibold text-gray-800">
+                            <p className="text-sm font-semibold text-gray-800 dark:text-white">
                                 Rp
                                 {Number(course.teacher_salary).toLocaleString('id-ID', {
                                     minimumFractionDigits: 2,
@@ -52,7 +52,7 @@ export default function CourseCard({ course, isTag, showTeacher = true, showRevi
                                 })}
                             </p>
                         ) : (
-                            <p className="text-sm font-semibold text-gray-800">
+                            <p className="text-sm font-semibold text-gray-800 dark:text-white">
                                 Rp
                                 {Number(Number(course.price) - (Number(course.price) * Number(course.discount)) / 100).toLocaleString('id-ID', {
                                     minimumFractionDigits: 2,
@@ -60,7 +60,7 @@ export default function CourseCard({ course, isTag, showTeacher = true, showRevi
                                 })}
                             </p>
                         )}
-                        <p className="text-xs text-gray-500">{course.duration} Minutes</p>
+                        <p className="text-xs text-gray-500 dark:text-white/60">{course.duration} Minutes</p>
                     </div>
                     <button
                         onClick={() => router.get(route('detail-course', course.id))}
