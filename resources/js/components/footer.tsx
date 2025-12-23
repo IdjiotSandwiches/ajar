@@ -1,12 +1,40 @@
 import { router } from "@inertiajs/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
+type LeftContent = {
+    key: 'technology' | 'design';
+    image: string;
+};
+
+const CONTENTS: LeftContent[] = [
+    {
+        key: 'technology',
+        image: '/images/gear.png',
+    },
+    {
+        key: 'design',
+        image: '/images/design.png',
+    },
+];
+
 const Footer = () => {
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveIndex((prev) => (prev + 1) % CONTENTS.length);
+        }, 6000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const activeContent = CONTENTS[activeIndex];
+
     return (
         <footer className="relative bg-[#3ABEFF] dark:bg-[#222831] text-white pt-12 overflow-hidden mt-24 mb-20 sm:mb-0">
             <img
-                src="/images/gear.png"
+                src={activeContent.image}
                 alt="gear-bg"
                 className="absolute bottom-0 right-0 w-64 opacity-60 pointer-events-none select-none"
             />
