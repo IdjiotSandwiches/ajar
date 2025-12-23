@@ -244,3 +244,60 @@ textarea:-webkit-autofill:focus {
 .animate-fadeIn {
   animation: fadeIn 0.18s ease-out;
 }
+
+
+
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes moon-orbit {
+  0% {
+    transform: rotate(0deg);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+
+  25% {
+    transform: rotate(15deg) ;
+  }
+
+  50% {
+    transform: rotate(-15deg);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+  }
+
+  75% {
+    transform: rotate(10deg) ;
+  }
+
+  100% {
+    transform: rotate(0deg);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+}
+
+.animate-moon {
+  animation: moon-orbit 2.8s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes fade-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-spin {
+  animation: slow-spin 15s linear infinite;
+}
+

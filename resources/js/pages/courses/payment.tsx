@@ -170,7 +170,7 @@ export default function PaymentPage() {
                                         </span>
                                     </div>
 
-                                    <hr />
+                                    <hr className='dark:border-white/20' />
 
                                     <div className="flex justify-between">
                                         <span>Price</span>
@@ -182,7 +182,7 @@ export default function PaymentPage() {
                                         <span>- Rp{formatIDR(course.discount)}</span>
                                     </div>
 
-                                    <hr />
+                                    <hr className='dark:border-white/20' />
 
                                     <div className="flex justify-between text-base font-semibold">
                                         <span>Total</span>
@@ -197,7 +197,7 @@ export default function PaymentPage() {
                                         ${
                                             canPay
                                                 ? 'bg-[#3ABEFF] text-white hover:bg-[#3ABEFF]/90'
-                                                : 'cursor-not-allowed bg-gray-300 text-gray-500'
+                                                : 'cursor-not-allowed bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-white/70'
                                         }`}
                                 >
                                     Pay Now
