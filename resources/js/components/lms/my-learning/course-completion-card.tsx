@@ -40,46 +40,41 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
   });
 
   return (
-    <div className="border border-[#3ABEFF]/50 bg-white rounded-xl p-4 mb-5 flex flex-col md:flex-row gap-4 shadow-sm hover:shadow-md transition">
+    <div className="border dark:border-white/20 hover:border-[#3ABEFF]/50 rounded-xl p-4 mb-5 flex flex-col md:flex-row gap-4 shadow-sm dark:shadow-white/20 hover:shadow-md transition">
       <img
         src={`/${image || null}`}
         alt={title}
-        className="w-full md:w-32 h-40 md:h-32 object-cover rounded-lg border border-gray-200"
+        className="w-full md:w-32 h-40 md:h-32 object-cover rounded-lg"
       />
 
       <div className="flex flex-col flex-grow">
         <div>
-          <h3 className="font-semibold text-gray-800 text-base mb-3">{title}</h3>
+          <h3 className="font-semibold text-gray-800 dark:text-white text-base mb-3">{title}</h3>
 
-          <div className="text-sm text-gray-700">
-            <div
-              className="
-                grid grid-cols-1 md:grid-cols-8
-                gap-y-1 md:gap-y-1
-              "
-            >
-              <span className="font-medium text-gray-600 md:col-span-1">Teacher:</span>
+          <div className="text-sm text-gray-700 dark:text-white/90">
+            <div className="grid grid-cols-1 md:grid-cols-8 gap-y-1 md:gap-y-1">
+              <span className="font-medium text-gray-600 dark:text-white/70 md:col-span-1">Teacher:</span>
               <span className="md:col-span-7 font-medium">{teacher}</span>
 
-              <span className="font-medium text-gray-600 md:col-span-1">Student:</span>
+              <span className="font-medium text-gray-600 dark:text-white/70 md:col-span-1">Student:</span>
               <span className="md:col-span-7 font-medium">{student}</span>
 
-              <span className="font-medium text-gray-600 md:col-span-1">Duration:</span>
+              <span className="font-medium text-gray-600 dark:text-white/70 md:col-span-1">Duration:</span>
               <span className="md:col-span-7 font-medium">{duration}</span>
 
-              <span className="font-medium text-gray-600 md:col-span-1">Start at:</span>
+              <span className="font-medium text-gray-600 dark:text-white/70 md:col-span-1">Start at:</span>
               <span className="md:col-span-7 font-medium">
                 {formattedStartDate} {startTime}
               </span>
 
-              <span className="font-medium text-gray-600 md:col-span-1">End at:</span>
+              <span className="font-medium text-gray-600 dark:text-white/70 md:col-span-1">End at:</span>
               <span className="md:col-span-7 font-medium">
                 {formattedEndDate} {endTime}
               </span>
 
               {recordingLink && (
                 <>
-                  <span className="font-medium text-gray-600 md:col-span-1">Recording:</span>
+                  <span className="font-medium text-gray-600 dark:text-white/70 md:col-span-1">Recording:</span>
                   <a
                     href={recordingLink}
                     target="_blank"

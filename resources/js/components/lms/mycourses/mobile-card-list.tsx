@@ -19,21 +19,21 @@ const MobileCourseCard: React.FC<MobileCourseCardProps> = ({
     onDelete,
 }) => {
     return (
-        <div className="border border-[#3ABEFF]/50 bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden p-4 mb-5 flex flex-col md:flex-row gap-4">
+        <div className="border dark:border-white/20 hover:border-[#3ABEFF]/50 rounded-xl shadow-sm dark:shadow-white/20 hover:shadow-md transition overflow-hidden p-4 mb-5 flex flex-col md:flex-row gap-4">
             <img
                 src={image || "https://placehold.co/600x400"}
                 alt={title}
-                className="w-full h-40 md:w-32 md:h-32 object-cover border border-gray-200 rounded-lg"
+                className="w-full h-40 md:w-32 md:h-32 object-cover border dark:border-white/20 rounded-lg"
             />
 
             <div className="flex flex-col gap-3">
-                <h3 className="font-semibold text-gray-800 text-base">
+                <h3 className="font-semibold text-gray-800 dark:text-white text-base">
                     {title}
                 </h3>
 
-                <div className="text-sm text-gray-700 space-y-1">
+                <div className="text-sm text-gray-700 dark:text-white/90 space-y-1">
                     <p>
-                        <span className="font-medium text-gray-600">
+                        <span className="font-medium text-gray-600 dark:text-white/80">
                             Duration:
                         </span>{" "}
                         <span className="font-medium">
@@ -42,7 +42,7 @@ const MobileCourseCard: React.FC<MobileCourseCardProps> = ({
                     </p>
 
                     <p>
-                        <span className="font-medium text-gray-600">
+                        <span className="font-medium text-gray-600 dark:text-white/80">
                             Price:
                         </span>{" "}
                         <span className="font-medium">

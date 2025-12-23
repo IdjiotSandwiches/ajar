@@ -25,31 +25,31 @@ export default function TeacherApplicationsPage({ applications }: any) {
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
-                <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
+                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20 backdrop-blur-sm sm:p-6 md:p-8">
                     <h3 className="mb-6 text-xl font-semibold">Applications</h3>
                     <div className="flex flex-col gap-4 md:hidden">
                         {applications.data.map((app: any) => {
                             return (
-                                <div key={app.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+                                <div key={app.id} className="rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20">
                                     <div className="mb-3 flex items-center gap-3">
                                         <img
                                             src={app.profile_picture || 'https://placehold.co/400'}
                                             alt={app.name}
                                             className="h-12 w-12 rounded-full border object-cover"
                                         />
-                                        <p className="font-semibold text-gray-800">{app.name}</p>
+                                        <p className="font-semibold text-gray-800 dark:text-white">{app.name}</p>
                                     </div>
-                                    <p className="mb-2 text-sm text-gray-600">I applied to be a Teacher at Ajar</p>
-                                    <p className="mb-3 text-xs text-gray-500">
+                                    <p className="mb-2 text-sm text-gray-600 dark:text-white/80">I applied to be a Teacher at Ajar</p>
+                                    <p className="mb-3 text-xs text-gray-500 dark:text-white/70">
                                         <span className="font-medium">Submitted:</span>{' '}
                                         {app.created_at
                                             ? new Date(app.created_at).toLocaleString('id-ID', {
-                                                  day: '2-digit',
-                                                  month: 'short',
-                                                  year: 'numeric',
-                                                  hour: '2-digit',
-                                                  minute: '2-digit',
-                                              })
+                                                day: '2-digit',
+                                                month: 'short',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                            })
                                             : '-'}
                                     </p>
                                     <div className="flex justify-end gap-2">
@@ -71,9 +71,9 @@ export default function TeacherApplicationsPage({ applications }: any) {
                         })}
                     </div>
 
-                    <div className="hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 md:block">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#3ABEFF]/10">
+                            <thead className="border-b dark:border-white/20 dark:text-white bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="p-1 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Teacher Applications</th>
@@ -86,7 +86,9 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                     return (
                                         <tr
                                             key={app.id}
-                                            className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
+                                            className={`border-b dark:border-white/20 dark:text-white transition hover:bg-[#42C2FF]/10 ${index % 2 === 0
+                                                ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
+                                                : 'bg-white dark:bg-[#222831]'}`}
                                         >
                                             <td className="p-1 text-center">{index + 1}</td>
 
@@ -99,17 +101,17 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                                     />
                                                     <div>
                                                         <p className="font-semibold">{app.name}</p>
-                                                        <p className="text-sm text-gray-600">I applied to be a Teacher at Ajar</p>
-                                                        <p className="text-sm text-gray-500">
+                                                        <p className="text-sm text-gray-600 dark:text-white/80">I applied to be a Teacher at Ajar</p>
+                                                        <p className="text-sm text-gray-500 dark:text-white/70">
                                                             Submitted:{' '}
                                                             {app.created_at
                                                                 ? new Date(app.created_at).toLocaleString('id-ID', {
-                                                                      day: '2-digit',
-                                                                      month: 'short',
-                                                                      year: 'numeric',
-                                                                      hour: '2-digit',
-                                                                      minute: '2-digit',
-                                                                  })
+                                                                    day: '2-digit',
+                                                                    month: 'short',
+                                                                    year: 'numeric',
+                                                                    hour: '2-digit',
+                                                                    minute: '2-digit',
+                                                                })
                                                                 : '-'}
                                                         </p>
                                                     </div>

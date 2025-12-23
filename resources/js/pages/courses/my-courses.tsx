@@ -43,20 +43,20 @@ export default function CourseList({ categories, courses }: any) {
         <section>
             <div className="flex min-h-screen flex-col gap-6">
                 <Filter schema={myCoursesFilter(categories)} onChange={onFilterChange} />
-                <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
+                <div className="mx-auto w-full rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20 backdrop-blur-sm sm:p-6 md:p-8">
                     <div className="mb-6 flex items-center justify-between">
-                        <h3 className="text-xl font-semibold">Course List</h3>
+                        <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Course List</h3>
                         <button
                             onClick={() => router.get(route('institute.post-course'))}
-                            className="flex cursor-pointer items-center gap-2 rounded-md bg-[#42C2FF] px-4 py-2 text-sm font-medium text-white shadow transition hover:bg-[#42C2FF]/90"
+                            className="flex cursor-pointer items-center gap-2 rounded-md bg-[#3ABEFF] px-4 py-2 text-sm font-medium text-white shadow transition hover:bg-[#3ABEFF]/90"
                         >
                             <Plus size={16} strokeWidth={3} /> Tambah Kursus
                         </button>
                     </div>
-                    <div className="hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border-b dark:border-white/20 shadow-sm dark:shadow-white/20 md:block">
                         <table className="min-w-full rounded-lg text-sm text-gray-700">
-                            <thead className="border-b border-gray-200 bg-[#42C2FF]/10">
-                                <tr className="cursor-default">
+                            <thead className="bg-[#3ABEFF]/10 border-b dark:border-white/20">
+                                <tr className="cursor-default dark:text-white">
                                     <th className="p-1 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Course</th>
                                     <th className="p-3 text-left font-semibold">Duration</th>
@@ -72,10 +72,12 @@ export default function CourseList({ categories, courses }: any) {
                                         {courses.data.map((course: any, index: number) => (
                                             <tr
                                                 key={course.id}
-                                                className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
+                                                className={`border-b transition hover:bg-[#3ABEFF]/10 ${index % 2 === 0
+                                                    ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
+                                                    : 'bg-white dark:bg-[#222831]'}`}
                                             >
                                                 <td className="p-1 text-center">
-                                                    <p>{courses.from + index}</p>
+                                                    <p className="dark:text-white">{courses.from + index}</p>
                                                 </td>
                                                 <td className="flex items-center gap-3 p-3">
                                                     <img
@@ -83,17 +85,17 @@ export default function CourseList({ categories, courses }: any) {
                                                         alt={course.name}
                                                         className="h-12 w-12 rounded-md object-cover"
                                                     />
-                                                    <p className="cursor-default font-bold">{course.name}</p>
+                                                    <p className="cursor-default font-bold dark:text-white">{course.name}</p>
                                                 </td>
 
                                                 <td className="cursor-default p-3">
                                                     <div className="flex items-center gap-1">
-                                                        <p className="font-bold">{course.duration}</p>
-                                                        <p className="text-sm text-gray-600">mins</p>
+                                                        <p className="font-bold dark:text-white">{course.duration}</p>
+                                                        <p className="text-sm text-gray-600 dark:text-white/80">mins</p>
                                                     </div>
                                                 </td>
 
-                                                <td className="cursor-default p-3 font-bold">
+                                                <td className="cursor-default p-3 font-bold dark:text-white">
                                                     Rp
                                                     {Number(course.price).toLocaleString('id-ID', {
                                                         minimumFractionDigits: 2,
@@ -105,7 +107,7 @@ export default function CourseList({ categories, courses }: any) {
                                                     <div className="flex items-center justify-center gap-2">
                                                         <button
                                                             onClick={() => handleEditClick(course.id)}
-                                                            className="rounded-md bg-[#42C2FF] p-2 text-white hover:bg-[#42C2FF]/90"
+                                                            className="rounded-md bg-[#3ABEFF] p-2 text-white hover:bg-[#3ABEFF]/90"
                                                         >
                                                             <Pencil size={16} strokeWidth={2} />
                                                         </button>
@@ -127,7 +129,7 @@ export default function CourseList({ categories, courses }: any) {
                     </div>
                     <div className="grid grid-cols-1 gap-4 md:hidden">
                         {courses.data.length === 0 ? (
-                            <p className="py-10 text-center text-gray-500">Belum ada kursus.</p>
+                            <p className="py-10 text-center text-gray-500 dark:text-white/70">Belum ada kursus.</p>
                         ) : (
                             courses.data.map((course: any) => (
                                 <MobileCourseCard

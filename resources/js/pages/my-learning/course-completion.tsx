@@ -48,8 +48,6 @@ export default function CourseCompletionPage() {
 
   return (
     <div className="min-h-screen flex flex-col gap-6">
-      <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">Courses Completion</h1>
-
       <Filter
         schema={courseCompletionFilter}
         onChange={(filters: any) => {
@@ -57,7 +55,7 @@ export default function CourseCompletionPage() {
         }}
       />
 
-      <div className="mx-auto w-full rounded-2xl bg-white p-4 sm:p-6 md:p-8 shadow-sm">
+      <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 sm:p-6 md:p-8 shadow-sm dark:shadow-white/20">
         <h3 className="font-semibold text-xl mb-6">Course List</h3>
         <div>
           {courseList.map((course, index) => (

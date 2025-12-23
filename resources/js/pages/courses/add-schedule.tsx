@@ -15,6 +15,15 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
 
     const [selectedCourse, setSelectedCourse] = useState<any>(null);
 
+    const handleBack = () => {
+        if (window.history.length > 1) {
+            window.history.back();
+        }
+        else {
+            router.visit('/');
+        }
+    };
+
     const closePopup = () => {
         setPopup({ visible: false });
         setSelectedCourse(null);
@@ -130,6 +139,13 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                     defaultValue={availability[index]?.start_time ?? ''}
                                     className="w-full rounded-lg border dark:border-white/20 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
                                 />
+
+                                {errors[`availability.${index}.start_time`] && (
+                                    <p className="mt-1 text-xs text-red-500">
+                                        {errors[`availability.${index}.start_time`]}
+                                    </p>
+                                )}
+
                             </div>
 
                             <div>
@@ -142,6 +158,12 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                     defaultValue={availability[index]?.end_time ?? ''}
                                     className="w-full rounded-lg border dark:border-white/20 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
                                 />
+
+                                {errors[`availability.${index}.end_time`] && (
+                                    <p className="mt-1 text-xs text-red-500">
+                                        {errors[`availability.${index}.end_time`]}
+                                    </p>
+                                )}
                             </div>
                         </div>
                     ))}
@@ -162,8 +184,8 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                 <tr
                                     key={day}
                                     className={`border-b dark:border-white/20 ${index % 2 === 0
-                                            ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
-                                            : 'bg-white dark:bg-[#222831]'
+                                        ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
+                                        : 'bg-white dark:bg-[#222831]'
                                         }`}
                                 >
                                     <td className="p-2">
@@ -182,6 +204,10 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                             defaultValue={availability[index]?.start_time ?? ''}
                                             className="w-full rounded-lg border dark:border-white/20 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
                                         />
+
+                                        {errors[`availability.${index}.start_time`] && (
+                                            <p className="text-red-500">{errors[`availability.${index}.start_time`]}</p>
+                                        )}
                                     </td>
 
                                     <td className="p-2">
@@ -191,6 +217,10 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                             defaultValue={availability[index]?.end_time ?? ''}
                                             className="w-full rounded-lg border dark:border-white/20 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
                                         />
+
+                                        {errors[`availability.${index}.end_time`] && (
+                                            <p className="text-red-500">{errors[`availability.${index}.end_time`]}</p>
+                                        )}
                                     </td>
 
                                     <td className="p-2 text-center">
@@ -198,6 +228,9 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                             name={`availability[${index}].available`}
                                             checked={!!(availability[index]?.active ?? true)}
                                         />
+                                        {errors[`availability.${index}.available`] && (
+                                            <p className="text-red-500">{errors[`availability.${index}.available`]}</p>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
@@ -266,6 +299,15 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div className="flex justify-end gap-2">
+                <button
+                    type="button"
+                    onClick={handleBack}
+                    className="cursor-pointer rounded-lg bg-black/80 px-6 py-2 font-semibold text-white transition-all hover:bg-black/70 dark:bg-gray-700 dark:hover:bg-gray-600"
+                >
+                    Back
+                </button>
             </div>
 
             {popup.visible && (

@@ -22,16 +22,27 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
         setShowModal(false);
     };
 
+    const hasApplications = applications?.data && applications.data.length > 0;
+
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
-                <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm sm:p-6 md:p-8">
+                <div className="mx-auto w-full border dark:border-white/20 rounded-2xl p-4 shadow-sm dark:shadow-white/20 sm:p-6 md:p-8">
                     <h3 className="mb-6 text-xl font-semibold">Applications to Teach Courses</h3>
 
                     <div className="flex flex-col gap-4 md:hidden">
-                        {applications.data.map((app: any) => (
-                            <div key={app.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-                                {/* Teacher */}
+                        {!hasApplications && (
+                            <tr>
+                                <td
+                                    colSpan={3}
+                                    className="p-6 text-center justify-center text-sm text-gray-500 dark:text-white/70"
+                                >
+                                    No course's teacher applications available.
+                                </td>
+                            </tr>
+                        )}
+                        {hasApplications && applications.data.map((app: any) => (
+                            <div key={app.id} className="rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20">
                                 <div className="mb-3 flex items-center gap-3">
                                     <img
                                         src={app.teacher.profile_picture || 'https://placehold.co/400'}
@@ -39,22 +50,22 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                         className="h-12 w-12 rounded-full border object-cover"
                                     />
                                     <div>
-                                        <p className="font-semibold text-gray-800">{app.teacher.name}</p>
+                                        <p className="font-semibold text-gray-800 dark:text-white">{app.teacher.name}</p>
                                     </div>
                                 </div>
 
-                                <p className="mb-2 text-sm font-medium text-gray-600">Saya ingin mengajar di kursus ini</p>
+                                <p className="mb-2 text-sm font-medium text-gray-600 dark:text-white/80">Saya ingin mengajar di kursus ini</p>
 
-                                <div className="mb-3 flex items-center gap-3 rounded-lg bg-[#F9FCFF] p-3">
+                                <div className="mb-3 flex items-center gap-3 rounded-lg border dark:border-white/20 p-3">
                                     <img
                                         src={app.course.image || 'https://placehold.co/400'}
                                         alt={app.course.name}
                                         className="h-10 w-10 rounded-md object-cover"
                                     />
-                                    <p className="text-sm font-medium text-gray-700">{app.course.name}</p>
+                                    <p className="text-sm font-medium text-gray-700 dark:text-white/90">{app.course.name}</p>
                                 </div>
 
-                                <p className="mb-3 text-xs text-gray-500">
+                                <p className="mb-3 text-xs text-gray-500 dark:text-white/70">
                                     Submitted:{' '}
                                     {new Date(app.created_at).toLocaleString('id-ID', {
                                         day: '2-digit',
@@ -83,10 +94,9 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                         ))}
                     </div>
 
-                    {/* ================= DESKTOP ================= */}
-                    <div className="hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 md:block">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#3ABEFF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10 dark:text-white">
                                 <tr>
                                     <th className="p-1 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Teacher</th>
@@ -96,20 +106,32 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                             </thead>
 
                             <tbody>
-                                {applications.data.map((app: any, index: number) => (
+                                {!hasApplications && (
+                                    <tr>
+                                        <td
+                                            colSpan={4}
+                                            className="p-6 text-center text-sm text-gray-500 dark:text-white/70"
+                                        >
+                                            No course's teacher applications available.
+                                        </td>
+                                    </tr>
+                                )}
+                                {hasApplications && applications.data.map((app: any, index: number) => (
                                     <tr
                                         key={app.id}
-                                        className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'}`}
+                                        className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0
+                                            ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
+                                            : 'bg-white dark:bg-[#222831]'}`}
                                     >
-                                        <td className="p-1 text-center">{applications.from + index}</td>
+                                        <td className="p-1 text-center dark:text-white">{applications.from + index}</td>
                                         <td className="p-3">
                                             <div className="flex items-center gap-3">
                                                 <img
                                                     src={app.teacher.profile_picture || 'https://placehold.co/400'}
-                                                    className="h-12 w-12 rounded-full border object-cover"
+                                                    className="h-12 w-12 rounded-full object-cover"
                                                 />
                                                 <div>
-                                                    <p className="font-semibold text-gray-800">{app.teacher.name}</p>
+                                                    <p className="font-semibold text-gray-800 dark:text-white">{app.teacher.name}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -117,7 +139,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                         <td className="p-3">
                                             <div className="flex items-center gap-3">
                                                 <img src={app.course.image} className="h-10 w-10 rounded-md object-cover" />
-                                                <span className="font-medium">{app.course.name}</span>
+                                                <span className="font-medium dark:text-white">{app.course.name}</span>
                                             </div>
                                         </td>
 
