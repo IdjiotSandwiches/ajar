@@ -1,39 +1,11 @@
-import { Head } from '@inertiajs/react';
-import React, { useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
+import { Head, router } from '@inertiajs/react';
 import { CheckCircle } from 'lucide-react';
+import React, { useState } from 'react';
 
-export default function PaymentPage() {
-    const teachers = [
-        { id: 1, name: 'John Doe', expertise: 'React Specialist' },
-        { id: 2, name: 'Jane Smith', expertise: 'Frontend Architect' },
-        { id: 3, name: 'Michael Tan', expertise: 'Senior UI Engineer' },
-    ];
-
-    const schedules = [
-        {
-            id: 1,
-            date: '18 Dec 2025',
-            time: '01:00 - 02:00 PM',
-        },
-        {
-            id: 2,
-            date: '20 Dec 2025',
-            time: '09:00 - 10:00 AM',
-        },
-    ];
-
-    const course = {
-        title: 'Advanced React for Professionals',
-        duration: 120,
-        price: 750000,
-        discount: 150000,
-    };
-
+export default function PaymentPage({ teachers, schedules, summary, payment }: any) {
     const [selectedTeacher, setSelectedTeacher] = useState<any>(null);
     const [selectedSchedule, setSelectedSchedule] = useState<any>(null);
-
-    const finalPrice = course.price - course.discount;
 
     const formatIDR = (value: number) =>
         new Intl.NumberFormat('id-ID', {
@@ -43,79 +15,73 @@ export default function PaymentPage() {
 
     const canPay = selectedTeacher && selectedSchedule;
 
+    const onSelectedTeacher = (teacherId: any) => {
+        setSelectedTeacher(teacherId);
+        router.reload({
+            only: ['schedules'],
+            data: {
+                teacher: teacherId,
+            },
+        });
+    };
+
+    const onSelectedSchedule = (scheduleId: any) => {
+        setSelectedSchedule(scheduleId);
+    };
+
     return (
         <>
             <Head title="Course Payment" />
-
             <div className="min-h-screen bg-gray-50 py-10">
                 <div className="mx-auto max-w-7xl px-4">
-                    <h1 className="mb-6 text-2xl font-semibold text-gray-800">
-                        Course Registration & Payment
-                    </h1>
+                    <h1 className="mb-6 text-2xl font-semibold text-gray-800">Course Registration & Payment</h1>
 
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                        <div className="lg:col-span-2 space-y-6">
+                        <div className="space-y-6 lg:col-span-2">
                             <div className="rounded-2xl bg-white p-6 shadow-sm">
-                                <h2 className="mb-1 text-lg font-semibold text-gray-800">
-                                    1. Choose Teacher
-                                </h2>
-                                <p className="mb-4 text-sm text-gray-500">
-                                    Select your preferred instructor
-                                </p>
+                                <h2 className="mb-1 text-lg font-semibold text-gray-800">1. Choose Teacher</h2>
+                                <p className="mb-4 text-sm text-gray-500">Select your preferred instructor</p>
 
                                 <div className="grid gap-3 sm:grid-cols-2">
-                                    {teachers.map((teacher) => (
+                                    {teachers.map((teacher: any) => (
                                         <button
                                             key={teacher.id}
                                             onClick={() => {
-                                                setSelectedTeacher(teacher);
+                                                onSelectedTeacher(teacher.id);
                                                 setSelectedSchedule(null);
                                             }}
-                                            className={`flex items-center justify-between rounded-xl border p-4 text-left transition
-                                                ${
-                                                    selectedTeacher?.id === teacher.id
-                                                        ? 'border-[#3ABEFF] bg-[#3ABEFF]/10'
-                                                        : 'border-gray-200 hover:border-[#3ABEFF]'
-                                                }`}
+                                            className={`flex items-center justify-between rounded-xl border p-4 text-left transition ${
+                                                selectedTeacher === teacher.id
+                                                    ? 'border-[#3ABEFF] bg-[#3ABEFF]/10'
+                                                    : 'border-gray-200 hover:border-[#3ABEFF]'
+                                            }`}
                                         >
                                             <div>
-                                                <p className="font-medium text-gray-800">
-                                                    {teacher.name}
-                                                </p>
-                                                <p className="text-xs text-gray-500">
-                                                    {teacher.expertise}
-                                                </p>
+                                                <p className="font-medium text-gray-800">{teacher.name}</p>
+                                                <p className="text-xs text-gray-500">{teacher.expertise}</p>
                                             </div>
 
-                                            {selectedTeacher?.id === teacher.id && (
-                                                <CheckCircle className="text-[#3ABEFF]" size={20} />
-                                            )}
+                                            {selectedTeacher === teacher.id && <CheckCircle className="text-[#3ABEFF]" size={20} />}
                                         </button>
                                     ))}
                                 </div>
                             </div>
 
                             <div className="rounded-2xl bg-white p-6 shadow-sm">
-                                <h2 className="mb-1 text-lg font-semibold text-gray-800">
-                                    2. Choose Schedule
-                                </h2>
-                                <p className="mb-4 text-sm text-gray-500">
-                                    Select available time
-                                </p>
+                                <h2 className="mb-1 text-lg font-semibold text-gray-800">2. Choose Schedule</h2>
+                                <p className="mb-4 text-sm text-gray-500">Select available time</p>
 
-                                {!selectedTeacher ? (
-                                    <p className="text-sm italic text-gray-400">
-                                        Please select a teacher first
-                                    </p>
+                                {(!selectedTeacher || !schedules) ? (
+                                    <p className="text-sm text-gray-400 italic">Please select a teacher first</p>
                                 ) : (
                                     <div className="grid gap-3 sm:grid-cols-2">
-                                        {schedules.map((schedule) => (
+                                        {schedules.map((schedule: any) => (
                                             <button
                                                 key={schedule.id}
-                                                onClick={() => setSelectedSchedule(schedule)}
+                                                onClick={() => onSelectedSchedule(schedule.id)}
                                                 className={`rounded-xl border p-4 text-left transition
                                                     ${
-                                                        selectedSchedule?.id === schedule.id
+                                                        selectedSchedule === schedule.id
                                                             ? 'border-[#3ABEFF] bg-[#3ABEFF]/10'
                                                             : 'border-gray-200 hover:border-[#3ABEFF]'
                                                     }`}
@@ -124,7 +90,7 @@ export default function PaymentPage() {
                                                     {schedule.date}
                                                 </p>
                                                 <p className="text-sm text-gray-600">
-                                                    {schedule.time}
+                                                    {schedule.start_time} - {schedule.end_time}
                                                 </p>
                                             </button>
                                         ))}
@@ -143,14 +109,14 @@ export default function PaymentPage() {
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Course</span>
                                         <span className="font-medium text-gray-800 text-right">
-                                            {course.title}
+                                            {/* {course.title} */}
                                         </span>
                                     </div>
 
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Duration</span>
                                         <span className="font-medium text-gray-800">
-                                            {course.duration} Minutes
+                                            {/* {course.duration} Minutes */}
                                         </span>
                                     </div>
 
@@ -174,19 +140,19 @@ export default function PaymentPage() {
 
                                     <div className="flex justify-between">
                                         <span>Price</span>
-                                        <span>Rp{formatIDR(course.price)}</span>
+                                        {/* <span>Rp{formatIDR(course.price)}</span> */}
                                     </div>
 
                                     <div className="flex justify-between text-red-500">
                                         <span>Discount</span>
-                                        <span>- Rp{formatIDR(course.discount)}</span>
+                                        {/* <span>- Rp{formatIDR(course.discount)}</span> */}
                                     </div>
 
                                     <hr />
 
                                     <div className="flex justify-between text-base font-semibold">
                                         <span>Total</span>
-                                        <span>Rp{formatIDR(finalPrice)}</span>
+                                        {/* <span>Rp{formatIDR(finalPrice)}</span> */}
                                     </div>
                                 </div>
 

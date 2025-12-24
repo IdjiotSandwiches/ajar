@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @mixin IdeHelperPayment
@@ -19,19 +18,14 @@ class Payment extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'method',
-        'nominal',
-        'status',
-        'user_id',
-        'course_id'
+        'enrollment_id',
+        'midtrans_order_id',
+        'amount',
+        'status'
     ];
 
-    /**
-     * BelongsTo: User(Student)
-     * @return BelongsTo<User, Payment>
-     */
-    public function student(): BelongsTo
+    public function enrollment()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsTo(EnrolledCourse::class);
     }
 }

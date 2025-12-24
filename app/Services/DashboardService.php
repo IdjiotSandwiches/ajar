@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Enums\RoleEnum;
-use App\Enums\StatusEnum;
+use App\Enums\CourseStatusEnum;
 use App\Enums\ReminderEnum;
 use App\Models\CourseSchedule;
 use App\Models\EnrolledCourse;
@@ -168,7 +168,7 @@ class DashboardService
                     ->whereNull('meeting_link')
                     ->exists();
                 $complete = (clone $query)
-                    ->where('status', StatusEnum::Completed)
+                    ->where('status', CourseStatusEnum::Completed)
                     ->where('end_time', '>', $now)
                     ->exists();
 

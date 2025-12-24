@@ -27,7 +27,7 @@ class CourseSchedule extends Model
     ];
 
     protected $casts = [
-        'status' => StatusEnum::class,
+        'status' => CourseStatusEnum::class,
     ];
 
     public function course()

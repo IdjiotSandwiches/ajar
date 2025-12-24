@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\MyLearningController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UtilityController;
@@ -50,8 +51,11 @@ Route::middleware(['auth', 'verified'])
                 Route::put('profile', 'putProfile')->name('update-profile');
                 Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
             });
-            Route::get('payment-lms', fn() => Inertia::render('student/payment-lms'))->name('payment-lms');
-            Route::get('payment-register', fn() => Inertia::render('courses/payment'))->name('payment-register');
+            Route::controller(PaymentController::class)->group(function () {
+                Route::get('payment-lms', fn() => Inertia::render('student/payment-lms'))->name('payment-lms');
+                Route::get('payment-register', 'getEnrollment')->name('payment-register');
+                Route::get('payment-register/{id}', 'getPendingEnrollment')->name('pending-payment');
+            });
         });
         Route::middleware(['role:Admin'])
             ->prefix('admin')

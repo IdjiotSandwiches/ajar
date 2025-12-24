@@ -65,7 +65,7 @@ export default function CourseHero({ course, teaching, canApply }: any) {
                         <div className="mt-4 flex flex-wrap items-center gap-6">
                             {(user?.role_id === roles.Student || !user) && (
                                 <button
-                                    onClick={() => router.get(route('payment-register', course.id))}
+                                    onClick={() => router.get(route('payment-register', { course: course.id }))}
                                     className="cursor-pointer rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
                                 >
                                     Register Now

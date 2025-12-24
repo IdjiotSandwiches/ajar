@@ -13,15 +13,13 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('method');
-            $table->decimal('nominal');
-            $table->string('status');
-            $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('enrollment_id');
+            $table->string('midtrans_order_id')->unique();
+            $table->integer('amount');
+            $table->enum('status', ['pending', 'paid', 'expired'])->default('pending');
             $table->timestamps();
 
-            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('enrollment_id')->references('id')->on('enrolled_courses')->onDelete('cascade');
         });
     }
 
