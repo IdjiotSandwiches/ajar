@@ -40,7 +40,7 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
   });
 
   return (
-    <div className="border dark:border-white/20 hover:border-[#3ABEFF]/50 rounded-xl p-4 mb-5 flex flex-col md:flex-row gap-4 shadow-sm dark:shadow-white/20 hover:shadow-md transition">
+    <div className="border dark:border-white/20 hover:border-[#3ABEFF]/50 rounded-xl p-4 mb-5 flex flex-col lg:flex-row gap-4 shadow-sm dark:shadow-white/20 hover:shadow-md transition">
       <img
         src={`/${image || null}`}
         alt={title}
@@ -52,7 +52,7 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
           <h3 className="font-semibold text-gray-800 dark:text-white text-base mb-3">{title}</h3>
 
           <div className="text-sm text-gray-700 dark:text-white/90">
-            <div className="grid grid-cols-1 md:grid-cols-8 gap-y-1 md:gap-y-1">
+            <div className="grid grid-cols-1 xl:grid-cols-8 gap-y-1 md:gap-y-1">
               <span className="font-medium text-gray-600 dark:text-white/70 md:col-span-1">Teacher:</span>
               <span className="md:col-span-7 font-medium">{teacher}</span>
 

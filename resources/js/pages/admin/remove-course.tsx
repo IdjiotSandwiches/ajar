@@ -65,12 +65,12 @@ export default function RemoveCoursePage() {
                     }}
                 />
 
-                <div className="rounded-2xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20 sm:p-6 md:p-8">
+                <div className="rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20">
                     <h3 className="mb-6 text-xl font-semibold">
                         Course Management
                     </h3>
 
-                    <div className="flex flex-col gap-4 md:hidden">
+                    <div className="flex flex-col gap-4 lg:hidden">
                         {courses.map((course, index) => (
                             <div
                                 key={course.id}
@@ -132,7 +132,7 @@ export default function RemoveCoursePage() {
                         ))}
                     </div>
 
-                    <div className="hidden overflow-x-auto md:block rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20">
+                    <div className="hidden overflow-x-auto lg:block rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20">
                         <table className="min-w-full text-sm text-gray-700 dark:text-white">
                             <thead className="border-b dark:border-white/20 bg-[#3ABEFF]/10">
                                 <tr>

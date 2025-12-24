@@ -27,15 +27,15 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
-                <div className="mx-auto w-full border dark:border-white/20 rounded-2xl p-4 shadow-sm dark:shadow-white/20 sm:p-6 md:p-8">
+                <div className="mx-auto w-full border dark:border-white/20 rounded-2xl p-4 lg:p-8 shadow-sm dark:shadow-white/20">
                     <h3 className="mb-6 text-xl font-semibold">Applications to Teach Courses</h3>
 
-                    <div className="flex flex-col gap-4 md:hidden">
+                    <div className="flex flex-col gap-4 lg:hidden">
                         {!hasApplications && (
                             <tr>
                                 <td
                                     colSpan={3}
-                                    className="p-6 text-center justify-center text-sm text-gray-500 dark:text-white/70"
+                                    className="flex p-6 text-center justify-center text-sm text-gray-500 dark:text-white/70"
                                 >
                                     No course's teacher applications available.
                                 </td>
@@ -94,7 +94,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                         ))}
                     </div>
 
-                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 lg:block">
                         <table className="min-w-full text-sm text-gray-700">
                             <thead className="border-b bg-[#3ABEFF]/10 dark:text-white">
                                 <tr>

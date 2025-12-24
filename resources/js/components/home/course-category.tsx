@@ -8,7 +8,7 @@ export default function TechDesignCourseSection() {
 
   return (
     <section className="pt-8 pb-4 md:pt-16 md:pb-8 px-4 sm:px-6 md:px-12 bg-white dark:bg-[#222831]">
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 gap-8">
         <div className="p-6 border rounded-lg shadow-sm bg-[#3ABEFF]/5 dark:shadow-[#ffffff]/20">
           <h4 className="text-[#3ABEFF] font-semibold mb-2">Technology Course</h4>
           <p className="font-medium mb-2">

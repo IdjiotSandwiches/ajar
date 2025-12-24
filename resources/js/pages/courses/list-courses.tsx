@@ -52,7 +52,7 @@ export default function CourseListPage({ activeCategory, parentCategories, cours
     return (
         <>
             <Head title="Course List" />
-            <section className="min-h-screen px-6 pb-24 md:px-12">
+            <section className="min-h-screen px-4 sm:px-6 md:px-12 pb-24">
                 <div className="flex w-full flex-col items-center pt-12">
                     <div className="relative mb-8 flex w-[240px] flex-col items-center">
                         <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#D8F4FF] dark:bg-gray-400" />

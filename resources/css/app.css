@@ -263,16 +263,16 @@ textarea:-webkit-autofill:focus {
   }
 
   25% {
-    transform: rotate(15deg) ;
+    transform: rotate(10deg) ;
   }
 
   50% {
-    transform: rotate(-15deg);
+    transform: rotate(-10deg);
     filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
   }
 
   75% {
-    transform: rotate(10deg) ;
+    transform: rotate(5deg) ;
   }
 
   100% {
@@ -282,7 +282,7 @@ textarea:-webkit-autofill:focus {
 }
 
 .animate-moon {
-  animation: moon-orbit 2.8s ease-in-out infinite;
+  animation: moon-orbit 3s ease-in-out infinite;
   transform-origin: center;
 }
 

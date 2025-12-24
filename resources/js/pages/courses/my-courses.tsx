@@ -43,7 +43,7 @@ export default function CourseList({ categories, courses }: any) {
         <section>
             <div className="flex min-h-screen flex-col gap-6">
                 <Filter schema={myCoursesFilter(categories)} onChange={onFilterChange} />
-                <div className="mx-auto w-full rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20 backdrop-blur-sm sm:p-6 md:p-8">
+                <div className="mx-auto w-full rounded-xl border dark:border-white/20 shadow-sm dark:shadow-white/20 backdrop-blur-sm p-4 lg:p-8">
                     <div className="mb-6 flex items-center justify-between">
                         <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Course List</h3>
                         <button
@@ -53,7 +53,7 @@ export default function CourseList({ categories, courses }: any) {
                             <Plus size={16} strokeWidth={3} /> Tambah Kursus
                         </button>
                     </div>
-                    <div className="hidden overflow-x-auto rounded-lg border-b dark:border-white/20 shadow-sm dark:shadow-white/20 md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border-b dark:border-white/20 shadow-sm dark:shadow-white/20 lg:block">
                         <table className="min-w-full rounded-lg text-sm text-gray-700">
                             <thead className="bg-[#3ABEFF]/10 border-b dark:border-white/20">
                                 <tr className="cursor-default dark:text-white">
@@ -127,7 +127,7 @@ export default function CourseList({ categories, courses }: any) {
                             )}
                         </table>
                     </div>
-                    <div className="grid grid-cols-1 gap-4 md:hidden">
+                    <div className="grid grid-cols-1 gap-4 lg:hidden">
                         {courses.data.length === 0 ? (
                             <p className="py-10 text-center text-gray-500 dark:text-white/70">Belum ada kursus.</p>
                         ) : (

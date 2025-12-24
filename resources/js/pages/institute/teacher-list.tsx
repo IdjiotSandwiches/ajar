@@ -42,11 +42,11 @@ export default function TeacherList({ teachers }: any) {
             <div className="flex min-h-screen flex-col gap-6">
                 <Filter schema={manageTeachersFilter} onChange={onFilterChange} />
 
-                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20 backdrop-blur-sm sm:p-6 md:p-8">
+                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20 backdrop-blur-sm">
                     <div className="mb-6">
                         <h3 className="text-xl font-semibold">Teachers</h3>
                     </div>
-                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 lg:block">
                         <table className="min-w-full text-sm text-gray-700">
                             <thead className="border-b bg-[#3ABEFF]/10 dark:text-white">
                                 <tr>
@@ -108,7 +108,7 @@ export default function TeacherList({ teachers }: any) {
                         </table>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 md:hidden">
+                    <div className="grid grid-cols-1 gap-4 lg:hidden">
                         {!hasTeachers && (
                             <tr>
                                 <td

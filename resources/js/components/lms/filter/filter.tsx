@@ -89,7 +89,7 @@ export default function Filter({ schema, onChange }: Props) {
     }, [filters]);
 
     return (
-        <div className="rounded-2xl bg-white/90 dark:bg-[#222831]/90 p-4 border dark:border-white/20 shadow-sm dark:shadow-[#ffffff]/20 backdrop-blur-sm sm:p-6">
+        <div className="rounded-2xl bg-white/90 dark:bg-[#222831]/90 p-4 lg:p-8 border dark:border-white/20 shadow-sm dark:shadow-[#ffffff]/20 backdrop-blur-sm">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {schema.map((field) => (
                     <div key={field.key} className="flex flex-col gap-1.5">

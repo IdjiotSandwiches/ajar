@@ -31,7 +31,7 @@ export default function InstituteList({ institutes }: any) {
                     }}
                 />
 
-                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20 backdrop-blur-sm sm:p-6 md:p-8">
+                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20 backdrop-blur-sm">
                     <div className="mb-6 flex items-center justify-between">
                         <h3 className="text-xl font-semibold">Institute List</h3>
                         <button
@@ -42,7 +42,7 @@ export default function InstituteList({ institutes }: any) {
                         </button>
                     </div>
 
-                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 lg:block">
                         <table className="min-w-full text-sm text-gray-700">
                             <thead className="border-b dark:border-white/20 bg-[#3ABEFF]/10 dark:text-white">
                                 <tr>
@@ -94,7 +94,7 @@ export default function InstituteList({ institutes }: any) {
                         </table>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 md:hidden">
+                    <div className="grid grid-cols-1 gap-4 lg:hidden">
                         {institutes.data?.map((inst: any) => (
                             <div key={inst.id} className="rounded-xl border dark:border-whie/20 p-4 shadow-sm dark:shadow-white/20">
                                 <p className="font-semibold text-gray-800 dark:text-white">{inst.name}</p>

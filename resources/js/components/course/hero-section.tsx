@@ -22,7 +22,7 @@ export default function CourseHero({ course, teaching, canApply }: any) {
     return (
         <>
             <section className="w-full border-b dark:border-white/20 border-gray-200 bg-white dark:bg-[#222831] py-10">
-                <div className="mx-auto mt-8 grid grid-cols-1 items-start gap-10 px-4 md:px-20 lg:grid-cols-3">
+                <div className="mx-auto mt-8 grid grid-cols-1 items-start gap-10 px-4 sm:px-6 md:px-12 lg:grid-cols-3">
                     <div className="lg:col-span-2">
                         <div className="mb-3 flex items-center gap-2 text-sm">
                             <div className="flex text-yellow-400">

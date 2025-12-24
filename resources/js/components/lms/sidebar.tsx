@@ -156,7 +156,7 @@ export default function Sidebar({ collapsed, mobileOpen, onClose, onToggleCollap
     return (
         <>
             <div
-                className={`fixed inset-0 z-40 bg-[#3ABEFF]/40 backdrop-blur-sm transition-opacity md:hidden ${mobileOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+                className={`fixed inset-0 z-40 bg-[#3ABEFF]/40 dark:bg-gray-700/40 backdrop-blur-sm transition-opacity md:hidden ${mobileOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
                 onClick={onClose}
             />
 

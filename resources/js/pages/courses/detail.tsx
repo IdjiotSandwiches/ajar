@@ -61,10 +61,10 @@ export default function CourseDetailPage({ course, popularCourses, teaching, can
             <Head title={course?.name || "Not Found"} />
             <div className="min-h-screen">
                 <CourseHero course={course} teaching={teaching} canApply={canApply} />
-                <div className="mt-4 block px-4 lg:hidden">
+                <div className="mt-4 block px-4 sm:px-6 md:px-12 lg:hidden">
                     <CourseSidebar institute={course.institute.user} teacher={course.teacher_schedules} />
                 </div>
-                <div className="relative z-20 mt-6 mb-8 flex justify-center px-3 md:-mt-6">
+                <div className="relative z-20 mt-6 mb-8 flex justify-center px-3 lg:-mt-6">
                     <div className="scrollbar-hide flex max-w-full gap-4 overflow-x-auto rounded-full border bg-white dark:bg-[#222831] px-6 py-1 shadow-sm dark:shadow-[#ffffff]/20">
                         {[
                             { id: 'syllabus', label: 'Syllabus', ref: syllabusRef },
@@ -82,7 +82,7 @@ export default function CourseDetailPage({ course, popularCourses, teaching, can
                         ))}
                     </div>
                 </div>
-                <div className="mx-auto grid grid-cols-1 gap-10 px-4 md:px-10 lg:grid-cols-6 lg:px-20 2xl:grid-cols-8">
+                <div className="mx-auto grid grid-cols-1 gap-10 px-4 sm:px-6 md:px-12 lg:grid-cols-6 2xl:grid-cols-8">
                     <div className="space-y-10 lg:col-span-4 2xl:col-span-6">
                         <section>
                             <h4 ref={syllabusRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
@@ -119,7 +119,7 @@ export default function CourseDetailPage({ course, popularCourses, teaching, can
                         <CourseSidebar institute={course.institute.user} teacher={course.teaching_courses} />
                     </div>
                 </div>
-                <div className="mx-auto px-4 md:px-8">
+                <div className="mx-auto">
                     <PopularCourses courses={popularCourses} />
                 </div>
             </div>

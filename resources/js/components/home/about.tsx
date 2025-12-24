@@ -7,7 +7,7 @@ export default function LearningToTeachSection() {
                 Learning to teach through Ajar
             </h2>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map((n) => (
                     <div key={n} className="bg-[#3ABEFF]/5 p-6 rounded-lg shadow-sm dark:shadow-[#ffffff]/20">
                         <h3 className="font-semibold text-gray-700 dark:text-white mb-2">👩‍🏫 Teacher</h3>

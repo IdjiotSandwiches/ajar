@@ -46,9 +46,9 @@ export default function PaymentPage() {
     return (
         <>
             <Head title="Course Payment" />
-
-            <div className="min-h-screen py-12">
-                <div className="mx-auto max-w-7xl px-4">
+        
+            <div className="min-h-screen py-16">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12">
                     <h1 className="mb-6 text-2xl font-semibold text-gray-800 dark:text-white">
                         Course Registration & Payment
                     </h1>

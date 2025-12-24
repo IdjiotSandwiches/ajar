@@ -27,7 +27,7 @@ export default function Navbar() {
     return (
         <>
             <nav className="sticky top-0 z-50 w-full bg-white dark:bg-[#222831] shadow-sm dark:shadow-[#ffffff]/20">
-                <div className="relative mx-auto flex max-w-[1870px] items-center justify-between px-8 py-4">
+                <div className="relative mx-auto flex items-center justify-between px-4 sm:px-6 md:px-12 py-4">
                     <div className="flex items-center">
                         <svg width="64" height="36" viewBox="0 0 78 44" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => router.get(route('home'))}>
                             <path d="M32.8856 34.408C33.1416 34.888 33.2696 35.304 33.2696 35.656C33.3016 35.976 33.2056 36.28 32.9816 36.568C32.7576 36.824 32.4056 37.064 31.9256 37.288C31.1576 37.64 30.5496 37.72 30.1016 37.528C29.6856 37.336 29.3016 36.872 28.9496 36.136L16.9496 10.6L5.04556 36.088C4.69356 36.824 4.29356 37.288 3.84556 37.48C3.42956 37.672 2.82156 37.592 2.02156 37.24C1.54156 37.048 1.18956 36.808 0.965563 36.52C0.773563 36.232 0.693563 35.88 0.725563 35.464C0.789563 35.048 0.949563 34.568 1.20556 34.024L14.9816 5.272C15.1736 4.888 15.4456 4.584 15.7976 4.36C16.1816 4.104 16.5816 3.976 16.9976 3.976C17.2856 3.976 17.5576 4.024 17.8136 4.12C18.0696 4.216 18.2936 4.36 18.4856 4.552C18.6776 4.744 18.8376 5 18.9656 5.32L32.8856 34.408ZM7.92556 27.928L9.55756 24.232H24.4376L26.0216 27.928H7.92556Z" fill="#3ABEFF" />
@@ -37,7 +37,7 @@ export default function Navbar() {
                         </svg>
                     </div>
 
-                    <div className="absolute left-1/2 hidden max-w-[500px] -translate-x-1/2 transform items-center space-x-12 font-medium text-[#3ABEFF] sm:max-w-[250px] md:flex md:max-w-[350px] md:space-x-6 md:text-base lg:text-lg">
+                    <div className="absolute left-1/2 hidden max-w-[500px] -translate-x-1/2 transform items-center space-x-12 font-medium text-[#3ABEFF] sm:max-w-[250px] lg:flex md:max-w-[350px] md:space-x-6 md:text-base lg:text-lg">
                         <span className="cursor-pointer transition-colors hover:text-[#1AAAE3]" onClick={() => router.get(route('home'))}>
                             Home
                         </span>
@@ -106,7 +106,7 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            <div className="fixed right-0 bottom-0 left-0 z-50 flex justify-around border-t dark:border-white/30 bg-white dark:bg-[#222831] py-3 shadow-lg md:hidden">
+            <div className="fixed right-0 bottom-0 left-0 z-50 flex justify-around border-t dark:border-white/30 bg-white dark:bg-[#222831] py-3 shadow-lg lg:hidden">
                 <button onClick={() => router.get(route('home'))} className="group flex flex-col items-center">
                     <div
                         className={`rounded-full p-2 transition-all ${currentRoute === 'home' ? 'bg-[#3ABEFF] text-white' : 'text-[#3ABEFF] group-hover:bg-blue-100 dark:group-hover:bg-white/20'}`}
@@ -127,13 +127,13 @@ export default function Navbar() {
                     </span>
                 </button>
 
-                <button onClick={() => router.get(route('my-learning'))} className="group flex flex-col items-center">
+                <button onClick={() => router.get(route('dashboard'))} className="group flex flex-col items-center">
                     <div
                         className={`rounded-full p-2 transition-all ${currentRoute === 'my-learning' ? 'bg-[#3ABEFF] text-white' : 'text-[#3ABEFF] group-hover:bg-blue-100 dark:group-hover:bg-white/20'}`}
                     >
                         <GraduationCap size={22} />
                     </div>
-                    <span className={`mt-1 text-xs ${currentRoute === 'my-learning' ? 'font-semibold text-[#3ABEFF]' : 'text-[#3ABEFF]'}`}>
+                    <span className={`mt-1 text-xs ${currentRoute === 'dashboard' ? 'font-semibold text-[#3ABEFF]' : 'text-[#3ABEFF]'}`}>
                         MyDashboard
                     </span>
                 </button>

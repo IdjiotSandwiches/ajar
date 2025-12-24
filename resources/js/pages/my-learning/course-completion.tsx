@@ -55,7 +55,7 @@ export default function CourseCompletionPage() {
         }}
       />
 
-      <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 sm:p-6 md:p-8 shadow-sm dark:shadow-white/20">
+      <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20">
         <h3 className="font-semibold text-xl mb-6">Course List</h3>
         <div>
           {courseList.map((course, index) => (

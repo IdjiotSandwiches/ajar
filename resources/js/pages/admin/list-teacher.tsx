@@ -31,10 +31,10 @@ export default function ManageTeachersPage({ teachers }: any) {
                     }}
                 />
 
-                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20 backdrop-blur-sm sm:p-6 md:p-8">
+                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20 backdrop-blur-sm">
                     <h3 className="mb-6 text-xl font-semibold">Teacher List</h3>
 
-                    <div className="hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border border-white/20 shadow-sm dark:shadow-white/20 lg:block">
                         <table className="min-w-full text-sm text-gray-700">
                             <thead className="border-b dark:border-white/20 bg-[#3ABEFF]/10 dark:text-white">
                                 <tr>
@@ -104,7 +104,7 @@ export default function ManageTeachersPage({ teachers }: any) {
                         </table>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 md:hidden">
+                    <div className="grid grid-cols-1 gap-4 lg:hidden">
                         {teachers.data?.map((teacher: any) => (
                             <div key={teacher.id} className="rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20">
                                 <div className="mb-3 flex items-center gap-3">

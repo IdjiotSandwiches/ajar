@@ -40,7 +40,7 @@ const CourseStatusCard: React.FC<CourseStatusCardProps> = ({
   });
 
   return (
-    <div className="border dark:border-white/20 hover:border-[#3ABEFF]/50 rounded-xl p-4 mb-5 flex flex-col md:flex-row gap-4 shadow-sm dark:shadow-white/20 hover:shadow-md transition">
+    <div className="border dark:border-white/20 hover:border-[#3ABEFF]/50 rounded-xl p-4 mb-5 flex flex-col lg:flex-row gap-4 shadow-sm dark:shadow-white/20 hover:shadow-md transition">
       <img
         src={`/${image || null}`}
         alt={title}

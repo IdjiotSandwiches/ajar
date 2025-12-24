@@ -25,9 +25,9 @@ export default function TeacherApplicationsPage({ applications }: any) {
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
-                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20 backdrop-blur-sm sm:p-6 md:p-8">
+                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20 backdrop-blur-sm">
                     <h3 className="mb-6 text-xl font-semibold">Applications</h3>
-                    <div className="flex flex-col gap-4 md:hidden">
+                    <div className="flex flex-col gap-4 lg:hidden">
                         {applications.data.map((app: any) => {
                             return (
                                 <div key={app.id} className="rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20">
@@ -71,7 +71,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                         })}
                     </div>
 
-                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 lg:block">
                         <table className="min-w-full text-sm text-gray-700">
                             <thead className="border-b dark:border-white/20 dark:text-white bg-[#3ABEFF]/10">
                                 <tr>

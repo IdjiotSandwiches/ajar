@@ -51,9 +51,9 @@ export default function AuthSimpleLayout({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-8">
+      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 md:px-12 py-8">
         {!isFullPage ? (
-          <div className="relative bg-white dark:bg-[#222831] w-full max-w-4xl rounded-2xl shadow-sm overflow-hidden flex flex-col lg:flex-row">
+          <div className="relative bg-white dark:bg-[#222831] w-full max-w-4xl rounded-2xl shadow-sm overflow-hidden flex flex-col md:flex-row">
             <div className="absolute top-4 left-4 z-10">
               <svg
                 width="48"
@@ -70,7 +70,7 @@ export default function AuthSimpleLayout({
                 <path d="M60.0188 37.432C59.3148 37.432 58.8028 37.288 58.4828 37C58.1948 36.712 58.0188 36.264 57.9548 35.656L58.1468 33.256C57.8268 33.768 57.3308 34.36 56.6588 35.032C55.9868 35.672 55.1068 36.248 54.0188 36.76C52.9308 37.24 51.6028 37.48 50.0348 37.48C48.4988 37.48 47.0588 37.176 45.7148 36.568C44.4028 35.96 43.2348 35.112 42.2108 34.024C41.2188 32.936 40.4348 31.688 39.8588 30.28C39.3148 28.872 39.0428 27.368 39.0428 25.768C39.0428 24.2 39.3148 22.728 39.8588 21.352C40.4348 19.944 41.2348 18.712 42.2588 17.656C43.2828 16.6 44.4508 15.768 45.7628 15.16C47.1068 14.552 48.5308 14.248 50.0348 14.248C51.4428 14.248 52.6428 14.44 53.6348 14.824C54.6268 15.176 55.4748 15.656 56.1788 16.264C56.9148 16.84 57.5548 17.496 58.0988 18.232L58.0028 16.216C57.9708 15.512 58.1148 15.016 58.4348 14.728C58.7868 14.408 59.3308 14.248 60.0668 14.248C60.6748 14.248 61.1068 14.344 61.3628 14.536C61.6508 14.728 61.8428 15 61.9388 15.352C62.0348 15.704 62.0828 16.136 62.0828 16.648V35.176C62.0828 35.624 62.0348 36.024 61.9388 36.376C61.8428 36.728 61.6508 36.984 61.3628 37.144C61.0748 37.336 60.6268 37.432 60.0188 37.432ZM50.7548 33.448C52.0348 33.448 53.2028 33.112 54.2588 32.44C55.3468 31.768 56.1948 30.872 56.8028 29.752C57.4428 28.6 57.7628 27.288 57.7628 25.816C57.7628 24.312 57.4268 23 56.7548 21.88C56.1148 20.728 55.2508 19.832 54.1628 19.192C53.1068 18.52 51.9388 18.184 50.6588 18.184C49.1548 18.184 47.8428 18.536 46.7228 19.24C45.6348 19.912 44.7708 20.824 44.1308 21.976C43.4908 23.128 43.1708 24.44 43.1708 25.912C43.1708 27.352 43.4908 28.648 44.1308 29.8C44.7708 30.92 45.6508 31.816 46.7708 32.488C47.9228 33.128 49.2508 33.448 50.7548 33.448Z" fill="#3ABEFF" />
               </svg>
             </div>
-            <div className="hidden lg:flex lg:w-1/2 w-full flex-col items-center justify-center p-8 sm:p-10 text-center">
+            <div className="hidden md:flex lg:w-1/2 w-full flex-col items-center justify-center p-8 sm:p-10 text-center">
               <div className="text-[#3ABEFF] mb-4">
                 <svg
                   width="64"
@@ -101,7 +101,7 @@ export default function AuthSimpleLayout({
             </div>
 
             <div className="lg:w-1/2 w-full flex flex-col justify-center px-6 sm:px-10 py-14">
-              <h1 className="text-3xl font-semibold text-center text-gray-800 dark:text-white mb-8">
+              <h1 className="text-2xl lg:text-3xl font-semibold text-center text-gray-800 dark:text-white mb-8">
                 {title}
               </h1>
               {children}

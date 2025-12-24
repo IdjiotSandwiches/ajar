@@ -49,7 +49,7 @@ export default function PaymentsPage() {
             <Head title="Payments" />
 
             <div className="flex min-h-screen flex-col gap-6">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                     <div className="rounded-xl border dark:border-white/20 p-6 shadow-sm dark:shadow-[#ffffff]/20 flex items-center gap-4">
                         <div className="rounded-full bg-red-100 p-3">
                             <Wallet className="text-red-500" size={24} />
@@ -89,7 +89,7 @@ export default function PaymentsPage() {
                         Payment History
                     </h3>
 
-                    <div className="space-y-4 md:hidden">
+                    <div className="space-y-4 lg:hidden">
                         {payments.map((course) => (
                             <div
                                 key={course.id}
@@ -145,7 +145,7 @@ export default function PaymentsPage() {
                     </div>
 
 
-                    <div className="hidden md:block overflow-x-auto rounded-lg border dark:border-white/20">
+                    <div className="hidden lg:block overflow-x-auto rounded-lg border dark:border-white/20">
                         <table className="min-w-full text-sm text-gray-700">
                             <thead className="border-b dark:border-white/20 bg-[#3ABEFF]/10 dark:text-white/80">
                                 <tr>
