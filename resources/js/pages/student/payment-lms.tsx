@@ -10,7 +10,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
     const statusStyle: Record<string, string> = {
         paid: 'bg-green-100 text-green-600',
         pending: 'bg-yellow-100 text-yellow-600',
-        expired: 'bg-red-100 text-red-600',
+        failed: 'bg-red-100 text-red-600',
     };
 
     return (

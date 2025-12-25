@@ -10,12 +10,12 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UtilityController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::group([], function () {
-    Route::get('/', [HomeController::class, 'getHomeData'])
-        ->name('home');
+    Route::get('/', [HomeController::class, 'getHomeData'])->name('home');
     Route::controller(TeacherController::class)->group(function () {
         Route::get('detail-teacher/{id}', 'getTeacherDetail')->name('detail-teacher');
     });
@@ -27,6 +27,9 @@ Route::group([], function () {
         Route::get('list-course', 'getCourseList')->name('list-course');
         Route::get('detail-course/{id}', 'getCourseDetail')->name('detail-course');
     });
+    Route::post('payment-webhook', [PaymentController::class, 'updateStatus'])
+        ->withoutMiddleware([VerifyCsrfToken::class])
+        ->name('midtrans-webhook');
 });
 
 Route::middleware(['auth', 'verified'])

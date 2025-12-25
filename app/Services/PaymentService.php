@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\MidtransTransactionEnum;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Midtrans\Config;
@@ -116,7 +117,7 @@ class PaymentService
                 'gross_amount' => $payment->amount,
             ],
             'customer_details' => [
-                'first_name' => $user->username,
+                'first_name' => $user->name,
                 'email' => $user->email,
                 'phone' => $user->phone_number,
             ]
@@ -189,8 +190,8 @@ class PaymentService
             ->where('user_id', $user->id)
             ->orderByRaw("
                 CASE status
-                    WHEN 'paid' THEN 3
-                    WHEN 'pending' THEN 2
+                    WHEN 'pending' THEN 3
+                    WHEN 'paid' THEN 2
                     WHEN 'failed' THEN 1
                     ELSE 0
                 END DESC
@@ -224,5 +225,49 @@ class PaymentService
             ->where('user_id', $user->id)
             ->where('status', $status)
             ->sum('amount');
+    }
+
+    public function completePayment($data)
+    {
+        $signature = hash(
+            'sha512',
+            $data['order_id']
+            . $data['status_code']
+            . $data['gross_amount']
+            . config('midtrans.server_key')
+        );
+
+        if ($signature !== $data['signature_key']) {
+            abort(403);
+        }
+
+        return DB::transaction(function () use ($data) {
+            $payment = Payment::with(['enrolledCourse'])
+                ->where('unique_id', $data['order_id'])
+                ->firstOrFail();
+
+            $payment->status = match ($data['transaction_status']) {
+                MidtransTransactionEnum::Settlement->value,
+                MidtransTransactionEnum::Capture->value => PaymentStatusEnum::Paid,
+                MidtransTransactionEnum::Pending->value => PaymentStatusEnum::Pending,
+                MidtransTransactionEnum::Expire->value,
+                MidtransTransactionEnum::Cancel->value,
+                MidtransTransactionEnum::Deny->value => PaymentStatusEnum::Failed,
+                default => PaymentStatusEnum::Failed,
+            };
+
+            if ($payment->enrolledCourse) {
+                $payment->enrolledCourse()->update([
+                    'is_verified' => match ($payment->status) {
+                        PaymentStatusEnum::Paid => true,
+                        PaymentStatusEnum::Pending => null,
+                        PaymentStatusEnum::Failed => false,
+                        default => null,
+                    },
+                ]);
+            }
+
+            $payment->save();
+        });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,6 +25,10 @@ class Payment extends Model
         'snap_token',
         'amount',
         'status'
+    ];
+
+    protected $casts = [
+        'status' => PaymentStatusEnum::class
     ];
 
     public function enrolledCourse()

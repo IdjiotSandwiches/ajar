@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MidtransWebhookRequest;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -52,9 +53,15 @@ class PaymentController extends Controller
         }
     }
 
-    public function updateStatus()
+    public function updateStatus(MidtransWebhookRequest $request)
     {
-
+        try {
+            $validated = $request->validated();
+            $this->service->completePayment($validated);
+        } catch (\Exception $e) {
+            report($e);
+            return response('Internal error', 500);
+        }
     }
 
     public function getPaymentList()
