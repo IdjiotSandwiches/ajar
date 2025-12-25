@@ -39,4 +39,9 @@ class CourseSchedule extends Model
     {
         return $this->belongsTo(Teacher::class, 'teacher_id', 'user_id');
     }
+
+    public function enrolledCourses()
+    {
+        return $this->hasMany(EnrolledCourse::class);
+    }
 }

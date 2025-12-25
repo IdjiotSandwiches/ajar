@@ -63,7 +63,7 @@ class DashboardService
                     })
                     ->paginate(5)
                     ->through(function ($item) {
-                        $schedule = $item->courseSchedule->teacherSchedule;
+                        $schedule = $item->courseSchedule;
                         $course = $schedule->course;
                         $teacher = $schedule->teacher;
                         return [
@@ -130,7 +130,7 @@ class DashboardService
                     })
                     ->paginate(5)
                     ->through(function ($item) {
-                        $schedule = $item->courseSchedule->teacherSchedule;
+                        $schedule = $item->courseSchedule;
                         $course = $schedule->course;
                         $teacher = $schedule->teacher;
                         return [

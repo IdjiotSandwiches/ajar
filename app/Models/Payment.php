@@ -18,13 +18,15 @@ class Payment extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'enrollment_id',
-        'midtrans_order_id',
+        'enrolled_course_id',
+        'user_id',
+        'unique_id',
+        'snap_token',
         'amount',
         'status'
     ];
 
-    public function enrollment()
+    public function enrolledCourse()
     {
         return $this->belongsTo(EnrolledCourse::class);
     }

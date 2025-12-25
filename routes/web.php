@@ -52,9 +52,10 @@ Route::middleware(['auth', 'verified'])
                 Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
             });
             Route::controller(PaymentController::class)->group(function () {
-                Route::get('payment-lms', fn() => Inertia::render('student/payment-lms'))->name('payment-lms');
+                Route::get('payment-lms', 'getPaymentList')->name('payment-lms');
                 Route::get('payment-register', 'getEnrollment')->name('payment-register');
                 Route::get('payment-register/{id}', 'getPendingEnrollment')->name('pending-payment');
+                Route::post('payment-register/{id}', 'createPayment')->name('pay');
             });
         });
         Route::middleware(['role:Admin'])

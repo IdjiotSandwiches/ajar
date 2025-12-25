@@ -19,18 +19,50 @@ class PaymentController extends Controller
     {
         $courseId = $request->query('course');
         $teacherId = $request->query('teacher');
+
+        $course = $this->service->getCourseDetail($courseId);
         $teachers = $this->service->getTeachingCourses($courseId);
-
-        $data = [
+        return Inertia::render('courses/payment', [
+            'course' => $course,
             'teachers' => $teachers,
-            'schedules' => Inertia::lazy(fn() => $this->service->getCourseSchedules($courseId, $teacherId))
-        ];
-
-        return Inertia::render('courses/payment', $data);
+            'schedules' => Inertia::lazy(fn() => $this->service->getCourseSchedules($courseId, $teacherId)),
+        ]);
     }
 
     public function getPendingEnrollment($id)
     {
-        return Inertia::render('courses/payment');
+        $enrollment = $this->service->getPendingEnrollment($id);
+        return Inertia::render('courses/payment', [
+            'course' => $enrollment['course'],
+            'teachers' => [$enrollment['teacher']],
+            'schedules' => [$enrollment['schedule']],
+            'payment' => $enrollment['payment']
+        ]);
+    }
+
+    public function createPayment($scheduleId)
+    {
+        try {
+            $snapToken = $this->service->payment($scheduleId);
+            return back()->with([
+                'snap_token' => $snapToken
+            ]);
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function updateStatus()
+    {
+
+    }
+
+    public function getPaymentList()
+    {
+        [$payments, $amounts] = $this->service->getPaymentList();
+        return Inertia::render('student/payment-lms', [
+            'payments' => $payments,
+            'amounts' => $amounts
+        ]);
     }
 }

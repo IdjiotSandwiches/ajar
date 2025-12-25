@@ -11,6 +11,7 @@ declare module "@inertiajs/core" {
         reminder_enum: Record<string, number>;
         state_enum: Record<string, number>;
         days_enum: Record<string, string>;
+        payment_status_enum: Record<string, string>;
     };
     [key: string]: any;
   }
