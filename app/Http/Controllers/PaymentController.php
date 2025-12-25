@@ -22,6 +22,10 @@ class PaymentController extends Controller
         $teacherId = $request->query('teacher');
 
         $course = $this->service->getCourseDetail($courseId);
+        if (!$course) {
+            return redirect()->intended(route('detail-course', $courseId));
+        }
+
         $teachers = $this->service->getTeachingCourses($courseId);
         return Inertia::render('courses/payment', [
             'course' => $course,

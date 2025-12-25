@@ -47,12 +47,13 @@ class CourseController extends Controller
 
     public function getCourseDetail($id)
     {
-        [$course, $popularCourses, $teaching, $canApply] = $this->service->getCourseDetail($id);
+        [$course, $popularCourses, $teaching, $canApply, $hasSchedule] = $this->service->getCourseDetail($id);
         return Inertia::render('courses/detail', [
             'course' => $course,
             'popularCourses' => $popularCourses,
             'teaching' => $teaching,
-            'canApply' => $canApply
+            'canApply' => $canApply,
+            'hasSchedule' => $hasSchedule
         ]);
     }
 

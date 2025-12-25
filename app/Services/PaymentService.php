@@ -34,7 +34,11 @@ class PaymentService
             ->selectRaw('(price - COALESCE(discount, 0)) as final_price')
             ->first();
 
-        return $course;
+        $hasSchedules = CourseSchedule::query()
+            ->where('course_id', $id)
+            ->exists();
+
+        return $hasSchedules ? $course : null;
     }
 
     public function getTeachingCourses($id)

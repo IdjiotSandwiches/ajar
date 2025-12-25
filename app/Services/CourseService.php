@@ -2,16 +2,13 @@
 
 namespace App\Services;
 
+use App\Enums\CourseStatusEnum;
 use App\Models\TeacherApplication;
 use App\Models\TeachingCourse;
-use Carbon\Carbon;
 use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Course;
-use App\Models\CourseSchedule;
-use App\Models\EnrolledCourse;
 use App\Models\Skill;
-use App\Models\Teacher;
 use App\Utilities\UploadUtility;
 use Illuminate\Support\Facades\Auth;
 
@@ -138,6 +135,7 @@ class CourseService
                 'courseSkills.skill',
                 'courseLearningObjectives',
                 'courseOverviews',
+                'courseSchedules',
                 'teachingCourses' => fn($q) => $q->where('is_verified', true),
                 'teachingCourses.teacher.user.socialMedias',
             ]
@@ -168,8 +166,11 @@ class CourseService
             }
         }
 
+        $hasSchedule = $user ? $course->courseSchedules
+            ->where('status', CourseStatusEnum::Scheduled)
+            ->count() != 0 : true;
         $popularCourses = $this->getPopularCourseByCategory($course->category_id, $course->id);
-        return [$course, $popularCourses, $teaching, $canApply];
+        return [$course, $popularCourses, $teaching, $canApply, $hasSchedule];
     }
 
     public function getPopularCourseByCategory($categoryId, $currentCourseId)
