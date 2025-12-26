@@ -285,7 +285,6 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                 <div className="hidden md:block overflow-x-auto rounded-xl border dark:border-white/20">
                     {/* <table className="min-w-[900px] w-full text-center text-sm"> */}
                     <table className="min-w-[900px] w-full table-fixed text-center text-sm">
-
                         <thead className="bg-[#3ABEFF]/10 border-b dark:border-white/20">
                             <tr>
                                 <th className="p-2">Hour</th>
@@ -327,7 +326,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                         <h3 className="mb-4 font-semibold dark:text-white">Add / Edit Session</h3>
 
                         <select
-                            className="mb-4 w-full rounded-md border dark:border-white/20 p-2"
+                            className="mb-4 w-full dark:bg-[#222831] rounded-md border dark:border-white/20 p-2"
                             value={selectedCourse?.id || ''}
                             onChange={(e) =>
                                 setSelectedCourse(

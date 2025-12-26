@@ -50,7 +50,7 @@ export default function Filter({ schema, onChange }: Props) {
 
             case 'dropdown':
                 return (
-                    <select value={filters[field.key]} onChange={(e) => handleChange(field.key, e.target.value)} className={baseClass}>
+                    <select value={filters[field.key]} onChange={(e) => handleChange(field.key, e.target.value)} className={`${baseClass} + dark:bg-[#222831]`}>
                         <option value="">All</option>
                         {field.options?.map((opt) => (
                             <option key={opt.value} value={opt.value}>
