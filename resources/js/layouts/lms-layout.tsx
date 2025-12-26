@@ -41,7 +41,7 @@ export default function LMSLayout({ children, title = 'Dashboard' }: any) {
                     </div>
 
                     <div className="mx-2 md:my-4 flex flex-1 flex-col">
-                        <div className="flex flex-1 flex-col rounded-xl border bg-white">
+                        <div className="flex flex-1 flex-col rounded-xl border bg-white dark:bg-[#222831]">
                             <div className="hidden md:inline">
                                 <PageHeader title={title} />
                             </div>

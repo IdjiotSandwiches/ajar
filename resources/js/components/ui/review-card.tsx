@@ -4,11 +4,7 @@ export default function ReviewCard({ review }: { review: any }) {
   return (
     <div
       data-card
-      className="
-        bg-white border border-gray-100 rounded-lg shadow-sm p-6
-        flex flex-col justify-between h-full
-        hover:shadow-md transition-all
-      "
+      className="bg-white dark:bg-[#222831] shadow-sm dark:shadow-[#ffffff]/20 rounded-lg p-6 flex flex-col justify-between h-full hover:shadow-md transition-all"
     >
       <div>
         <div className="flex items-center gap-3 mb-3">
@@ -19,7 +15,7 @@ export default function ReviewCard({ review }: { review: any }) {
           />
 
           <div>
-            <p className="font-medium text-gray-800">
+            <p className="font-medium text-gray-800 dark:text-white">
               {review.name} -
               <span className="text-gray-500"> {review.reviewer.role.name}</span>
             </p>
@@ -33,11 +29,11 @@ export default function ReviewCard({ review }: { review: any }) {
           </div>
         </div>
 
-        <p className="text-gray-600 text-sm mb-6">{review.description}</p>
+        <p className="text-gray-600 text-sm mb-6 dark:text-white/80">{review.description}</p>
       </div>
 
-      <div className="border-t pt-3 mt-auto">
-        <p className="text-xs text-gray-500 mb-2">Review to:</p>
+      <div className="border-t dark:border-white/60 pt-3 mt-auto">
+        <p className="text-xs text-gray-500 dark:text-white/60 mb-2">Review to:</p>
 
         <div className="flex items-center gap-3">
           {/* <img
@@ -46,7 +42,7 @@ export default function ReviewCard({ review }: { review: any }) {
           /> */}
 
           <div>
-            <p className="text-[#42C2FF] font-medium text-sm">
+            <p className="text-[#3ABEFF] font-medium text-sm">
               {review.teacher.user.name}
             </p>
             {/* <p className="text-xs text-gray-500">{institution?.name}</p> */}

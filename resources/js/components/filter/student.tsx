@@ -66,13 +66,11 @@ export default function FilterStudent({
             </div>
 
             {showFilter && (
-                <div className="absolute right-0 z-50 mt-2 w-72 rounded-xl border bg-white p-4 shadow-lg">
-                    <p className="mb-3 font-semibold text-gray-700">Filter</p>
-                    <hr className="mb-3" />
-
-                    {/* === Rating === */}
+                <div className="absolute right-0 z-50 mt-2 w-72 rounded-xl border bg-white dark:bg-[#222831] p-4 shadow-lg">
+                    <p className="mb-3 font-semibold text-gray-700 dark:text-white/90">Filter</p>
+                    <hr className="mb-3 border-gray-200 dark:border-white/50" />
                     <div className="mb-5">
-                        <p className="mb-2 text-sm text-gray-600">Rating</p>
+                        <p className="mb-2 text-sm text-gray-600 dark:text-white/80">Rating</p>
 
                         {[5, 4, 3, 2, 1].map((r) => (
                             <label key={r} className="mb-1 flex cursor-pointer items-center gap-2">
@@ -84,7 +82,7 @@ export default function FilterStudent({
                                 />
                                 <span
                                     className={`flex h-4 w-4 items-center justify-center rounded border transition-all ${
-                                        selectedRatings.includes(r) ? 'border-[#3ABEFF] bg-[#3ABEFF]' : 'border-gray-400 bg-white'
+                                        selectedRatings.includes(r) ? 'border-[#3ABEFF] bg-[#3ABEFF]' : 'border-gray-400 bg-white dark:bg-gray-600'
                                     }`}
                                 >
                                     {selectedRatings.includes(r) && (
@@ -107,27 +105,25 @@ export default function FilterStudent({
                         ))}
                     </div>
 
-                    {/* === Price === */}
                     <div className="mb-4">
-                        <p className="mb-2 text-sm text-gray-600">Price</p>
+                        <p className="mb-2 text-sm text-gray-600 dark:text-white/80">Price</p>
                         <div className="mb-2 flex gap-2">
                             <input
                                 type="number"
                                 placeholder="From"
-                                className="w-1/2 rounded border px-2 py-1 text-sm focus:ring-1 focus:ring-[#3ABEFF] focus:outline-none"
+                                className="w-1/2 rounded border dark:border-white/50 px-2 py-1 text-sm focus:ring-1 focus:ring-[#3ABEFF] focus:outline-none"
                                 value={priceRange[0]}
                                 onChange={(e) => handlePriceChange(0, Number(e.target.value))}
                             />
                             <input
                                 type="number"
                                 placeholder="To"
-                                className="w-1/2 rounded border px-2 py-1 text-sm focus:ring-1 focus:ring-[#3ABEFF] focus:outline-none"
+                                className="w-1/2 rounded border dark:border-white/50 px-2 py-1 text-sm focus:ring-1 focus:ring-[#3ABEFF] focus:outline-none"
                                 value={priceRange[1]}
                                 onChange={(e) => handlePriceChange(1, Number(e.target.value))}
                             />
                         </div>
 
-                        {/* Range Slider */}
                         <div className="flex flex-col">
                             <input
                                 type="range"
@@ -147,18 +143,17 @@ export default function FilterStudent({
                                 onChange={(e) => handlePriceChange(1, Number(e.target.value))}
                                 className="accent-[#3ABEFF]"
                             />
-                            <div className="mt-1 flex justify-between text-xs text-gray-500">
+                            <div className="mt-1 flex justify-between text-xs text-gray-500 dark:text-white/50">
                                 <span>{price.min}</span>
                                 <span>{price.max}</span>
                             </div>
                         </div>
                     </div>
 
-                    <hr className="my-3" />
+                    <hr className="my-3 border-gray-200 dark:border-white/50" />
 
-                    {/* Selected info & Apply button */}
                     <div className="flex items-center justify-between">
-                        <p className="text-xs text-gray-600">{selectedCount} selected</p>
+                        <p className="text-xs text-gray-600 dark:text-white/80">{selectedCount} selected</p>
                         <button
                             onClick={() => handleFilterChange({ rating: [...selectedRatings], priceMin: priceRange[0], priceMax: priceRange[1], enter: true })}
                             className="cursor-pointer rounded-full bg-[#3ABEFF] px-4 py-1.5 text-sm text-white transition hover:bg-[#3ABEFF]/90"

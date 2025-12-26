@@ -57,7 +57,7 @@ export default function ProfileTeacherForm({ detail }: any) {
     };
 
     return (
-        <div className="rounded-2xl bg-white p-6 shadow-sm md:p-8">
+        <div className="rounded-2xl border dark:border-white/20 dark:shadow-[#ffffff]/20 p-6 shadow-sm md:p-8">
             <h3 className="mb-8 text-center text-xl font-semibold text-[#3ABEFF] md:text-2xl">Teacher Information</h3>
             {detail && (
                 <form onSubmit={handleSubmit} className="space-y-4">

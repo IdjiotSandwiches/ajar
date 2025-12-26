@@ -136,7 +136,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
         <>
             <div className="flex min-h-screen flex-col gap-6">
                 {/* <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">{course ? "Course Edit" : "Course Create"}</h1> */}
-                <div className="rounded-2xl bg-white p-8 shadow-sm">
+                <div className="rounded-xl border dark:border-white/20 p-6 shadow-sm dark:shadow-white/20">
                     <Form
                         action={course ? route('institute.put-course', course?.id) : route('institute.post-course')}
                         method="post"
@@ -325,7 +325,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                             })}
                         </div>
                         <div>
-                            <h3 className="mb-3 text-sm font-medium text-gray-800">Course Skills</h3>
+                            <h3 className="mb-3 text-sm font-medium text-gray-800 dark:text-white">Course Skills</h3>
                             {courseSkills.map((row: any, index: number) => {
                                 const isLast = index === (courseSkills?.length ?? 1) - 1;
                                 const isSingle = (courseSkills?.length ?? 0) === 1;
@@ -420,13 +420,13 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                             <button
                                 type="button"
                                 onClick={handleBack}
-                                className="rounded-lg bg-black/80 px-6 py-2 font-semibold text-white transition-all hover:bg-black/70"
+                                className="rounded-lg bg-black/80 px-6 py-2 font-semibold text-white transition-all hover:bg-black/70 dark:bg-gray-700 dark:hover:bg-gray-600"
                             >
                                 Back
                             </button>
                             <button
                                 type="submit"
-                                className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white transition-all hover:bg-[#3ABEFF]/90"
+                                className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white transition-all hover:bg-[#3ABEFF]/90 "
                             >
                                 Submit
                             </button>

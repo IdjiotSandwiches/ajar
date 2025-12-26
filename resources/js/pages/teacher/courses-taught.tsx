@@ -32,7 +32,7 @@ export default function TeacherCourses({ teachings, categories }: any) {
                 Add Schedule
             </button>
             {teachings.data?.length === 0 ? (
-                <p className="py-10 text-center text-gray-500">Belum ada kursus yang diajar.</p>
+                <p className="py-10 text-center text-gray-500 dark:text-while/80">Belum ada kursus yang diajar.</p>
             ) : (
                 teachings.data.map((teaching: any, index: number) => <TeacherCourseCardWrapper key={index} course={teaching} />)
             )}

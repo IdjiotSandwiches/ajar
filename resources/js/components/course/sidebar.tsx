@@ -27,7 +27,7 @@ export default function CourseSidebar({ teacher, institute }: any) {
     return (
         <aside className="space-y-6">
             <div>
-                <h3 className="mb-2 text-sm font-semibold text-gray-700">Institution</h3>
+                <h3 className="mb-2 text-sm font-semibold text-gray-700 dark:text-white">Institution</h3>
                 <div
                     className="cursor-pointer rounded-2xl bg-[#3ABEFF] p-1 shadow-lg"
                     onClick={() => router.get(route('detail-institute', institute.id))}
@@ -37,7 +37,7 @@ export default function CourseSidebar({ teacher, institute }: any) {
                             <img
                                 src={storageUrl(institute?.profile_picture)}
                                 alt="ins"
-                                className="h-12 w-12 rounded-full border-2"
+                                className="h-12 w-12 rounded-full"
                             />
                             <span className="font-medium text-white">{institute.name}</span>
                         </div>
@@ -45,9 +45,9 @@ export default function CourseSidebar({ teacher, institute }: any) {
                 </div>
             </div>
             <div>
-                <h3 className="mb-2 text-sm font-semibold text-gray-700">Teachers</h3>
+                <h3 className="mb-2 text-sm font-semibold text-gray-700 dark:text-white">Teachers</h3>
                 {teachers.length === 0 ? (
-                    <p className="text-gray-500 text-sm">No teacher yet</p>
+                    <p className="text-gray-500 text-sm dark:text-white/70">No teacher yet</p>
                 ) : (
                     <div
                         ref={sliderRef}

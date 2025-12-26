@@ -41,11 +41,11 @@ export default function FilterTeacher({
             </div>
 
             {showFilter && (
-                <div className="absolute right-0 z-50 mt-2 w-72 rounded-xl border bg-white p-4 shadow-lg">
-                    <p className="mb-3 text-base font-semibold text-gray-800">Filter</p>
-                    <hr className="mb-4 border-gray-200" />
+                <div className="absolute right-0 z-50 mt-2 w-72 rounded-xl border bg-white dark:bg-[#222831] p-4 shadow-lg">
+                    <p className="mb-3 text-base font-semibold text-gray-800 dark:text-white/80">Filter</p>
+                    <hr className="mb-4 border-gray-200 dark:border-white/50" />
                     <div className="mb-5">
-                        <p className="mb-3 text-sm font-semibold text-gray-700">Sub Category</p>
+                        <p className="mb-3 text-sm font-semibold text-gray-700 dark:text-white/80">Sub Category</p>
                         {categories.map((category, index) => (
                             <label key={index} className="mb-1 ml-2 flex cursor-pointer items-center gap-2">
                                 <input
@@ -56,7 +56,7 @@ export default function FilterTeacher({
                                 />
                                 <span
                                     className={`flex h-4 w-4 items-center justify-center rounded border transition-all ${
-                                        selected.includes(category.id) ? 'border-[#3ABEFF] bg-[#3ABEFF]' : 'border-gray-400 bg-white'
+                                        selected.includes(category.id) ? 'border-[#3ABEFF] bg-[#3ABEFF]' : 'border-gray-400 bg-white dark:bg-gray-600'
                                     }`}
                                 >
                                     {selected.includes(category.id) && (
@@ -74,14 +74,14 @@ export default function FilterTeacher({
                                         </svg>
                                     )}
                                 </span>
-                                <span className="text-sm text-gray-700 select-none">{category.name}</span>
+                                <span className="text-sm text-gray-700 select-none dark:text-white/80">{category.name}</span>
                             </label>
                         ))}
                     </div>
 
-                    <hr className="my-3 border-gray-200" />
+                    <hr className="my-3 border-gray-200 dark:border-white/50" />
                     <div className="flex items-center justify-between">
-                        <p className="text-xs text-gray-600">{selected.length} selected</p>
+                        <p className="text-xs text-gray-600 dark:text-white/80">{selected.length} selected</p>
                         <button
                             onClick={() => handleFilterChange({ sub: [...selected], enter: true })}
                             className="cursor-pointer rounded-full bg-[#3ABEFF] px-4 py-1.5 text-sm text-white transition hover:bg-[#3ABEFF]/90"

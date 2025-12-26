@@ -7,7 +7,7 @@ export default function ProfilePage({ profile }: any) {
     const [activeSection, setActiveSection] = useState('Personal Information');
     return (
         <>
-            <div className="flex flex-col gap-8 md:flex-row">
+            <div className="flex flex-col gap-8 lg:flex-row">
                 <ProfileSidebar activeSection={activeSection} onSectionChange={setActiveSection} profile={profile?.user} />
                 <main className="w-full flex-1">{activeSection === 'Personal Information' && <ProfilePersonalForm profile={profile} />}</main>
             </div>

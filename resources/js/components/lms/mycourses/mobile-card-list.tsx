@@ -13,23 +13,20 @@ interface MobileCourseCardProps {
 
 const MobileCourseCard: React.FC<MobileCourseCardProps> = ({ image, title, duration, price, onEdit, onDelete }) => {
     return (
-        <div className="mb-5 flex flex-col gap-4 overflow-hidden rounded-xl border border-[#3ABEFF]/50 bg-white p-4 shadow-sm transition hover:shadow-md md:flex-row">
-            <img
-                src={storageUrl(image)}
-                alt={title}
-                className="h-40 w-full rounded-lg border border-gray-200 object-cover md:h-32 md:w-32"
-            />
+        <div className="mb-5 flex flex-col gap-4 overflow-hidden rounded-xl border p-4 shadow-sm transition hover:border-[#3ABEFF]/50 hover:shadow-md md:flex-row dark:border-white/20 dark:shadow-white/20">
+            <img src={storageUrl(image)} alt={title} className="h-40 w-full rounded-lg border object-cover md:h-32 md:w-32 dark:border-white/20" />
 
             <div className="flex flex-col gap-3">
-                <h3 className="text-base font-semibold text-gray-800">{title}</h3>
+                <h3 className="text-base font-semibold text-gray-800 dark:text-white">{title}</h3>
 
-                <div className="space-y-1 text-sm text-gray-700">
+                <div className="space-y-1 text-sm text-gray-700 dark:text-white/90">
                     <p>
-                        <span className="font-medium text-gray-600">Duration:</span> <span className="font-medium">{duration} mins</span>
+                        <span className="font-medium text-gray-600 dark:text-white/80">Duration:</span>{' '}
+                        <span className="font-medium">{duration} mins</span>
                     </p>
 
                     <p>
-                        <span className="font-medium text-gray-600">Price:</span>{' '}
+                        <span className="font-medium text-gray-600 dark:text-white/80">Price:</span>{' '}
                         <span className="font-medium">
                             Rp
                             {Number(price).toLocaleString('id-ID', {

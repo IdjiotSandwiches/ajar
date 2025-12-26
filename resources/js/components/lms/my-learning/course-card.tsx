@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { storageUrl } from "@/utils/storage";
+import { storageUrl } from '@/utils/storage';
 
 export default function CourseCard({
     title,
@@ -34,21 +34,21 @@ export default function CourseCard({
     };
 
     return (
-        <div className="flex flex-col gap-4 rounded-xl border bg-white p-3 shadow-sm hover:border-[#3ABEFF]/70 sm:flex-row">
+        <div className="flex flex-col gap-4 rounded-xl border p-3 shadow-sm hover:border-[#3ABEFF]/70 sm:flex-row dark:border-white/20 dark:shadow-[#ffffff]/20 dark:hover:border-[#3ABEFF]/70">
             <img src={storageUrl(image)} className="h-36 w-full rounded-md object-cover sm:h-32 sm:w-32" alt={title} />
             <div className="flex flex-grow flex-col justify-between">
                 <div>
-                    <h3 className="mb-2 line-clamp-2 text-sm font-semibold text-gray-800">{title}</h3>
+                    <h3 className="mb-2 line-clamp-2 text-sm font-semibold text-gray-800 dark:text-white">{title}</h3>
 
-                    <p className="mb-1 line-clamp-1 text-xs text-gray-600">
+                    <p className="mb-1 line-clamp-1 text-xs text-gray-600 dark:text-white/80">
                         {mentor} | {institute}
                     </p>
 
-                    <p className="mb-1 text-xs text-gray-500">{duration}</p>
+                    <p className="mb-1 text-xs text-gray-500 dark:text-white/70">{duration}</p>
 
-                    <p className="mb-2 text-xs text-gray-600">
+                    <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
                         {isApproved ? 'Finish at ' : 'Start at '}
-                        <span className="font-medium text-black">
+                        <span className="font-medium text-black dark:text-white">
                             {formattedDate} {time}
                         </span>
                     </p>

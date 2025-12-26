@@ -21,17 +21,17 @@ export default function HeroSection() {
     };
 
     return (
-        <section className="flex cursor-default flex-col items-center justify-between gap-12 bg-white px-6 py-14 md:flex-row md:px-12 lg:px-20">
+        <section className="flex cursor-default flex-col items-center justify-between gap-12 bg-white dark:bg-[#222831] px-4 sm:px-6 md:px-12 py-14 md:flex-row">
             <div className="space-y-6 md:w-1/2">
-                <h1 className="text-3xl leading-snug font-bold text-[#42C2FF] md:text-4xl">
+                <h1 className="text-3xl font-bold text-[#3ABEFF] md:text-4xl">
                     Learning, Teaching <br /> Technology and Design
                 </h1>
 
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-white">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita ullam aperiam illo quis architecto debitis, velit suscipit! Laboriosam, minus eligendi.
                 </p>
 
-                <div className="flex w-full max-w-md overflow-hidden rounded-lg bg-[#42C2FF]/50 shadow-sm">
+                <div className="flex max-w-md overflow-hidden rounded-lg bg-[#3ABEFF]/50 shadow-sm">
                     <input
                         ref={inputRef}
                         type="text"
@@ -44,7 +44,7 @@ export default function HeroSection() {
                     />
                     <button
                         onClick={() => handleFilterChange({ enter: true })}
-                        className="cursor-pointer bg-[#42C2FF] px-6 py-2 font-medium text-white hover:bg-[#42C2FF]/90"
+                        className="cursor-pointer bg-[#3ABEFF] px-6 py-2 font-medium text-white hover:bg-[#3ABEFF]/90"
                     >
                         Search
                     </button>
@@ -55,7 +55,7 @@ export default function HeroSection() {
                 <img
                     src="/images/hero-img.png"
                     alt="Hero"
-                    className="h-80 w-80 rounded-full object-cover md:h-100 md:w-100"
+                    className="h-64 w-64 lg:h-80 lg:w-80 rounded-full object-cover"
                     draggable="false"
                 />
             </div>

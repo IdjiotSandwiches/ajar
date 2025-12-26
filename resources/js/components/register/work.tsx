@@ -20,7 +20,7 @@ export default function WorkForm({ form }: any) {
 
     return (
         <div className="w-full">
-            <h3 className="mb-5 font-medium text-gray-800">Work Experience</h3>
+            <h3 className="mb-2 font-medium text-gray-800 dark:text-white">Work Experience</h3>
             {(form.data.works as WorkProps[])?.map((g, idx) => {
                 return (
                     <div key={g.id} className="relative flex items-center gap-4">

@@ -57,8 +57,8 @@ const DynamicModal: React.FC<DynamicModalProps> = ({
   const finalCancelText = cancelText || modalStyles[type].cancelText;
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-[#3ABEFF]/40 backdrop-blur-sm z-99">
-      <div className="bg-white w-[380px] rounded-2xl shadow-2xl p-6 relative text-center animate-fadeIn mx-4">
+    <div className="fixed inset-0 flex justify-center items-center bg-[#3ABEFF]/40 dark:bg-gray-700/40 backdrop-blur-sm z-99">
+      <div className="bg-white dark:bg-[#222831] w-[380px] rounded-2xl shadow-2xl p-6 relative text-center animate-fadeIn mx-4 border dark:border-white/20 dark:shadow-white/20">
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-400 hover:text-[#3ABEFF]"
@@ -75,13 +75,13 @@ const DynamicModal: React.FC<DynamicModalProps> = ({
         </div>
 
         <h2 className="text-lg font-semibold mb-1">{finalTitle}</h2>
-        {description && <p className="text-sm text-gray-500 mb-5">{description}</p>}
+        {description && <p className="text-sm text-gray-500 dark:text-white/70 mb-5">{description}</p>}
 
         <div className="flex justify-center gap-3">
           {finalCancelText && (
             <button
               onClick={onClose}
-              className="px-8 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 text-sm font-medium"
+              className="px-8 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium"
             >
               {finalCancelText}
             </button>

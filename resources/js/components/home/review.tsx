@@ -39,17 +39,19 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
     const showArrows = total > 1;
 
     return (
-        <section className="max-w-8xl mx-auto overflow-hidden bg-[#F7FDFD] px-4 py-8 sm:px-6 md:px-12 md:py-16">
-            <h2 className="mb-4 font-semibold text-gray-800 sm:text-lg md:mb-8 md:text-xl">Reviews from Students and Teachers</h2>
+        <section className="max-w-8xl mx-auto overflow-hidden px-4 py-8 sm:px-6 md:px-12 md:py-16">
+            <h2 className="mb-4 text-base font-semibold sm:text-lg md:mb-8 md:text-xl">Reviews from Students and Teachers</h2>
 
             {total === 0 ? (
-                <p className="py-10 text-sm text-gray-500">No review available.</p>
+                <p className="py-10 text-sm text-gray-500 dark:text-white/80">No review available.</p>
             ) : (
                 <div className="flex flex-col items-center gap-10 md:grid md:grid-cols-7">
                     <div className="hidden justify-center md:col-span-2 md:flex">
-                        <div className="w-full max-w-[320px] min-w-[260px] rounded-2xl bg-white p-6 shadow-md">
+                        <div className="w-full max-w-[320px] min-w-[260px] rounded-2xl bg-white p-6 shadow-md dark:bg-[#222831] dark:shadow-[#ffffff]/20">
                             <img src="/images/review.jpg" className="mb-4 h-52 w-full rounded-xl object-cover" />
-                            <p className="text-center text-sm text-gray-600">“Your success story starts with learning and sharing knowledge.”</p>
+                            <p className="text-center text-sm text-gray-600 dark:text-white/80">
+                                “Your success story starts with learning and sharing knowledge.”
+                            </p>
                         </div>
                     </div>
 
@@ -59,20 +61,34 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
                                 <button
                                     onClick={goLeft}
                                     disabled={currentIndex <= 0}
-                                    className="absolute top-1/2 left-0 z-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white p-2 shadow-md transition hover:bg-blue-50 disabled:opacity-40"
+                                    className="absolute top-1/2 left-0 z-20 -translate-x-1/3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md transition hover:bg-gray-100 disabled:opacity-40 dark:bg-[#222831] dark:shadow-[#ffffff]/20 dark:hover:bg-gray-700"
                                 >
-                                    <ChevronLeft className="h-5 w-5 text-[#42C2FF]" />
+                                    <ChevronLeft className="h-5 w-5 text-[#3ABEFF]" />
                                 </button>
 
                                 <button
                                     onClick={goRight}
                                     disabled={currentIndex >= maxIndex}
-                                    className="absolute top-1/2 right-0 z-20 translate-x-1/2 -translate-y-1/2 rounded-full bg-white p-2 shadow-md transition hover:bg-blue-50 disabled:opacity-40"
+                                    className="absolute top-1/2 right-0 z-20 translate-x-1/3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md transition hover:bg-gray-100 disabled:opacity-40 dark:bg-[#222831] dark:shadow-[#ffffff]/20 dark:hover:bg-gray-700"
                                 >
-                                    <ChevronRight className="h-5 w-5 text-[#42C2FF]" />
+                                    <ChevronRight className="h-5 w-5 text-[#3ABEFF]" />
                                 </button>
                             </>
                         )}
+
+                        <div className="w-full overflow-hidden">
+                            <div ref={containerRef} className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth">
+                                {reviews.map((review) => (
+                                    <div
+                                        key={review.id}
+                                        data-card
+                                        className={`w-full flex-shrink-0 snap-start sm:w-[90%] md:w-[80%] ${perPage === 2 ? 'lg:w-[50%]' : 'lg:w-full'}`}
+                                    >
+                                        <ReviewCard review={review} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
 
                         <div className="w-full overflow-hidden">
                             <div ref={containerRef} className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth">

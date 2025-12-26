@@ -35,18 +35,20 @@ export default function TeacherList({ teachers }: any) {
         });
     };
 
+    const hasTeachers = teachers?.data && teachers.data.length > 0;
+
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
                 <Filter schema={manageTeachersFilter} onChange={onFilterChange} />
 
-                <div className="mx-auto w-full rounded-2xl bg-white/80 p-4 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
+                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20 backdrop-blur-sm">
                     <div className="mb-6">
                         <h3 className="text-xl font-semibold">Teachers</h3>
                     </div>
-                    <div className="hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 lg:block">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#3ABEFF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10 dark:text-white">
                                 <tr>
                                     <th className="p-3 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Full Name</th>
@@ -57,22 +59,34 @@ export default function TeacherList({ teachers }: any) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {teachers.data.map((teacher: any, index: number) => (
+                                {!hasTeachers && (
+                                    <tr>
+                                        <td
+                                            colSpan={6}
+                                            className="p-6 text-center justify-center text-sm text-gray-500 dark:text-white/70"
+                                        >
+                                            No teachers available.
+                                        </td>
+                                    </tr>
+                                )}
+                                {hasTeachers && teachers.data.map((teacher: any, index: number) => (
                                     <tr
                                         key={index}
-                                        className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#f9fcff]' : 'bg-white'} `}
+                                        className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0
+                                            ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
+                                            : 'bg-white dark:bg-[#222831]'}`}
                                     >
-                                        <td className="p-3 text-center">{teachers.from + index}</td>
-                                        <td className="p-3 font-semibold">{teacher.name}</td>
-                                        <td className="p-3 text-center font-semibold">{teacher.course_taught}</td>
+                                        <td className="p-3 text-center dark:text-white">{teachers.from + index}</td>
+                                        <td className="p-3 font-semibold dark:text-white">{teacher.name}</td>
+                                        <td className="p-3 text-center font-semibold dark:text-white">{teacher.course_taught}</td>
                                         <td className="p-3 text-center">
                                             <div className="flex items-center justify-center gap-1">
                                                 <Star size={14} className="fill-yellow-400 text-yellow-400" />
-                                                <span className="font-semibold">{teacher.review_rating.toFixed(1)}</span>
-                                                <span className="text-gray-500">/ 5 ({teacher.review_count})</span>
+                                                <span className="font-semibold dark:text-white">{teacher.review_rating.toFixed(1)}</span>
+                                                <span className="text-gray-500 dark:text-white/70">/ 5 ({teacher.review_count})</span>
                                             </div>
                                         </td>
-                                        <td className="p-3 text-sm text-gray-600 text-center">
+                                        <td className="p-3 text-sm text-gray-600 text-center dark:text-white/80">
                                             {new Date(teacher.registered_at).toLocaleDateString('id-ID', {
                                                 day: '2-digit',
                                                 month: 'long',
@@ -94,8 +108,18 @@ export default function TeacherList({ teachers }: any) {
                         </table>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 md:hidden">
-                        {teachers.data.map((teacher: any, index: number) => (
+                    <div className="grid grid-cols-1 gap-4 lg:hidden">
+                        {!hasTeachers && (
+                            <tr>
+                                <td
+                                    colSpan={6}
+                                    className="flex p-6 text-center justify-center text-sm text-gray-500 dark:text-white/70"
+                                >
+                                    No teachers available.
+                                </td>
+                            </tr>
+                        )}
+                        {hasTeachers && teachers.data.map((teacher: any, index: number) => (
                             <MobileTeacherCard
                                 key={index}
                                 avatar={teacher.profile_picture}

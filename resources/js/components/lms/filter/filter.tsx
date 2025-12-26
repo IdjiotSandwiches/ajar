@@ -28,7 +28,7 @@ export default function Filter({ schema, onChange }: Props) {
 
     const renderField = (field: FilterFieldConfig) => {
         const baseClass =
-            'w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 ' +
+            'w-full rounded-lg border dark:border-white/20 px-3 py-2 text-sm text-gray-700 dark:text-white ' +
             'transition focus:border-[#3ABEFF] focus:outline-none focus:ring-2 focus:ring-[#3ABEFF]/30';
 
         switch (field.type) {
@@ -89,11 +89,11 @@ export default function Filter({ schema, onChange }: Props) {
     }, [filters]);
 
     return (
-        <div className="rounded-2xl bg-white/90 p-4 shadow-sm backdrop-blur-sm sm:p-6">
+        <div className="rounded-2xl bg-white/90 dark:bg-[#222831]/90 p-4 lg:p-8 border dark:border-white/20 shadow-sm dark:shadow-[#ffffff]/20 backdrop-blur-sm">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {schema.map((field) => (
                     <div key={field.key} className="flex flex-col gap-1.5">
-                        <label className="text-sm font-medium text-gray-700">{field.label}</label>
+                        <label className="text-sm font-medium text-gray-700 dark:text-white/80">{field.label}</label>
                         {renderField(field)}
                     </div>
                 ))}

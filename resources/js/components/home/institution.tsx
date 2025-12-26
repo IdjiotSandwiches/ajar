@@ -26,7 +26,7 @@ export default function InstitutionSection({ institutes }: any) {
                             />
                         </div>
 
-                        <p className="mt-2 line-clamp-2 text-center text-xs text-gray-600 sm:mt-3 sm:text-sm">{institute?.user?.name}</p>
+                        <p className="mt-2 line-clamp-2 text-center text-xs font-medium text-gray-600 dark:text-white sm:mt-3 sm:text-sm">{institute?.user?.name}</p>
                     </div>
                 ))}
             </div>
