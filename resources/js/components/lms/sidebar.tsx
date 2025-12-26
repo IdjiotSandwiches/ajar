@@ -1,3 +1,4 @@
+import { storageUrl } from '@/utils/storage';
 import { router, usePage } from '@inertiajs/react';
 import { BookA, BookCheck, Calendar, ChevronDown, ChevronLeft, ChevronRight, LogOut, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
@@ -264,7 +265,7 @@ export default function Sidebar({ collapsed, mobileOpen, onClose, onToggleCollap
 
                 <div className={`flex items-center gap-3 mx-4 py-4 ${collapsed ? 'justify-center' : ''} border-t`}>
                     <img
-                        src={user?.profile_picture || 'https://placehold.co/40'}
+                        src={storageUrl(user?.profile_picture)}
                         alt="profile"
                         className="h-10 w-10 rounded-full object-cover"
                     />

@@ -1,10 +1,6 @@
-import { Card, CardContent } from '@/components/ui/card'
-import React from 'react'
-
-
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function Greeting() {
-
     const getGreeting = () => {
         const hour = new Date().getHours();
 
@@ -26,5 +22,5 @@ export default function Greeting() {
                 <img src="https://illustrations.popsy.co/blue/student.svg" className="w-40" />
             </CardContent>
         </Card>
-    )
+    );
 }

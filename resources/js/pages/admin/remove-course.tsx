@@ -2,6 +2,7 @@ import { removeCourseFilter } from '@/components/lms/filter/dictionary/remove-co
 import Filter from '@/components/lms/filter/filter';
 import DynamicModal from '@/components/modal/modal';
 import LMSLayout from '@/layouts/lms-layout';
+import { storageUrl } from '@/utils/storage';
 import { Head } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
@@ -78,7 +79,7 @@ export default function RemoveCoursePage() {
                             >
                                 <div className="mb-3 flex items-center gap-3">
                                     <img
-                                        src={course.image}
+                                        src={storageUrl(course.image)}
                                         alt={course.name}
                                         className="h-14 w-14 rounded-lg border object-cover"
                                     />
@@ -171,7 +172,7 @@ export default function RemoveCoursePage() {
                                         <td className="p-3">
                                             <div className="flex items-center gap-3">
                                                 <img
-                                                    src={course.image}
+                                                    src={storageUrl(course.image)}
                                                     alt={course.name}
                                                     className="h-12 w-12 rounded-md border object-cover"
                                                 />

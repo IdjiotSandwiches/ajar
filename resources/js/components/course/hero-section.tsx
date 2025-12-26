@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa6';
 import DynamicModal from '../modal/modal';
+import { storageUrl } from '@/utils/storage';
 
-export default function CourseHero({ course, teaching, canApply }: any) {
+export default function CourseHero({ course, teaching, canApply, hasSchedule }: any) {
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
@@ -64,12 +65,18 @@ export default function CourseHero({ course, teaching, canApply }: any) {
                         </div>
                         <div className="mt-4 flex flex-wrap items-center gap-6">
                             {(user?.role_id === roles.Student || !user) && (
-                                <button
-                                    onClick={() => router.get(route('payment-register', course.id))}
-                                    className="cursor-pointer rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
-                                >
-                                    Register Now
-                                </button>
+                                hasSchedule ? (
+                                    <button
+                                        onClick={() => router.get(route('payment-register', { course: course.id }))}
+                                        className="cursor-pointer rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
+                                    >
+                                        Register Now
+                                    </button>
+                                ) : (
+                                    <div className="rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]">
+                                        No Schedules
+                                    </div>
+                                )
                             )}
                             {(user?.role_id === roles.Teacher && canApply) &&
                                 (!teaching?.is_verified ? (
@@ -124,7 +131,7 @@ export default function CourseHero({ course, teaching, canApply }: any) {
 
                     <div className="flex justify-center lg:col-span-1">
                         <img
-                            src={course?.image || 'https://placehold.co/400'}
+                            src={storageUrl(course?.image)}
                             alt={course.name}
                             className="max-h-[320px] w-full max-w-[480px] rounded-xl object-cover shadow-sm ring-1 ring-gray-200"
                         />

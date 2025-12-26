@@ -1,3 +1,4 @@
+import { storageUrl } from '@/utils/storage';
 import { router, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { X } from 'react-feather';
@@ -33,7 +34,7 @@ export default function TeacherSelectModal({ isOpen, onClose, onSelect }: any) {
                         <p className="mb-6 text-center text-sm text-gray-500">Select your preferred teacher</p>
                         <div className="flex max-h-[50vh] flex-col gap-3 overflow-y-auto pr-1">
                             {teachers?.data.length === 0 ? (
-                                <p className="py-4 text-center text-gray-500 text-sm">No teachers found</p>
+                                <p className="py-4 text-center text-sm text-gray-500">No teachers found</p>
                             ) : (
                                 teachers?.data.map((user: any, index: number) => {
                                     const teacher = user?.user;
@@ -51,7 +52,7 @@ export default function TeacherSelectModal({ isOpen, onClose, onSelect }: any) {
                                                 <div className="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
                                                     {teacher.image ? (
                                                         <img
-                                                            src={teacher?.profile_picture || 'https://placehold.co/400'}
+                                                            src={storageUrl(teacher?.profile_picture)}
                                                             alt={teacher.name}
                                                             className="h-full w-full object-cover"
                                                         />

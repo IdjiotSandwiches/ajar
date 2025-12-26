@@ -1,3 +1,4 @@
+import { storageUrl } from '@/utils/storage';
 import { router, usePage } from '@inertiajs/react';
 import { Bell, Book, GraduationCap, Home } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
@@ -57,7 +58,7 @@ export default function Navbar() {
                         <span className="hidden font-medium text-[#3ABEFF] md:inline">Hello, {user?.name ?? 'Guest'}</span>
                         <div className="relative" ref={dropdownRef}>
                             <img
-                                src={user?.profile_picture || 'https://placehold.co/400'}
+                                src={storageUrl(user?.profile_picture)}
                                 alt="Avatar"
                                 className="h-10 w-10 cursor-pointer rounded-full border object-cover"
                                 onClick={() => setDropdownOpen(!dropdownOpen)}

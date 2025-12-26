@@ -1,6 +1,7 @@
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
+import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import React, { useState } from 'react';
@@ -37,7 +38,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                         onClick={() => router.get(route('detail-teacher', app?.teacher_id))}
                                     >
                                         <img
-                                            src={teacher?.profile_picture || 'https://placehold.co/400'}
+                                            src={storageUrl(teacher?.profile_picture)}
                                             alt={teacher?.name}
                                             className="h-12 w-12 rounded-full border border-gray-300 object-cover"
                                         />
@@ -99,7 +100,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                                     onClick={() => router.get(route('detail-teacher', app?.teacher_id))}
                                                 >
                                                     <img
-                                                        src={teacher?.profile_picture || 'https://placehold.co/400'}
+                                                        src={storageUrl(teacher?.profile_picture)}
                                                         alt={teacher?.name}
                                                         className="h-16 w-16 rounded-full border border-gray-300 object-cover"
                                                     />

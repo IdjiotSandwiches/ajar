@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CourseStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,7 +28,7 @@ class CourseSchedule extends Model
     ];
 
     protected $casts = [
-        'status' => StatusEnum::class,
+        'status' => CourseStatusEnum::class,
     ];
 
     public function course()
@@ -38,5 +39,10 @@ class CourseSchedule extends Model
     public function teacher()
     {
         return $this->belongsTo(Teacher::class, 'teacher_id', 'user_id');
+    }
+
+    public function enrolledCourses()
+    {
+        return $this->hasMany(EnrolledCourse::class);
     }
 }

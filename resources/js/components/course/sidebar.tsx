@@ -1,6 +1,7 @@
 import { router } from '@inertiajs/react';
 import { useEffect, useRef } from 'react';
 import TeacherProfileCard from '../teacher/card';
+import { storageUrl } from '@/utils/storage';
 
 export default function CourseSidebar({ teacher, institute }: any) {
     const sliderRef = useRef<HTMLDivElement | null>(null);
@@ -34,7 +35,7 @@ export default function CourseSidebar({ teacher, institute }: any) {
                     <div className="rounded-2xl bg-white p-0.5">
                         <div className="relative flex items-center gap-4 overflow-hidden rounded-2xl bg-[#3ABEFF] p-2 text-center">
                             <img
-                                src={institute?.profile_picture || 'https://placehold.co/400'}
+                                src={storageUrl(institute?.profile_picture)}
                                 alt="ins"
                                 className="h-12 w-12 rounded-full border-2"
                             />

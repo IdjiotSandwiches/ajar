@@ -30,7 +30,20 @@ class InstituteService
         if ($detail != null) {
             $courses = $detail->courses()
                 ->with(['teachingCourses.teacher.user', 'institute.user'])
-                ->paginate(10);
+                ->paginate(10)
+                ->through(fn($item) => [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                    'institute' => $item->institute->user->name,
+                    'duration' => $item->duration,
+                    'teacher_salary' => $item->teacher_salary,
+                    'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
+                    'course_reviews_count' => $item->course_reviews_count,
+                    'image' => $item->image,
+                    'price' => $item->price,
+                    'discount' => $item->discount
+                ]);
         }
 
         return [

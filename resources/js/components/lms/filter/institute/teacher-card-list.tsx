@@ -1,3 +1,4 @@
+import { storageUrl } from '@/utils/storage';
 import { Star, Trash2 } from 'lucide-react';
 import React from 'react';
 
@@ -11,19 +12,11 @@ interface MobileTeacherCardProps {
     onDelete: () => void;
 }
 
-const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({
-    avatar,
-    fullName,
-    coursesCount,
-    rating,
-    totalReviews,
-    registerDate,
-    onDelete,
-}) => {
+const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({ avatar, fullName, coursesCount, rating, totalReviews, registerDate, onDelete }) => {
     return (
         <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
             <div className="flex items-center gap-4">
-                <img src={avatar || 'https://placehold.co/80'} alt={fullName} className="h-16 w-16 rounded-full object-cover" />
+                <img src={storageUrl(avatar)} alt={fullName} className="h-16 w-16 rounded-full object-cover" />
 
                 <div className="flex-1">
                     <p className="font-semibold text-gray-800">{fullName}</p>

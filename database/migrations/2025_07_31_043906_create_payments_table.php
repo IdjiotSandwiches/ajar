@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('method');
-            $table->decimal('nominal');
-            $table->string('status');
-            $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('enrolled_course_id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('unique_id');
+            $table->string('snap_token')->nullable();
+            $table->integer('amount');
+            $table->enum('status', ['pending', 'paid', 'expired'])->default('pending');
             $table->timestamps();
 
-            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('enrolled_course_id')->references('id')->on('enrolled_courses')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

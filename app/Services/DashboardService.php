@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Enums\RoleEnum;
-use App\Enums\StatusEnum;
+use App\Enums\CourseStatusEnum;
 use App\Enums\ReminderEnum;
 use App\Models\CourseSchedule;
 use App\Models\EnrolledCourse;
@@ -12,70 +12,24 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardService
 {
+    private $isToday = true;
+
     public function getTodayCourses()
     {
         $user = Auth::user();
         switch ($user->role_id) {
             case RoleEnum::Admin:
+                $courses = $this->getAdminCourses($this->isToday);
                 break;
             case RoleEnum::Institute:
-                $courses = CourseSchedule::with(['teacher.user'])
-                    ->where('teacher_id', $user->id)
-                    ->where('start_time', '>', Carbon::now('Asia/Jakarta'))
-                    ->paginate(5)
-                    ->through(function ($item) {
-                        $course = $item->course;
-                        $teacher = $item->teacher;
-                        return [
-                            'name' => $course->name,
-                            'start_time' => $item->start_time,
-                            'end_time' => $item->end_time,
-                            'teacher' => $teacher->user->name,
-                            'meeting_link' => $item->meeting_link
-                        ];
-                    });
+                $courses = $this->getInstituteCourses($this->isToday, $user->id);
                 break;
-            case RoleEnum::Teacher: {
-                $courses = CourseSchedule::with(['teacher.user'])
-                    ->where('teacher_id', $user->id)
-                    ->whereToday('start_time')
-                    ->where('start_time', '>', Carbon::now('Asia/Jakarta'))
-                    ->paginate(5)
-                    ->through(function ($item) {
-                        $course = $item->course;
-                        $teacher = $item->teacher;
-                        return [
-                            'name' => $course->name,
-                            'start_time' => $item->start_time,
-                            'end_time' => $item->end_time,
-                            'teacher' => $teacher->user->name,
-                            'meeting_link' => $item->meeting_link
-                        ];
-                    });
+            case RoleEnum::Teacher:
+                $courses = $this->getTeacherCourses($this->isToday, $user->id);
                 break;
-            }
-            case RoleEnum::Student: {
-                $courses = EnrolledCourse::with(['courseSchedule.course', 'courseSchedule.teacher.user'])
-                    ->where('student_id', $user->id)
-                    ->whereHas('courseSchedule', function ($query) {
-                        $query->whereToday('start_time')
-                            ->where('start_time', '>', Carbon::now('Asia/Jakarta'));
-                    })
-                    ->paginate(5)
-                    ->through(function ($item) {
-                        $schedule = $item->courseSchedule->teacherSchedule;
-                        $course = $schedule->course;
-                        $teacher = $schedule->teacher;
-                        return [
-                            'name' => $course->name,
-                            'start_time' => $schedule->start_time,
-                            'end_time' => $schedule->end_time,
-                            'teacher' => $teacher->user->name,
-                            'meeting_link' => $item->courseSchedule->meeting_link
-                        ];
-                    });
+            case RoleEnum::Student:
+                $courses = $this->getStudentCourses($this->isToday, $user->id);
                 break;
-            }
             default:
                 break;
         }
@@ -88,60 +42,17 @@ class DashboardService
         $user = Auth::user();
         switch ($user->role_id) {
             case RoleEnum::Admin:
+                $courses = $this->getAdminCourses(!$this->isToday);
                 break;
             case RoleEnum::Institute:
-                $courses = CourseSchedule::with(['teacher.user'])
-                    ->where('teacher_id', $user->id)
-                    ->whereAfterToday('start_time')
-                    ->paginate(5)
-                    ->through(function ($item) {
-                        $course = $item->course;
-                        $teacher = $item->teacher;
-                        return [
-                            'name' => $course->name,
-                            'start_time' => $item->start_time,
-                            'end_time' => $item->end_time,
-                            'teacher' => $teacher->user->name
-                        ];
-                    });
+                $courses = $this->getInstituteCourses(!$this->isToday, $user->id);
                 break;
-            case RoleEnum::Teacher: {
-                $courses = CourseSchedule::with(['teacher.user'])
-                    ->where('teacher_id', $user->id)
-                    ->whereAfterToday('start_time')
-                    ->paginate(5)
-                    ->through(function ($item) {
-                        $course = $item->course;
-                        $teacher = $item->teacher;
-                        return [
-                            'name' => $course->name,
-                            'start_time' => $item->start_time,
-                            'end_time' => $item->end_time,
-                            'teacher' => $teacher->user->name
-                        ];
-                    });
+            case RoleEnum::Teacher:
+                $courses = $this->getTeacherCourses(!$this->isToday, $user->id);
                 break;
-            }
-            case RoleEnum::Student: {
-                $courses = EnrolledCourse::with(['courseSchedule.course', 'courseSchedule.teacher.user'])
-                    ->where('student_id', $user->id)
-                    ->whereHas('courseSchedule', function ($query) {
-                        $query->whereAfterToday('start_time');
-                    })
-                    ->paginate(5)
-                    ->through(function ($item) {
-                        $schedule = $item->courseSchedule->teacherSchedule;
-                        $course = $schedule->course;
-                        $teacher = $schedule->teacher;
-                        return [
-                            'name' => $course->name,
-                            'start_time' => $schedule->start_time,
-                            'end_time' => $schedule->end_time,
-                            'teacher' => $teacher->user->name
-                        ];
-                    });
+            case RoleEnum::Student:
+                $courses = $this->getStudentCourses(!$this->isToday, $user->id);
                 break;
-            }
             default:
                 break;
         }
@@ -168,7 +79,7 @@ class DashboardService
                     ->whereNull('meeting_link')
                     ->exists();
                 $complete = (clone $query)
-                    ->where('status', StatusEnum::Completed)
+                    ->where('status', CourseStatusEnum::Completed)
                     ->where('end_time', '>', $now)
                     ->exists();
 
@@ -214,5 +125,101 @@ class DashboardService
         }
 
         return $reminder;
+    }
+
+    private function getStudentCourses($isToday, $userId)
+    {
+        $courses = EnrolledCourse::with(['courseSchedule.course', 'courseSchedule.teacher.user'])
+            ->where('student_id', $userId)
+            ->where('is_verified', true)
+            ->whereHas('courseSchedule', function ($query) use ($isToday) {
+                $query->when(
+                    $isToday,
+                    fn($q) => $q->whereToday('start_time')
+                        ->where('start_time', '>', Carbon::now('Asia/Jakarta'))
+                );
+                $query->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'));
+            })
+            ->paginate(5)
+            ->through(function ($item) {
+                $schedule = $item->courseSchedule;
+                $course = $schedule->course;
+                $teacher = $schedule->teacher;
+                return [
+                    'name' => $course->name,
+                    'start_time' => $schedule->start_time,
+                    'end_time' => $schedule->end_time,
+                    'teacher' => $teacher->user->name,
+                    'meeting_link' => $item->courseSchedule->meeting_link
+                ];
+            });
+
+        return $courses;
+    }
+
+    private function getTeacherCourses($isToday, $userId)
+    {
+        $courses = CourseSchedule::with(['teacher.user'])
+            ->where('teacher_id', $userId)
+            ->when($isToday, fn($q) => $q->whereToday('start_time'))
+            ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'))
+            ->where('start_time', '>', Carbon::now('Asia/Jakarta'))
+            ->paginate(5)
+            ->through(function ($item) {
+                $course = $item->course;
+                $teacher = $item->teacher;
+                return [
+                    'name' => $course->name,
+                    'start_time' => $item->start_time,
+                    'end_time' => $item->end_time,
+                    'teacher' => $teacher->user->name,
+                    'meeting_link' => $item->meeting_link
+                ];
+            });
+
+        return $courses;
+    }
+
+    private function getInstituteCourses($isToday, $userId)
+    {
+        $courses = CourseSchedule::with(['teacher.user', 'course'])
+            ->whereHas('course', fn($q) => $q->where('institute_id', $userId))
+            ->when($isToday, fn($q) => $q->whereToday('start_time'))
+            ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'))
+            ->paginate(5)
+            ->through(function ($item) {
+                $course = $item->course;
+                $teacher = $item->teacher;
+                return [
+                    'name' => $course->name,
+                    'start_time' => $item->start_time,
+                    'end_time' => $item->end_time,
+                    'teacher' => $teacher->user->name,
+                    'meeting_link' => $item->meeting_link
+                ];
+            });
+
+        return $courses;
+    }
+
+    private function getAdminCourses($isToday)
+    {
+        $courses = CourseSchedule::with(['teacher.user'])
+            ->when($isToday, fn($q) => $q->whereToday('start_time'))
+            ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'))
+            ->paginate(5)
+            ->through(function ($item) {
+                $course = $item->course;
+                $teacher = $item->teacher;
+                return [
+                    'name' => $course->name,
+                    'start_time' => $item->start_time,
+                    'end_time' => $item->end_time,
+                    'teacher' => $teacher->user->name,
+                    'meeting_link' => $item->meeting_link
+                ];
+            });
+
+        return $courses;
     }
 }

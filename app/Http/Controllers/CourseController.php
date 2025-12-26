@@ -8,7 +8,6 @@ use App\Http\Requests\CourseRequest;
 use App\Http\Requests\FilterRequest;
 use App\Services\CourseService;
 use App\Utilities\Utility;
-use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
 
 class CourseController extends Controller
@@ -48,12 +47,13 @@ class CourseController extends Controller
 
     public function getCourseDetail($id)
     {
-        [$course, $popularCourses, $teaching, $canApply] = $this->service->getCourseDetail($id);
+        [$course, $popularCourses, $teaching, $canApply, $hasSchedule] = $this->service->getCourseDetail($id);
         return Inertia::render('courses/detail', [
             'course' => $course,
             'popularCourses' => $popularCourses,
             'teaching' => $teaching,
-            'canApply' => $canApply
+            'canApply' => $canApply,
+            'hasSchedule' => $hasSchedule
         ]);
     }
 
@@ -108,16 +108,5 @@ class CourseController extends Controller
             return back()->with('success', 'Course deleted!');
         else
             return back()->with('error', 'Course not found!');
-    }
-
-    public function enrollCourse($id)
-    {
-        $isNotEnrolled = $this->service->enrollCourse($id);
-        $url = strtok(URL::previous(), '?');
-
-        if (!$isNotEnrolled)
-            return redirect($url)->with('error', 'You have already been enrolled to this course.');
-
-        return redirect($url)->with('success', 'You have been enrolled.');
     }
 }

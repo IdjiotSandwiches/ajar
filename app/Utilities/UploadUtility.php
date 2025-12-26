@@ -20,7 +20,7 @@ class UploadUtility
             return null;
 
         $path = $file->store($folder, 'public');
-        return asset("storage/$path");
+        return $path;
     }
 
     public static function remove($path)

@@ -17,7 +17,7 @@ export default function HeroSection() {
                 behavior: "smooth",
                 block: "center",
             });
-        }, 200); 
+        }, 200);
     };
 
     return (
@@ -56,6 +56,7 @@ export default function HeroSection() {
                     src="/images/hero-img.png"
                     alt="Hero"
                     className="h-80 w-80 rounded-full object-cover md:h-100 md:w-100"
+                    draggable="false"
                 />
             </div>
         </section>

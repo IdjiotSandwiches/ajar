@@ -2,6 +2,7 @@ import TeacherProfileCard from '@/components/teacher/card';
 import ReviewSection from '@/components/teacher/review';
 import CourseCard from '@/components/ui/course-card';
 import AppLayout from '@/layouts/app-layout';
+import { storageUrl } from '@/utils/storage';
 import { Head, router, usePage } from '@inertiajs/react';
 import { Album, BriefcaseBusiness, FileBadge, GraduationCap, Star, X } from 'lucide-react';
 import React, { useState } from 'react';
@@ -85,10 +86,10 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                     {teacher.certificates?.map((item: any, index: number) => (
                                         <button
                                             key={index}
-                                            onClick={() => setPreviewImage(item?.image || 'https://placehold.co/400')}
+                                            onClick={() => setPreviewImage(storageUrl(item?.image))}
                                             className="flex items-center gap-3 rounded-lg border border-[#3ABEFF]/40 bg-[#3ABEFF]/20 px-3 py-2 text-left transition hover:bg-[#3ABEFF]/30 cursor-pointer"
                                         >
-                                            <img src={item?.image || 'https://placehold.co/400'} className="h-10 w-14 rounded object-cover" />
+                                            <img src={storageUrl(item?.image) || 'https://placehold.co/400'} className="h-10 w-14 rounded object-cover" />
                                             <span className="text-sm font-medium text-gray-700">Certificate {index + 1}</span>
                                         </button>
                                     ))}

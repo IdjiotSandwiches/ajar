@@ -2,6 +2,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { router, usePage } from '@inertiajs/react';
 import { LogOut } from 'lucide-react';
 import ReminderList from './reminder-list';
+import { storageUrl } from '@/utils/storage';
 
 export default function RightPanel() {
     const { props } = usePage();
@@ -27,7 +28,7 @@ export default function RightPanel() {
                 </div>
 
                 <CardContent className="relative text-center">
-                    <img src={user?.profile_picture || 'https://placehold.co/400'} alt={user?.name} className="mx-auto mb-3 h-20 w-20 rounded-full" />
+                    <img src={storageUrl(user?.profile_picture)} alt={user?.name} className="mx-auto mb-3 h-20 w-20 rounded-full" />
                     <h3 className="text-lg font-semibold">{user?.name}</h3>
                     <p className="text-sm text-gray-500">{Object.keys(roles).find((key) => roles[key] === user?.role_id)}</p>
                 </CardContent>

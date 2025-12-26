@@ -1,6 +1,7 @@
 import DynamicModal from '@/components/modal/modal';
 import CourseCard from '@/components/ui/course-card';
 import AppLayout from '@/layouts/app-layout';
+import { storageUrl } from '@/utils/storage';
 import { Head, InfiniteScroll, router, usePage } from '@inertiajs/react';
 import { SquareArrowOutUpRight } from 'lucide-react';
 import React from 'react';
@@ -37,7 +38,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                     <div className="flex flex-col items-stretch overflow-hidden rounded-xl shadow-md md:flex-row">
                         <div className="flex items-center justify-center bg-[#3ABEFF] p-6 py-8 md:p-6 md:py-6">
                             <img
-                                src={institute.user?.profile_picture || 'https://placehold.co/400'}
+                                src={storageUrl(institute.user?.profile_picture)}
                                 alt={institute.user.name}
                                 className="h-28 w-28 rounded-lg object-cover outline-6 outline-white md:h-40 md:w-40"
                             />
@@ -129,7 +130,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                                             >
                                                 {teacher.user?.profile_picture ? (
                                                     <img
-                                                        src={teacher.user?.profile_picture || 'https://placehold.co/400'}
+                                                        src={storageUrl(teacher.user?.profile_picture)}
                                                         alt={teacher.user.name}
                                                         className="h-full w-full object-cover"
                                                     />

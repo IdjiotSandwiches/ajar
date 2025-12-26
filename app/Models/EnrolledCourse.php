@@ -42,4 +42,9 @@ class EnrolledCourse extends Model
     {
         return $this->belongsTo(User::class, 'student_id');
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
 }

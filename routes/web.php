@@ -6,15 +6,16 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\MyLearningController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UtilityController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::group([], function () {
-    Route::get('/', [HomeController::class, 'getHomeData'])
-        ->name('home');
+    Route::get('/', [HomeController::class, 'getHomeData'])->name('home');
     Route::controller(TeacherController::class)->group(function () {
         Route::get('detail-teacher/{id}', 'getTeacherDetail')->name('detail-teacher');
     });
@@ -26,6 +27,9 @@ Route::group([], function () {
         Route::get('list-course', 'getCourseList')->name('list-course');
         Route::get('detail-course/{id}', 'getCourseDetail')->name('detail-course');
     });
+    Route::post('payment-webhook', [PaymentController::class, 'updateStatus'])
+        ->withoutMiddleware([VerifyCsrfToken::class])
+        ->name('midtrans-webhook');
 });
 
 Route::middleware(['auth', 'verified'])
@@ -50,8 +54,12 @@ Route::middleware(['auth', 'verified'])
                 Route::put('profile', 'putProfile')->name('update-profile');
                 Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
             });
-            Route::get('payment-lms', fn() => Inertia::render('student/payment-lms'))->name('payment-lms');
-            Route::get('payment-register', fn() => Inertia::render('courses/payment'))->name('payment-register');
+            Route::controller(PaymentController::class)->group(function () {
+                Route::get('payment-lms', 'getPaymentList')->name('payment-lms');
+                Route::get('payment-register', 'getEnrollment')->name('payment-register');
+                Route::get('payment-register/{id}', 'getPendingEnrollment')->name('pending-payment');
+                Route::post('payment-register/{id}', 'createPayment')->name('pay');
+            });
         });
         Route::middleware(['role:Admin'])
             ->prefix('admin')

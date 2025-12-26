@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Enums\DayEnum;
 use App\Enums\DegreeTypeEnum;
+use App\Enums\PaymentStatusEnum;
 use App\Enums\ReminderEnum;
 use App\Enums\RoleEnum;
 use App\Enums\StateEnum;
@@ -57,6 +58,7 @@ class HandleInertiaRequests extends Middleware
                 'reminder_enum' => ReminderEnum::asArray(),
                 'state_enum' => StateEnum::asArray(),
                 'days_enum' => DayEnum::asArray(),
+                'payment_status_enum' => PaymentStatusEnum::asArray(),
             ],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
@@ -64,7 +66,8 @@ class HandleInertiaRequests extends Middleware
             ],
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
-                'error' => fn () => $request->session()->get('error')
+                'error' => fn () => $request->session()->get('error'),
+                'snap_token' => fn () => $request->session()->get('snap_token'),
             ],
         ];
     }

@@ -2,31 +2,18 @@
 
 namespace App\Services;
 
+use App\Enums\CourseStatusEnum;
 use App\Models\TeacherApplication;
 use App\Models\TeachingCourse;
-use Carbon\Carbon;
 use App\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\Course;
-use App\Models\CourseSchedule;
-use App\Models\EnrolledCourse;
 use App\Models\Skill;
-use App\Models\Teacher;
 use App\Utilities\UploadUtility;
 use Illuminate\Support\Facades\Auth;
 
 class CourseService
 {
-    public function getParentCategories()
-    {
-        $categories = Category::with('parent')
-            ->whereNull('parent_id')
-            ->select(['id', 'name'])
-            ->get();
-
-        return $categories;
-    }
-
     public function getCourses($filters)
     {
         $user = Auth::user();
@@ -148,6 +135,7 @@ class CourseService
                 'courseSkills.skill',
                 'courseLearningObjectives',
                 'courseOverviews',
+                'courseSchedules',
                 'teachingCourses' => fn($q) => $q->where('is_verified', true),
                 'teachingCourses.teacher.user.socialMedias',
             ]
@@ -178,8 +166,11 @@ class CourseService
             }
         }
 
+        $hasSchedule = $user ? $course->courseSchedules
+            ->where('status', CourseStatusEnum::Scheduled)
+            ->count() != 0 : true;
         $popularCourses = $this->getPopularCourseByCategory($course->category_id, $course->id);
-        return [$course, $popularCourses, $teaching, $canApply];
+        return [$course, $popularCourses, $teaching, $canApply, $hasSchedule];
     }
 
     public function getPopularCourseByCategory($categoryId, $currentCourseId)
@@ -355,85 +346,5 @@ class CourseService
         }
 
         return false;
-    }
-
-    public function getCourseTeachers($id)
-    {
-        $teachers = Teacher::whereHas(
-            'teacherSchedules',
-            fn($q) =>
-            $q->where('course_id', $id)
-        )
-            ->with('user')
-            ->paginate(5);
-
-        return $teachers;
-    }
-
-    public function getCourseSchedules($teacherId, $courseId)
-    {
-        $schedules = CourseSchedule::with(['teacherSchedule'])
-            ->whereHas(
-                'teacherSchedule',
-                fn($q) =>
-                $q->where('teacher_id', $teacherId)
-                    ->where('course_id', $courseId)
-                    ->where('start_time', '>=', now()->addHour())
-            )
-            ->get();
-
-        $result = $schedules->groupBy(
-            fn($s) =>
-            Carbon::parse($s->start_time)->format('Y-m-d')
-        )
-            ->map(
-                fn($items) =>
-                $items->map(fn(CourseSchedule $s) =>
-                    [
-                        'id' => $s->id,
-                        'time' => Carbon::parse($s->teacherSchedule->start_time)->format('H:i')
-                    ])->values()
-            );
-
-        return $result;
-    }
-
-    public function getCourseScheduleDetails($id)
-    {
-        $schedule = CourseSchedule::with(['teacherSchedule.course'])
-            ->where('id', $id)
-            ->first();
-
-        $teacherSchedule = $schedule->teacherSchedule;
-        $course = $teacherSchedule->course;
-        $detail = [
-            'title' => $course->name,
-            'date_time' => $teacherSchedule->start_time,
-            'duration' => Carbon::parse($teacherSchedule->start_time)
-                ->diffInMinutes(Carbon::parse($teacherSchedule->end_time)),
-            'discount' => $course->price * $course->discount,
-            'price' => $course->price,
-            'final_price' => $course->price - $course->price * $course->discount
-        ];
-
-        return $detail;
-    }
-
-    public function enrollCourse($id)
-    {
-        $user = Auth::user();
-        $enroll = EnrolledCourse::where('course_schedule_id', $id)
-            ->where('student_id', $user?->id)
-            ->first();
-
-        if ($enroll)
-            return false;
-
-        $enroll = new EnrolledCourse();
-        $enroll->course_schedule_id = $id;
-        $enroll->student_id = $user?->id;
-        $enroll->is_complete = false;
-        $enroll->save();
-        return true;
     }
 }

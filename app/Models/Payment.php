@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @mixin IdeHelperPayment
@@ -19,19 +19,20 @@ class Payment extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'method',
-        'nominal',
-        'status',
+        'enrolled_course_id',
         'user_id',
-        'course_id'
+        'unique_id',
+        'snap_token',
+        'amount',
+        'status'
     ];
 
-    /**
-     * BelongsTo: User(Student)
-     * @return BelongsTo<User, Payment>
-     */
-    public function student(): BelongsTo
+    protected $casts = [
+        'status' => PaymentStatusEnum::class
+    ];
+
+    public function enrolledCourse()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsTo(EnrolledCourse::class);
     }
 }

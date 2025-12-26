@@ -1,3 +1,4 @@
+import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
 import { Pencil } from 'lucide-react';
 import React, { useRef, useState } from 'react';
@@ -34,7 +35,7 @@ export default function ProfileCard({ user }: any) {
                             onClick={handleImageClick}
                         >
                             <img
-                                src={previewImage || 'https://placehold.co/400'}
+                                src={storageUrl(previewImage)}
                                 alt={user?.name}
                                 className="h-full w-full object-cover transition duration-200 group-hover:opacity-80"
                             />

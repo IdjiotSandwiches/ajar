@@ -1,6 +1,7 @@
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
+import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import React, { useState } from 'react';
@@ -33,7 +34,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                 <div key={app.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
                                     <div className="mb-3 flex items-center gap-3">
                                         <img
-                                            src={app.profile_picture || 'https://placehold.co/400'}
+                                            src={storageUrl(app.profile_picture)}
                                             alt={app.name}
                                             className="h-12 w-12 rounded-full border object-cover"
                                         />
@@ -93,7 +94,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                             <td className="p-3">
                                                 <div className="flex items-center gap-4">
                                                     <img
-                                                        src={app.profile_picture || 'https://placehold.co/400'}
+                                                        src={storageUrl(app.profile_picture)}
                                                         alt={app.name}
                                                         className="h-16 w-16 rounded-full border object-cover"
                                                     />
