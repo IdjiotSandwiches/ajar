@@ -13,6 +13,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
         return <div className="flex min-h-screen items-center justify-center text-gray-500">Teacher not found.</div>;
     }
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
@@ -20,7 +21,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
     return (
         <>
             <Head title={teacher?.user?.name || "Not Found"} />
-            <div className="min-h-screen w-full bg-[#F9FCFF] pb-20">
+            <div className="min-h-screen w-full py-10">
                 <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 pt-6 sm:px-6 md:grid-cols-3 md:gap-8">
                     <div>
                         <TeacherProfileCard teacher={teacher} />
@@ -42,13 +43,13 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                         )}
                     </div>
                     <div className="space-y-8 md:col-span-2">
-                        <div className="w-full rounded-xl border border-gray-200 bg-white p-4 shadow md:p-6">
+                        <div className="w-full rounded-xl border dark:border-white/20 p-4 shadow dark:shadow-white/20 md:p-6">
                             <div className="mb-6 grid gap-4 md:grid-cols-3">
                                 <div className="flex items-start gap-2">
                                     <GraduationCap size={24} className="text-[#3ABEFF]" />
-                                    <h3 className="font-semibold text-gray-700">Graduate</h3>
+                                    <h3 className="font-semibold text-gray-700 dark:text-white/90">Graduate</h3>
                                 </div>
-                                <div className="space-y-2 pl-1 text-gray-600 md:col-span-2 md:pl-0">
+                                <div className="space-y-2 pl-1 text-gray-600 dark:text-white/80 md:col-span-2 md:pl-0">
                                     {teacher.graduates?.map((item: any, index: number) => (
                                         <div key={index}>
                                             <p className="text-sm opacity-70">{item.degree_title}</p>
@@ -63,9 +64,9 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                             <div className="mb-6 grid gap-4 md:grid-cols-3">
                                 <div className="flex items-start gap-2">
                                     <BriefcaseBusiness size={24} className="text-[#3ABEFF]" />
-                                    <h3 className="font-semibold text-gray-700">Work Experience</h3>
+                                    <h3 className="font-semibold text-gray-700 dark:text-white/90">Work Experience</h3>
                                 </div>
-                                <div className="space-y-3 pl-1 text-gray-600 md:col-span-2 md:pl-0">
+                                <div className="space-y-3 pl-1 text-gray-600 dark:text-white/80 md:col-span-2 md:pl-0">
                                     {teacher.work_experiences?.map((item: any, index: number) => (
                                         <div key={index}>
                                             <p className="text-sm opacity-70">{item.duration} month</p>
@@ -80,7 +81,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                             <div className="grid gap-4 md:grid-cols-3">
                                 <div className="flex items-start gap-2">
                                     <FileBadge size={24} className="text-[#3ABEFF]" />
-                                    <h3 className="font-semibold text-gray-700">Certificate</h3>
+                                    <h3 className="font-semibold text-gray-700 dark:text-white/90">Certificate</h3>
                                 </div>
                                 <div className="flex flex-col gap-3 pl-1 md:col-span-2 md:pl-0">
                                     {teacher.certificates?.map((item: any, index: number) => (
@@ -90,17 +91,17 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                             className="flex items-center gap-3 rounded-lg border border-[#3ABEFF]/40 bg-[#3ABEFF]/20 px-3 py-2 text-left transition hover:bg-[#3ABEFF]/30 cursor-pointer"
                                         >
                                             <img src={storageUrl(item?.image) || 'https://placehold.co/400'} className="h-10 w-14 rounded object-cover" />
-                                            <span className="text-sm font-medium text-gray-700">Certificate {index + 1}</span>
+                                            <span className="text-sm font-medium text-gray-700 dark:text-white/90">Certificate {index + 1}</span>
                                         </button>
                                     ))}
                                 </div>
                             </div>
                         </div>
 
-                        <div className="rounded-xl border border-gray-200 bg-white p-4 shadow md:p-6">
+                        <div className="rounded-xl border dark:border-white/20 p-4 shadow dark:shadow-white/20 md:p-6">
                             <div className="mb-4 flex gap-2">
                                 <Album size={24} className="text-[#3ABEFF]" />
-                                <h3 className="font-semibold text-gray-700">Courses taught</h3>
+                                <h3 className="font-semibold text-gray-700 dark:text-white/90">Courses taught</h3>
                             </div>
                             <div className="scrollbar-thin scrollbar-thumb-[#42C2FF]/30 scrollbar-track-transparent flex gap-6 overflow-x-auto pb-4">
                                 {teacher.teaching_courses.map((course: any, index: number) => {
@@ -108,12 +109,12 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                 })}
                             </div>
                         </div>
-                        <div className="rounded-xl border border-gray-200 bg-white p-4 shadow md:p-6">
+                        <div className="rounded-xl border dark:border-white/20 p-4 shadow md:p-6">
                             <div className="mb-4 flex gap-2">
                                 <Star size={24} className="text-[#3ABEFF]" />
-                                <h3 className="font-semibold text-gray-700">Reviews</h3>
+                                <h3 className="font-semibold text-gray-700 dark:text-white/90">Reviews</h3>
                             </div>
-                            <ReviewSection reviews={teacher.reviews} />
+                            {/* <ReviewSection reviews={teacher.reviews} /> */}
                         </div>
                     </div>
                 </div>

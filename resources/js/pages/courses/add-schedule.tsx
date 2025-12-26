@@ -71,17 +71,22 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                         id: session?.teaching_course_id,
                     })
                 }
-                className={`cursor-pointer rounded border px-2 py-1 text-xs text-center transition
-                    ${session
+                className={`cursor-pointer rounded border text-xs transition flex items-center justify-center h-10 w-full px-1 overflow-hidden whitespace-nowrap text-ellipsis 
+                ${session
                         ? 'border-blue-400 bg-blue-200 text-blue-900'
-                        : 'border-dashed border-gray-400 dark:border-white/40'
+                        : 'border-dashed border-gray-400 dark:border-white/40 text-gray-400'
                     }
-                `}
+            `}
+                title={session?.course_name ?? ''}
             >
-                {session?.course_name ?? '+'}
+                <span className="truncate">
+                    {session?.course_name ?? '+'}
+                </span>
             </div>
         );
     };
+
+
 
     useEffect(() => {
         if (popup.visible) {
@@ -169,74 +174,37 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                     ))}
                 </div>
 
-                <div className="hidden md:block overflow-x-auto rounded-lg border dark:border-white/20">
-                    <table className="w-full text-sm">
+                <div className="hidden md:block overflow-x-auto rounded-xl border dark:border-white/20">
+                    <table className="min-w-[900px] w-full table-fixed text-center text-sm">
                         <thead className="bg-[#3ABEFF]/10 border-b dark:border-white/20">
                             <tr>
-                                <th className="p-2 text-left">Day</th>
-                                <th className="p-2 text-left">Start</th>
-                                <th className="p-2 text-left">End</th>
-                                <th className="p-2 text-center">Available</th>
+                                <th className="p-2 w-24">Hour</th>
+                                {days.map((day) => (
+                                    <th key={day} className="p-2">
+                                        {day}
+                                    </th>
+                                ))}
                             </tr>
                         </thead>
+
                         <tbody>
-                            {days.map((day, index) => (
-                                <tr
-                                    key={day}
-                                    className={`border-b dark:border-white/20 ${index % 2 === 0
-                                        ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
-                                        : 'bg-white dark:bg-[#222831]'
-                                        }`}
-                                >
-                                    <td className="p-2">
-                                        {day}
-                                        <input
-                                            type="hidden"
-                                            name={`availability[${index}].day`}
-                                            value={day}
-                                        />
+                            {hours.map((hour) => (
+                                <tr key={hour} className="border-b dark:border-white/10">
+                                    <td className="font-medium p-2">
+                                        {hour}
                                     </td>
 
-                                    <td className="p-2">
-                                        <input
-                                            type="time"
-                                            name={`availability[${index}].start_time`}
-                                            defaultValue={availability[index]?.start_time ?? ''}
-                                            className="w-full rounded-lg border dark:border-white/20 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
-                                        />
-
-                                        {errors[`availability.${index}.start_time`] && (
-                                            <p className="text-red-500">{errors[`availability.${index}.start_time`]}</p>
-                                        )}
-                                    </td>
-
-                                    <td className="p-2">
-                                        <input
-                                            type="time"
-                                            name={`availability[${index}].end_time`}
-                                            defaultValue={availability[index]?.end_time ?? ''}
-                                            className="w-full rounded-lg border dark:border-white/20 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
-                                        />
-
-                                        {errors[`availability.${index}.end_time`] && (
-                                            <p className="text-red-500">{errors[`availability.${index}.end_time`]}</p>
-                                        )}
-                                    </td>
-
-                                    <td className="p-2 text-center">
-                                        <InputSwitch
-                                            name={`availability[${index}].available`}
-                                            checked={!!(availability[index]?.active ?? true)}
-                                        />
-                                        {errors[`availability.${index}.available`] && (
-                                            <p className="text-red-500">{errors[`availability.${index}.available`]}</p>
-                                        )}
-                                    </td>
+                                    {days.map((day) => (
+                                        <td key={day} className="p-2 align-middle">
+                                            {renderCell(day, hour)}
+                                        </td>
+                                    ))}
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
+
 
                 <div className="mt-6 flex justify-end">
                     <button
