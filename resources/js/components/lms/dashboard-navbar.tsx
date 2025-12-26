@@ -2,6 +2,7 @@ import { storageUrl } from '@/utils/storage';
 import { router, usePage } from '@inertiajs/react';
 import { Menu } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import SwitchDarkMode from '../ui/switch-dark-mode';
 
 export default function MobileNavbar({ title, onMenu }: any) {
     const { props } = usePage();
@@ -23,36 +24,37 @@ export default function MobileNavbar({ title, onMenu }: any) {
     }, []);
 
     return (
-        <div className="fixed top-0 right-0 left-0 z-20 bg-white shadow-sm md:hidden">
-            <div className="flex items-center justify-between px-4 py-3">
+        <div className="fixed top-0 right-0 left-0 z-20 bg-white shadow-sm md:hidden dark:bg-[#222831]">
+            <div className="relative flex items-center px-4 py-3">
                 <button onClick={onMenu} className="rounded-lg bg-[#3ABEFF]/10 p-2 text-[#3ABEFF]">
                     <Menu />
                 </button>
 
-                <h1 className="text-lg font-semibold text-gray-700">{title}</h1>
-                <div className="relative" ref={dropdownRef}>
+                <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-semibold whitespace-nowrap text-gray-700 dark:text-white">{title}</h1>
+
+                <div className="relative ml-auto flex items-center gap-2" ref={dropdownRef}>
+                    <SwitchDarkMode />
+
                     <img
                         src={storageUrl(user?.profile_picture)}
                         alt={user?.name}
-                        className="h-9 w-9 rounded-full"
+                        className="h-9 w-9 cursor-pointer rounded-full"
                         onClick={() => setDropdownOpen(!dropdownOpen)}
                     />
 
                     {dropdownOpen && (
-                        <div className="animate-fadeIn absolute right-0 mt-3 w-48 origin-top-right rounded-xl border bg-white p-2 shadow-lg">
+                        <div className="animate-fadeIn absolute right-0 mt-28 w-48 origin-top-right rounded-xl border bg-white p-2 shadow-lg dark:bg-[#222831]">
                             {isLoggedIn ? (
-                                <>
-                                    <button
-                                        onClick={() => router.post(route('logout'))}
-                                        className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium text-red-500 hover:bg-gray-100"
-                                    >
-                                        Logout
-                                    </button>
-                                </>
+                                <button
+                                    onClick={() => router.post(route('logout'))}
+                                    className="w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-red-500 hover:bg-gray-100 dark:hover:bg-white/20"
+                                >
+                                    Logout
+                                </button>
                             ) : (
                                 <button
                                     onClick={() => router.get(route('login'))}
-                                    className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium hover:bg-gray-100"
+                                    className="w-full rounded-lg px-3 py-2 text-left text-sm font-medium hover:bg-gray-100"
                                 >
                                     Login
                                 </button>

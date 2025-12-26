@@ -41,44 +41,44 @@ const CourseStatusCard: React.FC<CourseStatusCardProps> = ({
     });
 
     return (
-        <div className="mb-5 flex flex-col gap-4 rounded-xl border border-[#3ABEFF]/50 bg-white p-4 shadow-sm transition hover:shadow-md md:flex-row">
-            <img src={storageUrl(image)} alt={title} className="h-40 w-full rounded-lg border border-gray-200 object-cover md:h-32 md:w-32" />
+        <div className="mb-5 flex flex-col gap-4 rounded-xl border p-4 shadow-sm transition hover:border-[#3ABEFF]/50 hover:shadow-md lg:flex-row dark:border-white/20 dark:shadow-white/20">
+            <img src={storageUrl(image)} alt={title} className="h-40 w-full rounded-lg border object-cover md:h-32 md:w-32 dark:border-white/20" />
             <div className="flex flex-grow flex-col">
-                <h3 className="mb-3 text-base font-semibold text-gray-800">{title}</h3>
+                <h3 className="mb-3 text-base font-semibold text-gray-800 dark:text-white">{title}</h3>
 
                 <div className="space-y-2 text-sm text-gray-700">
                     <div className="flex flex-col sm:flex-row sm:items-start">
-                        <span className="w-28 font-medium text-gray-600">Teacher:</span>
-                        <span className="flex-1 font-medium">{teacher}</span>
+                        <span className="w-28 font-medium text-gray-600 dark:text-white/80">Teacher:</span>
+                        <span className="flex-1 font-medium dark:text-white">{teacher}</span>
                     </div>
 
                     <div className="flex flex-col sm:flex-row sm:items-start">
-                        <span className="w-28 font-medium text-gray-600">Student:</span>
-                        <span className="flex-1 font-medium">{student}</span>
+                        <span className="w-28 font-medium text-gray-600 dark:text-white/80">Student:</span>
+                        <span className="flex-1 font-medium dark:text-white">{student}</span>
                     </div>
 
                     <div className="flex flex-col sm:flex-row sm:items-start">
-                        <span className="w-28 font-medium text-gray-600">Duration:</span>
-                        <span className="flex-1 font-medium">{duration}</span>
+                        <span className="w-28 font-medium text-gray-600 dark:text-white/80">Duration:</span>
+                        <span className="flex-1 font-medium dark:text-white">{duration}</span>
                     </div>
 
                     <div className="flex flex-col sm:flex-row sm:items-start">
-                        <span className="w-28 font-medium text-gray-600">Start at:</span>
-                        <span className="flex-1 font-medium">
+                        <span className="w-28 font-medium text-gray-600 dark:text-white/80">Start at:</span>
+                        <span className="flex-1 font-medium dark:text-white">
                             {formattedStartDate} {startTime}
                         </span>
                     </div>
 
                     <div className="flex flex-col sm:flex-row sm:items-start">
-                        <span className="w-28 font-medium text-gray-600">End at:</span>
-                        <span className="flex-1 font-medium">
+                        <span className="w-28 font-medium text-gray-600 dark:text-white/80">End at:</span>
+                        <span className="flex-1 font-medium dark:text-white">
                             {formattedEndDate} {endTime}
                         </span>
                     </div>
 
                     {recordingLink && (
                         <div className="flex flex-col sm:flex-row sm:items-start">
-                            <span className="w-28 font-medium text-gray-600">Recording:</span>
+                            <span className="w-28 font-medium text-gray-600 dark:text-white/80">Recording:</span>
                             <a
                                 href={recordingLink}
                                 target="_blank"
@@ -91,7 +91,7 @@ const CourseStatusCard: React.FC<CourseStatusCardProps> = ({
                     )}
 
                     <div className="flex flex-col sm:flex-row sm:items-start">
-                        <span className="w-28 font-medium text-gray-600">Status:</span>
+                        <span className="w-28 font-medium text-gray-600 dark:text-white/80">Status:</span>
                         <span
                             className={`flex-1 font-semibold ${
                                 status === 'Completed' ? 'text-green-600' : status === 'Canceled' ? 'text-red-600' : 'text-gray-600'

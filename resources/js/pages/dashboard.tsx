@@ -9,10 +9,10 @@ export default function StudentDashboard({ today, upcoming, reminder }: any) {
         <div className="flex w-full flex-col gap-6">
             <Greeting />
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                <div className="md:col-span-1">
+                <div className="lg:col-span-1">
                     <MobileReminder reminder={reminder} />
                 </div>
-                <div className="flex flex-col gap-6 md:col-span-2">
+                <div className="flex flex-col gap-6 lg:col-span-2">
                     <ClassSection title="Today Classes" course={today} type="today" />
 
                     <ClassSection title="Upcoming Classes" course={upcoming} type="upcoming" />

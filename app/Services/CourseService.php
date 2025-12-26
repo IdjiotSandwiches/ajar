@@ -169,6 +169,7 @@ class CourseService
         $hasSchedule = $user ? $course->courseSchedules
             ->where('status', CourseStatusEnum::Scheduled)
             ->count() != 0 : true;
+
         $popularCourses = $this->getPopularCourseByCategory($course->category_id, $course->id);
         return [$course, $popularCourses, $teaching, $canApply, $hasSchedule];
     }

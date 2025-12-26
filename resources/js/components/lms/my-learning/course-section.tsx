@@ -13,14 +13,14 @@ export default function CourseSection({
     onAddReview,
 }: any) {
     return (
-        <div className="rounded-2xl shadow-sm border-none">
-            <div className="bg-white rounded-2xl p-6 border">
+        <div className="rounded-2xl shadow-sm border dark:border-white/20 dark:shadow-[#ffffff]/20">
+            <div className="rounded-2xl p-6 border">
                 <h3 className="font-semibold text-lg mb-4">{title}</h3>
 
                 {courses.length === 0 ? (
                     <div className="flex flex-col items-center justify-center text-center py-10 text-gray-500">
-                        <p className="font-medium text-gray-700 mb-1">{emptyTitle}</p>
-                        <p className="text-sm mb-4 max-w-xs">{emptyDesc}</p>
+                        <p className="font-medium text-gray-700 mb-1 dark:text-white/80">{emptyTitle}</p>
+                        <p className="text-sm mb-4 max-w-xs dark:text-white/70">{emptyDesc}</p>
 
                         {showCTA && role === 'student' && (
                             <button

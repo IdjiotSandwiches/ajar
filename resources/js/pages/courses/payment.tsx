@@ -36,7 +36,7 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
                 },
                 onError: (result: any) => {
                     console.error('error', result);
-                }
+                },
             });
         }
     };
@@ -72,14 +72,15 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
     return (
         <>
             <Head title="Course Payment" />
-            <div className="min-h-screen bg-gray-50 py-10">
-                <div className="mx-auto max-w-7xl px-4">
-                    <h1 className="mb-6 text-2xl font-semibold text-gray-800">Course Registration & Payment</h1>
+
+            <div className="min-h-screen py-16">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12">
+                    <h1 className="mb-6 text-2xl font-semibold text-gray-800 dark:text-white">Course Registration & Payment</h1>
 
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                         <div className="space-y-6 lg:col-span-2">
-                            <div className="rounded-2xl bg-white p-6 shadow-sm">
-                                <h2 className="mb-1 text-lg font-semibold text-gray-800">1. Choose Teacher</h2>
+                            <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-[#222831]">
+                                <h2 className="mb-1 text-lg font-semibold text-gray-800 dark:text-white">1. Choose Teacher</h2>
                                 <p className="mb-4 text-sm text-gray-500">Select your preferred instructor</p>
 
                                 <div className="grid gap-3 sm:grid-cols-2">
@@ -95,7 +96,7 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
                                             disabled={isLocked}
                                         >
                                             <div>
-                                                <p className="font-medium text-gray-800">{teacher.name}</p>
+                                                <p className="font-medium text-gray-800 dark:text-white">{teacher.name}</p>
                                                 <p className="text-xs text-gray-500">{teacher.expertise}</p>
                                             </div>
 
@@ -105,8 +106,8 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
                                 </div>
                             </div>
 
-                            <div className="rounded-2xl bg-white p-6 shadow-sm">
-                                <h2 className="mb-1 text-lg font-semibold text-gray-800">2. Choose Schedule</h2>
+                            <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-[#222831]">
+                                <h2 className="mb-1 text-lg font-semibold text-gray-800 dark:text-white">2. Choose Schedule</h2>
                                 <p className="mb-4 text-sm text-gray-500">Select available time</p>
 
                                 {!selectedTeacher || !schedules ? (
@@ -124,7 +125,7 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
                                                 }`}
                                                 disabled={isLocked}
                                             >
-                                                <p className="font-medium text-gray-800">{schedule.date}</p>
+                                                <p className="font-medium text-gray-800 dark:text-white">{schedule.date}</p>
                                                 <p className="text-sm text-gray-600">
                                                     {schedule.start_time} - {schedule.end_time}
                                                 </p>
@@ -136,35 +137,35 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
                         </div>
 
                         <div className="lg:col-span-1">
-                            <div className="sticky top-6 rounded-2xl bg-white p-6 shadow-sm">
-                                <h3 className="mb-4 text-lg font-semibold text-gray-800">Course Summary</h3>
+                            <div className="sticky top-6 rounded-2xl bg-white p-6 shadow-sm dark:bg-[#222831]">
+                                <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Course Summary</h3>
 
                                 <div className="space-y-3 text-sm">
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Course</span>
-                                        <span className="text-right font-medium text-gray-800">{course.name}</span>
+                                        <span className="text-right font-medium text-gray-800 dark:text-white">{course.name}</span>
                                     </div>
 
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Duration</span>
-                                        <span className="font-medium text-gray-800">{course.duration} Minutes</span>
+                                        <span className="font-medium text-gray-800 dark:text-white">{course.duration} Minutes</span>
                                     </div>
 
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Teacher</span>
-                                        <span className="font-medium text-gray-800">{teacherSummary?.name || '-'}</span>
+                                        <span className="font-medium text-gray-800 dark:text-white">{teacherSummary?.name || '-'}</span>
                                     </div>
 
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Schedule</span>
-                                        <span className="text-right font-medium text-gray-800">
+                                        <span className="text-right font-medium text-gray-800 dark:text-white">
                                             {selectedSchedule
                                                 ? `${scheduleSummary?.date}, ${scheduleSummary?.start_time}-${scheduleSummary?.end_time}`
                                                 : '-'}
                                         </span>
                                     </div>
 
-                                    <hr />
+                                    <hr className="dark:border-white/20" />
 
                                     <div className="flex justify-between">
                                         <span>Price</span>
@@ -176,7 +177,7 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
                                         <span>- Rp{formatIDR(course.discount)}</span>
                                     </div>
 
-                                    <hr />
+                                    <hr className="dark:border-white/20" />
 
                                     <div className="flex justify-between text-base font-semibold">
                                         <span>Total</span>
@@ -188,7 +189,9 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
                                     disabled={!canPay}
                                     onClick={handlePay}
                                     className={`mt-6 w-full rounded-xl py-3 text-sm font-semibold ${
-                                        canPay ? 'bg-[#3ABEFF] text-white hover:bg-[#3ABEFF]/90' : 'cursor-not-allowed bg-gray-300 text-gray-500'
+                                        canPay
+                                            ? 'bg-[#3ABEFF] text-white hover:bg-[#3ABEFF]/90'
+                                            : 'cursor-not-allowed bg-gray-300 text-gray-500 dark:bg-gray-700 dark:text-white/70'
                                     }`}
                                 >
                                     Pay Now

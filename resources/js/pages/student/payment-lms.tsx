@@ -16,27 +16,27 @@ export default function PaymentsPage({ payments, amounts }: any) {
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div className="flex items-center gap-4 rounded-xl bg-white p-6 shadow-sm">
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                    <div className="flex items-center gap-4 rounded-xl border p-6 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
                         <div className="rounded-full bg-red-100 p-3">
                             <Wallet className="text-red-500" size={24} />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Total Unpaid Amount</p>
-                            <p className="text-lg font-bold text-gray-800 md:text-xl">
+                            <p className="text-sm text-gray-500 dark:text-white/70">Total Unpaid Amount</p>
+                            <p className="text-lg font-bold text-gray-800 md:text-xl dark:text-white">
                                 Rp
                                 {Number(amounts.pending).toLocaleString('id-ID')}
                             </p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-4 rounded-xl bg-white p-6 shadow-sm">
+                    <div className="flex items-center gap-4 rounded-xl border p-6 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
                         <div className="rounded-full bg-green-100 p-3">
                             <CreditCard className="text-green-500" size={24} />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Total Paid Amount</p>
-                            <p className="text-lg font-bold text-gray-800 md:text-xl">
+                            <p className="text-sm text-gray-500 dark:text-white/70">Total Paid Amount</p>
+                            <p className="text-lg font-bold text-gray-800 md:text-xl dark:text-white">
                                 Rp
                                 {Number(amounts.paid).toLocaleString('id-ID')}
                             </p>
@@ -44,30 +44,30 @@ export default function PaymentsPage({ payments, amounts }: any) {
                     </div>
                 </div>
 
-                <div className="rounded-2xl bg-white p-6 shadow-sm">
-                    <h3 className="mb-4 text-lg font-semibold text-gray-800">Payment History</h3>
+                <div className="rounded-2xl border p-6 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
+                    <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Payment History</h3>
 
                     <div className="space-y-4 md:hidden">
                         {payments.data?.map((payment: any) => (
-                            <div key={payment.id} className="rounded-xl border bg-white p-4 shadow-sm">
+                            <div key={payment.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
                                 <div className="mb-2">
-                                    <p className="text-sm text-gray-500">Course</p>
-                                    <p className="font-semibold text-gray-800">{payment.course_name}</p>
+                                    <p className="text-sm text-gray-500 dark:text-white/70">Course</p>
+                                    <p className="font-semibold text-gray-800 dark:text-white">{payment.course_name}</p>
                                 </div>
 
                                 <div className="mb-2">
-                                    <p className="text-sm text-gray-500">Teacher</p>
-                                    <p className="text-gray-700">{payment.teacher}</p>
+                                    <p className="text-sm text-gray-500 dark:text-white/70">Teacher</p>
+                                    <p className="text-gray-700 dark:text-white/90">{payment.teacher}</p>
                                 </div>
 
                                 <div className="mb-2">
-                                    <p className="text-sm text-gray-500">Schedule</p>
-                                    <p className="text-gray-700">{payment.schedule}</p>
+                                    <p className="text-sm text-gray-500 dark:text-white/70">Schedule</p>
+                                    <p className="text-gray-700 dark:text-white/90">{payment.schedule}</p>
                                 </div>
 
                                 <div className="mt-4 flex items-center justify-between">
                                     <div>
-                                        <p className="text-sm text-gray-500">Price</p>
+                                        <p className="text-sm text-gray-500 dark:text-white/70">Price</p>
                                         <p className="font-semibold">Rp {payment.amount.toLocaleString('id-ID')}</p>
                                     </div>
 
@@ -90,9 +90,9 @@ export default function PaymentsPage({ payments, amounts }: any) {
                         ))}
                     </div>
 
-                    <div className="hidden overflow-x-auto rounded-lg border md:block">
+                    <div className="hidden overflow-x-auto rounded-lg border lg:block dark:border-white/20">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#3ABEFF]/10">
+                            <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20 dark:text-white/80">
                                 <tr>
                                     <th className="p-3 text-left font-semibold">Course</th>
                                     <th className="p-3 text-left font-semibold">Teacher</th>
@@ -105,7 +105,12 @@ export default function PaymentsPage({ payments, amounts }: any) {
 
                             <tbody>
                                 {payments.data?.map((payment: any, index: number) => (
-                                    <tr key={index} className={`border-b ${index % 2 === 0 ? 'bg-[#F9FCFF]' : 'bg-white'}`}>
+                                    <tr
+                                        key={index}
+                                        className={`border-b dark:border-white/20 dark:text-white/70 ${
+                                            index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                        }`}
+                                    >
                                         <td className="p-3 font-medium">{payment.course_name}</td>
                                         <td className="p-3">{payment.teacher}</td>
                                         <td className="p-3">{payment.schedule}</td>

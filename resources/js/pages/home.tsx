@@ -18,11 +18,11 @@ export default function HomePage({ courses, institutes, reviews }: { courses: an
     return (
         <>
             <Head title="Home" />
-            <div className="flex min-h-screen flex-col bg-[#F7FDFD]">
+            <div className="flex min-h-screen flex-col">
                 <Navbar />
-                {(user?.role_id == roles.Institute || user?.role_id == roles.Admin) && (
+                {/* {(user?.role_id == roles.Institute || user?.role_id == roles.Admin) && (
                     <NavigationList role={user?.role_id} />
-                )}
+                )} */}
                 <main className="flex-1">
                     <HeroSection />
                     <PopularCourses courses={courses} />

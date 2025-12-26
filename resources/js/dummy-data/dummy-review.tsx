@@ -1,99 +1,55 @@
-import { dummyTeachers } from "./dummy-teacher";
-
-export interface ReviewData {
-  id: number;
-  reviewer_name: string;
-  role: "Pelajar" | "Pengajar";
-  avatar: string;
-  rating: number;
-  review_text: string;
-  review_to: {
-    institutionId: number;
-    teacher: {
-      name: string;
-      description: string;
-    };
-  };
-}
-
-export const dummyReview: ReviewData[] = [
+export const TEMP_REVIEWS = [
   {
     id: 1,
-    reviewer_name: "Vincent Vincen",
-    role: "Pelajar",
-    avatar: "/images/image-1.jpg",
+    name: "Andi Pratama",
+    description:
+      "Materi sangat mudah dipahami dan pengajarnya interaktif. Sangat direkomendasikan untuk pemula.",
     rating: 5,
-    review_text:
-      "Kursusnya sangat membantu saya memahami dasar web development dengan cepat!",
-    review_to: {
-      institutionId: 1,
-      teacher: {
-        name: dummyTeachers[0].name,
-        description: dummyTeachers[0].description,
+    reviewer: {
+      profile_picture: "https://i.pravatar.cc/150?img=3",
+      role: {
+        name: "Student",
+      },
+    },
+    teacher: {
+      user: {
+        name: "Budi Santoso",
       },
     },
   },
   {
     id: 2,
-    reviewer_name: "Rudy Toni",
-    role: "Pengajar",
-    avatar: "/images/image-1.jpg",
+    name: "Siti Aisyah",
+    description:
+      "Penjelasan detail dan banyak studi kasus nyata. Membantu sekali dalam praktik.",
     rating: 4,
-    review_text:
-      "Platform ini memudahkan saya dalam mengajar dan mengelola materi untuk murid.",
-    review_to: {
-      institutionId: 2,
-      teacher: {
-        name: dummyTeachers[1].name,
-        description: dummyTeachers[1].description,
+    reviewer: {
+      profile_picture: "https://i.pravatar.cc/150?img=5",
+      role: {
+        name: "Teacher",
+      },
+    },
+    teacher: {
+      user: {
+        name: "Rina Kusuma",
       },
     },
   },
   {
     id: 3,
-    reviewer_name: "Nadia Putri",
-    role: "Pelajar",
-    avatar: "/images/image-1.jpg",
+    name: "Dewi Lestari",
+    description:
+      "Kelasnya rapi, materinya up-to-date, dan respon cepat dari mentor.",
     rating: 5,
-    review_text:
-      "Instruktur menjelaskan dengan sangat jelas dan interaktif. Suka banget!",
-    review_to: {
-      institutionId: 3,
-      teacher: {
-        name: dummyTeachers[2].name,
-        description: dummyTeachers[2].description,
+    reviewer: {
+      profile_picture: "https://i.pravatar.cc/150?img=8",
+      role: {
+        name: "Student",
       },
     },
-  },
-  {
-    id: 4,
-    reviewer_name: "Dodi Pratama",
-    role: "Pengajar",
-    avatar: "/images/image-1.jpg",
-    rating: 5,
-    review_text:
-      "Sistem penjadwalan dan pembayaran sangat praktis, cocok untuk pengajar profesional.",
-    review_to: {
-      institutionId: 4,
-      teacher: {
-        name: dummyTeachers[3].name,
-        description: dummyTeachers[3].description,
-      },
-    },
-  },
-  {
-    id: 5,
-    reviewer_name: "Citra Lestari",
-    role: "Pengajar",
-    avatar: "/images/image-1.jpg",
-    rating: 4,
-    review_text:
-      "Sangat senang bisa membagikan ilmu desain di platform ini, banyak murid aktif!",
-    review_to: {
-      institutionId: 5,
-      teacher: {
-        name: dummyTeachers[4].name,
-        description: dummyTeachers[4].description,
+    teacher: {
+      user: {
+        name: "Agus Wijaya",
       },
     },
   },

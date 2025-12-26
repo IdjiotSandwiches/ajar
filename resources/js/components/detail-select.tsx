@@ -66,7 +66,7 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
                     ${
                       focused
                         ? "text-[#42C2FF]"
-                        : "text-gray-500 dark:text-gray-400"
+                        : "text-gray-500 dark:text-white/70"
                     }`}
       >
         {title}

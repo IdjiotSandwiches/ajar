@@ -31,7 +31,7 @@ export default function AppLayout({ children, showBackButton = true, useContaine
                 </div>
             )}
 
-            {(user?.role_id === 1 || user?.role_id === 2 || user?.role_id === 3) && <NavigationList role={user?.role_id} />}
+            {/* {(user?.role_id === 1 || user?.role_id === 2 || user?.role_id === 3) && <NavigationList role={user?.role_id} />} */}
 
             <main className={`flex-1 ${useContainer ? 'container mx-auto' : 'w-full'}`}>{children}</main>
             <Toaster richColors={true} />

@@ -4,7 +4,7 @@ import DetailInput from '../../detail-input';
 export default function ProfilePersonalForm({ profile }: any) {
     const { errors } = usePage<any>().props;
     return (
-        <div className="rounded-2xl bg-white p-6 shadow-sm md:p-8">
+        <div className="rounded-2xl border dark:border-white/20 p-6 shadow-sm dark:shadow-white/20 md:p-8">
             <h3 className="mb-8 text-center text-xl font-semibold text-[#3ABEFF] md:text-2xl">Personal Information</h3>
             <Form action={route('institute.update-profile')} method="post" className="flex flex-col gap-4">
                 {profile && <input type="hidden" name="_method" value="PUT" />}

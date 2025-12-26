@@ -140,7 +140,7 @@ export default function MyLearningPage() {
                 />
             </div>
 
-            <CourseStatusSwitch
+            {/* <CourseStatusSwitch
                 active={activeStatus}
                 onChange={setActiveStatus}
                 counts={{
@@ -151,7 +151,7 @@ export default function MyLearningPage() {
                     ongoing: 'Ongoing',
                     completed: 'Completed',
                 }}
-            />
+            /> */}
 
             <div className="grid grid-cols-1 2xl:grid-cols-3 gap-6">
                 <div className="2xl:col-span-2">

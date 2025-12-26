@@ -72,14 +72,14 @@ export default function ClassSection({ title, course, type }: any) {
     };
 
     return (
-        <Card className="rounded-2xl border-none shadow-sm">
+        <Card className="rounded-2xl border-none shadow-sm dark:shadow-[#ffffff]/20">
             <CardContent>
-                <h3 className="mb-4 text-lg font-semibold">{title}</h3>
-
+                <h3 className="mb-4 text-lg font-semibold dark:text-white">{title}</h3>
+                
                 {course.data?.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
-                        <p className="mb-1 font-medium text-gray-700">{empty.title}</p>
-                        <p className="mb-4 max-w-xs text-sm">{empty.desc}</p>
+                        <p className="mb-1 font-medium text-gray-700 dark:text-white/90">{empty.title}</p>
+                        <p className="mb-4 max-w-xs text-sm dark:text-white/60">{empty.desc}</p>
 
                         {user?.role_id === roles.Student && empty.cta && (
                             <button
@@ -106,10 +106,10 @@ export default function ClassSection({ title, course, type }: any) {
                         className="flex max-h-72 flex-col gap-4 overflow-y-scroll"
                     >
                         {course.data?.map((item: any, i: any) => (
-                            <div key={i} className="flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm">
+                            <div key={i} className="flex items-center justify-between rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-[#ffffff]/20">
                                 <div>
                                     <span className="font-medium">{item.name}</span>
-                                    <div className="flex items-center gap-1 text-sm text-gray-500">
+                                    <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-white/60">
                                         {type === 'today' ? (
                                             <>
                                                 <Clock size={14} /> {formatDate(item.start_time, item.end_time)}
@@ -121,7 +121,7 @@ export default function ClassSection({ title, course, type }: any) {
                                         )}
                                     </div>
 
-                                    <span className="text-sm text-gray-500">{item.teacher}</span>
+                                    <span className="text-sm text-gray-500 dark:text-white/60">{item.teacher}</span>
                                 </div>
                                 {type === 'today' && item.meeting_link && (
                                     <a

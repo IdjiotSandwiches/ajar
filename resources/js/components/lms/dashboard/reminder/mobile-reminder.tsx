@@ -22,6 +22,8 @@ export default function MobileReminder({ reminder }: any) {
     const [isOpen, setIsOpen] = useState(true);
     const [isDesktop, setIsDesktop] = useState(false);
 
+    const hasReminder = Array.isArray(reminder) && reminder.length > 0;
+
     useEffect(() => {
         const mediaQuery = window.matchMedia('(min-width: 768px)');
 
@@ -47,7 +49,7 @@ export default function MobileReminder({ reminder }: any) {
     }, [isDesktop]);
 
     return (
-        <Card className="rounded-2xl border-none shadow-sm">
+        <Card className="rounded-2xl border-none shadow-sm dark:shadow-[#ffffff]/20">
             <CardContent>
                 <button
                     onClick={() => setIsOpen((prev) => !prev)}
@@ -57,16 +59,36 @@ export default function MobileReminder({ reminder }: any) {
                     {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </button>
 
-                <div className={`overflow-hidden transition-all duration-300 ${ isOpen ? 'mt-4 max-h-96' : 'max-h-0'}`}>
+                <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'mt-4 max-h-96' : 'max-h-0'}`}>
                     <div className="flex flex-col gap-3">
-                        {reminder?.map((r: any, i: number) => {
-                            const conf = REMINDER_TITLE_MAP[r];
-                            if (!conf) return null;
-                            return <ReminderItem key={i} title={conf.title} url={conf.url} />;
-                        })}
+                        {hasReminder ? (
+                            <div className="flex flex-col gap-3">
+                                {reminder.map((r: any, i: number) => {
+                                    const conf = REMINDER_TITLE_MAP[r];
+                                    if (!conf) return null;
+                                    return (
+                                        <ReminderItem
+                                            key={i}
+                                            title={conf.title}
+                                            url={conf.url}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center py-6 text-center">
+                                <span className="text-2xl mb-1">🔔</span>
+                                <p className="text-sm text-gray-500 dark:text-white/70">
+                                    No reminders yet
+                                </p>
+                                <span className="text-xs text-gray-400 dark:text-white/50">
+                                    You’re all caught up
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </CardContent>
-        </Card>
+        </Card >
     );
 }

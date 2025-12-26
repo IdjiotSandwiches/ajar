@@ -117,7 +117,7 @@
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
+  --card: #222831;
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
@@ -158,6 +158,33 @@
     @apply bg-background text-foreground;
     background-color: #f9fafb;
   }
+
+  .dark body{
+    @apply bg-background text-foreground;
+    background-color: #31363F;
+  }
+}
+
+.dark input[type="time"]::-webkit-calendar-picker-indicator{
+  filter: invert(100%) sepia(0%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  caret-color: inherit;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.dark input:-webkit-autofill,
+.dark textarea:-webkit-autofill {
+  -webkit-text-fill-color: oklch(0.985 0 0) !important;
 }
 
 
@@ -217,3 +244,60 @@
 .animate-fadeIn {
   animation: fadeIn 0.18s ease-out;
 }
+
+
+
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes moon-orbit {
+  0% {
+    transform: rotate(0deg);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+
+  25% {
+    transform: rotate(10deg) ;
+  }
+
+  50% {
+    transform: rotate(-10deg);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+  }
+
+  75% {
+    transform: rotate(5deg) ;
+  }
+
+  100% {
+    transform: rotate(0deg);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+}
+
+.animate-moon {
+  animation: moon-orbit 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes fade-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-spin {
+  animation: slow-spin 15s linear infinite;
+}
+

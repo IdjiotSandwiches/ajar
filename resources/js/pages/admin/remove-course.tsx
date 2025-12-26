@@ -66,49 +66,49 @@ export default function RemoveCoursePage() {
                     }}
                 />
 
-                <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6 md:p-8">
+                <div className="rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20">
                     <h3 className="mb-6 text-xl font-semibold">
                         Course Management
                     </h3>
 
-                    <div className="flex flex-col gap-4 md:hidden">
+                    <div className="flex flex-col gap-4 lg:hidden">
                         {courses.map((course, index) => (
                             <div
                                 key={course.id}
-                                className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+                                className="rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20"
                             >
                                 <div className="mb-3 flex items-center gap-3">
                                     <img
                                         src={storageUrl(course.image)}
                                         alt={course.name}
-                                        className="h-14 w-14 rounded-lg border object-cover"
+                                        className="h-14 w-14 rounded-lg object-cover"
                                     />
 
                                     <div className="flex-1">
-                                        <p className="font-semibold text-gray-800">
+                                        <p className="font-semibold text-gray-800 dark:text-white">
                                             {course.name}
                                         </p>
-                                        <p className="text-xs text-gray-500">
+                                        <p className="text-xs text-gray-500 dark:text-white/70">
                                             {course.institute.name}
                                         </p>
                                     </div>
 
-                                    <span className="text-xs text-gray-400">
+                                    <span className="text-xs text-gray-400 dark:text-white/60">
                                         #{index + 1}
                                     </span>
                                 </div>
 
                                 <div className="mb-4">
-                                    <p className="mb-1 text-xs font-medium text-gray-500">
+                                    <p className="mb-1 text-xs font-medium text-gray-500 dark:text-white/70">
                                         Teachers
                                     </p>
 
                                     {course.teachers.length === 0 ? (
-                                        <span className="italic text-sm text-gray-400">
+                                        <span className="italic text-sm text-gray-400 dark:text-white/40">
                                             No teacher
                                         </span>
                                     ) : (
-                                        <ul className="list-disc pl-5 text-sm text-gray-700">
+                                        <ul className="list-disc pl-5 text-sm text-gray-700 dark:text-white/90">
                                             {course.teachers.map(
                                                 (t: any, i: number) => (
                                                     <li key={i}>{t.name}</li>
@@ -133,9 +133,9 @@ export default function RemoveCoursePage() {
                         ))}
                     </div>
 
-                    <div className="hidden overflow-x-auto md:block rounded-lg border border-gray-200">
-                        <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#3ABEFF]/10">
+                    <div className="hidden overflow-x-auto lg:block rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20">
+                        <table className="min-w-full text-sm text-gray-700 dark:text-white">
+                            <thead className="border-b dark:border-white/20 bg-[#3ABEFF]/10">
                                 <tr>
                                     <th className="w-12 p-3 text-center font-semibold">
                                         No
@@ -159,11 +159,9 @@ export default function RemoveCoursePage() {
                                 {courses.map((course, index) => (
                                     <tr
                                         key={course.id}
-                                        className={`border-b transition hover:bg-[#3ABEFF]/10 ${
-                                            index % 2 === 0
-                                                ? 'bg-[#f9fcff]'
-                                                : 'bg-white'
-                                        }`}
+                                        className={`border-b dark:border-white/20 transition hover:bg-[#3ABEFF]/10 ${index % 2 === 0
+                                            ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
+                                            : 'bg-white dark:bg-[#222831]'}`}
                                     >
                                         <td className="p-3 text-center">
                                             {index + 1}
@@ -176,7 +174,7 @@ export default function RemoveCoursePage() {
                                                     alt={course.name}
                                                     className="h-12 w-12 rounded-md border object-cover"
                                                 />
-                                                <span className="font-medium text-gray-800">
+                                                <span className="font-medium text-gray-800 dark:text-white">
                                                     {course.name}
                                                 </span>
                                             </div>
