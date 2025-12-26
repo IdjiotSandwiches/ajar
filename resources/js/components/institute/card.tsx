@@ -1,3 +1,4 @@
+import { storageUrl } from '@/utils/storage';
 import { router, usePage } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -41,7 +42,7 @@ export default function InstituteCard({ institute, showTeacher = true }: any) {
                 >
                     <div className="mx-auto mb-4 h-28 w-28 overflow-hidden rounded-full border-2 border-white shadow-md">
                         <img
-                            src={institute?.user?.profile_picture ?? 'https://placehold.co/400'}
+                            src={storageUrl(institute?.user?.profile_picture)}
                             alt={institute?.user?.name ?? 'Institute'}
                             className="h-full w-full object-cover"
                         />
@@ -84,7 +85,7 @@ export default function InstituteCard({ institute, showTeacher = true }: any) {
                                                     }}
                                                 >
                                                     <img
-                                                        src={t?.user?.profile_picture ?? 'https://placehold.co/400'}
+                                                        src={storageUrl(t?.user?.profile_picture)}
                                                         alt={t?.user?.name ?? 'Teacher'}
                                                         className="h-12 w-12 rounded-full border object-cover"
                                                     />

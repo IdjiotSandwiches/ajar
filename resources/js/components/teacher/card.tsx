@@ -1,3 +1,4 @@
+import { storageUrl } from '@/utils/storage';
 import { Send } from 'lucide-react';
 import { FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
@@ -14,7 +15,7 @@ export default function TeacherProfileCard({ teacher }: any) {
                 <div className="relative flex flex-col items-center overflow-hidden rounded-2xl bg-[#3ABEFF] p-6 text-center">
                     <div className="z-10 mb-4 h-28 w-28 overflow-hidden rounded-full border-2 border-white shadow-md">
                         <img
-                            src={teacher.user?.profile_picture || 'https://placehold.co/400'}
+                            src={storageUrl(teacher.user?.profile_picture)}
                             alt={teacher.user?.name}
                             className="h-full w-full object-cover"
                         />

@@ -1,3 +1,4 @@
+import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
 
 export default function InstitutionSection({ institutes }: any) {
@@ -18,7 +19,7 @@ export default function InstitutionSection({ institutes }: any) {
                     <div key={index} className="flex w-[90px] flex-shrink-0 snap-start flex-col items-center sm:w-[110px] md:w-[120px]">
                         <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-2 border-[#3ABEFF]/20 bg-gray-100 shadow-sm sm:h-24 sm:w-24 md:h-24 md:w-24">
                             <img
-                                src={institute?.user?.profile_picture || 'https://placehold.co/400'}
+                                src={storageUrl(institute?.user?.profile_picture)}
                                 alt={institute?.user?.name}
                                 className="h-full w-full cursor-pointer object-cover"
                                 onClick={() => router.get(route('detail-institute', institute?.user_id))}

@@ -1,3 +1,5 @@
+import { storageUrl } from "@/utils/storage";
+
 export default function ReviewCardNew({ review }: any) {
   return (
     <div
@@ -7,7 +9,7 @@ export default function ReviewCardNew({ review }: any) {
       <div>
         <div className="flex items-center gap-3 mb-4">
           <img
-            src={`/${review.reviewer.profile_picture || null}`}
+            src={storageUrl(review.reviewer.profile_picture)}
             alt={review.reviewer.name}
             className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
           />

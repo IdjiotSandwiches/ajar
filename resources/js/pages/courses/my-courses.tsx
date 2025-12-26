@@ -4,6 +4,7 @@ import MobileCourseCard from '@/components/lms/mycourses/mobile-card-list';
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
+import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
@@ -79,7 +80,7 @@ export default function CourseList({ categories, courses }: any) {
                                                 </td>
                                                 <td className="flex items-center gap-3 p-3">
                                                     <img
-                                                        src={course?.image || 'https://placehold.co/400'}
+                                                        src={storageUrl(course?.image)}
                                                         alt={course.name}
                                                         className="h-12 w-12 rounded-md object-cover"
                                                     />

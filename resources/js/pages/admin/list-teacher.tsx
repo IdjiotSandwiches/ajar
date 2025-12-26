@@ -3,6 +3,7 @@ import Filter from '@/components/lms/filter/filter';
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
+import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
@@ -64,7 +65,7 @@ export default function ManageTeachersPage({ teachers }: any) {
                                             <td className="p-3">
                                                 <div className="flex items-center gap-3">
                                                     <img
-                                                        src={teacher.avatar || 'https://placehold.co/400'}
+                                                        src={storageUrl(teacher.avatar)}
                                                         alt={teacher.name}
                                                         className="h-10 w-10 rounded-full border object-cover"
                                                     />
@@ -107,7 +108,7 @@ export default function ManageTeachersPage({ teachers }: any) {
                             <div key={teacher.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
                                 <div className="mb-3 flex items-center gap-3">
                                     <img
-                                        src={teacher.avatar || 'https://placehold.co/400'}
+                                        src={storageUrl(teacher.avatar)}
                                         alt={teacher.name}
                                         className="h-12 w-12 rounded-full border object-cover"
                                     />

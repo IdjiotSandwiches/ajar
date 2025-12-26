@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa6';
 import DynamicModal from '../modal/modal';
+import { storageUrl } from '@/utils/storage';
 
 export default function CourseHero({ course, teaching, canApply, hasSchedule }: any) {
     const { props } = usePage();
@@ -130,7 +131,7 @@ export default function CourseHero({ course, teaching, canApply, hasSchedule }: 
 
                     <div className="flex justify-center lg:col-span-1">
                         <img
-                            src={course?.image || 'https://placehold.co/400'}
+                            src={storageUrl(course?.image)}
                             alt={course.name}
                             className="max-h-[320px] w-full max-w-[480px] rounded-xl object-cover shadow-sm ring-1 ring-gray-200"
                         />

@@ -1,6 +1,7 @@
 import { router, usePage } from '@inertiajs/react';
 import { Star } from 'lucide-react';
 import TeacherList from './teacher-list';
+import { storageUrl } from '@/utils/storage';
 
 export default function CourseCard({ course, isTag, showTeacher = true, showReview = true }: any) {
     const { props } = usePage();
@@ -10,7 +11,7 @@ export default function CourseCard({ course, isTag, showTeacher = true, showRevi
     return (
         <div className="flex w-full max-w-100 flex-shrink-0 flex-col overflow-hidden rounded-xl border-2 border-[#3ABEFF]/20 bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md">
             <div className="relative">
-                <img src={course?.image || 'https://placehold.co/400'} alt={course.name} className="h-40 w-full object-cover" />
+                <img src={storageUrl(course?.image)} alt={course.name} className="h-40 w-full object-cover" />
                 {isTag && (
                     <div className="absolute top-3 left-3 cursor-default rounded bg-[#E8FBF2] px-2 py-1 text-xs font-semibold text-[#00B087]">
                         Terlaris

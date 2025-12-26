@@ -1,6 +1,7 @@
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
+import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
 import { Check, X } from 'lucide-react';
 import React, { useState } from 'react';
@@ -34,7 +35,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                 {/* Teacher */}
                                 <div className="mb-3 flex items-center gap-3">
                                     <img
-                                        src={app.teacher.profile_picture || 'https://placehold.co/400'}
+                                        src={storageUrl(app.teacher.profile_picture)}
                                         alt={app.teacher.name}
                                         className="h-12 w-12 rounded-full border object-cover"
                                     />
@@ -46,11 +47,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                 <p className="mb-2 text-sm font-medium text-gray-600">Saya ingin mengajar di kursus ini</p>
 
                                 <div className="mb-3 flex items-center gap-3 rounded-lg bg-[#F9FCFF] p-3">
-                                    <img
-                                        src={app.course.image || 'https://placehold.co/400'}
-                                        alt={app.course.name}
-                                        className="h-10 w-10 rounded-md object-cover"
-                                    />
+                                    <img src={storageUrl(app.course.image)} alt={app.course.name} className="h-10 w-10 rounded-md object-cover" />
                                     <p className="text-sm font-medium text-gray-700">{app.course.name}</p>
                                 </div>
 
@@ -105,7 +102,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                         <td className="p-3">
                                             <div className="flex items-center gap-3">
                                                 <img
-                                                    src={app.teacher.profile_picture || 'https://placehold.co/400'}
+                                                    src={storageUrl(app.teacher.profile_picture)}
                                                     className="h-12 w-12 rounded-full border object-cover"
                                                 />
                                                 <div>
@@ -116,7 +113,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
 
                                         <td className="p-3">
                                             <div className="flex items-center gap-3">
-                                                <img src={app.course.image} className="h-10 w-10 rounded-md object-cover" />
+                                                <img src={storageUrl(app.course.image)} className="h-10 w-10 rounded-md object-cover" />
                                                 <span className="font-medium">{app.course.name}</span>
                                             </div>
                                         </td>
