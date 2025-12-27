@@ -1,5 +1,8 @@
 <?php
 
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
@@ -10,9 +13,6 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UtilityController;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::group([], function () {
     Route::get('/', [HomeController::class, 'getHomeData'])->name('home');
@@ -49,7 +49,6 @@ Route::middleware(['auth', 'verified'])
             Route::controller(StudentController::class)->group(function () {
                 Route::get('profile', 'getProfile')->name('profile');
                 Route::put('profile', 'putProfile')->name('update-profile');
-                Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
             });
             Route::controller(PaymentController::class)->group(function () {
                 Route::get('payment-lms', 'getPaymentList')->name('payment-lms');
@@ -127,6 +126,7 @@ Route::middleware(['auth', 'verified'])
                     Route::get('my-learning', 'getMyLearning')->name('my-learning');
                     Route::post('course-recording/{id}', 'saveCourseRecording')->name('course-recording');
                     Route::post('course-meeting/{id}', 'saveCourseMeeting')->name('course-meeting');
+                    Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
                 });
             });
     });

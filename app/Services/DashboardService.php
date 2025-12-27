@@ -129,7 +129,8 @@ class DashboardService
 
     private function getStudentCourses($isToday, $userId)
     {
-        $courses = EnrolledCourse::where('student_id', $userId)
+        $courses = EnrolledCourse::with(['courseSchedule.course', 'courseSchedule.teacher.user'])
+            ->where('student_id', $userId)
             ->where('is_verified', true)
             ->whereHas('courseSchedule', function ($query) use ($isToday) {
                 $query->when(
@@ -158,7 +159,8 @@ class DashboardService
 
     private function getTeacherCourses($isToday, $userId)
     {
-        $courses = CourseSchedule::where('teacher_id', $userId)
+        $courses = CourseSchedule::with(['teacher.user'])
+            ->where('teacher_id', $userId)
             ->when($isToday, fn($q) => $q->whereToday('start_time'))
             ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'))
             ->where('start_time', '>', Carbon::now('Asia/Jakarta'))

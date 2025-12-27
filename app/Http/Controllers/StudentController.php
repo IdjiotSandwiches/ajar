@@ -33,15 +33,4 @@ class StudentController extends Controller
             return back()->with('error', 'Failed to update profile.');
         }
     }
-
-    public function addReviews($id, ReviewRequest $request)
-    {
-        try {
-            $data = $request->validated();
-            $this->service->addReviews($id, $data);
-            return back()->with('success', 'Review added.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Failed to give review.');
-        }
-    }
 }

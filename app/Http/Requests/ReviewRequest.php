@@ -23,11 +23,11 @@ class ReviewRequest extends FormRequest
     {
         return [
             'teacher_rating' => 'required|integer',
-            'teacher_review' => 'required|string',
+            'teacher_review' => 'nullable|string',
             'institute_rating' => 'required|integer',
-            'institute_review' => 'required|string',
+            'institute_review' => 'nullable|string',
             'course_rating' => 'required|integer',
-            'course_review' => 'required|string',
+            'course_review' => 'nullable|string',
         ];
     }
 }

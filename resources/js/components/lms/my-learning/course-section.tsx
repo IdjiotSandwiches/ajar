@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { StatusTabs } from '../applications-teacher/status-switch';
 import CourseCard from './course-card';
 
-export default function CourseSection({ courses, counts, state }: any) {
+export default function CourseSection({ courses, counts, review, state }: any) {
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
@@ -13,19 +13,12 @@ export default function CourseSection({ courses, counts, state }: any) {
 
     const handleStatusChange = (status: any) => {
         setActiveStatus(status || activeStatus);
-        router.reload({
-            data: { status: status || activeStatus },
-            only: ['courses'],
-            reset: ['courses', 'state'],
-        });
+        router.reload({ data: { status: status || activeStatus } });
     };
 
     useEffect(() => {
         const interval = setInterval(() => {
-            router.reload({
-                only: ['courses'],
-                reset: ['courses', 'state'],
-            });
+            router.reload();
         }, 60_000);
 
         return () => clearInterval(interval);
@@ -33,12 +26,7 @@ export default function CourseSection({ courses, counts, state }: any) {
 
     return (
         <>
-            <StatusTabs
-                active={activeStatus}
-                onChange={handleStatusChange}
-                counts={counts}
-                states={states}
-            />
+            <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} />
             <div className="rounded-2xl border shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
                 <div className="rounded-2xl border p-6">
                     <h3 className="mb-4 text-lg font-semibold">{Object.keys(states).find((key) => states[key] === state)} Courses</h3>
@@ -76,9 +64,9 @@ export default function CourseSection({ courses, counts, state }: any) {
                             buffer={1}
                             loading={() => 'Loading more courses...'}
                             data="courses"
-                            className="flex flex-col gap-4 max-h-[42rem] overflow-y-auto"
+                            className="flex max-h-[42rem] flex-col gap-4 overflow-y-auto"
                         >
-                            {courses.data?.map((course: any, index: number) => <CourseCard key={index} course={course} state={state} />)}
+                            {courses.data?.map((course: any, index: number) => <CourseCard key={index} enroll={course} review={review} state={state} />)}
                         </InfiniteScroll>
                     )}
                 </div>

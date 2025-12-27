@@ -8,9 +8,10 @@ interface AddLinkModalProps {
     action: string;
     id: number;
     onClose: () => void;
+    onSuccess: () => void;
 }
 
-export default function AddLinkModal({ title, placeholder, action, id, onClose }: AddLinkModalProps) {
+export default function AddLinkModal({ title, placeholder, action, id, onClose, onSuccess }: AddLinkModalProps) {
     const { errors } = usePage<any>().props;
     const [value, setValue] = useState('');
     return (
@@ -27,7 +28,7 @@ export default function AddLinkModal({ title, placeholder, action, id, onClose }
                         ? 'Add a meeting link for course learning according to the schedule'
                         : 'Add recording link as proof of course learning'}
                 </p>
-                <Form onSuccess={() => onClose()} action={route(action, id)} method="post" className="text-left">
+                <Form onSuccess={() => onSuccess()} action={route(action, id)} method="post" className="text-left">
                     <input
                         type="text"
                         placeholder={placeholder}

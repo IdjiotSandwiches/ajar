@@ -22,8 +22,10 @@ class CourseSchedule extends Model
         'start_time',
         'end_time',
         'meeting_link',
+        'recording_link',
         'course_id',
         'teacher_id',
+        'is_verified',
         'status',
     ];
 
