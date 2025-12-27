@@ -29,7 +29,10 @@ class CourseSchedule extends Model
 
     protected $casts = [
         'status' => CourseStatusEnum::class,
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
+
 
     public function course()
     {

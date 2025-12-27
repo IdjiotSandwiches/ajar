@@ -1,16 +1,16 @@
+import CalendarSection from '@/components/lms/my-learning/calender-section';
 import CourseSection from '@/components/lms/my-learning/course-section';
 import LMSLayout from '@/layouts/lms-layout';
 import { usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
-type LearningStatus = 'ongoing' | 'completed';
+// type LearningStatus = 'ongoing' | 'completed';
 
-export default function MyLearningPage({ courses }: any) {
-    console.log(courses);
-    const { props } = usePage();
-    const states = props.enums?.learning_status_enum;
+export default function MyLearningPage({ courses, counts, state }: any) {
+    // const { props } = usePage();
+    // const states = props.enums?.learning_status_enum;
 
-    const [role] = useState<'student' | 'teacher'>('student');
+    // const [role] = useState<'student' | 'teacher'>('student');
     const [modalType, setModalType] = useState<string | null>(null);
     const [selectedCourse, setSelectedCourse] = useState<any>(null);
 
@@ -20,7 +20,7 @@ export default function MyLearningPage({ courses }: any) {
     const todayString = `${year}-${month + 1}-${now.getDate()}`;
     const [selectedDate, setSelectedDate] = useState(todayString);
 
-    const [activeStatus, setActiveStatus] = useState<LearningStatus>('ongoing');
+    // const [activeStatus, setActiveStatus] = useState<LearningStatus>('ongoing');
 
     // const [courses, setCourses] = useState([
     //     {
@@ -125,7 +125,7 @@ export default function MyLearningPage({ courses }: any) {
 
             <div className="grid grid-cols-1 gap-6 2xl:grid-cols-3">
                 <div className="space-y-4 2xl:col-span-2">
-                    <CourseSection courses={courses} />
+                    <CourseSection courses={courses} counts={counts} state={state} />
                 </div>
 
                 <div className="hidden 2xl:col-span-1 2xl:inline">
@@ -142,32 +142,7 @@ export default function MyLearningPage({ courses }: any) {
                 </div>
             </div>
 
-            {/* {modalType === 'warning' && (
-                <DynamicModal
-                    type="warning"
-                    isOpen
-                    onClose={() => setModalType(null)}
-                    description="Your course has not started yet. You can join 10 minutes before schedule."
-                />
-            )}
-
-            {modalType === 'addMeeting' && (
-                <AddLinkModal
-                    title="Meeting Link"
-                    placeholder="Link Meeting"
-                    onSubmit={(v) => handleSubmitLink('meeting', v)}
-                    onClose={() => setModalType(null)}
-                />
-            )}
-
-            {modalType === 'addRecording' && (
-                <AddLinkModal
-                    title="Recording Link"
-                    placeholder="Link Recording"
-                    onSubmit={(v) => handleSubmitLink('recording', v)}
-                    onClose={() => setModalType(null)}
-                />
-            )}
+            {/*
 
             {modalType === 'success' && (
                 <DynamicModal type="success" isOpen onClose={() => setModalType(null)} description="Your link has been added successfully!" />

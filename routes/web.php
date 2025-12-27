@@ -123,7 +123,11 @@ Route::middleware(['auth', 'verified'])
 
         Route::middleware(['role:Student,Teacher'])
             ->group(function () {
-                Route::get('my-learning', [MyLearningController::class, 'getMyLearning'])->name('my-learning');
+                Route::controller(MyLearningController::class)->group(function () {
+                    Route::get('my-learning', 'getMyLearning')->name('my-learning');
+                    Route::post('course-recording/{id}', 'saveCourseRecording')->name('course-recording');
+                    Route::post('course-meeting/{id}', 'saveCourseMeeting')->name('course-meeting');
+                });
             });
     });
 
