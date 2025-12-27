@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 export default function TeacherApplyCourses({ courses, categories, counts, state }: any) {
     const { props } = usePage();
-    const states = props.enums?.state_enum;
+    const states = (({ Accepted, ...rest }: any) => ({ ...rest, 'My Courses': Accepted }))(props.enums?.state_enum ?? {});
 
     const [activeStatus, setActiveStatus] = useState<number>(state || states.Available);
     const reload = (status: any, filters: any) => {
@@ -34,7 +34,7 @@ export default function TeacherApplyCourses({ courses, categories, counts, state
         <>
             <section className="min-h-screen">
                 <div className="space-y-6">
-                    <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} accepted={'My Courses'} />
+                    <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} />
                     <Filter schema={courseApplicationFilter(categories)} onChange={handleFilterChange} />
                     {courses.data?.length === 0 ? (
                         <p className="py-10 text-center text-sm text-gray-500 italic">Tidak ada kursus pada kategori ini.</p>

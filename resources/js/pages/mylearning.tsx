@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import DynamicModal from '@/components/modal/modal';
-import AddLinkModal from '@/components/modal/my-learning/add-link-modal';
-import { AddReviewModal } from '@/components/modal/my-learning/add-review-modal';
-import CalendarSection from '@/components/lms/my-learning/calender-section';
-import LMSLayout from '@/layouts/lms-layout';
 import CourseSection from '@/components/lms/my-learning/course-section';
-import { CourseStatusSwitch } from '@/components/lms/applications-teacher/CourseStatusSwitch';
+import LMSLayout from '@/layouts/lms-layout';
+import { usePage } from '@inertiajs/react';
+import React, { useState } from 'react';
 
 type LearningStatus = 'ongoing' | 'completed';
 
-export default function MyLearningPage() {
+export default function MyLearningPage({ courses }: any) {
+    console.log(courses);
+    const { props } = usePage();
+    const states = props.enums?.learning_status_enum;
+
     const [role] = useState<'student' | 'teacher'>('student');
     const [modalType, setModalType] = useState<string | null>(null);
     const [selectedCourse, setSelectedCourse] = useState<any>(null);
@@ -22,61 +22,60 @@ export default function MyLearningPage() {
 
     const [activeStatus, setActiveStatus] = useState<LearningStatus>('ongoing');
 
-    const [courses, setCourses] = useState([
-        {
-            id: 1,
-            title: 'Pengembangan AI & Ilmu Data menggunakan Python',
-            mentor: 'Dodi Surdadi',
-            institute: 'Ajar Academy',
-            duration: '2 Hours',
-            date: '2025-11-15',
-            time: '09:00–11:00',
-            image: '/images/image-1.jpg',
-            meetingLink: 'https://zoom.us/j/uiux123',
-            recordingLink: '',
-            isApproved: false,
-            status: 'progress',
-        },
-        {
-            id: 2,
-            title: 'UI/UX Design Fundamentals',
-            mentor: 'Ayu Wulandari',
-            institute: 'Ajar Design Lab',
-            duration: '3 Hours',
-            date: '2025-11-1',
-            time: '13:00–16:00',
-            image: '/images/image-1.jpg',
-            meetingLink: 'https://zoom.us/j/uiux123',
-            recordingLink: 'https://drive.google.com/rec123',
-            isApproved: true,
-            status: 'completed',
-        },
-        {
-            id: 3,
-            title: 'UI/UX Design Fundamentals',
-            mentor: 'Ayu Wulandari',
-            institute: 'Ajar Design Lab',
-            duration: '3 Hours',
-            date: '2025-11-1',
-            time: '13:00–16:00',
-            image: '/images/image-1.jpg',
-            meetingLink: '',
-            recordingLink: '',
-            isApproved: false,
-            status: 'progress',
-        },
-    ]);
+    // const [courses, setCourses] = useState([
+    //     {
+    //         id: 1,
+    //         title: 'Pengembangan AI & Ilmu Data menggunakan Python',
+    //         mentor: 'Dodi Surdadi',
+    //         institute: 'Ajar Academy',
+    //         duration: '2 Hours',
+    //         date: '2025-11-15',
+    //         time: '09:00–11:00',
+    //         image: '/images/image-1.jpg',
+    //         meetingLink: 'https://zoom.us/j/uiux123',
+    //         recordingLink: '',
+    //         isApproved: false,
+    //         status: 'progress',
+    //     },
+    //     {
+    //         id: 2,
+    //         title: 'UI/UX Design Fundamentals',
+    //         mentor: 'Ayu Wulandari',
+    //         institute: 'Ajar Design Lab',
+    //         duration: '3 Hours',
+    //         date: '2025-11-1',
+    //         time: '13:00–16:00',
+    //         image: '/images/image-1.jpg',
+    //         meetingLink: 'https://zoom.us/j/uiux123',
+    //         recordingLink: 'https://drive.google.com/rec123',
+    //         isApproved: true,
+    //         status: 'completed',
+    //     },
+    //     {
+    //         id: 3,
+    //         title: 'UI/UX Design Fundamentals',
+    //         mentor: 'Ayu Wulandari',
+    //         institute: 'Ajar Design Lab',
+    //         duration: '3 Hours',
+    //         date: '2025-11-1',
+    //         time: '13:00–16:00',
+    //         image: '/images/image-1.jpg',
+    //         meetingLink: '',
+    //         recordingLink: '',
+    //         isApproved: false,
+    //         status: 'progress',
+    //     },
+    // ]);
 
-    const ongoing = courses.filter((c) => c.status === 'progress');
-    const completed = courses.filter((c) => c.status === 'completed');
+    // const ongoing = courses.filter((c) => c.status === 'progress');
+    // const completed = courses.filter((c) => c.status === 'completed');
 
-    const learningMap: Record<LearningStatus, any[]> = {
-        ongoing,
-        completed,
-    };
+    // const learningMap: Record<LearningStatus, any[]> = {
+    //     ongoing,
+    //     completed,
+    // };
 
-    const isCourseFinished = (course: any) =>
-        new Date(course.date) < now;
+    const isCourseFinished = (course: any) => new Date(course.date) < now;
 
     const handleActionClick = (course: any) => {
         setSelectedCourse(course);
@@ -88,19 +87,10 @@ export default function MyLearningPage() {
         }
     };
 
-    const handleSubmitLink = (
-        type: 'meeting' | 'recording',
-        value: string
-    ) => {
+    const handleSubmitLink = (type: 'meeting' | 'recording', value: string) => {
         if (!selectedCourse) return;
 
-        setCourses((prev) =>
-            prev.map((c) =>
-                c.id === selectedCourse.id
-                    ? { ...c, [`${type}Link`]: value }
-                    : c
-            )
-        );
+        // setCourses((prev) => prev.map((c) => (c.id === selectedCourse.id ? { ...c, [`${type}Link`]: value } : c)));
         setModalType('success');
     };
 
@@ -113,22 +103,15 @@ export default function MyLearningPage() {
     };
 
     const handleSubmitReview = (reviewData: any) => {
-        setCourses((prev) =>
-            prev.map((c) =>
-                c.id === reviewCourse.id
-                    ? { ...c, review: reviewData }
-                    : c
-            )
-        );
+        // setCourses((prev) => prev.map((c) => (c.id === reviewCourse.id ? { ...c, review: reviewData } : c)));
         setShowReviewModal(false);
         setModalType('success');
     };
 
     return (
-
         <div className="w-full space-y-4">
-            <div className='2xl:hidden'>
-                <CalendarSection
+            <div className="2xl:hidden">
+                {/* <CalendarSection
                     month={month}
                     year={year}
                     setMonth={setMonth}
@@ -137,51 +120,16 @@ export default function MyLearningPage() {
                     setSelectedDate={setSelectedDate}
                     todayString={todayString}
                     courses={courses}
-                />
+                /> */}
             </div>
 
-            {/* <CourseStatusSwitch
-                active={activeStatus}
-                onChange={setActiveStatus}
-                counts={{
-                    ongoing: ongoing.length,
-                    completed: completed.length,
-                }}
-                labels={{
-                    ongoing: 'Ongoing',
-                    completed: 'Completed',
-                }}
-            /> */}
-
-            <div className="grid grid-cols-1 2xl:grid-cols-3 gap-6">
-                <div className="2xl:col-span-2">
-                    <CourseSection
-                        title={
-                            activeStatus === 'ongoing'
-                                ? 'Ongoing Courses'
-                                : 'Completed Courses'
-                        }
-                        courses={learningMap[activeStatus]}
-                        role={role}
-                        emptyTitle={
-                            activeStatus === 'ongoing'
-                                ? 'No ongoing courses.'
-                                : 'No completed courses yet.'
-                        }
-                        emptyDesc={
-                            activeStatus === 'ongoing'
-                                ? 'Start learning by enrolling in a course!'
-                                : 'Finish a course to see it here!'
-                        }
-                        showCTA
-                        isCourseFinished={isCourseFinished}
-                        onActionClick={handleActionClick}
-                        onAddReview={handleAddReview}
-                    />
+            <div className="grid grid-cols-1 gap-6 2xl:grid-cols-3">
+                <div className="space-y-4 2xl:col-span-2">
+                    <CourseSection courses={courses} />
                 </div>
 
-                <div className="hidden 2xl:inline 2xl:col-span-1">
-                    <CalendarSection
+                <div className="hidden 2xl:col-span-1 2xl:inline">
+                    {/* <CalendarSection
                         month={month}
                         year={year}
                         setMonth={setMonth}
@@ -190,11 +138,11 @@ export default function MyLearningPage() {
                         setSelectedDate={setSelectedDate}
                         todayString={todayString}
                         courses={courses}
-                    />
+                    /> */}
                 </div>
             </div>
 
-            {modalType === 'warning' && (
+            {/* {modalType === 'warning' && (
                 <DynamicModal
                     type="warning"
                     isOpen
@@ -222,12 +170,7 @@ export default function MyLearningPage() {
             )}
 
             {modalType === 'success' && (
-                <DynamicModal
-                    type="success"
-                    isOpen
-                    onClose={() => setModalType(null)}
-                    description="Your link has been added successfully!"
-                />
+                <DynamicModal type="success" isOpen onClose={() => setModalType(null)} description="Your link has been added successfully!" />
             )}
 
             {showReviewModal && reviewCourse && (
@@ -249,11 +192,9 @@ export default function MyLearningPage() {
                         name: reviewCourse.title,
                     }}
                 />
-            )}
+            )} */}
         </div>
     );
 }
 
-MyLearningPage.layout = (page: React.ReactNode) => (
-    <LMSLayout title="My Learning">{page}</LMSLayout>
-);
+MyLearningPage.layout = (page: React.ReactNode) => <LMSLayout title="My Learning">{page}</LMSLayout>;

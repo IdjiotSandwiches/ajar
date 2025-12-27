@@ -35,9 +35,6 @@ Route::group([], function () {
 Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::group([], function () {
-            // Route::controller(MyLearningController::class)->group(function () {
-            //     Route::get('my-learning', 'getMyLearning')->name('my-learning');
-            // });
             Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
             Route::get('dashboard', [DashboardController::class, 'getDashboardData'])->name('dashboard');
             Route::controller(UtilityController::class)->group(function () {
@@ -126,7 +123,7 @@ Route::middleware(['auth', 'verified'])
 
         Route::middleware(['role:Student,Teacher'])
             ->group(function () {
-                Route::get('my-learning', fn() => Inertia::render('mylearning'))->name('my-learning');
+                Route::get('my-learning', [MyLearningController::class, 'getMyLearning'])->name('my-learning');
             });
     });
 

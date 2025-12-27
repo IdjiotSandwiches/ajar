@@ -2,13 +2,9 @@
 
 namespace App\Services;
 
-use App\Enums\DayEnum;
 use App\Models\Institute;
 use App\Models\Teacher;
-use App\Models\TeacherSchedule;
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class AdminService
 {

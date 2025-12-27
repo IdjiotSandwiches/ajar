@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LearningStatusEnum;
 use App\Services\MyLearningService;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class MyLearningController extends Controller
@@ -14,10 +16,16 @@ class MyLearningController extends Controller
         $this->service = $service;
     }
 
-    public function getMyLearning()
+    public function getMyLearning(Request $request)
     {
-        return Inertia::render('my-learning/app', [
-            'myLearning' => Inertia::lazy(fn() => Inertia::scroll($this->service->getEnrolledCourses()))
+        $status = LearningStatusEnum::Ongoing;
+
+        if (!empty($request['status']))
+            $status = LearningStatusEnum::from($request['status']);
+
+        $courses = $this->service->getCourses($status);
+        return Inertia::render('mylearning', [
+            'courses' => Inertia::scroll($courses)
         ]);
     }
 }
