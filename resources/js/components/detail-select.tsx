@@ -37,7 +37,7 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
         onBlur={() => setFocused(false)}
         tabIndex={tabIndex}
         disabled={disabled}
-        className={`block w-full appearance-none bg-transparent border-0 border-b-2 text-sm
+        className={`block w-full dark:bg-[#222831] appearance-none bg-transparent border-0 border-b-2 text-sm
                    py-2 px-0 text-gray-900 dark:text-white focus:outline-none focus:ring-0
                    ${
                      disabled

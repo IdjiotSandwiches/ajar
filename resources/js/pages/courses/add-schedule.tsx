@@ -71,17 +71,26 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                         id: session?.teaching_course_id,
                     })
                 }
-                className={`cursor-pointer rounded border px-2 py-1 text-xs text-center transition
-                    ${session
+                className={`
+                cursor-pointer rounded border text-xs transition
+                flex items-center justify-center
+                h-10 w-full px-1
+                overflow-hidden whitespace-nowrap text-ellipsis
+                ${session
                         ? 'border-blue-400 bg-blue-200 text-blue-900'
-                        : 'border-dashed border-gray-400 dark:border-white/40'
+                        : 'border-dashed border-gray-400 dark:border-white/40 text-gray-400'
                     }
-                `}
+            `}
+                title={session?.course_name ?? ''}
             >
-                {session?.course_name ?? '+'}
+                <span className="truncate">
+                    {session?.course_name ?? '+'}
+                </span>
             </div>
         );
     };
+
+
 
     useEffect(() => {
         if (popup.visible) {
@@ -274,7 +283,8 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                 </div>
 
                 <div className="hidden md:block overflow-x-auto rounded-xl border dark:border-white/20">
-                    <table className="min-w-[900px] w-full text-center text-sm">
+                    {/* <table className="min-w-[900px] w-full text-center text-sm"> */}
+                    <table className="min-w-[900px] w-full table-fixed text-center text-sm">
                         <thead className="bg-[#3ABEFF]/10 border-b dark:border-white/20">
                             <tr>
                                 <th className="p-2">Hour</th>
@@ -316,7 +326,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                         <h3 className="mb-4 font-semibold dark:text-white">Add / Edit Session</h3>
 
                         <select
-                            className="mb-4 w-full rounded-md border dark:border-white/20 p-2"
+                            className="mb-4 w-full dark:bg-[#222831] rounded-md border dark:border-white/20 p-2"
                             value={selectedCourse?.id || ''}
                             onChange={(e) =>
                                 setSelectedCourse(
