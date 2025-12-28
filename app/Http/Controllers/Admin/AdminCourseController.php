@@ -32,4 +32,22 @@ class AdminCourseController extends Controller
             return back()->with('error', $e->getMessage());
         }
     }
+
+    public function getAllCourses()
+    {
+        $courses = $this->service->getAllCourses();
+        return Inertia::render('admin/remove-course', [
+            'courses' => $courses
+        ]);
+    }
+
+    public function removeCourse($id)
+    {
+        try {
+            $this->service->removeCourse($id);
+            return back()->with('success', 'Course removed.');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
 }

@@ -92,7 +92,7 @@ const MENU_ADMIN: NavItem[] = [
                 id: "removecourse",
                 label: "Remove Course",
                 icon: <BookCheck size={16} />,
-                route: "admin.remove-course",
+                route: "admin.course-management",
             },
             {
                 id: "coursecompletion",
