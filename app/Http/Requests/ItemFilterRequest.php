@@ -6,7 +6,7 @@ use App\Enums\DayEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class TeachingFilterRequest extends FormRequest
+class ItemFilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,6 +26,8 @@ class TeachingFilterRequest extends FormRequest
         return [
             'category_id' => 'nullable|integer|exists:categories,id',
             'search' => 'nullable|string',
+            'price_min' => 'nullable|numeric|min:0',
+            'price_max' => 'nullable|numeric|min:0',
             'time' => 'nullable|date_format:H:i',
             'day' => ['nullable', new Enum(DayEnum::class)],
         ];

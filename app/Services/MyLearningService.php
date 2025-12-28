@@ -153,9 +153,13 @@ class MyLearningService
 
     public function saveCourseRecording($id, $data)
     {
-        $schedule = CourseSchedule::findOrFail($id);
+        $schedule = CourseSchedule::with(['enrolledCourses'])
+            ->findOrFail($id);
         $schedule->recording_link = $data['link'];
         $schedule->status = CourseStatusEnum::Completed;
+        $schedule->enrolledCourses()->update([
+            'is_complete' => true
+        ]);
         $schedule->save();
     }
 

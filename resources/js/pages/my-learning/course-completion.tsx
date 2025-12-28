@@ -1,84 +1,58 @@
-import DynamicModal from "@/components/modal/modal";
-import CourseCompletionCard from "@/components/lms/my-learning/course-completion-card";
-import LMSLayout from "@/layouts/lms-layout";
-import React, { useState } from "react";
-import Filter from "@/components/lms/filter/filter";
-import { courseCompletionFilter } from "@/components/lms/filter/dictionary/course-completion";
+import { courseCompletionFilter } from '@/components/lms/filter/dictionary/course-completion';
+import Filter from '@/components/lms/filter/filter';
+import CourseCompletionCard from '@/components/lms/my-learning/course-completion-card';
+import DynamicModal from '@/components/modal/modal';
+import Pagination from '@/components/pagination';
+import LMSLayout from '@/layouts/lms-layout';
+import React, { useState } from 'react';
 
-export default function CourseCompletionPage() {
-  const [showModal, setShowModal] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+export default function CourseCompletionPage({ schedules }: any) {
+    const [showModal, setShowModal] = useState(false);
+    const [selectedCourse, setSelectedCourse] = useState<{
+        id: number;
+        name: string;
+    } | null>(null);
 
-  const courseList = [
-    {
-      image: "https://images.pexels.com/photos/3184639/pexels-photo-3184639.jpeg",
-      title: "Pengembangan AI & Ilmu Data Menggunakan Python",
-      teacher: "Chelsea",
-      student: "Adit",
-      duration: "120 Minutes",
-      startDate: "2025-02-20",
-      startTime: "15:00",
-      endDate: "2025-02-20",
-      endTime: "17:05",
-      recordingLink: "https://drive.google.com/drive/u/0/home",
-    },
-    {
-      image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg",
-      title: "Pengenalan Machine Learning Dasar",
-      teacher: "Chelsea",
-      student: "Adit",
-      duration: "90 Minutes",
-      startDate: "2025-02-21",
-      startTime: "13:00",
-      endDate: "2025-02-21",
-      endTime: "14:30",
-      recordingLink: "https://drive.google.com/drive/u/0/home",
-    },
-  ];
+    const handleConfirmComplete = (name: any, id: any) => {
+        setSelectedCourse({ id, name });
+        setShowModal(true);
+    };
 
-  const handleConfirmComplete = (courseTitle: string) => {
-    setSelectedCourse(courseTitle);
-    setShowModal(true);
-  };
+    const confirmDelete = () => {
+        // console.log('DELETE COURSE:', selectedCourse?.id);
+        setShowModal(false);
+    };
 
-  const confirmDelete = () => {
-    // console.log('DELETE COURSE:', selectedCourse?.id);
-    setShowModal(false);
-  };
-
-  return (
-    <div className="min-h-screen flex flex-col gap-6">
-      <Filter
-        schema={courseCompletionFilter}
-        onChange={(filters: any) => {
-          console.log(filters);
-        }}
-      />
-
-      <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20">
-        <h3 className="font-semibold text-xl mb-6">Course List</h3>
-        <div>
-          {courseList.map((course, index) => (
-            <CourseCompletionCard
-              key={index}
-              {...course}
-              onCompleteClick={() => handleConfirmComplete(course.title)}
+    return (
+        <div className="flex min-h-screen flex-col gap-6">
+            <Filter
+                schema={courseCompletionFilter}
+                onChange={(filters: any) => {
+                    console.log(filters);
+                }}
             />
-          ))}
-        </div>
-      </div>
 
-      {showModal && (
-        <DynamicModal
-          type="confirmation"
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-          onConfirm={confirmDelete}
-          description={`Course status for "${selectedCourse}" will be updated once you submit.`}
-        />
-      )}
-    </div>
-  );
+            <div className="mx-auto w-full rounded-2xl border p-4 shadow-sm lg:p-8 dark:border-white/20 dark:shadow-white/20">
+                <h3 className="mb-6 text-xl font-semibold">Course List</h3>
+                <div>
+                    {schedules.data?.map((course: any, index: number) => (
+                        <CourseCompletionCard key={index} {...course} onCompleteClick={() => handleConfirmComplete(course.name, course.id)} />
+                    ))}
+                </div>
+                <Pagination links={schedules.links} />
+            </div>
+
+            {showModal && (
+                <DynamicModal
+                    type="confirmation"
+                    isOpen={showModal}
+                    onClose={() => setShowModal(false)}
+                    onConfirm={confirmDelete}
+                    description={`Course status for "${selectedCourse}" will be updated once you submit.`}
+                />
+            )}
+        </div>
+    );
 }
 
 CourseCompletionPage.layout = (page: React.ReactNode) => <LMSLayout title="Courses Completion">{page}</LMSLayout>;
