@@ -46,7 +46,8 @@ class InstituteService
                     $uq->where('name', 'like', "%{$filters['search']}%")
                 )
             )
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return $institutes;
     }

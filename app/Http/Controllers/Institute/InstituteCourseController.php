@@ -23,7 +23,12 @@ class InstituteCourseController extends Controller
         [$categories, $courses] = $this->service->getCourseByInstitution($filters);
         return Inertia::render('courses/my-courses', [
             'courses' => $courses,
-            'categories' => $categories
+            'categories' => $categories,
+            'filters' => [
+                'search' => $filters['search'] ?? null,
+                'category_id' => $filters['category_id'] ?? null,
+                'duration' => $filters['duration'] ?? null
+            ]
         ]);
     }
 

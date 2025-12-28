@@ -22,9 +22,10 @@ class InstituteCourseService
         $courses = Course::where('institute_id', $user->id)
             ->when(!empty($filters['search']), fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
             ->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
-            ->when(!empty($filters['price_min']), fn($q) => $q->where('price', '>=', $filters['price_min']))
-            ->when(!empty($filters['price_max']), fn($q) => $q->where('price', '>=', $filters['price_max']))
-            ->paginate(10);
+            ->when(!empty($filters['duration']), fn($q) => $q->where('duration', $filters['duration']))
+            ->when(!empty($filters['sort_by']), fn($q) => $q->orderBy('price', $filters['sort_by'] ? 'desc' : 'asc'))
+            ->paginate(10)
+            ->withQueryString();
 
         return [$categories, $courses];
     }

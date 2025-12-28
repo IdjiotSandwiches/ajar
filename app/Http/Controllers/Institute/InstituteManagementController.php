@@ -51,7 +51,13 @@ class InstituteManagementController extends Controller
         $filters = $request->validated();
         $teachers = $this->service->teacherList($filters);
         return Inertia::render('institute/teacher-list', [
-            'teachers' => $teachers
+            'teachers' => $teachers,
+            'filters' => [
+                'search' => $filters['search'] ?? null,
+                'rating' => $filters['rating'] ?? null,
+                'date' => $filters['date'] ?? null,
+                'count' => $filters['count'] ?? null,
+            ]
         ]);
     }
 

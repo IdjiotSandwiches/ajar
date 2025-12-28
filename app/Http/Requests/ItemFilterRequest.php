@@ -30,6 +30,11 @@ class ItemFilterRequest extends FormRequest
             'price_max' => 'nullable|numeric|min:0',
             'time' => 'nullable|date_format:H:i',
             'day' => ['nullable', new Enum(DayEnum::class)],
+            'rating' => 'nullable|integer|min:0|max:5',
+            'date' => 'nullable|date',
+            'count' => 'nullable|integer|min:0',
+            'duration' => 'nullable|integer|min:0',
+            'sort_by' => 'nullable|boolean'
         ];
     }
 }

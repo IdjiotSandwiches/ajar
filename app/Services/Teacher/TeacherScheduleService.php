@@ -145,6 +145,7 @@ class TeacherScheduleService
                 fn($q) => $q->whereHas('courseWeeklyRules', fn($query) => $query->where('day', $data['day']))
             )
             ->paginate(10)
+            ->withQueryString()
             ->through(fn($item) => [
                 'id' => $item->course->id,
                 'name' => $item->course->name,
