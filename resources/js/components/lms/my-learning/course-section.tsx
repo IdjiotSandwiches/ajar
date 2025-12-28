@@ -1,52 +1,76 @@
-import { router } from '@inertiajs/react';
+import { InfiniteScroll, router, usePage } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
+import { StatusTabs } from '../applications-teacher/status-switch';
 import CourseCard from './course-card';
 
-export default function CourseSection({
-    title,
-    courses,
-    role,
-    emptyTitle,
-    emptyDesc,
-    showCTA = false,
-    isCourseFinished,
-    onActionClick,
-    onAddReview,
-}: any) {
+export default function CourseSection({ courses, counts, review, state }: any) {
+    const { props } = usePage();
+    const user = props.auth?.user;
+    const roles = props.enums?.roles_enum;
+    const states = props.enums?.learning_status_enum;
+
+    const [activeStatus, setActiveStatus] = useState<number>(state || states.Ongoing);
+
+    const handleStatusChange = (status: any) => {
+        setActiveStatus(status || activeStatus);
+        router.reload({ data: { status: status || activeStatus } });
+    };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            router.reload();
+        }, 60_000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
-        <div className="rounded-2xl shadow-sm border dark:border-white/20 dark:shadow-[#ffffff]/20">
-            <div className="rounded-2xl p-6 border">
-                <h3 className="font-semibold text-lg mb-4">{title}</h3>
+        <>
+            <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} />
+            <div className="rounded-2xl border shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
+                <div className="rounded-2xl border p-6">
+                    <h3 className="mb-4 text-lg font-semibold">{Object.keys(states).find((key) => states[key] === state)} Courses</h3>
 
-                {courses.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center text-center py-10 text-gray-500">
-                        <p className="font-medium text-gray-700 mb-1 dark:text-white/80">{emptyTitle}</p>
-                        <p className="text-sm mb-4 max-w-xs dark:text-white/70">{emptyDesc}</p>
+                    {courses.data?.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
+                            <p className="mb-1 font-medium text-gray-700 dark:text-white/80">
+                                {state === states.Ongoing ? 'No ongoing courses.' : 'No completed courses yet.'}
+                            </p>
+                            <p className="mb-4 max-w-xs text-sm dark:text-white/70">
+                                {state === states.Ongoing ? 'Start learning by enrolling in a course!' : 'Finish a course to see it here!'}
+                            </p>
 
-                        {showCTA && role === 'student' && (
-                            <button
-                                onClick={() => router.get(route('list-course', { category_id: 1 }))}
-                                className="bg-[#3ABEFF] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#3ABEFF]/90 transition"
-                            >
-                                Browse Courses
-                            </button>
-                        )}
-                    </div>
-                ) : (
-                    <div className="flex flex-col gap-4">
-                        {courses.map((course: { id: any; status: any; }) => (
-                            <CourseCard
-                                key={course.id}
-                                {...course}
-                                role={role}
-                                status={course.status}
-                                isCourseFinished={isCourseFinished(course)}
-                                onActionClick={() => onActionClick(course)}
-                                onAddReview={() => onAddReview(course)}
-                            />
-                        ))}
-                    </div>
-                )}
+                            {user?.role_id === roles.Student && (
+                                <button
+                                    onClick={() => router.get(route('list-course', { category_id: 1 }))}
+                                    className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
+                                >
+                                    Browse Courses
+                                </button>
+                            )}
+                        </div>
+                    ) : (
+                        <InfiniteScroll
+                            manual
+                            next={({ loading, fetch, hasMore }) => (
+                                <div className="h-4 pt-2 text-center text-sm">
+                                    {hasMore && (
+                                        <button onClick={fetch} disabled={loading}>
+                                            {loading ? 'Loading...' : 'Load more'}
+                                        </button>
+                                    )}
+                                </div>
+                            )}
+                            buffer={1}
+                            loading={() => 'Loading more courses...'}
+                            data="courses"
+                            className="flex max-h-[42rem] flex-col gap-4 overflow-y-auto"
+                        >
+                            {courses.data?.map((course: any, index: number) => <CourseCard key={index} enroll={course} review={review} state={state} />)}
+                        </InfiniteScroll>
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 }

@@ -15,8 +15,10 @@ return new class extends Migration {
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->string('meeting_link')->nullable();
+            $table->string('recording_link')->nullable();
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('teacher_id');
+            $table->boolean('is_verified')->nullable();
             $table->enum('status', ['scheduled', 'canceled', 'completed'])
                 ->default('scheduled');
             $table->timestamps();

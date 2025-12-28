@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('disbursements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('enrolled_course_id');
-            $table->unsignedBigInteger('user_id');
             $table->string('unique_id');
-            $table->string('snap_token')->nullable();
             $table->decimal('amount', 12, 2);
-            $table->enum('status', ['pending', 'paid', 'expired'])->default('pending');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('course_schedule_id');
             $table->timestamps();
 
-            $table->foreign('enrolled_course_id')->references('id')->on('enrolled_courses')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('course_schedule_id')->references('id')->on('course_schedules')->onDelete('cascade');
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('disbursements');
     }
 };

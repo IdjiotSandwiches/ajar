@@ -22,14 +22,19 @@ class CourseSchedule extends Model
         'start_time',
         'end_time',
         'meeting_link',
+        'recording_link',
         'course_id',
         'teacher_id',
+        'is_verified',
         'status',
     ];
 
     protected $casts = [
         'status' => CourseStatusEnum::class,
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
+
 
     public function course()
     {
@@ -44,5 +49,10 @@ class CourseSchedule extends Model
     public function enrolledCourses()
     {
         return $this->hasMany(EnrolledCourse::class);
+    }
+
+    public function disbursements()
+    {
+        return $this->hasMany(Disbursement::class);
     }
 }

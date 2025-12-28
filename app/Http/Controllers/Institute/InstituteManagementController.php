@@ -1,48 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Institute;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\FilterRequest;
-use App\Http\Requests\InstituteProfileRequest;
-use App\Http\Requests\TeacherFilterRequest;
-use App\Services\InstituteService;
-use App\Utilities\Utility;
+use App\Http\Requests\ItemFilterRequest;
 use Inertia\Inertia;
+use App\Http\Controllers\Controller;
+use App\Services\Institute\InstituteManagementService;
 
-class InstituteController extends Controller
+class InstituteManagementController extends Controller
 {
-    private InstituteService $service;
+    private InstituteManagementService $service;
 
-    public function __construct(InstituteService $service)
+    public function __construct(InstituteManagementService $service)
     {
         $this->service = $service;
-    }
-
-    public function getInstituteDetail($id)
-    {
-        $data = $this->service->getInstituteDetail($id);
-        $application = $this->service->getTeacherApplication($id);
-
-        return Inertia::render('institute/detail', [
-            'institute' => $data['institute'],
-            'courses' => Inertia::scroll($data['courses']),
-            'teachers' => $data['teachers'],
-            'application' => $application
-        ]);
-    }
-
-    public function getInstituteList(FilterRequest $request)
-    {
-        $filters = $request->validated();
-        $parentCategories = Utility::getParentCategories();
-        $institutes = $this->service->getInstituteList($filters);
-        return Inertia::render('institute/list-institute', [
-            'parentCategories' => $parentCategories,
-            'institutes' => Inertia::scroll($institutes),
-            'activeCategory' => $filters['category_id'] ?? null,
-            'search' => $filters['search'] ?? '',
-        ]);
     }
 
     public function getTeacherApplications()
@@ -75,25 +46,7 @@ class InstituteController extends Controller
         }
     }
 
-    public function getProfile()
-    {
-        return Inertia::render('institute/edit-profile', [
-            'profile' => $this->service->getProfile()
-        ]);
-    }
-
-    public function putProfile(InstituteProfileRequest $request)
-    {
-        try {
-            $data = $request->validated();
-            $this->service->updateProfile($data);
-            return back()->with('success', 'Update success.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Failed to update profile.');
-        }
-    }
-
-    public function getTeacherList(TeacherFilterRequest $request)
+    public function getTeacherList(ItemFilterRequest $request)
     {
         $filters = $request->validated();
         $teachers = $this->service->teacherList($filters);

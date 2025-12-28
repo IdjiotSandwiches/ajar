@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Enums\DayEnum;
 use App\Enums\DegreeTypeEnum;
+use App\Enums\LearningStatusEnum;
 use App\Enums\PaymentStatusEnum;
 use App\Enums\ReminderEnum;
 use App\Enums\RoleEnum;
@@ -59,6 +60,7 @@ class HandleInertiaRequests extends Middleware
                 'state_enum' => StateEnum::asArray(),
                 'days_enum' => DayEnum::asArray(),
                 'payment_status_enum' => PaymentStatusEnum::asArray(),
+                'learning_status_enum' => LearningStatusEnum::asArray(),
             ],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),

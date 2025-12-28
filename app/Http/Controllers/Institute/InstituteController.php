@@ -1,29 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Institute;
 
-use App\Http\Requests\ReviewRequest;
-use App\Http\Requests\StudentProfileRequest;
-use App\Services\StudentService;
 use Inertia\Inertia;
+use App\Services\Institute\InstituteService;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\InstituteProfileRequest;
 
-class StudentController extends Controller
+class InstituteController extends Controller
 {
-    private StudentService $service;
+    private InstituteService $service;
 
-    public function __construct(StudentService $service)
+    public function __construct(InstituteService $service)
     {
         $this->service = $service;
     }
 
     public function getProfile()
     {
-        return Inertia::render('student/edit-profile', [
+        return Inertia::render('institute/edit-profile', [
             'profile' => $this->service->getProfile()
         ]);
     }
 
-    public function putProfile(StudentProfileRequest $request)
+    public function putProfile(InstituteProfileRequest $request)
     {
         try {
             $data = $request->validated();
