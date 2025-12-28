@@ -16,6 +16,7 @@ export type FilterFieldConfig = {
     type: FilterFieldType;
     placeholder?: string;
     options?: FilterOption[];
+    defaultValue?: any;
 };
 
 export type FilterSchema = FilterFieldConfig[];

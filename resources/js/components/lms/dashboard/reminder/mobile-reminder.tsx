@@ -82,7 +82,7 @@ export default function MobileReminder({ reminder }: any) {
                                     No reminders yet
                                 </p>
                                 <span className="text-xs text-gray-400 dark:text-white/50">
-                                    You’re all caught up
+                                    You're all caught up
                                 </span>
                             </div>
                         )}

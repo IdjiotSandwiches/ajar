@@ -6,7 +6,7 @@ import LMSLayout from '@/layouts/lms-layout';
 import { router, usePage } from '@inertiajs/react';
 import React from 'react';
 
-export default function TeacherCourses({ teachings, categories }: any) {
+export default function TeacherCourses({ teachings, categories, filters }: any) {
     const { props } = usePage();
     const days = Object.values(props.enums?.days_enum || {});
 
@@ -23,7 +23,7 @@ export default function TeacherCourses({ teachings, categories }: any) {
 
     return (
         <div className="grid grid-cols-1 gap-6">
-            <Filter schema={coursesTaughtFilter(categories, days)} onChange={reload} />
+            <Filter schema={coursesTaughtFilter(categories, days, filters)} onChange={reload} />
             <button
                 type="button"
                 onClick={() => router.get(route('teacher.get-weekly-course'))}
@@ -34,9 +34,11 @@ export default function TeacherCourses({ teachings, categories }: any) {
             {teachings.data?.length === 0 ? (
                 <p className="py-10 text-center text-gray-500 dark:text-while/80">Belum ada kursus yang diajar.</p>
             ) : (
-                teachings.data.map((teaching: any, index: number) => <TeacherCourseCardWrapper key={index} course={teaching} />)
+                <>
+                    {teachings.data.map((teaching: any, index: number) => <TeacherCourseCardWrapper key={index} course={teaching} />)}
+                    <Pagination links={teachings.links} />
+                </>
             )}
-            <Pagination links={teachings.links} />
         </div>
     );
 }

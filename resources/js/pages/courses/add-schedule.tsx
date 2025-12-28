@@ -1,7 +1,7 @@
 import { InputSwitch } from '@/components/ui/input-switch';
 import LMSLayout from '@/layouts/lms-layout';
 import { Form, router, usePage } from '@inertiajs/react';
-import { Info } from 'lucide-react';
+import { Calendar, Info } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 export default function AddSchedulePage({ sessions, teachings, availability, errors }: any) {
@@ -18,8 +18,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
     const handleBack = () => {
         if (window.history.length > 1) {
             window.history.back();
-        }
-        else {
+        } else {
             router.visit('/');
         }
     };
@@ -71,26 +70,15 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                         id: session?.teaching_course_id,
                     })
                 }
-                className={`
-                cursor-pointer rounded border text-xs transition
-                flex items-center justify-center
-                h-10 w-full px-1
-                overflow-hidden whitespace-nowrap text-ellipsis
-                ${session
-                        ? 'border-blue-400 bg-blue-200 text-blue-900'
-                        : 'border-dashed border-gray-400 dark:border-white/40 text-gray-400'
-                    }
-            `}
+                className={`flex h-10 w-full cursor-pointer items-center justify-center overflow-hidden rounded border px-1 text-xs text-ellipsis whitespace-nowrap transition ${
+                    session ? 'border-blue-400 bg-blue-200 text-blue-900' : 'border-dashed border-gray-400 text-gray-400 dark:border-white/40'
+                } `}
                 title={session?.course_name ?? ''}
             >
-                <span className="truncate">
-                    {session?.course_name ?? '+'}
-                </span>
+                <span className="truncate">{session?.course_name ?? '+'}</span>
             </div>
         );
     };
-
-
 
     useEffect(() => {
         if (popup.visible) {
@@ -109,78 +97,55 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
             <Form
                 method="post"
                 action={route('teacher.manage-availability')}
-                className="rounded-2xl border dark:border-white/20 p-6 shadow-sm dark:shadow-white/20"
+                className="rounded-2xl border p-6 shadow-sm dark:border-white/20 dark:shadow-white/20"
             >
-                <h3 className="mb-4 text-lg font-semibold dark:text-white">
-                    Offline Status
-                </h3>
+                <h3 className="mb-4 text-lg font-semibold dark:text-white">Availability</h3>
 
                 <div className="space-y-4 md:hidden">
                     {days.map((day, index) => (
-                        <div
-                            key={day}
-                            className="rounded-xl border dark:border-white/20 bg-white dark:bg-[#222831] p-4 shadow-sm"
-                        >
+                        <div key={day} className="rounded-xl border bg-white p-4 shadow-sm dark:border-white/20 dark:bg-[#222831]">
                             <div className="mb-3 flex items-center justify-between">
-                                <h4 className="text-base font-semibold dark:text-white">
-                                    {day}
-                                </h4>
+                                <h4 className="text-base font-semibold dark:text-white">{day}</h4>
 
-                                <InputSwitch
-                                    name={`availability[${index}].available`}
-                                    checked={!!(availability[index]?.active ?? true)}
-                                />
+                                <InputSwitch name={`availability[${index}].available`} checked={!!(availability[index]?.active ?? true)} />
                             </div>
 
-                            <input
-                                type="hidden"
-                                name={`availability[${index}].day`}
-                                value={day}
-                            />
+                            <input type="hidden" name={`availability[${index}].day`} value={day} />
 
                             <div className="mb-3">
-                                <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">
-                                    Start Time
-                                </label>
+                                <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">Start Time</label>
                                 <input
                                     type="time"
                                     name={`availability[${index}].start_time`}
                                     defaultValue={availability[index]?.start_time ?? ''}
-                                    className="w-full rounded-lg border dark:border-white/20 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
+                                    className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
                                 />
 
                                 {errors[`availability.${index}.start_time`] && (
-                                    <p className="mt-1 text-xs text-red-500">
-                                        {errors[`availability.${index}.start_time`]}
-                                    </p>
+                                    <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.start_time`]}</p>
                                 )}
-
                             </div>
 
                             <div>
-                                <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">
-                                    End Time
-                                </label>
+                                <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">End Time</label>
                                 <input
                                     type="time"
                                     name={`availability[${index}].end_time`}
                                     defaultValue={availability[index]?.end_time ?? ''}
-                                    className="w-full rounded-lg border dark:border-white/20 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
+                                    className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
                                 />
 
                                 {errors[`availability.${index}.end_time`] && (
-                                    <p className="mt-1 text-xs text-red-500">
-                                        {errors[`availability.${index}.end_time`]}
-                                    </p>
+                                    <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.end_time`]}</p>
                                 )}
                             </div>
                         </div>
                     ))}
                 </div>
 
-                <div className="hidden md:block overflow-x-auto rounded-lg border dark:border-white/20">
+                <div className="hidden overflow-x-auto rounded-lg border md:block dark:border-white/20">
                     <table className="w-full text-sm">
-                        <thead className="bg-[#3ABEFF]/10 border-b dark:border-white/20">
+                        <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20">
                             <tr>
                                 <th className="p-2 text-left">Day</th>
                                 <th className="p-2 text-left">Start</th>
@@ -192,18 +157,13 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                             {days.map((day, index) => (
                                 <tr
                                     key={day}
-                                    className={`border-b dark:border-white/20 ${index % 2 === 0
-                                        ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
-                                        : 'bg-white dark:bg-[#222831]'
-                                        }`}
+                                    className={`border-b dark:border-white/20 ${
+                                        index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                    }`}
                                 >
                                     <td className="p-2">
                                         {day}
-                                        <input
-                                            type="hidden"
-                                            name={`availability[${index}].day`}
-                                            value={day}
-                                        />
+                                        <input type="hidden" name={`availability[${index}].day`} value={day} />
                                     </td>
 
                                     <td className="p-2">
@@ -211,7 +171,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                             type="time"
                                             name={`availability[${index}].start_time`}
                                             defaultValue={availability[index]?.start_time ?? ''}
-                                            className="w-full rounded-lg border dark:border-white/20 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
+                                            className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
                                         />
 
                                         {errors[`availability.${index}.start_time`] && (
@@ -224,7 +184,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                             type="time"
                                             name={`availability[${index}].end_time`}
                                             defaultValue={availability[index]?.end_time ?? ''}
-                                            className="w-full rounded-lg border dark:border-white/20 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
+                                            className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
                                         />
 
                                         {errors[`availability.${index}.end_time`] && (
@@ -233,10 +193,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                     </td>
 
                                     <td className="p-2 text-center">
-                                        <InputSwitch
-                                            name={`availability[${index}].available`}
-                                            checked={!!(availability[index]?.active ?? true)}
-                                        />
+                                        <InputSwitch name={`availability[${index}].available`} checked={!!(availability[index]?.active ?? true)} />
                                         {errors[`availability.${index}.available`] && (
                                             <p className="text-red-500">{errors[`availability.${index}.available`]}</p>
                                         )}
@@ -248,67 +205,67 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                 </div>
 
                 <div className="mt-6 flex justify-end">
-                    <button
-                        type="submit"
-                        className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white hover:bg-[#3ABEFF]/90"
-                    >
+                    <button type="submit" className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white hover:bg-[#3ABEFF]/90">
                         Submit
                     </button>
                 </div>
             </Form>
 
-
-
-            <div className="rounded-2xl border dark:border-white/20 p-6 shadow-sm dark:shadow-white/20">
+            <div className="rounded-2xl border p-6 shadow-sm dark:border-white/20 dark:shadow-white/20">
                 <h3 className="mb-4 text-lg font-semibold dark:text-white">Schedule</h3>
-
-                <div className="block md:hidden space-y-4">
-                    {days.map((day) => (
-                        <div
-                            key={day}
-                            className="rounded-xl border dark:border-white/20 bg-white dark:bg-[#222831] p-4"
-                        >
-                            <h4 className="mb-3 font-semibold dark:text-white">{day}</h4>
-
-                            <div className="grid grid-cols-3 gap-2">
-                                {hours.map((hour) => (
-                                    <div key={hour}>
-                                        <p className="mb-1 text-xs text-gray-500">{hour}</p>
-                                        {renderCell(day, hour)}
-                                    </div>
-                                ))}
-                            </div>
+                {availability?.length === 0 ? (
+                    <>
+                        <div className="flex flex-col items-center justify-center py-6 text-center">
+                            <span className="mb-2 text-2xl"><Calendar size="2.5rem" /></span>
+                            <p className="text-sm text-gray-500 dark:text-white/70">Please set up your availability schedule before creating weekly course schedules.</p>
                         </div>
-                    ))}
-                </div>
+                    </>
+                ) : (
+                    <>
+                        <div className="block space-y-4 md:hidden">
+                            {days.map((day) => (
+                                <div key={day} className="rounded-xl border bg-white p-4 dark:border-white/20 dark:bg-[#222831]">
+                                    <h4 className="mb-3 font-semibold dark:text-white">{day}</h4>
 
-                <div className="hidden md:block overflow-x-auto rounded-xl border dark:border-white/20">
-                    {/* <table className="min-w-[900px] w-full text-center text-sm"> */}
-                    <table className="min-w-[900px] w-full table-fixed text-center text-sm">
-                        <thead className="bg-[#3ABEFF]/10 border-b dark:border-white/20">
-                            <tr>
-                                <th className="p-2">Hour</th>
-                                {days.map((day) => (
-                                    <th key={day} className="p-2">
-                                        {day}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {hours.map((hour) => (
-                                <tr key={hour}>
-                                    <td className="font-medium">{hour}</td>
-                                    {days.map((day) => (
-                                        <td key={day} className="p-2">
-                                            {renderCell(day, hour)}
-                                        </td>
-                                    ))}
-                                </tr>
+                                    <div className="grid grid-cols-3 gap-2">
+                                        {hours.map((hour) => (
+                                            <div key={hour}>
+                                                <p className="mb-1 text-xs text-gray-500">{hour}</p>
+                                                {renderCell(day, hour)}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             ))}
-                        </tbody>
-                    </table>
-                </div>
+                        </div>
+                        <div className="hidden overflow-x-auto rounded-xl border md:block dark:border-white/20">
+                            <table className="w-full min-w-[900px] table-fixed text-center text-sm">
+                                <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20">
+                                    <tr>
+                                        <th className="p-2">Hour</th>
+                                        {days.map((day) => (
+                                            <th key={day} className="p-2">
+                                                {day}
+                                            </th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {hours.map((hour) => (
+                                        <tr key={hour}>
+                                            <td className="font-medium">{hour}</td>
+                                            {days.map((day) => (
+                                                <td key={day} className="p-2">
+                                                    {renderCell(day, hour)}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
             </div>
             <div className="flex justify-end gap-2">
                 <button
@@ -321,18 +278,14 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
             </div>
 
             {popup.visible && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm px-4">
-                    <div className="w-full max-w-sm rounded-xl bg-white dark:bg-[#222831] p-6 max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#3ABEFF]/40 px-4 backdrop-blur-sm">
+                    <div className="max-h-[90vh] w-full max-w-sm overflow-y-auto rounded-xl bg-white p-6 dark:bg-[#222831]">
                         <h3 className="mb-4 font-semibold dark:text-white">Add / Edit Session</h3>
 
                         <select
-                            className="mb-4 w-full dark:bg-[#222831] rounded-md border dark:border-white/20 p-2"
+                            className="mb-4 w-full rounded-md border p-2 dark:border-white/20 dark:bg-[#222831]"
                             value={selectedCourse?.id || ''}
-                            onChange={(e) =>
-                                setSelectedCourse(
-                                    teachings.find((t: any) => t.id === Number(e.target.value)),
-                                )
-                            }
+                            onChange={(e) => setSelectedCourse(teachings.find((t: any) => t.id === Number(e.target.value)))}
                         >
                             <option value="">Select course</option>
                             {teachings.map((t: any) => (
@@ -342,26 +295,17 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                             ))}
                         </select>
 
-                        <button
-                            onClick={() => applyCourse()}
-                            className="w-full rounded-md bg-[#3ABEFF] py-2 text-white"
-                        >
+                        <button onClick={() => applyCourse()} className="w-full rounded-md bg-[#3ABEFF] py-2 text-white">
                             Save
                         </button>
 
                         {popup.id && (
-                            <button
-                                onClick={() => applyCourse(true)}
-                                className="mt-3 w-full rounded-md bg-red-500 py-2 text-white"
-                            >
+                            <button onClick={() => applyCourse(true)} className="mt-3 w-full rounded-md bg-red-500 py-2 text-white">
                                 Remove
                             </button>
                         )}
 
-                        <button
-                            onClick={closePopup}
-                            className="mt-3 w-full rounded-md bg-gray-600 py-2 text-white"
-                        >
+                        <button onClick={closePopup} className="mt-3 w-full rounded-md bg-gray-600 py-2 text-white">
                             Cancel
                         </button>
                     </div>
@@ -371,6 +315,4 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
     );
 }
 
-AddSchedulePage.layout = (page: React.ReactNode) => (
-    <LMSLayout title="Schedule Management">{page}</LMSLayout>
-);
+AddSchedulePage.layout = (page: React.ReactNode) => <LMSLayout title="Schedule Management">{page}</LMSLayout>;

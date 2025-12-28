@@ -14,7 +14,6 @@ export default function StudentDashboard({ today, upcoming, reminder }: any) {
                 </div>
                 <div className="flex flex-col gap-6 lg:col-span-2">
                     <ClassSection title="Today Classes" course={today} type="today" />
-
                     <ClassSection title="Upcoming Classes" course={upcoming} type="upcoming" />
                 </div>
             </div>

@@ -12,7 +12,7 @@ export default function Filter({ schema, onChange }: Props) {
         () =>
             schema.reduce(
                 (acc, field) => {
-                    acc[field.key] = '';
+                    acc[field.key] = field.defaultValue ?? '';
                     return acc;
                 },
                 {} as Record<string, any>,
