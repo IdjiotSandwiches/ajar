@@ -12,6 +12,7 @@ declare module "@inertiajs/core" {
         state_enum: Record<string, number>;
         days_enum: Record<string, string>;
         payment_status_enum: Record<string, string>;
+        course_status_enum: Record<string, string>;
         learning_status_enum: Record<string, number>;
     };
     [key: string]: any;

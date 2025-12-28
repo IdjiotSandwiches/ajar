@@ -5,7 +5,10 @@ namespace App\Services\Institute;
 use App\Models\Skill;
 use App\Models\Course;
 use App\Models\Category;
+use App\Models\CourseSchedule;
+use App\Enums\CourseStatusEnum;
 use App\Utilities\UploadUtility;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class InstituteCourseService
@@ -125,5 +128,30 @@ class InstituteCourseService
     {
         $course = Course::findOrFail($id);
         $course->delete();
+    }
+
+    public function getOngoingCourses($filters)
+    {
+        $user = Auth::user();
+        $courses = CourseSchedule::with(['course', 'teacher.user'])
+            ->whereHas('course', fn($q) => $q->where('institute_id', $user->id)
+                ->when(!empty($filters['search']), fn($query) => $query->where('name', $filters['search'])))
+            ->when(!empty($filters['status']), fn($q) => $q->where('status', $filters['status']))
+            ->when(!empty($filters['time']), fn($q) => $q->whereTime('start_time', '>=', Carbon::parse($filters['time'])->format('H:i:s')))
+            ->when(!empty($filters['date']), fn($q) => $q->whereDate('start_time', $filters['date']))
+            ->orderByDesc('start_time')
+            ->paginate(10)
+            ->through(fn($item) => [
+                'name' => $item->course->name,
+                'teacher_name' => $item->teacher->user->name,
+                'duration' => $item->course->duration,
+                'start_time' => $item->start_time->format('d M Y H:i'),
+                'end_time' => $item->end_time->format('d M Y H:i'),
+                'recording_link' => $item->recording_link,
+                'image' => $item->course->image,
+                'status' => $item->status
+            ]);
+
+        return $courses;
     }
 }

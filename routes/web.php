@@ -109,6 +109,7 @@ Route::middleware(['auth', 'verified'])
                 });
                 Route::controller(InstituteCourseController::class)->group(function () {
                     Route::get('my-courses', 'getCourseByInstitution')->name('my-courses');
+                    Route::get('course-taken', 'getOngoingCourses')->name('courses-taken');
                     Route::get('course-detail/{id?}', 'getCourseData')->name('course-detail');
                     Route::post('course-detail', 'postCourse')->name('post-course');
                     Route::put('course-detail/{id?}', 'putCourse')->name('put-course');
@@ -124,7 +125,6 @@ Route::middleware(['auth', 'verified'])
                     Route::get('list-teacher', 'getTeacherList')->name('list-teacher');
                     Route::delete('deactivate-teacher/{id}', 'removeTeacher')->name('deactivate-teacher');
                 });
-                Route::get('course-taken', fn() => Inertia::render('institute/course-taken'))->name('courses-taken');
             });
 
         Route::middleware(['role:Student,Teacher'])

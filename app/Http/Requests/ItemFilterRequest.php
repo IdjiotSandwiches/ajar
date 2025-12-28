@@ -34,7 +34,8 @@ class ItemFilterRequest extends FormRequest
             'date' => 'nullable|date',
             'count' => 'nullable|integer|min:0',
             'duration' => 'nullable|integer|min:0',
-            'sort_by' => 'nullable|boolean'
+            'sort_by' => 'nullable|boolean',
+            'status' => 'nullable'
         ];
     }
 }

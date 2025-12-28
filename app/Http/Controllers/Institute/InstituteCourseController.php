@@ -32,6 +32,21 @@ class InstituteCourseController extends Controller
         ]);
     }
 
+    public function getOngoingCourses(ItemFilterRequest $request)
+    {
+        $filters = $request->validated();
+        $courses = $this->service->getOngoingCourses($filters);
+        return Inertia::render('institute/course-taken', [
+            'courses' => $courses,
+            'filters' => [
+                'search' => $filters['search'] ?? null,
+                'status' => $filters['status'] ?? null,
+                'time' => $filters['time'] ?? null,
+                'date' => $filters['date'] ?? null
+            ]
+        ]);
+    }
+
     public function getCourseData($id = null)
     {
         $course = $this->service->getCourseById($id);

@@ -23,15 +23,13 @@ export default function TeacherList({ teachers, filters }: any) {
     };
 
     const onFilterChange = (filters: any) => {
-        router.visit(route('institute.list-teacher'), {
+        router.reload({
             data: {
                 search: filters.search,
                 rating: filters.rating,
                 date: filters.register_date,
                 count: filters.courses_taught,
-            },
-            preserveState: true,
-            replace: true,
+            }
         });
     };
 
