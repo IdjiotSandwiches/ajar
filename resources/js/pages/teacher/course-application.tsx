@@ -35,7 +35,7 @@ export default function TeacherApplyCourses({ courses, categories, counts, filte
             <section className="min-h-screen">
                 <div className="space-y-6">
                     <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} />
-                    <Filter schema={courseApplicationFilter(categories, filters)} onChange={handleFilterChange} />
+                    <Filter key={filters.state} schema={courseApplicationFilter(categories, filters)} onChange={handleFilterChange} />
                     {courses.data?.length === 0 ? (
                         <p className="py-10 text-center text-sm text-gray-500 italic">Tidak ada kursus pada kategori ini.</p>
                     ) : (
