@@ -60,7 +60,8 @@ Route::middleware(['auth', 'verified'])
                 Route::controller(AdminCourseController::class)->group(function () {
                     Route::get('course-completion', 'getCompletedCourses')->name('course-completion');
                     Route::post('course-completion/{id}', 'completeCourse')->name('complete-course');
-                    Route::get('remove-course', fn() => Inertia::render('admin/remove-course'))->name('remove-course');
+                    Route::get('remove-course', 'getAllCourses')->name('course-management');
+                    Route::delete('remove-course/{id}', 'removeCourse')->name('remove-course');
                 });
                 Route::controller(AdminInstituteController::class)->group(function () {
                     Route::get('list-institute', 'getInstituteList')->name('list-institute');

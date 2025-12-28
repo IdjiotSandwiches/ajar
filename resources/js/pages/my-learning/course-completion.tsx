@@ -4,6 +4,7 @@ import CourseCompletionCard from '@/components/lms/my-learning/course-completion
 import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
+import { router } from '@inertiajs/react';
 import React, { useState } from 'react';
 
 export default function CourseCompletionPage({ schedules }: any) {
@@ -18,8 +19,8 @@ export default function CourseCompletionPage({ schedules }: any) {
         setShowModal(true);
     };
 
-    const confirmDelete = () => {
-        // console.log('DELETE COURSE:', selectedCourse?.id);
+    const confirm = () => {
+        router.post(route('admin.complete-course', { id: selectedCourse?.id }));
         setShowModal(false);
     };
 
@@ -47,7 +48,7 @@ export default function CourseCompletionPage({ schedules }: any) {
                     type="confirmation"
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
-                    onConfirm={confirmDelete}
+                    onConfirm={confirm}
                     description={`Course status for "${selectedCourse}" will be updated once you submit.`}
                 />
             )}

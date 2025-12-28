@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Models\Course;
 use App\Models\CourseSchedule;
 use App\Enums\CourseStatusEnum;
 use Illuminate\Support\Facades\DB;
@@ -53,5 +54,25 @@ class AdminCourseService
             ]);
             $schedule->save();
         });
+    }
+
+    public function getAllCourses()
+    {
+        $courses = Course::with(['institute.user'])
+            ->paginate(10)
+            ->through(fn($item) => [
+                'id' => $item->id,
+                'name' => $item->name,
+                'institute_name' => $item->institute->user->name,
+                'image' => $item->image
+            ]);
+
+        return $courses;
+    }
+
+    public function removeCourse($id)
+    {
+        $course = Course::findOrFail($id);
+        $course->delete();
     }
 }

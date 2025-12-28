@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ReviewRequest;
-use App\Http\Requests\StudentProfileRequest;
-use App\Services\StudentService;
 use Inertia\Inertia;
+use App\Services\StudentService;
+use App\Http\Requests\StudentProfileRequest;
 
 class StudentController extends Controller
 {
