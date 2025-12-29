@@ -1,24 +1,23 @@
+import FormInput from '@/components/form-input';
 import TeacherDetailForm from '@/components/register/teacher-detail-form';
 import RegisterLayout from '@/layouts/auth/auth-register-layout';
 import { useForm, usePage } from '@inertiajs/react';
 import { JSX } from 'react';
-import FormInput from '../../../components/form-input';
 
 export default function RegisterForm({ role, categories }: any) {
     const { props } = usePage();
     const roles = props.enums?.roles_enum;
 
-    const base_config: any = {
+    const baseConfig = {
         basic_info: ['name', 'phone_number'],
         credential_info: ['email', 'password', 'password_confirmation'],
     };
 
-    const role_config: Record<string, any> = {
-        [roles.Student]: base_config,
-        [roles.Institute]: base_config,
+    const roleConfig: Record<string, any> = {
+        [roles.Student]: baseConfig,
+        [roles.Institute]: baseConfig,
         [roles.Teacher]: {
-            basic_info: ['name', 'phone_number'],
-            credential_info: ['email', 'password', 'password_confirmation'],
+            ...baseConfig,
             more_info: [
                 ['description'],
                 ['category'],
@@ -29,46 +28,39 @@ export default function RegisterForm({ role, categories }: any) {
         },
     };
 
-    const form = useForm<Partial<any>>(
-        role === roles.Teacher
-            ? {
-                  name: '',
-                  email: '',
-                  phone_number: '',
-                  password: '',
-                  password_confirmation: '',
-                  role_id: role,
-                  certificates: [],
-                  description: '',
-                  graduates: [{ id: Date.now(), degree_title: '', university_name: '', degree_type: null }],
-                  works: [{ id: Date.now(), duration: 0, institution: '', position: '' }],
-              }
-            : {
-                  name: '',
-                  email: '',
-                  phone_number: '',
-                  password: '',
-                  password_confirmation: '',
-                  role_id: role,
-              },
-    );
+    const form = useForm<any>({
+        name: '',
+        email: '',
+        phone_number: '',
+        password: '',
+        password_confirmation: '',
+        role_id: role,
 
-    role_config[role].title = Object.keys(roles).find((key) => roles[key] === role);
+        ...(role === roles.Teacher && {
+            certificates: [],
+            description: '',
+            graduates: [{ id: Date.now(), degree_title: '', university_name: '', degree_type: null }],
+            works: [{ id: Date.now(), duration: 0, institution: '', position: '' }],
+        }),
+    });
+
+    roleConfig[role].title = Object.keys(roles).find((key) => roles[key] === role);
+
     const steps: { title?: string; component: JSX.Element }[] = [
         {
-            component: <FormInput form={form} content={role_config[role].basic_info} />,
+            component: <FormInput form={form} content={roleConfig[role].basic_info} />,
         },
         {
-            component: <FormInput form={form} content={role_config[role].credential_info} />,
+            component: <FormInput form={form} content={roleConfig[role].credential_info} />,
         },
     ];
 
     if (role === roles.Teacher) {
         steps.push({
             title: 'Detail Information',
-            component: <TeacherDetailForm form={form} categories={categories} onNext={() => console.log('Next clicked')} />,
+            component: <TeacherDetailForm form={form} categories={categories} />,
         });
     }
 
-    return <RegisterLayout form={form} role_config={role_config[role]} steps={steps} />;
+    return <RegisterLayout form={form} role_config={roleConfig[role]} steps={steps} />;
 }

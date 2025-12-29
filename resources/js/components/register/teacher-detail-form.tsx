@@ -36,6 +36,9 @@ export default function TeacherDetailForm({ form }: any) {
                     onFilesChange={handleCertificatesChange}
                     name={'certificates'}
                 />
+                <div className={getError(`certificates`) ? 'h-5' : ''}>
+                    <InputError message={getError(`certificates`)} />
+                </div>
             </div>
         </div>
     );

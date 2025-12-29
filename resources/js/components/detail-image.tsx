@@ -1,3 +1,4 @@
+import { storageUrl } from '@/utils/storage';
 import React, { useEffect, useState } from 'react';
 
 interface DetailImageProps {
@@ -16,7 +17,7 @@ const DetailImage: React.FC<DetailImageProps> = ({ Index, onFilesChange, onRemov
     useEffect(() => {
         const urls = (files ?? []).map((img) => {
             if (img instanceof File) return URL.createObjectURL(img);
-            if (typeof img === 'string') return img;
+            if (typeof img === 'string') return storageUrl(img);
             return '';
         });
 
