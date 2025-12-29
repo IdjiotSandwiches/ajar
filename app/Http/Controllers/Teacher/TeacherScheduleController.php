@@ -59,7 +59,13 @@ class TeacherScheduleController extends Controller
         $teachings = $this->service->getTeachingCoursesWithSchedule($validated);
         return Inertia::render('teacher/courses-taught', [
             'teachings' => $teachings,
-            'categories' => Utility::getParentCategories()
+            'categories' => Utility::getParentCategories(),
+            'filters' => [
+                'search' => $validated['search'] ?? null,
+                'category_id' => $validated['category_id'] ?? null,
+                'time' => $validated['time'] ?? null,
+                'day' => $validated['day'] ?? null
+            ]
         ]);
     }
 }

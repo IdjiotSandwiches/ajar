@@ -7,12 +7,21 @@ use App\Models\Institute;
 
 class AdminInstituteService
 {
-    public function getInstituteList()
+    public function getInstituteList($filters)
     {
-        $institutes = Institute::with(['user', 'category'])
+        $institutes = Institute::with(['user', 'category', 'courses', 'reviews'])
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
             ->withCount('courses')
+            ->when(!empty($filters['search']), fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
+            ->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
+            ->when(!empty($filters['count']), fn($q) => $q->having('courses_count', '=', $filters['count']))
+            ->when(!empty($filters['rating']), function ($query) use ($filters) {
+                $query->whereHas('reviews', function ($q) use ($filters) {
+                    $q->groupBy('institute_id')
+                        ->havingRaw('ROUND(AVG(rating)) = ?', [$filters['rating']]);
+                });
+            })
             ->paginate(10)
             ->through(fn($item) => [
                 'id' => $item->user_id,
@@ -28,12 +37,8 @@ class AdminInstituteService
 
     public function removeInstitute($id)
     {
-        $institute = Institute::where('user_id', $id)
+        $institute = Institute::findOrFail($id)
             ->pluck('user_id');
-
-        if (!$institute) {
-            throw new \Exception('Institute not found.');
-        }
 
         User::where('id', $institute)
             ->delete();

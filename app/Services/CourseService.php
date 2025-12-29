@@ -242,7 +242,8 @@ class CourseService
             ->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
             ->when(!empty($filters['price_min']), fn($q) => $q->where('price', '>=', $filters['price_min']))
             ->when(!empty($filters['price_max']), fn($q) => $q->where('price', '>=', $filters['price_max']))
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return [$categories, $courses];
     }

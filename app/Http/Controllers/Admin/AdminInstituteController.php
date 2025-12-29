@@ -7,6 +7,7 @@ use App\Utilities\Utility;
 use App\Services\RegisterService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ItemFilterRequest;
 use App\Services\Admin\AdminInstituteService;
 
 class AdminInstituteController extends Controller
@@ -38,11 +39,20 @@ class AdminInstituteController extends Controller
         }
     }
 
-    public function getInstituteList()
+    public function getInstituteList(ItemFilterRequest $request)
     {
-        $institutes = $this->adminService->getInstituteList();
+        $validated = $request->validated();
+        $institutes = $this->adminService->getInstituteList($validated);
+        $categories = Utility::getParentCategories();
         return Inertia::render('admin/list-institute', [
-            'institutes' => $institutes
+            'institutes' => $institutes,
+            'categories' => $categories,
+            'filters' => [
+                'search' => $validated['search'] ?? null,
+                'category_id' => $validated['category_id'] ?? null,
+                'count' => $validated['count'] ?? null,
+                'rating' => $validated['rating'] ?? null,
+            ]
         ]);
     }
 

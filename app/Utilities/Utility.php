@@ -45,4 +45,14 @@ class Utility
 
         return $categories;
     }
+
+    public static function getSubCategories()
+    {
+        $categories = Category::query()
+            ->whereNotNull('parent_id')
+            ->select(['id', 'name'])
+            ->get();
+
+        return $categories;
+    }
 }

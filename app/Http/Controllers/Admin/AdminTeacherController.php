@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\ItemFilterRequest;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Services\Admin\AdminTeacherService;
@@ -15,11 +16,18 @@ class AdminTeacherController extends Controller
         $this->service = $service;
     }
 
-    public function getTeacherList()
+    public function getTeacherList(ItemFilterRequest $request)
     {
-        $teachers = $this->service->getTeacherList();
+        $validated = $request->validated();
+        $teachers = $this->service->getTeacherList($validated);
         return Inertia::render('admin/list-teacher', [
-            'teachers' => $teachers
+            'teachers' => $teachers,
+            'filters' => [
+                'search' => $validated['search'] ?? null,
+                'search_secondary' => $validated['search_secondary'] ?? null,
+                'count' => $validated['count'] ?? null,
+                'rating' => $validated['rating'] ?? null,
+            ]
         ]);
     }
 

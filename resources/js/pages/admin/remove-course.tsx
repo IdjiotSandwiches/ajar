@@ -8,7 +8,7 @@ import { router } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function RemoveCoursePage({ courses }: any) {
+export default function RemoveCoursePage({ courses, categories, filters }: any) {
     const [showModal, setShowModal] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState<{
         id: number;
@@ -25,14 +25,23 @@ export default function RemoveCoursePage({ courses }: any) {
         setShowModal(false);
     };
 
+    const onFilterChange = (filters: any) => {
+        router.reload({
+            only: ['courses'],
+            data: {
+                search: filters.search,
+                category_id: filters.category,
+                search_secondary: filters.search_secondary,
+            },
+        });
+    };
+
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
                 <Filter
-                    schema={removeCourseFilter}
-                    onChange={(filters: any) => {
-                        console.log(filters);
-                    }}
+                    schema={removeCourseFilter(categories, filters)}
+                    onChange={onFilterChange}
                 />
 
                 <div className="rounded-2xl border p-4 shadow-sm lg:p-8 dark:border-white/20 dark:shadow-white/20">

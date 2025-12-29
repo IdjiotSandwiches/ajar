@@ -7,7 +7,7 @@ import LMSLayout from '@/layouts/lms-layout';
 import { router } from '@inertiajs/react';
 import React, { useState } from 'react';
 
-export default function CourseCompletionPage({ schedules }: any) {
+export default function CourseCompletionPage({ schedules, categories, filters }: any) {
     const [showModal, setShowModal] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState<{
         id: number;
@@ -24,15 +24,21 @@ export default function CourseCompletionPage({ schedules }: any) {
         setShowModal(false);
     };
 
+    const onFilterChange = (filters: any) => {
+        router.reload({
+            only: ['schedules'],
+            data: {
+                search: filters.search,
+                category_id: filters.category,
+                time: filters.time,
+                date: filters.date,
+            },
+        });
+    };
+
     return (
         <div className="flex min-h-screen flex-col gap-6">
-            <Filter
-                schema={courseCompletionFilter}
-                onChange={(filters: any) => {
-                    console.log(filters);
-                }}
-            />
-
+            <Filter schema={courseCompletionFilter(categories, filters)} onChange={onFilterChange} />
             <div className="mx-auto w-full rounded-2xl border p-4 shadow-sm lg:p-8 dark:border-white/20 dark:shadow-white/20">
                 <h3 className="mb-6 text-xl font-semibold">Course List</h3>
                 <div>

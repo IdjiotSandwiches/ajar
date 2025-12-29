@@ -44,6 +44,7 @@ class TeacherApplicationService
             ->when($status === StateEnum::Available, fn($q) => $q->whereNotIn('user_id', $application))
             ->when($status === StateEnum::Pending || $status === StateEnum::Accepted, fn($q) => $q->whereIn('user_id', $application))
             ->paginate(10)
+            ->withQueryString()
             ->through(function ($item) use ($status) {
                 $item->status = $status;
                 return $item;
@@ -115,6 +116,7 @@ class TeacherApplicationService
             ->withAvg('courseReviews', 'rating')
             ->withCount('courseReviews')
             ->paginate(10)
+            ->withQueryString()
             ->through(fn($item) => [
                 'id' => $item->id,
                 'name' => $item->name,

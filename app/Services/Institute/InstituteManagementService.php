@@ -60,21 +60,36 @@ class InstituteManagementService
                     ->withAvg('reviews', 'rating');
             }
         ])
+            ->when(!empty($filters['search']), fn($query) => $query->whereHas(
+                'teacher.user',
+                fn($q) => $q->where('name', 'like', "%{$filters['search']}%")
+            ))
+            ->when(!empty($filters['date']), fn($q) => $q->whereDate('created_at', $filters['date']))
+            ->when(!empty($filters['rating']), function ($query) use ($filters) {
+                $query->whereHas('teacher.reviews', function ($q) use ($filters) {
+                    $q->groupBy('teacher_id')
+                        ->havingRaw('ROUND(AVG(rating)) = ?', [$filters['rating']]);
+                });
+            })
             ->when(
-                !empty($filters['search']),
-                fn($query) => $query->whereHas(
-                    'teacher.user',
-                    fn($q) => $q->where('name', 'like', "%{$filters['search']}%")
+                !empty($filters['count']),
+                fn($q) =>
+                $q->whereHas(
+                    'teacher.teachingCourses',
+                    fn($q) => $q->where('is_verified', true),
+                    '=',
+                    $filters['count']
                 )
             )
             ->where('institute_id', $user->id)
             ->where('is_verified', true)
             ->paginate(10)
+            ->withQueryString()
             ->through(fn($item) => [
                 'id' => $item->teacher->user->id,
                 'name' => $item->teacher->user->name,
                 'profile_picture' => $item->teacher->user->profile_picture,
-                'course_taught' => $item->teaching_courses_count ?? 0,
+                'course_taught' => $item->teacher->teaching_courses_count ?? 0,
                 'review_count' => $item->teacher_reviews_count ?? 0,
                 'review_rating' => round($item->teacher_reviews_avg_rating ?? 0, 1),
                 'registered_at' => $item->created_at

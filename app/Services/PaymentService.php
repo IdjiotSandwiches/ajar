@@ -63,6 +63,7 @@ class PaymentService
             ->where('course_id', $courseId)
             ->where('teacher_id', $teacherId)
             ->where('status', CourseStatusEnum::Scheduled)
+            ->where('start_time', '>', now())
             ->whereNotExists(function ($q) use ($user, $buffer) {
                 $q->select(DB::raw(1))
                     ->from('enrolled_courses as ec')

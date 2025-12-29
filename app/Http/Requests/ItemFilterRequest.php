@@ -26,10 +26,17 @@ class ItemFilterRequest extends FormRequest
         return [
             'category_id' => 'nullable|integer|exists:categories,id',
             'search' => 'nullable|string',
+            'search_secondary' => 'nullable|string',
             'price_min' => 'nullable|numeric|min:0',
             'price_max' => 'nullable|numeric|min:0',
             'time' => 'nullable|date_format:H:i',
             'day' => ['nullable', new Enum(DayEnum::class)],
+            'rating' => 'nullable|integer|min:0|max:5',
+            'date' => 'nullable|date',
+            'count' => 'nullable|integer|min:0',
+            'duration' => 'nullable|integer|min:0',
+            'sort_by' => 'nullable|boolean',
+            'status' => 'nullable'
         ];
     }
 }

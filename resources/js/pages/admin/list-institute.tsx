@@ -7,7 +7,7 @@ import { router } from '@inertiajs/react';
 import { Plus, Star, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function InstituteList({ institutes }: any) {
+export default function InstituteList({ institutes, categories, filters }: any) {
     const [showModal, setShowModal] = useState(false);
     const [deleteInstitute, setDeleteInstitute] = useState<number>();
 
@@ -21,17 +21,23 @@ export default function InstituteList({ institutes }: any) {
         setShowModal(false);
     };
 
+    const onFilterChange = (filters: any) => {
+        router.reload({
+            only: ['institutes'],
+            data: {
+                search: filters.search,
+                category_id: filters.category,
+                count: filters.count,
+                rating: filters.rating,
+            },
+        });
+    };
+
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
-                <Filter
-                    schema={manageInstituteFilter}
-                    onChange={(filters: any) => {
-                        console.log(filters);
-                    }}
-                />
-
-                <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20 backdrop-blur-sm">
+                <Filter schema={manageInstituteFilter(categories, filters)} onChange={onFilterChange} />
+                <div className="mx-auto w-full rounded-2xl border p-4 shadow-sm backdrop-blur-sm lg:p-8 dark:border-white/20 dark:shadow-white/20">
                     <div className="mb-6 flex items-center justify-between">
                         <h3 className="text-xl font-semibold">Institute List</h3>
                         <button
@@ -42,9 +48,9 @@ export default function InstituteList({ institutes }: any) {
                         </button>
                     </div>
 
-                    <div className="hidden overflow-x-auto rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 lg:block">
+                    <div className="hidden overflow-x-auto rounded-lg border shadow-sm lg:block dark:border-white/20 dark:shadow-white/20">
                         <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b dark:border-white/20 bg-[#3ABEFF]/10 dark:text-white">
+                            <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20 dark:text-white">
                                 <tr>
                                     <th className="p-2 text-center">No</th>
                                     <th className="p-3 text-left">Institute Name</th>
@@ -57,9 +63,12 @@ export default function InstituteList({ institutes }: any) {
                             </thead>
                             <tbody>
                                 {institutes.data?.map((inst: any, index: number) => (
-                                    <tr key={inst.id} className={`border-b dark:border-white/20 dark:text-white hover:bg-[#42C2FF]/10 ${index % 2 === 0
-                                        ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
-                                        : 'bg-white dark:bg-[#222831]'}`}>
+                                    <tr
+                                        key={inst.id}
+                                        className={`border-b hover:bg-[#42C2FF]/10 dark:border-white/20 dark:text-white ${
+                                            index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                        }`}
+                                    >
                                         <td className="p-2 text-center">{institutes.from + index}</td>
                                         <td className="p-3 font-semibold">{inst.name}</td>
                                         <td className="p-3 text-center">{inst.category}</td>
@@ -96,7 +105,7 @@ export default function InstituteList({ institutes }: any) {
 
                     <div className="grid grid-cols-1 gap-4 lg:hidden">
                         {institutes.data?.map((inst: any) => (
-                            <div key={inst.id} className="rounded-xl border dark:border-whie/20 p-4 shadow-sm dark:shadow-white/20">
+                            <div key={inst.id} className="dark:border-whie/20 rounded-xl border p-4 shadow-sm dark:shadow-white/20">
                                 <p className="font-semibold text-gray-800 dark:text-white">{inst.name}</p>
                                 <p className="text-sm text-gray-600 dark:text-white/80">Category: {inst.category}</p>
                                 <p className="text-sm text-gray-600 dark:text-white/80">Courses: {inst.courses_count}</p>

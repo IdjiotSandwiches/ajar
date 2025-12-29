@@ -9,8 +9,7 @@ import { router } from '@inertiajs/react';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function CourseList({ categories, courses }: any) {
-    console.log(courses);
+export default function CourseList({ categories, courses, filters }: any) {
     const [showModal, setShowModal] = useState(false);
     const [deleteCourse, setDeleteCourse] = useState<Number>();
 
@@ -34,8 +33,8 @@ export default function CourseList({ categories, courses }: any) {
             data: {
                 search: filters.search,
                 category_id: filters.category,
-                price_min: filters.minPrice,
-                price_max: filters.maxPrice,
+                duration: filters.duration,
+                sort_by: filters.sort_by,
             },
         });
     };
@@ -43,7 +42,7 @@ export default function CourseList({ categories, courses }: any) {
     return (
         <section>
             <div className="flex min-h-screen flex-col gap-6">
-                <Filter schema={myCoursesFilter(categories)} onChange={onFilterChange} />
+                <Filter schema={myCoursesFilter(categories, filters)} onChange={onFilterChange} />
                 <div className="mx-auto w-full rounded-xl border dark:border-white/20 shadow-sm dark:shadow-white/20 backdrop-blur-sm p-4 lg:p-8">
                     <div className="mb-6 flex items-center justify-between">
                         <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Course List</h3>

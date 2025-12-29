@@ -33,7 +33,11 @@ class TeacherApplicationController extends Controller
             'institutes' => Inertia::scroll($institutes),
             'categories' => $categories,
             'counts' => $counts,
-            'state' => $status,
+            'filters' => [
+                'search' => $validated['search'] ?? null,
+                'state' => $status,
+                'category_id' => $validated['category_id'] ?? null
+            ]
         ]);
     }
 
@@ -52,7 +56,11 @@ class TeacherApplicationController extends Controller
             'courses' => Inertia::scroll($courses),
             'categories' => $categories,
             'counts' => $counts,
-            'state' => $status,
+            'filters' => [
+                'search' => $validated['search'] ?? null,
+                'category_id' => $validated['category_id'] ?? null,
+                'state' => $status
+            ]
         ]);
     }
 

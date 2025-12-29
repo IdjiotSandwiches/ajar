@@ -8,7 +8,7 @@ import { router } from '@inertiajs/react';
 import { Star, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function TeacherList({ teachers }: any) {
+export default function TeacherList({ teachers, filters }: any) {
     const [showModal, setShowModal] = useState(false);
     const [deleteTeacher, setDeleteTeacher] = useState<number>();
 
@@ -23,15 +23,13 @@ export default function TeacherList({ teachers }: any) {
     };
 
     const onFilterChange = (filters: any) => {
-        router.visit(route('institute.list-teacher'), {
+        router.reload({
             data: {
                 search: filters.search,
-                category_id: filters.category,
-                price_min: filters.minPrice,
-                price_max: filters.maxPrice,
-            },
-            preserveState: true,
-            replace: true,
+                rating: filters.rating,
+                date: filters.register_date,
+                count: filters.courses_taught,
+            }
         });
     };
 
@@ -40,7 +38,7 @@ export default function TeacherList({ teachers }: any) {
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
-                <Filter schema={manageTeachersFilter} onChange={onFilterChange} />
+                <Filter schema={manageTeachersFilter(filters)} onChange={onFilterChange} />
 
                 <div className="mx-auto w-full rounded-2xl border dark:border-white/20 p-4 lg:p-8 shadow-sm dark:shadow-white/20 backdrop-blur-sm">
                     <div className="mb-6">

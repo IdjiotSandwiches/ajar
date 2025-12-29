@@ -6,11 +6,11 @@ import LMSLayout from '@/layouts/lms-layout';
 import { InfiniteScroll, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function ApplyTeacherInstitutePage({ institutes, counts, state, categories }: any) {
+export default function ApplyTeacherInstitutePage({ institutes, counts, categories, filters }: any) {
     const { props } = usePage();
     const states = (({ Accepted, ...rest }: any) => ({ ...rest, 'My Institute': Accepted }))(props.enums?.state_enum ?? {});
 
-    const [activeStatus, setActiveStatus] = useState<number>(state || states.Available);
+    const [activeStatus, setActiveStatus] = useState<number>(filters.state || states.Available);
     const reload = (status: any, filters: any) => {
         router.reload({
             data: {
@@ -34,7 +34,7 @@ export default function ApplyTeacherInstitutePage({ institutes, counts, state, c
         <section>
             <div className="space-y-6">
                 <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} />
-                <Filter key={activeStatus} schema={instituteApplicationFilter(categories)} onChange={handleFilterChange} />
+                <Filter key={filters.state} schema={instituteApplicationFilter(categories, filters)} onChange={handleFilterChange} />
                 {institutes.data?.length === 0 ? (
                     <p className="py-20 text-center text-gray-500 italic">Tidak ada institute pada kategori ini.</p>
                 ) : (
