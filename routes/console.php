@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\CancelScheduleWhenNoEnrollments;
 use App\Jobs\GenerateWeeklyCourseSchedules;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -11,3 +12,7 @@ Artisan::command('inspire', function () {
 
 Schedule::job(new GenerateWeeklyCourseSchedules())
     ->weeklyOn(0, '23:00');
+
+Schedule::job(new CancelScheduleWhenNoEnrollments())
+    ->hourly()
+    ->unlessBetween('23:01', '08:59');

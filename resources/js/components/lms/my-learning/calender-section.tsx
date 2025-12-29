@@ -104,7 +104,7 @@ export default function CalendarSection({ courses, date }: any) {
                     </div>
                 </div>
 
-                <div className="border-t pt-2 md:border-t-0 md:border-l md:pt-0 md:pl-4 2xl:border-t 2xl:border-l-0 2xl:pt-2 2xl:pl-0 dark:border-white/20">
+                <div className="border-t pt-2 md:border-t-0 md:border-l md:pt-0 md:pl-4 2xl:border-t 2xl:border-l-0 2xl:pt-2 2xl:pl-0 dark:border-white/20 max-h-60 overflow-auto">
                     {courses.length > 0 ? (
                         courses.map((course: any, index: number) => (
                             <div key={index} className="mb-2 border-l-2 border-[#3ABEFF] px-3 text-sm text-gray-600">
