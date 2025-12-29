@@ -5,16 +5,32 @@ namespace App\Services\Admin;
 use App\Models\Course;
 use App\Models\CourseSchedule;
 use App\Enums\CourseStatusEnum;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AdminCourseService
 {
-    public function getCompletedCourses()
+    public function getCompletedCourses($filters)
     {
         $schedules = CourseSchedule::with(['teacher.user', 'course'])
             ->where('status', CourseStatusEnum::Completed)
+            ->whereNull('is_verified')
             ->whereNotNull('recording_link')
+            ->whereHas(
+                'course',
+                fn($query) => $query->when(
+                    !empty($filters['search']),
+                    fn($q) => $q->where('name', 'like', "%{$filters['search']}%")
+                )
+                    ->when(
+                        !empty($filters['category_id']),
+                        fn($q) => $q->where('category_id', $filters['category_id'])
+                    )
+            )
+            ->when(!empty($filters['time']), fn($q) => $q->whereTime('start_time', '>=', Carbon::parse($filters['time'])->format('H:i:s')))
+            ->when(!empty($filters['date']), fn($q) => $q->whereDate('start_time', $filters['date']))
             ->paginate(10)
+            ->withQueryString()
             ->through(fn($item) => [
                 'id' => $item->id,
                 'name' => $item->course->name,
@@ -56,10 +72,17 @@ class AdminCourseService
         });
     }
 
-    public function getAllCourses()
+    public function getAllCourses($filters)
     {
         $courses = Course::with(['institute.user'])
+            ->when(!empty($filters['search']), fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
+            ->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
+            ->when(!empty($filters['search_secondary']), fn($query) => $query->whereHas(
+                'institute.user',
+                fn($q) => $q->where('name', 'like', "%{$filters['search_secondary']}%")
+            ))
             ->paginate(10)
+            ->withQueryString()
             ->through(fn($item) => [
                 'id' => $item->id,
                 'name' => $item->name,

@@ -26,6 +26,7 @@ class ItemFilterRequest extends FormRequest
         return [
             'category_id' => 'nullable|integer|exists:categories,id',
             'search' => 'nullable|string',
+            'search_secondary' => 'nullable|string',
             'price_min' => 'nullable|numeric|min:0',
             'price_max' => 'nullable|numeric|min:0',
             'time' => 'nullable|date_format:H:i',

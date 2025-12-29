@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use Inertia\Inertia;
+use App\Utilities\Utility;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ItemFilterRequest;
 use App\Services\Admin\AdminCourseService;
 
 class AdminCourseController extends Controller
@@ -15,11 +17,20 @@ class AdminCourseController extends Controller
         $this->service = $service;
     }
 
-    public function getCompletedCourses()
+    public function getCompletedCourses(ItemFilterRequest $request)
     {
-        $schedules = $this->service->getCompletedCourses();
+        $validated = $request->validated();
+        $schedules = $this->service->getCompletedCourses($validated);
+        $categories = Utility::getSubCategories();
         return Inertia::render('my-learning/course-completion', [
-            'schedules' => $schedules
+            'schedules' => $schedules,
+            'categories' => $categories,
+            'filters' => [
+                'search' => $validated['search'] ?? null,
+                'category_id' => $validated['category_id'] ?? null,
+                'time' => $validated['time'] ?? null,
+                'date' => $validated['date'] ?? null,
+            ]
         ]);
     }
 
@@ -33,11 +44,19 @@ class AdminCourseController extends Controller
         }
     }
 
-    public function getAllCourses()
+    public function getAllCourses(ItemFilterRequest $request)
     {
-        $courses = $this->service->getAllCourses();
+        $validated = $request->validated();
+        $courses = $this->service->getAllCourses($validated);
+        $categories = Utility::getSubCategories();
         return Inertia::render('admin/remove-course', [
-            'courses' => $courses
+            'courses' => $courses,
+            'categories' => $categories,
+            'filters' => [
+                'search' => $validated['search'] ?? null,
+                'category_id' => $validated['category_id'] ?? null,
+                'search_secondary' => $validated['search_secondary'] ?? null
+            ]
         ]);
     }
 
