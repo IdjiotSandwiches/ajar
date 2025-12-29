@@ -29,7 +29,7 @@ export default function HomePage({ courses, institutes, reviews }: { courses: an
                     <InstitutionSection institutes={institutes} />
                     <LearningToTeachSection />
                     <TechDesignCourseSection />
-                    <BecomeTeacherSection />
+                    { !user && <BecomeTeacherSection /> }
                     <ReviewSection reviews={reviews} />
                 </main>
                 <Footer />
