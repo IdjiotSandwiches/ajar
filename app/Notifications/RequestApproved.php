@@ -54,6 +54,7 @@ class RequestApproved extends Notification implements ShouldQueue
     public function toBroadcast(object $notifiable): BroadcastMessage
     {
         return new BroadcastMessage([
+            'id' => $this->id,
             'title' => $this->title,
             'message' => $this->message,
         ]);
