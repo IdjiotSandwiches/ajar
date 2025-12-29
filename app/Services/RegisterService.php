@@ -66,8 +66,7 @@ class RegisterService
     {
         $teacher = Teacher::create([
             'user_id' => $user->id,
-            'description' => $data['description'],
-            'is_verified' => false
+            'description' => $data['description']
         ]);
 
         foreach($data['graduates'] as $graduate) {
