@@ -2,13 +2,11 @@
 
 namespace App\Services\Institute;
 
-use App\Models\Course;
-use App\Models\Institute;
-use App\Models\TeacherApplication;
-use App\Models\TeachingCourse;
 use App\Models\User;
+use App\Models\Course;
+use App\Models\TeachingCourse;
+use App\Models\TeacherApplication;
 use App\Notifications\RequestApproved;
-use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
 
 class InstituteManagementService
@@ -45,8 +43,7 @@ class InstituteManagementService
         $toBeNotify = User::findOrFail($id);
         if ($isVerified) {
             $toBeNotify->notify(new RequestApproved('Application Accepted', "Your application at {$user?->name} has been accepted."));
-        }
-        else {
+        } else {
             $toBeNotify->notify(new RequestApproved('Application Rejected', "Your application at {$user?->name} has been rejected."));
         }
     }
@@ -105,11 +102,9 @@ class InstituteManagementService
 
     public function deactiveTeacher($id)
     {
-        $teacher = TeacherApplication::where('teacher_id', $id)
-            ->first();
-
-        if (!$teacher)
-            return null;
+        $teacher = TeacherApplication::with(['institute.user'])
+            ->where('teacher_id', $id)
+            ->firstOrFail();
 
         $courses = Course::where('institute_id', $teacher->institute_id)
             ->pluck('id');
@@ -121,7 +116,9 @@ class InstituteManagementService
 
         $teacher->is_verified = false;
         $teacher->save();
-        return $teacher;
+
+        User::findOrFail($id)
+            ->notify(new RequestApproved('Access Revoked', "Your access to {$teacher->institute->user->name} has been revoked."));
     }
 
     public function getCourseApplications()
@@ -137,9 +134,9 @@ class InstituteManagementService
             ->through(fn($item) => [
                 'id' => $item->id,
                 'teacher' => [
-                    'name' => $item->teacher->user->name,
-                    'profile_picture' => $item->teacher->user->profile_picture,
-                ],
+                        'name' => $item->teacher->user->name,
+                        'profile_picture' => $item->teacher->user->profile_picture,
+                    ],
                 'course' => [
                     'name' => $item->course->name,
                     'image' => $item->course->image
@@ -152,22 +149,20 @@ class InstituteManagementService
     public function verifyCourse($id, $isVerified)
     {
         $user = Auth::user();
-        if ($user) {
-            $user = $user->load('institute');
-        }
-
         $teaching = TeachingCourse::with(['course'])
             ->where('id', $id)
             ->whereNull('is_verified')
             ->whereHas('course', fn($q) => $q->where('institute_id', $user?->id))
-            ->first();
-
-        if (!$teaching) {
-            return false;
-        }
+            ->firstOrFail();
 
         $teaching->is_verified = $isVerified;
         $teaching->save();
-        return true;
+
+        $toBeNotify = User::findOrFail($teaching->teacher_id);
+        if ($isVerified) {
+            $toBeNotify->notify(new RequestApproved('Application Accepted', "Your {$teaching->course->name} course application has been accepted."));
+        } else {
+            $toBeNotify->notify(new RequestApproved('Application Rejected', "Your {$teaching->course->name} course application has been rejected."));
+        }
     }
 }

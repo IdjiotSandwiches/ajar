@@ -167,6 +167,7 @@ class CourseService
         }
 
         $hasSchedule = $user ? $course->courseSchedules
+            ->query()
             ->where('status', CourseStatusEnum::Scheduled)
             ->count() != 0 : true;
 

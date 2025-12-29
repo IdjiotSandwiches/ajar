@@ -20,7 +20,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
     useEffect(() => {
         if (!user) return;
-        window.Echo.private(`App.Models.User.${user.id}`).notification((notification: any) => {
+        const channel = window.Echo.private(`App.Models.User.${user.id}`);
+        channel.notification((notification: any) => {
             toast.info(notification.title, {
                 description: notification.message,
                 position: 'top-right',
@@ -32,7 +33,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         });
 
         return () => {
-            window.Echo.leave(`App.Models.User.${user.id}`);
+            window.Echo.leave(`private-App.Models.User.${user.id}`);
         };
     }, [user?.id]);
 

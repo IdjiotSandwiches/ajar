@@ -4,6 +4,7 @@ namespace App\Services\Admin;
 
 use App\Models\User;
 use App\Models\Teacher;
+use App\Notifications\RequestApproved;
 
 class AdminTeacherService
 {
@@ -47,7 +48,9 @@ class AdminTeacherService
             ->pluck('user_id');
 
         User::where('id', $teacher)
+        // mungkin send email(?) before deletion
             ->delete();
+
     }
 
     public function getUnverifiedTeachers()
@@ -74,5 +77,12 @@ class AdminTeacherService
 
         $teacher->is_verified = $isVerified;
         $teacher->save();
+
+        $toBeNotify = User::findOrFail($teacher->user_id);
+        if ($isVerified) {
+            $toBeNotify->notify(new RequestApproved('Account Approved', "Your account has been approved."));
+        } else {
+            $toBeNotify->notify(new RequestApproved('Account Rejected', "Your account has been rejected."));
+        }
     }
 }

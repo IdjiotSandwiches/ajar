@@ -125,6 +125,10 @@ class PaymentService
                 'first_name' => $user->name,
                 'email' => $user->email,
                 'phone' => $user->phone_number,
+            ],
+            "page_expiry" => [
+                "duration" => 10,
+                "unit" => "minutes"
             ]
         ];
 

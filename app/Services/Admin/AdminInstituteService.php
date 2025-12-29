@@ -41,6 +41,7 @@ class AdminInstituteService
             ->pluck('user_id');
 
         User::where('id', $institute)
+        // mungkin send email(?) before deletion
             ->delete();
     }
 }
