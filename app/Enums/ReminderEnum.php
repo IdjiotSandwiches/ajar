@@ -11,6 +11,8 @@ enum ReminderEnum: int
     case AddMeetingLink = 5;
     case HasTeacherApplication = 6;
     case HasCourseApplication = 7;
+    case HasTeacherVerification = 8;
+    case HasCourseVerification = 9;
 
     public static function asArray(): array
     {

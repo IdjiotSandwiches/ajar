@@ -271,7 +271,7 @@ class MyLearningService
                         . Carbon::parse($schedule->end_time)->toTimeString('minute'),
                     'meeting_link' => $schedule->meeting_link,
                     'image' => $course->image,
-                    'can_join' => now('Asia/Jakarta')->addMinutes(15)->greaterThanOrEqualTo($schedule->start_time),
+                    'can_join' => now()->addMinutes(15)->greaterThanOrEqualTo($schedule->start_time),
                     'has_review' => $course->courseReviews->count() != 0
                 ];
             });
