@@ -3,10 +3,11 @@
 namespace App\Services\Institute;
 
 use App\Models\User;
-use App\Models\Course;
+use App\Models\CourseSchedule;
 use App\Models\TeachingCourse;
 use App\Models\TeacherApplication;
 use App\Notifications\RequestApproved;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class InstituteManagementService
@@ -102,23 +103,17 @@ class InstituteManagementService
 
     public function deactiveTeacher($id)
     {
-        $teacher = TeacherApplication::with(['institute.user'])
-            ->where('teacher_id', $id)
-            ->firstOrFail();
+        DB::transaction(function () use ($id) {
+            $teacher = TeacherApplication::where('teacher_id', $id)
+                ->firstOrFail();
+            $teacher->delete();
 
-        $courses = Course::where('institute_id', $teacher->institute_id)
-            ->pluck('id');
+            TeachingCourse::where('teacher_id', $id)->delete();
+            CourseSchedule::where('teacher_id', $id)->delete();
+        });
 
-        TeachingCourse::query()
-            ->where('teacher_id', $id)
-            ->whereIn('course_id', $courses)
-            ->update(['is_verified' => false]);
-
-        $teacher->is_verified = false;
-        $teacher->save();
-
-        User::findOrFail($id)
-            ->notify(new RequestApproved('Access Revoked', "Your access to {$teacher->institute->user->name} has been revoked."));
+        $user = User::findOrFail($id);
+        $user->notify(new RequestApproved('Access Revoked', "Your access to {$user->name} has been revoked."));
     }
 
     public function getCourseApplications()
@@ -134,9 +129,9 @@ class InstituteManagementService
             ->through(fn($item) => [
                 'id' => $item->id,
                 'teacher' => [
-                        'name' => $item->teacher->user->name,
-                        'profile_picture' => $item->teacher->user->profile_picture,
-                    ],
+                    'name' => $item->teacher->user->name,
+                    'profile_picture' => $item->teacher->user->profile_picture,
+                ],
                 'course' => [
                     'name' => $item->course->name,
                     'image' => $item->course->image

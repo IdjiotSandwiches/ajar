@@ -63,7 +63,7 @@ class InstituteManagementController extends Controller
     {
         try {
             $this->service->deactiveTeacher($id);
-            return back()->with('success', 'Teacher has been deactivated.');
+            return back()->with('success', 'Teacher access has been revoked.');
         } catch (\Exception $e) {
             return back()->with('error', 'Teacher not found!');
         }
