@@ -2,8 +2,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import ReminderItem from './reminder-item';
+import { usePage } from '@inertiajs/react';
 
 export default function MobileReminder({ reminder }: any) {
+    const { props } = usePage();
+    const status = props.enums?.learning_status_enum;
+
     type ReminderConfig = {
         title: string;
         url: string;
@@ -11,12 +15,14 @@ export default function MobileReminder({ reminder }: any) {
 
     const REMINDER_TITLE_MAP: Record<number, ReminderConfig> = {
         1: { title: 'You have new messages.', url: route('chat') },
-        2: { title: 'Please review your completed course.', url: route('my-learning') },
+        2: { title: 'Please review your completed course.', url: route('my-learning', { status: status.Completed }) },
         3: { title: 'Your class is about to start.', url: route('my-learning') },
         4: { title: 'Please complete your course.', url: route('my-learning') },
         5: { title: 'Please add a meeting link for your course.', url: route('my-learning') },
         6: { title: 'There are new teacher applications.', url: route('institute.teacher-application') },
-        7: { title: 'A teacher has applied to teach your course.', url: '' },
+        7: { title: 'A teacher has applied to teach your course.', url: route('institute.course-application') },
+        8: { title: 'Some teachers are awaiting verification.', url: route('admin.teacher-applications') },
+        9: { title: 'Some courses are awaiting verification.', url: route('admin.course-completion') },
     };
 
     const [isOpen, setIsOpen] = useState(true);

@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Teacher;
+use App\Models\TeacherApplication;
+use App\Models\TeachingCourse;
 use Carbon\Carbon;
 use App\Enums\RoleEnum;
 use App\Enums\CourseStatusEnum;
@@ -64,22 +67,48 @@ class DashboardService
     {
         $user = Auth::user();
         $reminder = collect();
+        $now = now();
         switch ($user->role_id) {
             case RoleEnum::Admin:
+                $teachers = Teacher::query()
+                    ->whereNull('is_verified')
+                    ->exists();
+                $courses = CourseSchedule::query()
+                    ->whereNotNull('recording_link')
+                    ->whereNull('is_verified')
+                    ->where('status', CourseStatusEnum::Completed)
+                    ->exists();
+
+                if ($teachers)
+                    $reminder->add(ReminderEnum::HasTeacherVerification);
+                if ($courses)
+                    $reminder->add(ReminderEnum::HasCourseVerification);
                 break;
             case RoleEnum::Institute:
+                $teachers = TeacherApplication::query()
+                    ->where('institute_id', $user->id)
+                    ->whereNull('is_verified')
+                    ->exists();
+                $courses = TeachingCourse::with(['course'])
+                    ->whereHas('course', fn($q) => $q->where('institute_id', $user->id))
+                    ->whereNull('is_verified')
+                    ->exists();
+
+                if ($teachers)
+                    $reminder->add(ReminderEnum::HasTeacherApplication);
+                if ($courses)
+                    $reminder->add(ReminderEnum::HasCourseApplication);
                 break;
             case RoleEnum::Teacher: {
-                $now = now('Asia/Jakarta')->toTimeString();
                 $query = CourseSchedule::query();
                 $addMeeting = (clone $query)
                     ->where('teacher_id', $user->id)
-                    ->where('start_time', '>=', $now)
-                    ->whereRaw("start_time <= ADDTIME(?, '00:30:00')", [$now])
+                    ->whereRaw("TIME(?) BETWEEN SUBTIME(start_time, '00:30:00') AND start_time", [$now])
                     ->whereNull('meeting_link')
                     ->exists();
                 $complete = (clone $query)
                     ->where('status', CourseStatusEnum::Completed)
+                    ->whereNull('recording_link')
                     ->where('end_time', '>', $now)
                     ->exists();
 
@@ -90,28 +119,23 @@ class DashboardService
                 break;
             }
             case RoleEnum::Student: {
-                $query = EnrolledCourse::query()->where('student_id', $user->id);
+                $query = EnrolledCourse::with(['courseSchedule.course.courseReviews', 'courseSchedule.teacher.reviews'])
+                    ->where('student_id', $user->id);
                 $review = (clone $query)
                     ->where('is_complete', true)
-                    ->whereHas(
+                    ->whereDoesntHave(
                         'courseSchedule.course.courseReviews',
                         fn($q) => $q->where('reviewer_id', $user->id)
                     )
-                    ->whereHas(
+                    ->whereDoesntHave(
                         'courseSchedule.teacher.reviews',
                         fn($q) => $q->where('reviewer_id', $user->id)
                     )
                     ->exists();
                 $meeting = (clone $query)
                     ->where('is_complete', false)
-                    ->whereHas('courseSchedule', function ($query) {
-                        $query->whereToday('start_time');
-                    })
-                    ->whereHas('courseSchedule', function ($query) {
-                        $now = now('Asia/Jakarta')->toTimeString();
-                        $query->where('start_time', '>=', $now)
-                            ->whereRaw("start_time <= ADDTIME(?, '00:15:00')", [$now]);
-                    })
+                    ->whereHas('courseSchedule', fn($q) => $q->whereToday('start_time')
+                        ->whereRaw("TIME(?) BETWEEN SUBTIME(start_time, '00:15:00') AND start_time", [$now]))
                     ->exists();
 
                 if ($review)
@@ -136,7 +160,7 @@ class DashboardService
                 $query->when(
                     $isToday,
                     fn($q) => $q->whereToday('start_time')
-                        ->where('start_time', '>', Carbon::now('Asia/Jakarta'))
+                        ->where('start_time', '>', Carbon::now())
                 );
                 $query->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'));
             })
@@ -163,7 +187,7 @@ class DashboardService
             ->where('teacher_id', $userId)
             ->when($isToday, fn($q) => $q->whereToday('start_time'))
             ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'))
-            ->where('start_time', '>', Carbon::now('Asia/Jakarta'))
+            ->where('start_time', '>', Carbon::now())
             ->paginate(5)
             ->through(function ($item) {
                 $course = $item->course;

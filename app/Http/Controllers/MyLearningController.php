@@ -22,7 +22,7 @@ class MyLearningController extends Controller
     {
         $enroll_id = $request->query('enroll_id');
         $status = LearningStatusEnum::Ongoing;
-        $date = now('Asia/Jakarta')->format('Y-m-d');
+        $date = now()->format('Y-m-d');
         if (!empty($request['status']))
             $status = LearningStatusEnum::from($request['status']);
         if (!empty($request['date']))
