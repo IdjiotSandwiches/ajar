@@ -2,15 +2,14 @@
 
 namespace App\Jobs;
 
+use Carbon\Carbon;
 use App\Models\CourseSchedule;
 use App\Models\CourseWeeklyRule;
-use Carbon\Carbon;
-use Carbon\CarbonInterface;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 
 class GenerateWeeklyCourseSchedules implements ShouldQueue
 {
