@@ -65,8 +65,8 @@ class RegisterRequest extends FormRequest
             $rules['works.*.institution'] = 'required|string';
             $rules['works.*.duration'] = 'required|integer|min:1';
 
-            $rules['certificates'] = 'array|min:1';
-            $rules['certificates.*'] = 'file|image|mimes:jpeg,png,jpg|max:256';
+            $rules['certificates'] = 'required|array|min:1';
+            $rules['certificates.*'] = 'required|file|image|mimes:jpeg,png,jpg|max:256';
         }
 
         if ($role === RoleEnum::Institute) {
