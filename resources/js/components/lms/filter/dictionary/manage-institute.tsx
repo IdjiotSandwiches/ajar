@@ -1,20 +1,35 @@
-import { FilterSchema } from "../filter-schema";
+import { FilterSchema } from '../filter-schema';
 
-export const manageInstituteFilter: FilterSchema = [
-    { key: 'search', label: 'Search by Name', type: 'text', placeholder: 'Institute name' },
+export const manageInstituteFilter = (categories: any, filters: any): FilterSchema => [
+    {
+        key: 'search',
+        label: 'Search by Name',
+        type: 'text',
+        placeholder: 'Institute name',
+        defaultValue: filters.search,
+    },
     {
         key: 'category',
         label: 'Category',
         type: 'dropdown',
-        options: [
-            { label: 'Technology', value: 'tech' },
-            { label: 'Design', value: 'design' },
-        ],
-    },{ key: 'total_course', label: 'Total Course', type: 'text', placeholder: '0' },
+        defaultValue: filters.category_id,
+        options: categories.map((cat: any) => ({
+            label: cat.name,
+            value: cat.id,
+        })),
+    },
+    {
+        key: 'total_course',
+        label: 'Total Course',
+        type: 'text',
+        placeholder: '0',
+        defaultValue: filters.count,
+    },
     {
         key: 'rating',
         label: 'Rating',
         type: 'dropdown',
+        defaultValue: filters.rating,
         options: [
             { label: '5 ⭐⭐⭐⭐⭐', value: '5' },
             { label: '4 ⭐⭐⭐⭐', value: '4' },
