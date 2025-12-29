@@ -89,7 +89,7 @@ const DetailInput: React.FC<DetailInputProps> = ({
       )}
       <label
         htmlFor={id}
-        className="absolute text-sm text-gray-500 dark:text-white/70 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-[#3ABEFF] peer-focus:font-medium bg-white dark:bg-[#222831] px-1"
+        className="absolute text-sm text-gray-500 dark:text-white/70 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-[#3ABEFF] peer-focus:font-medium bg-white dark:bg-[#222831]"
       >
 
         {title}
