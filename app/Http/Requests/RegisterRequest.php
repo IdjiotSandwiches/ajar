@@ -65,7 +65,7 @@ class RegisterRequest extends FormRequest
             $rules['works.*.institution'] = 'required|string';
             $rules['works.*.duration'] = 'required|integer|min:1';
 
-            $rules['certificates'] = 'array';
+            $rules['certificates'] = 'array|min:1';
             $rules['certificates.*'] = 'file|image|mimes:jpeg,png,jpg|max:256';
         }
 
