@@ -9,6 +9,7 @@ export default function InstituteCard({ institute, showTeacher = true }: any) {
 
     const teachers = institute?.teacher_applications ?? [];
     const hasTeachers = teachers.length > 0;
+    console.log(teachers)
     const [index, setIndex] = useState(0);
 
     const next = () => {
@@ -76,20 +77,20 @@ export default function InstituteCard({ institute, showTeacher = true }: any) {
                                         }}
                                     >
                                         {teachers.map((t: any) => (
-                                            <div key={t.user_id} className="w-full flex-shrink-0">
+                                            <div key={t.teacher_id} className="w-full flex-shrink-0">
                                                 <div
                                                     className="flex cursor-pointer items-center gap-3 rounded-xl bg-[#F1FBFF] px-4 py-3 shadow-sm transition active:scale-[0.98]"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        router.get(route('detail-teacher', t.user_id));
+                                                        router.get(route('detail-teacher', t.teacher_id));
                                                     }}
                                                 >
                                                     <img
-                                                        src={storageUrl(t?.user?.profile_picture)}
-                                                        alt={t?.user?.name ?? 'Teacher'}
+                                                        src={storageUrl(t?.teacher?.user?.profile_picture)}
+                                                        alt={t?.teacher?.user?.name ?? 'Teacher'}
                                                         className="h-12 w-12 rounded-full border object-cover"
                                                     />
-                                                    <p className="text-base font-semibold whitespace-nowrap text-gray-700">{t?.user?.name}</p>
+                                                    <p className="text-base font-semibold whitespace-nowrap text-gray-700">{t?.teacher?.user?.name}</p>
                                                 </div>
                                             </div>
                                         ))}

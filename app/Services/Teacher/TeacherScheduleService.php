@@ -155,8 +155,8 @@ class TeacherScheduleService
                 'teacher_salary' => $item->course->teacher_salary,
                 'schedules' => $item->courseWeeklyRules->map(fn($q) => [
                     'day' => $q->day->value,
-                    'start_time' => $q->start_time,
-                    'end_time' => $q->end_time
+                    'start_time' => Carbon::parse($q->start_time)->format('H:i'),
+                    'end_time' => Carbon::parse($q->end_time)->format('H:i')
                 ])
             ]);
 

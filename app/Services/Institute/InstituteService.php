@@ -35,7 +35,7 @@ class InstituteService
         }
 
         $categoryIds = $categories->pluck('id');
-        $institutes = Institute::with(['user', 'teacherApplications.teacher', 'teacherApplications' => fn($q) => $q->where('is_verified', true)])
+        $institutes = Institute::with(['user', 'teacherApplications.teacher.user', 'teacherApplications' => fn($q) => $q->where('is_verified', true)])
             ->whereIn('category_id', $categoryIds)
             ->when(
                 $filters['search'] ?? null,

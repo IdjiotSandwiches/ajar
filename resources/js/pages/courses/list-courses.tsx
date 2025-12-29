@@ -27,7 +27,7 @@ export default function CourseListPage({ activeCategory, parentCategories, cours
 
         setLocalSearch(newSearch);
         if (enter || category_id !== undefined) {
-            router.visit(route('list-course'), {
+            router.reload({
                 data: {
                     category_id: category_id ?? activeCategory,
                     search: newSearch,
@@ -37,10 +37,7 @@ export default function CourseListPage({ activeCategory, parentCategories, cours
                     price_max: newPriceMax,
                 },
                 only: ['courses', 'activeCategory', 'subCategories', 'activeSub', 'studentFilter'],
-                reset: ['courses', 'price'],
-                preserveScroll: true,
-                preserveState: true,
-                replace: true,
+                reset: ['courses', 'price']
             });
         }
     };

@@ -20,16 +20,13 @@ export default function InstituteListPage({ parentCategories, institutes, active
         }
 
         if (enter || category_id !== undefined) {
-            router.visit(route('list-institute'), {
+            router.reload({
                 data: {
                     category_id: category_id ?? activeCategory,
                     search: newSearch,
                 },
                 only: ['institutes', 'activeCategory'],
-                reset: ['institutes'],
-                preserveScroll: true,
-                preserveState: true,
-                replace: true,
+                reset: ['institutes']
             });
         }
     };
