@@ -108,7 +108,7 @@ export default function AuthSimpleLayout({
             </div>
           </div>
         ) : (
-          <div className="bg-white w-full max-w-4xl rounded-2xl shadow-sm px-6 sm:px-12 py-14">
+          <div className="bg-white dark:bg-[#222831] w-full max-w-4xl rounded-2xl shadow-sm px-6 sm:px-12 py-14">
             <h1 className="text-3xl font-semibold text-center text-gray-800 dark:text-white mb-8">
               {title}
             </h1>

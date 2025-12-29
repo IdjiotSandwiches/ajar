@@ -57,7 +57,7 @@ const DetailSelect: React.FC<DetailSelectProps> = ({
       </select>
       <label
         htmlFor={id}
-        className={`absolute text-sm duration-300 transform origin-[0] top-3 -z-10
+        className={`absolute text-sm duration-300 transform origin-[0] top-3 z-10
                     ${
                       hasValue || focused
                         ? "-translate-y-6 scale-75"

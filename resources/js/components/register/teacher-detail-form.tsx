@@ -28,7 +28,7 @@ export default function TeacherDetailForm({ form }: any) {
             <GraduateForm form={form} />
             <WorkForm form={form} />
             <div>
-                <h3 className="mb-3 font-medium text-gray-800">Certificates</h3>
+                <h3 className="mb-3 font-medium text-gray-800 dark:text-white">Certificates</h3>
                 <DetailImage
                     Index={0}
                     multiple={true}
