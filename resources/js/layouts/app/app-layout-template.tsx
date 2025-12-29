@@ -2,7 +2,7 @@ import Footer from '@/components/footer';
 import Navbar from '@/components/navbar';
 import NavigationList from '@/components/navigation-list';
 import BackButton from '@/components/ui/back-button';
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { PropsWithChildren, useEffect } from 'react';
 import { toast, Toaster } from 'sonner';
 
@@ -13,13 +13,28 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children, showBackButton = true, useContainer = true }: PropsWithChildren<AppLayoutProps>) {
     const { props } = usePage();
-    const user = props.auth?.user;
     const { flash }: any = props;
+    const user = props.auth?.user;
 
     useEffect(() => {
         if (flash.success) toast.success(flash.success);
         if (flash.error) toast.error(flash.error);
     }, [flash]);
+
+    useEffect(() => {
+        if (!user) return;
+        window.Echo.private(`App.Models.User.${user.id}`).notification((notification: any) => {
+            toast.info(notification.title, {
+                description: notification.message,
+                position: 'top-right',
+            });
+            router.reload();
+        });
+
+        return () => {
+            window.Echo.leave(`App.Models.User.${user.id}`);
+        };
+    }, [user?.id]);
 
     return (
         <div className="flex min-h-screen flex-col">

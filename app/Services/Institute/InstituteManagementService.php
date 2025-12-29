@@ -6,6 +6,8 @@ use App\Models\Course;
 use App\Models\Institute;
 use App\Models\TeacherApplication;
 use App\Models\TeachingCourse;
+use App\Models\User;
+use App\Notifications\RequestApproved;
 use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,15 +37,18 @@ class InstituteManagementService
 
         $teacher = TeacherApplication::where('teacher_id', $id)
             ->where('institute_id', $user?->id)
-            ->first();
-
-        if (!$teacher) {
-            return false;
-        }
+            ->firstOrFail();
 
         $teacher->is_verified = $isVerified;
         $teacher->save();
-        return true;
+
+        $toBeNotify = User::findOrFail($id);
+        if ($isVerified) {
+            $toBeNotify->notify(new RequestApproved('Application Accepted', "Your application at {$user?->name} has been accepted."));
+        }
+        else {
+            $toBeNotify->notify(new RequestApproved('Application Rejected', "Your application at {$user?->name} has been rejected."));
+        }
     }
 
     public function teacherList($filters)

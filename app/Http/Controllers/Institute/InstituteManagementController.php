@@ -26,23 +26,21 @@ class InstituteManagementController extends Controller
 
     public function acceptTeacher($id)
     {
-        $isAccepted = $this->service->verifyTeacher($id, true);
-        if (!$isAccepted) {
-            return back()->with('error', 'Teacher not found!');
-        }
-        else {
+        try {
+            $this->service->verifyTeacher($id, true);
             return back()->with('success', 'Teacher has been verified.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Teacher not found!');
         }
     }
 
     public function rejectTeacher($id)
     {
-        $isAccepted = $this->service->verifyTeacher($id, false);
-        if (!$isAccepted) {
-            return back()->with('error', 'Teacher not found!');
-        }
-        else {
+        try {
+            $this->service->verifyTeacher($id, false);
             return back()->with('success', 'Teacher has been declined.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Teacher not found!');
         }
     }
 
