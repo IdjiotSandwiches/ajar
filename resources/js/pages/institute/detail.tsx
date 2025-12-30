@@ -34,7 +34,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
         <>
             <Head title={institute?.user?.name || 'Not Found'} />
             <div className="flex min-h-screen flex-col">
-                <div className="mx-auto w-full max-w-6xl p-6">
+                <div className="mx-auto w-full max-w-6xl p-6 mt-8">
                     <div className="flex flex-col items-stretch overflow-hidden rounded-xl shadow-md md:flex-row">
                         <div className="flex items-center justify-center bg-[#3ABEFF] dark:bg-[#222831] p-6 py-8 md:p-6 md:py-6">
                             <img
