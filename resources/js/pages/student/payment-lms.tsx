@@ -9,8 +9,9 @@ export default function PaymentsPage({ payments, amounts }: any) {
     const status = props.enums?.payment_status_enum;
     const statusStyle: Record<string, string> = {
         paid: 'bg-green-100 text-green-600',
-        pending: 'bg-yellow-100 text-yellow-600',
+        pending: 'bg-blue-100 text-blue-600',
         failed: 'bg-red-100 text-red-600',
+        refund: 'bg-yellow-100 text-yellow-600',
     };
 
     const isEmpty = !payments.data || payments.data.length === 0;
@@ -47,21 +48,15 @@ export default function PaymentsPage({ payments, amounts }: any) {
                 </div>
 
                 <div className="rounded-2xl border p-6 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
-                    <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">
-                        Payment History
-                    </h3>
-
+                    <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Payment History</h3>
                     {isEmpty ? (
                         <div className="flex flex-col items-center justify-center py-16 text-center">
                             <Wallet className="mb-4 h-12 w-12 text-gray-400" />
 
-                            <p className="text-base font-semibold text-gray-700 dark:text-white">
-                                There are no courses registered yet
-                            </p>
+                            <p className="text-base font-semibold text-gray-700 dark:text-white">There are no courses registered yet</p>
 
                             <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
-                                You haven't made any payments or registered for any courses yet.
-                                Please explore the courses and start learning now.
+                                You haven't made any payments or registered for any courses yet. Please explore the courses and start learning now.
                             </p>
 
                             <button
@@ -75,52 +70,36 @@ export default function PaymentsPage({ payments, amounts }: any) {
                         <>
                             <div className="space-y-4 md:hidden">
                                 {payments.data.map((payment: any) => (
-                                    <div
-                                        key={payment.id}
-                                        className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20"
-                                    >
+                                    <div key={payment.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
                                         <div className="mb-2">
                                             <p className="text-sm text-gray-500 dark:text-white/70">Course</p>
-                                            <p className="font-semibold text-gray-800 dark:text-white">
-                                                {payment.course_name}
-                                            </p>
+                                            <p className="font-semibold text-gray-800 dark:text-white">{payment.course_name}</p>
                                         </div>
 
                                         <div className="mb-2">
                                             <p className="text-sm text-gray-500 dark:text-white/70">Teacher</p>
-                                            <p className="text-gray-700 dark:text-white/90">
-                                                {payment.teacher}
-                                            </p>
+                                            <p className="text-gray-700 dark:text-white/90">{payment.teacher}</p>
                                         </div>
 
                                         <div className="mb-2">
                                             <p className="text-sm text-gray-500 dark:text-white/70">Schedule</p>
-                                            <p className="text-gray-700 dark:text-white/90">
-                                                {payment.schedule}
-                                            </p>
+                                            <p className="text-gray-700 dark:text-white/90">{payment.schedule}</p>
                                         </div>
 
                                         <div className="mt-4 flex items-center justify-between">
                                             <div>
                                                 <p className="text-sm text-gray-500 dark:text-white/70">Price</p>
-                                                <p className="font-semibold">
-                                                    Rp {payment.amount.toLocaleString('id-ID')}
-                                                </p>
+                                                <p className="font-semibold">Rp {payment.amount.toLocaleString('id-ID')}</p>
                                             </div>
 
-                                            <span
-                                                className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[payment.status]
-                                                    }`}
-                                            >
+                                            <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[payment.status]}`}>
                                                 {payment.status.toUpperCase()}
                                             </span>
                                         </div>
 
                                         {payment.status === status.Pending && (
                                             <button
-                                                onClick={() =>
-                                                    router.get(route('pending-payment', payment.id))
-                                                }
+                                                onClick={() => router.get(route('pending-payment', payment.id))}
                                                 className="mt-4 w-full rounded-md bg-[#3ABEFF] py-2 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
                                             >
                                                 Pay Now
@@ -146,33 +125,23 @@ export default function PaymentsPage({ payments, amounts }: any) {
                                         {payments.data.map((payment: any, index: number) => (
                                             <tr
                                                 key={index}
-                                                className={`border-b dark:border-white/20 ${index % 2 === 0
-                                                    ? 'bg-[#F9FCFF] dark:bg-[#31363F]'
-                                                    : 'bg-white dark:bg-[#222831]'
-                                                    }`}
+                                                className={`border-b dark:border-white/20 ${
+                                                    index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                                }`}
                                             >
                                                 <td className="p-3 font-medium">{payment.course_name}</td>
                                                 <td className="p-3">{payment.teacher}</td>
                                                 <td className="p-3">{payment.schedule}</td>
-                                                <td className="p-3 font-semibold">
-                                                    Rp {payment.amount.toLocaleString('id-ID')}
-                                                </td>
+                                                <td className="p-3 font-semibold">Rp {payment.amount.toLocaleString('id-ID')}</td>
                                                 <td className="p-3 text-center">
-                                                    <span
-                                                        className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[payment.status]
-                                                            }`}
-                                                    >
+                                                    <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[payment.status]}`}>
                                                         {payment.status.toUpperCase()}
                                                     </span>
                                                 </td>
                                                 <td className="p-3 text-center">
                                                     {payment.status === status.Pending ? (
                                                         <button
-                                                            onClick={() =>
-                                                                router.get(
-                                                                    route('pending-payment', payment.id)
-                                                                )
-                                                            }
+                                                            onClick={() => router.get(route('pending-payment', payment.id))}
                                                             className="rounded-md bg-[#3ABEFF] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#3ABEFF]/90"
                                                         >
                                                             Pay Now

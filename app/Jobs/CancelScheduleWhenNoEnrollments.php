@@ -32,7 +32,7 @@ class CancelScheduleWhenNoEnrollments implements ShouldQueue
             ->whereTime('start_time', '<=', now())
             ->whereDoesntHave('enrolledCourses')
             ->update([
-                'status' => CourseStatusEnum::Canceled
+                'status' => CourseStatusEnum::Cancelled
             ]);
     }
 }

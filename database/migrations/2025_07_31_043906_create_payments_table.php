@@ -13,15 +13,20 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('enrolled_course_id');
+            $table->unsignedBigInteger('enrolled_course_id')->nullable();
             $table->unsignedBigInteger('user_id');
+            $table->string('course_name');
+            $table->string('teacher_name');
+            $table->string('schedule');
             $table->string('unique_id');
+            $table->string('refund_id')->nullable();
             $table->string('snap_token')->nullable();
             $table->decimal('amount', 12, 2);
-            $table->enum('status', ['pending', 'paid', 'expired'])->default('pending');
+            $table->enum('status', ['pending', 'paid', 'failed', 'refund'])->default('pending');
+            $table->datetime('expired_at');
             $table->timestamps();
 
-            $table->foreign('enrolled_course_id')->references('id')->on('enrolled_courses')->onDelete('cascade');
+            $table->foreign('enrolled_course_id')->references('id')->on('enrolled_courses')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

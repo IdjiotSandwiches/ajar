@@ -4,9 +4,22 @@ namespace App\Services\Admin;
 
 use App\Models\User;
 use App\Models\Teacher;
+use App\Models\CourseSchedule;
+use App\Services\PaymentService;
+use App\Enums\CourseStatusEnum;
+use App\Notifications\RequestApproved;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 
 class AdminTeacherService
 {
+    private PaymentService $service;
+
+    public function __construct(PaymentService $service)
+    {
+        $this->service = $service;
+    }
+
     public function getTeacherList($filters)
     {
         $teachers = Teacher::with(['user', 'reviews', 'teachingCourses', 'teacherApplications.institute.user'])
@@ -43,11 +56,27 @@ class AdminTeacherService
 
     public function removeTeacher($id)
     {
-        $teacher = Teacher::findOrFail($id)
-            ->pluck('user_id');
+        Teacher::findOrFail($id);
+        $scheduleIds = [];
+        DB::transaction(function () use ($id, &$scheduleIds) {
+            $scheduleIds = CourseSchedule::where('teacher_id', $id)
+                ->pluck('id')
+                ->toArray();
 
-        User::where('id', $teacher)
-            ->delete();
+            CourseSchedule::query()
+                ->whereIn('id', $scheduleIds)
+                ->update([
+                    'status' => CourseStatusEnum::Cancelled
+                ]);
+        });
+
+        $jobs = $this->service->handleRefund($scheduleIds);
+        if (!empty($jobs)) {
+            Bus::batch($jobs)
+                ->then(fn($batch) => User::findOrFail($id)->delete())
+                ->name('Handle course refunds (Teacher Removal)')
+                ->dispatch();
+        }
     }
 
     public function getUnverifiedTeachers()
@@ -74,5 +103,12 @@ class AdminTeacherService
 
         $teacher->is_verified = $isVerified;
         $teacher->save();
+
+        $toBeNotify = User::findOrFail($teacher->user_id);
+        if ($isVerified) {
+            $toBeNotify->notify(new RequestApproved('Account Approved', "Your account has been approved."));
+        } else {
+            $toBeNotify->notify(new RequestApproved('Account Rejected', "Your account has been rejected."));
+        }
     }
 }

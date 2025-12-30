@@ -19,12 +19,12 @@ return new class extends Migration {
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('teacher_id');
             $table->boolean('is_verified')->nullable();
-            $table->enum('status', ['scheduled', 'canceled', 'completed'])
+            $table->enum('status', ['scheduled', 'cancelled', 'completed'])
                 ->default('scheduled');
             $table->timestamps();
 
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('restrict');
-            $table->foreign('teacher_id')->references('user_id')->on('teachers')->onDelete('restrict');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('teacher_id')->references('user_id')->on('teachers')->onDelete('cascade');
         });
     }
 

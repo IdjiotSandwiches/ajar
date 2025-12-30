@@ -68,4 +68,14 @@ class TeacherScheduleController extends Controller
             ]
         ]);
     }
+
+    public function cancelSchedule($id)
+    {
+        try {
+            $this->service->cancelSchedule($id);
+            return back()->with('success', 'Schedule has been cancelled.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Schedule not found.');
+        }
+    }
 }

@@ -9,7 +9,7 @@ import ReviewSection from '@/components/home/review';
 import Navbar from '@/components/navbar';
 import { Head, usePage } from '@inertiajs/react';
 
-export default function HomePage({ courses, institutes, reviews }: { courses: any[], institutes: any[], reviews: any[] }) {
+export default function HomePage({ courses, institutes, reviews }: { courses: any[]; institutes: any[]; reviews: any[] }) {
     const { props } = usePage();
     const user = props.auth?.user;
 
@@ -24,7 +24,7 @@ export default function HomePage({ courses, institutes, reviews }: { courses: an
                     <InstitutionSection institutes={institutes} />
                     <LearningToTeachSection />
                     <TechDesignCourseSection />
-                    { !user && <BecomeTeacherSection /> }
+                    {!user && <BecomeTeacherSection />}
                     <ReviewSection reviews={reviews} />
                 </main>
                 <Footer />

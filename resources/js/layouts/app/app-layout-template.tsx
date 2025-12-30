@@ -1,9 +1,8 @@
 import Footer from '@/components/footer';
 import Navbar from '@/components/navbar';
 import BackButton from '@/components/ui/back-button';
-import { usePage } from '@inertiajs/react';
-import { PropsWithChildren, useEffect } from 'react';
-import { toast, Toaster } from 'sonner';
+import { PropsWithChildren } from 'react';
+import RootLayout from '../root-layout';
 
 interface AppLayoutProps {
     showBackButton?: boolean;
@@ -11,27 +10,18 @@ interface AppLayoutProps {
 }
 
 export default function AppLayout({ children, showBackButton = true, useContainer = true }: PropsWithChildren<AppLayoutProps>) {
-    const { props } = usePage();
-    const { flash }: any = props;
-
-    useEffect(() => {
-        if (flash.success) toast.success(flash.success);
-        if (flash.error) toast.error(flash.error);
-    }, [flash]);
-
     return (
-        <div className="flex min-h-screen flex-col">
-            <Navbar />
-
-            {showBackButton && (
-                <div className="absolute top-24 left-6 z-20 hidden md:inline">
-                    <BackButton label="Back" />
-                </div>
-            )}
-
-            <main className={`flex-1 pt-[72px] ${useContainer ? 'container mx-auto' : 'w-full'}`}>{children}</main>
-            <Toaster richColors={true} />
-            <Footer />
-        </div>
+        <RootLayout>
+            <div className="flex min-h-screen flex-col">
+                <Navbar />
+                {showBackButton && (
+                    <div className="absolute top-24 left-6 z-20 hidden md:inline">
+                        <BackButton label="Back" />
+                    </div>
+                )}
+                <main className={`flex-1 pt-[72px] ${useContainer ? 'container mx-auto' : 'w-full'}`}>{children}</main>
+                <Footer />
+            </div>
+        </RootLayout>
     );
 }

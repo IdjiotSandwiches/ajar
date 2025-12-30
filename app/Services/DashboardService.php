@@ -122,7 +122,7 @@ class DashboardService
                 $query = EnrolledCourse::with(['courseSchedule.course.courseReviews', 'courseSchedule.teacher.reviews'])
                     ->where('student_id', $user->id);
                 $review = (clone $query)
-                    ->where('is_complete', true)
+                    ->where('status', CourseStatusEnum::Completed)
                     ->whereDoesntHave(
                         'courseSchedule.course.courseReviews',
                         fn($q) => $q->where('reviewer_id', $user->id)
@@ -133,7 +133,7 @@ class DashboardService
                     )
                     ->exists();
                 $meeting = (clone $query)
-                    ->where('is_complete', false)
+                    ->where('status', CourseStatusEnum::Scheduled)
                     ->whereHas('courseSchedule', fn($q) => $q->whereToday('start_time')
                         ->whereRaw("TIME(?) BETWEEN SUBTIME(start_time, '00:15:00') AND start_time", [$now]))
                     ->exists();

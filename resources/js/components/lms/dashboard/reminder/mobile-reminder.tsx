@@ -1,8 +1,8 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Bell, ChevronDown, ChevronUp } from 'lucide-react';
+import { router, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import ReminderItem from './reminder-item';
-import { usePage } from '@inertiajs/react';
 
 export default function MobileReminder({ reminder }: any) {
     const { props } = usePage();
@@ -54,13 +54,23 @@ export default function MobileReminder({ reminder }: any) {
         return () => clearTimeout(timer);
     }, [isDesktop]);
 
+    useEffect(() => {
+        const id = setInterval(
+            () => {
+                router.reload({
+                    only: ['reminder'],
+                });
+            },
+            5 * 60 * 1000,
+        );
+
+        return () => clearInterval(id);
+    }, []);
+
     return (
         <Card className="rounded-2xl border-none shadow-sm dark:shadow-[#ffffff]/20">
             <CardContent>
-                <button
-                    onClick={() => setIsOpen((prev) => !prev)}
-                    className="flex w-full items-center justify-between"
-                >
+                <button onClick={() => setIsOpen((prev) => !prev)} className="flex w-full items-center justify-between">
                     <h3 className="text-lg font-semibold">Reminder</h3>
                     {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </button>
@@ -72,13 +82,7 @@ export default function MobileReminder({ reminder }: any) {
                                 {reminder.map((r: any, i: number) => {
                                     const conf = REMINDER_TITLE_MAP[r];
                                     if (!conf) return null;
-                                    return (
-                                        <ReminderItem
-                                            key={i}
-                                            title={conf.title}
-                                            url={conf.url}
-                                        />
-                                    );
+                                    return <ReminderItem key={i} title={conf.title} url={conf.url} />;
                                 })}
                             </div>
                         ) : (
@@ -95,6 +99,6 @@ export default function MobileReminder({ reminder }: any) {
                     </div>
                 </div>
             </CardContent>
-        </Card >
+        </Card>
     );
 }

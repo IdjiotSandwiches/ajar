@@ -97,6 +97,7 @@ Route::middleware(['auth', 'verified'])
                     Route::post('manage-weekly-course', 'manageWeeklyCourse')->name('manage-weekly-course');
                     Route::post('manage-availability', 'manageAvailability')->name('manage-availability');
                     Route::get('courses-taught', 'getTeachingCourses')->name('courses-taught');
+                    Route::post('cancel-schedule/{id}', 'cancelSchedule')->name('cancel-schedule');
                 });
             });
         Route::middleware(['role:Institute'])

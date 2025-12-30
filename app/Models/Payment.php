@@ -20,11 +20,16 @@ class Payment extends Model
      */
     protected $fillable = [
         'enrolled_course_id',
+        'course_name',
+        'teacher_name',
+        'schedule',
         'user_id',
         'unique_id',
+        'refund_id',
         'snap_token',
         'amount',
-        'status'
+        'status',
+        'expired_at'
     ];
 
     protected $casts = [

@@ -4,6 +4,7 @@ declare module "@inertiajs/core" {
   interface PageProps {
     auth: {
       user?: User;
+      notifications?: any[];
     };
     enums: {
         roles_enum: Record<string, number>;

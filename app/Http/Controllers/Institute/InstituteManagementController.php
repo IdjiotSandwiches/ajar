@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Institute;
 
-use App\Http\Requests\ItemFilterRequest;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ItemFilterRequest;
 use App\Services\Institute\InstituteManagementService;
 
 class InstituteManagementController extends Controller
@@ -26,23 +26,21 @@ class InstituteManagementController extends Controller
 
     public function acceptTeacher($id)
     {
-        $isAccepted = $this->service->verifyTeacher($id, true);
-        if (!$isAccepted) {
-            return back()->with('error', 'Teacher not found!');
-        }
-        else {
+        try {
+            $this->service->verifyTeacher($id, true);
             return back()->with('success', 'Teacher has been verified.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Teacher not found!');
         }
     }
 
     public function rejectTeacher($id)
     {
-        $isAccepted = $this->service->verifyTeacher($id, false);
-        if (!$isAccepted) {
-            return back()->with('error', 'Teacher not found!');
-        }
-        else {
+        try {
+            $this->service->verifyTeacher($id, false);
             return back()->with('success', 'Teacher has been declined.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Teacher not found!');
         }
     }
 
@@ -63,12 +61,11 @@ class InstituteManagementController extends Controller
 
     public function removeTeacher($id)
     {
-        $deactivated = $this->service->deactiveTeacher($id);
-        if (!$deactivated) {
+        try {
+            $this->service->deactiveTeacher($id);
+            return back()->with('success', 'Teacher access has been revoked.');
+        } catch (\Exception $e) {
             return back()->with('error', 'Teacher not found!');
-        }
-        else {
-            return back()->with('success', 'Teacher has been deactivated.');
         }
     }
 
@@ -82,23 +79,21 @@ class InstituteManagementController extends Controller
 
     public function acceptCourse($id)
     {
-        $isAccepted = $this->service->verifyCourse($id, true);
-        if (!$isAccepted) {
-            return back()->with('error', 'Course not found!');
-        }
-        else {
+        try {
+            $this->service->verifyCourse($id, true);
             return back()->with('success', 'Course Application has been verified.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Course not found!');
         }
     }
 
     public function rejectCourse($id)
     {
-        $isAccepted = $this->service->verifyCourse($id, false);
-        if (!$isAccepted) {
-            return back()->with('error', 'Course not found!');
-        }
-        else {
+        try {
+            $this->service->verifyCourse($id, false);
             return back()->with('success', 'Course Application has been declined.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Course not found!');
         }
     }
 }
