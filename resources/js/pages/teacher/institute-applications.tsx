@@ -4,6 +4,7 @@ import { instituteApplicationFilter } from '@/components/lms/filter/dictionary/i
 import Filter from '@/components/lms/filter/filter';
 import LMSLayout from '@/layouts/lms-layout';
 import { InfiniteScroll, router, usePage } from '@inertiajs/react';
+import { Building2 } from 'lucide-react';
 import { useState } from 'react';
 
 export default function ApplyTeacherInstitutePage({ institutes, counts, categories, filters }: any) {
@@ -36,7 +37,18 @@ export default function ApplyTeacherInstitutePage({ institutes, counts, categori
                 <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} />
                 <Filter key={filters.state} schema={instituteApplicationFilter(categories, filters)} onChange={handleFilterChange} />
                 {institutes.data?.length === 0 ? (
-                    <p className="py-20 text-center text-gray-500 italic">Tidak ada institute pada kategori ini.</p>
+                    <div className="flex flex-col items-center justify-center py-24 text-center">
+                        <Building2 className="mb-4 h-12 w-12 text-gray-400" />
+
+                        <p className="text-base font-semibold text-gray-700 dark:text-white">
+                            No institute found
+                        </p>
+
+                        <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
+                            The institute with the status or category you selected is not yet available.
+                            Try changing the filter or selecting a different category.
+                        </p>
+                    </div>
                 ) : (
                     <InfiniteScroll
                         buffer={1}

@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { InfiniteScroll, router, usePage } from '@inertiajs/react';
-import { Calendar, Clock, PlayCircle } from 'lucide-react';
+import { Book, Calendar, Clock, PlayCircle } from 'lucide-react';
 
 export default function ClassSection({ title, course, type }: any) {
     const { props } = usePage();
@@ -75,16 +75,23 @@ export default function ClassSection({ title, course, type }: any) {
         <Card className="rounded-2xl border-none shadow-sm dark:shadow-[#ffffff]/20">
             <CardContent>
                 <h3 className="mb-4 text-lg font-semibold dark:text-white">{title}</h3>
-                
+
                 {course.data?.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
-                        <p className="mb-1 font-medium text-gray-700 dark:text-white/90">{empty.title}</p>
-                        <p className="mb-4 max-w-xs text-sm dark:text-white/60">{empty.desc}</p>
+                    <div className="flex flex-col items-center justify-center py-14 text-center">
+                        <Book className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
+
+                        <p className="text-base font-semibold text-gray-700 dark:text-white">
+                            {empty.title}
+                        </p>
+
+                        <p className="mt-1 max-w-xs text-sm text-gray-500 dark:text-white/70">
+                            {empty.desc}
+                        </p>
 
                         {user?.role_id === roles.Student && empty.cta && (
                             <button
-                                onClick={() => router.get(route('list-course', { category_id: 1 }))}
-                                className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
+                                onClick={() => router.get(route('list-course'))}
+                                className="mt-4 rounded-lg bg-[#3ABEFF] px-5 py-2 text-sm font-medium text-white transition hover:bg-[#3ABEFF]/90"
                             >
                                 {empty.cta}
                             </button>

@@ -5,7 +5,7 @@ import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
 import { router } from '@inertiajs/react';
-import { Star, Trash2 } from 'lucide-react';
+import { Star, Trash2, UsersRound } from 'lucide-react';
 import React, { useState } from 'react';
 
 export default function TeacherList({ teachers, filters }: any) {
@@ -108,14 +108,15 @@ export default function TeacherList({ teachers, filters }: any) {
 
                     <div className="grid grid-cols-1 gap-4 lg:hidden">
                         {!hasTeachers && (
-                            <tr>
-                                <td
-                                    colSpan={6}
-                                    className="flex p-6 text-center justify-center text-sm text-gray-500 dark:text-white/70"
-                                >
-                                    No teachers available.
-                                </td>
-                            </tr>
+                            <div className="flex flex-col items-center justify-center py-12 text-center">
+                                <UsersRound className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
+                                <p className="text-base font-semibold text-gray-700 dark:text-white">
+                                    No teachers available
+                                </p>
+                                <p className="mt-1 text-sm text-gray-500 dark:text-white/70">
+                                    There are currently no teacher in your Institute.
+                                </p>
+                            </div>
                         )}
                         {hasTeachers && teachers.data.map((teacher: any, index: number) => (
                             <MobileTeacherCard

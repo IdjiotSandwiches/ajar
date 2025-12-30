@@ -14,6 +14,8 @@ export default function PaymentsPage({ payments, amounts }: any) {
         refund: 'bg-yellow-100 text-yellow-600',
     };
 
+    const isEmpty = !payments.data || payments.data.length === 0;
+
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
@@ -47,103 +49,116 @@ export default function PaymentsPage({ payments, amounts }: any) {
 
                 <div className="rounded-2xl border p-6 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
                     <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Payment History</h3>
+                    {isEmpty ? (
+                        <div className="flex flex-col items-center justify-center py-16 text-center">
+                            <Wallet className="mb-4 h-12 w-12 text-gray-400" />
 
-                    <div className="space-y-4 md:hidden">
-                        {payments.data?.map((payment: any) => (
-                            <div key={payment.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
-                                <div className="mb-2">
-                                    <p className="text-sm text-gray-500 dark:text-white/70">Course</p>
-                                    <p className="font-semibold text-gray-800 dark:text-white">{payment.course_name}</p>
-                                </div>
+                            <p className="text-base font-semibold text-gray-700 dark:text-white">There are no courses registered yet</p>
 
-                                <div className="mb-2">
-                                    <p className="text-sm text-gray-500 dark:text-white/70">Teacher</p>
-                                    <p className="text-gray-700 dark:text-white/90">{payment.teacher}</p>
-                                </div>
+                            <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
+                                You haven't made any payments or registered for any courses yet. Please explore the courses and start learning now.
+                            </p>
 
-                                <div className="mb-2">
-                                    <p className="text-sm text-gray-500 dark:text-white/70">Schedule</p>
-                                    <p className="text-gray-700 dark:text-white/90">{payment.schedule}</p>
-                                </div>
+                            <button
+                                onClick={() => router.get(route('list-course'))}
+                                className="mt-6 rounded-lg bg-[#3ABEFF] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
+                            >
+                                Browse Courses
+                            </button>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="space-y-4 md:hidden">
+                                {payments.data.map((payment: any) => (
+                                    <div key={payment.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
+                                        <div className="mb-2">
+                                            <p className="text-sm text-gray-500 dark:text-white/70">Course</p>
+                                            <p className="font-semibold text-gray-800 dark:text-white">{payment.course_name}</p>
+                                        </div>
 
-                                <div className="mt-4 flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm text-gray-500 dark:text-white/70">Price</p>
-                                        <p className="font-semibold">Rp {Number(payment.amount).toLocaleString('id-ID')}</p>
-                                    </div>
+                                        <div className="mb-2">
+                                            <p className="text-sm text-gray-500 dark:text-white/70">Teacher</p>
+                                            <p className="text-gray-700 dark:text-white/90">{payment.teacher}</p>
+                                        </div>
 
-                                    <span
-                                        className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[payment.status] ?? 'bg-red-100 text-red-600'}`}
-                                    >
-                                        {payment.status.toUpperCase()}
-                                    </span>
-                                </div>
+                                        <div className="mb-2">
+                                            <p className="text-sm text-gray-500 dark:text-white/70">Schedule</p>
+                                            <p className="text-gray-700 dark:text-white/90">{payment.schedule}</p>
+                                        </div>
 
-                                {payment.status === status.Pending && (
-                                    <button
-                                        onClick={() => router.get(route('pending-payment', payment.id))}
-                                        className="mt-4 w-full rounded-md bg-[#3ABEFF] py-2 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
-                                    >
-                                        Pay Now
-                                    </button>
-                                )}
-                            </div>
-                        ))}
-                    </div>
+                                        <div className="mt-4 flex items-center justify-between">
+                                            <div>
+                                                <p className="text-sm text-gray-500 dark:text-white/70">Price</p>
+                                                <p className="font-semibold">Rp {payment.amount.toLocaleString('id-ID')}</p>
+                                            </div>
 
-                    <div className="hidden overflow-x-auto rounded-lg border lg:block dark:border-white/20">
-                        <table className="min-w-full text-sm text-gray-700">
-                            <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20 dark:text-white/80">
-                                <tr>
-                                    <th className="p-3 text-left font-semibold">Course</th>
-                                    <th className="p-3 text-left font-semibold">Teacher</th>
-                                    <th className="p-3 text-left font-semibold">Schedule</th>
-                                    <th className="p-3 text-left font-semibold">Price</th>
-                                    <th className="p-3 text-center font-semibold">Status</th>
-                                    <th className="p-3 text-center font-semibold">Action</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {payments.data?.map((payment: any, index: number) => (
-                                    <tr
-                                        key={index}
-                                        className={`border-b dark:border-white/20 dark:text-white/70 ${
-                                            index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
-                                        }`}
-                                    >
-                                        <td className="p-3 font-medium">{payment.course_name}</td>
-                                        <td className="p-3">{payment.teacher}</td>
-                                        <td className="p-3">{payment.schedule}</td>
-                                        <td className="p-3 font-semibold">
-                                            Rp
-                                            {payment.amount.toLocaleString('id-ID')}
-                                        </td>
-                                        <td className="p-3 text-center">
-                                            <span
-                                                className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[payment.status] ?? 'bg-red-100 text-red-600'}`}
-                                            >
+                                            <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[payment.status]}`}>
                                                 {payment.status.toUpperCase()}
                                             </span>
-                                        </td>
-                                        <td className="p-3 text-center">
-                                            {payment.status === status.Pending ? (
-                                                <button
-                                                    onClick={() => router.get(route('pending-payment', payment.id))}
-                                                    className="rounded-md bg-[#3ABEFF] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#3ABEFF]/90"
-                                                >
-                                                    Pay Now
-                                                </button>
-                                            ) : (
-                                                <span className="text-xs text-gray-400">—</span>
-                                            )}
-                                        </td>
-                                    </tr>
+                                        </div>
+
+                                        {payment.status === status.Pending && (
+                                            <button
+                                                onClick={() => router.get(route('pending-payment', payment.id))}
+                                                className="mt-4 w-full rounded-md bg-[#3ABEFF] py-2 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
+                                            >
+                                                Pay Now
+                                            </button>
+                                        )}
+                                    </div>
                                 ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    <Pagination links={payments.links} />
+                            </div>
+
+                            <div className="hidden overflow-x-auto rounded-lg border lg:block dark:border-white/20">
+                                <table className="min-w-full text-sm text-gray-700 dark:text-white/70">
+                                    <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20">
+                                        <tr>
+                                            <th className="p-3 text-left font-semibold">Course</th>
+                                            <th className="p-3 text-left font-semibold">Teacher</th>
+                                            <th className="p-3 text-left font-semibold">Schedule</th>
+                                            <th className="p-3 text-left font-semibold">Price</th>
+                                            <th className="p-3 text-center font-semibold">Status</th>
+                                            <th className="p-3 text-center font-semibold">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {payments.data.map((payment: any, index: number) => (
+                                            <tr
+                                                key={index}
+                                                className={`border-b dark:border-white/20 ${
+                                                    index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                                }`}
+                                            >
+                                                <td className="p-3 font-medium">{payment.course_name}</td>
+                                                <td className="p-3">{payment.teacher}</td>
+                                                <td className="p-3">{payment.schedule}</td>
+                                                <td className="p-3 font-semibold">Rp {payment.amount.toLocaleString('id-ID')}</td>
+                                                <td className="p-3 text-center">
+                                                    <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[payment.status]}`}>
+                                                        {payment.status.toUpperCase()}
+                                                    </span>
+                                                </td>
+                                                <td className="p-3 text-center">
+                                                    {payment.status === status.Pending ? (
+                                                        <button
+                                                            onClick={() => router.get(route('pending-payment', payment.id))}
+                                                            className="rounded-md bg-[#3ABEFF] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#3ABEFF]/90"
+                                                        >
+                                                            Pay Now
+                                                        </button>
+                                                    ) : (
+                                                        <span className="text-xs text-gray-400">—</span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <Pagination links={payments.links} />
+                        </>
+                    )}
                 </div>
             </div>
         </>

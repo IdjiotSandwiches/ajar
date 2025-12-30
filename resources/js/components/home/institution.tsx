@@ -14,22 +14,39 @@ export default function InstitutionSection({ institutes }: any) {
                     View All →
                 </button>
             </div>
-            <div className="scrollbar-thin scrollbar-thumb-[#3ABEFF]/30 -track-transparent flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-3 sm:gap-6 sm:pb-4 md:gap-8">
-                {institutes.map((institute: any, index: number) => (
-                    <div key={index} className="flex w-[90px] flex-shrink-0 snap-start flex-col items-center sm:w-[110px] md:w-[120px]">
-                        <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-2 border-[#3ABEFF]/20 bg-gray-100 shadow-sm sm:h-24 sm:w-24 md:h-24 md:w-24">
-                            <img
-                                src={storageUrl(institute?.user?.profile_picture)}
-                                alt={institute?.user?.name}
-                                className="h-full w-full cursor-pointer object-cover"
-                                onClick={() => router.get(route('detail-institute', institute?.user_id))}
-                            />
-                        </div>
 
-                        <p className="mt-2 line-clamp-2 text-center text-xs font-medium text-gray-600 dark:text-white sm:mt-3 sm:text-sm">{institute?.user?.name}</p>
-                    </div>
-                ))}
-            </div>
+            {institutes.length === 0 ? (
+                <div className="py-10 text-center text-sm text-gray-500 dark:text-white/80">
+                    <p className="font-medium text-gray-700 dark:text-white">
+                        No institutions available yet
+                    </p>
+                    <p className="mt-1">
+                        Featured institutions will appear here once they join the platform.
+                    </p>
+                </div>
+            ) : (
+                <div className="scrollbar-thin scrollbar-thumb-[#3ABEFF]/30 -track-transparent flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-3 sm:gap-6 sm:pb-4 md:gap-8">
+                    {institutes.map((institute: any, index: number) => (
+                        <div
+                            key={index}
+                            className="flex w-[90px] flex-shrink-0 snap-start flex-col items-center sm:w-[110px] md:w-[120px]"
+                        >
+                            <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-2 border-[#3ABEFF]/20 bg-gray-100 shadow-sm sm:h-24 sm:w-24 md:h-24 md:w-24">
+                                <img
+                                    src={storageUrl(institute?.user?.profile_picture)}
+                                    alt={institute?.user?.name}
+                                    className="h-full w-full cursor-pointer object-cover"
+                                    onClick={() => router.get(route('detail-institute', institute?.user_id))}
+                                />
+                            </div>
+
+                            <p className="mt-2 line-clamp-2 text-center text-xs font-medium text-gray-600 dark:text-white sm:mt-3 sm:text-sm">
+                                {institute?.user?.name}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

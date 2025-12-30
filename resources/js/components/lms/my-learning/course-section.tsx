@@ -1,4 +1,5 @@
 import { InfiniteScroll, router, usePage } from '@inertiajs/react';
+import { BookOpen, CheckCircle2, CircleOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { StatusTabs } from '../applications-teacher/status-switch';
 import CourseCard from './course-card';
@@ -10,6 +11,15 @@ export default function CourseSection({ courses, counts, review, state }: any) {
     const states = props.enums?.learning_status_enum;
 
     const [activeStatus, setActiveStatus] = useState<number>(state || states.Ongoing);
+
+    const isOngoing = state === states.Ongoing;
+
+    const emptyConfig = {
+        icon: isOngoing ? BookOpen : CheckCircle2,
+        title: isOngoing ? 'No ongoing courses' : 'No completed courses',
+        desc: isOngoing ? 'You are not enrolled in any active courses yet.' : 'You have not completed any courses yet.',
+        cta: isOngoing ? 'Browse Courses' : null,
+    };
 
     const handleStatusChange = (status: any) => {
         setActiveStatus(status || activeStatus);
@@ -24,19 +34,29 @@ export default function CourseSection({ courses, counts, review, state }: any) {
         return () => clearInterval(interval);
     }, []);
 
-    const EmptyCourse = ({ title, body }: any) => {
+    const EmptyCourse = ({ title, body, Icon }: any) => {
         return (
             <>
-                <p className="mb-1 font-medium text-gray-700 dark:text-white/80">{title}</p>
-                <p className="mb-4 max-w-xs text-sm dark:text-white/70">{body}</p>
+                <Icon className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
+                <p className="text-base font-semibold text-gray-700 dark:text-white">{title}</p>
+
+                <p className="mt-1 max-w-xs text-sm text-gray-500 dark:text-white/70">{body}</p>
+                {user?.role_id === roles.Student && state === states.Ongoing && (
+                    <button
+                        onClick={() => router.get(route('list-course'))}
+                        className="mt-4 rounded-lg bg-[#3ABEFF] px-5 py-2 text-sm font-medium text-white transition hover:bg-[#3ABEFF]/90"
+                    >
+                        Browse Courses
+                    </button>
+                )}
             </>
         );
     };
 
     const statusDict: Record<number, any> = {
-        1: <EmptyCourse title={'No ongoing courses.'} body={'Start learning by enrolling in a course!'} />,
-        2: <EmptyCourse title={'No completed courses yet.'} body={'Finish a course to see it here!'} />,
-        3: <EmptyCourse title={'No cancelled courses.'} body={'Cancelled courses will appear here!'} />,
+        1: <EmptyCourse title={'No ongoing courses.'} body={'Start learning by enrolling in a course!'} Icon={BookOpen} />,
+        2: <EmptyCourse title={'No completed courses yet.'} body={'Finish a course to see it here!'} Icon={CheckCircle2} />,
+        3: <EmptyCourse title={'No cancelled courses.'} body={'Cancelled courses will appear here!'} Icon={CircleOff} />,
     };
 
     return (
@@ -49,14 +69,6 @@ export default function CourseSection({ courses, counts, review, state }: any) {
                     {courses.data?.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
                             {statusDict[state]}
-                            {(user?.role_id === roles.Student && state !== states.Cancelled) && (
-                                <button
-                                    onClick={() => router.get(route('list-course', { category_id: 1 }))}
-                                    className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
-                                >
-                                    Browse Courses
-                                </button>
-                            )}
                         </div>
                     ) : (
                         <InfiniteScroll

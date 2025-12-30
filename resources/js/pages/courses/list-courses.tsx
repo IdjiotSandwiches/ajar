@@ -46,6 +46,13 @@ export default function CourseListPage({ activeCategory, parentCategories, cours
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
 
+    const isFiltering =
+        (localSearch && localSearch.trim() !== '') ||
+        (activeSub && activeSub.length > 0) ||
+        (studentFilter?.rating && studentFilter.rating.length > 0) ||
+        (studentFilter?.price_min || studentFilter?.price_max);
+
+
     return (
         <>
             <Head title="Course List" />
@@ -58,9 +65,8 @@ export default function CourseListPage({ activeCategory, parentCategories, cours
                                 <div key={cat.id} className="relative flex w-1/2 justify-center">
                                     <button
                                         onClick={() => handleFilterChange({ category_id: cat.id })}
-                                        className={`relative pb-2 text-lg font-semibold transition-all md:text-xl ${
-                                            Number(activeCategory) === cat.id ? 'text-[#3ABEFF]' : 'text-gray-400 hover:text-[#3ABEFF]'
-                                        }`}
+                                        className={`relative pb-2 text-lg font-semibold transition-all md:text-xl ${Number(activeCategory) === cat.id ? 'text-[#3ABEFF]' : 'text-gray-400 hover:text-[#3ABEFF]'
+                                            }`}
                                     >
                                         {cat.name}
                                     </button>
@@ -68,13 +74,12 @@ export default function CourseListPage({ activeCategory, parentCategories, cours
                             ))}
 
                             <span
-                                className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-300 ease-in-out ${
-                                    activeCategory == null
+                                className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-300 ease-in-out ${activeCategory == null
                                         ? 'hidden'
                                         : Number(activeCategory) === parentCategories[0].id
-                                          ? 'left-0 w-1/2'
-                                          : 'left-1/2 w-1/2'
-                                } `}
+                                            ? 'left-0 w-1/2'
+                                            : 'left-1/2 w-1/2'
+                                    } `}
                             />
                         </div>
                     </div>
@@ -114,7 +119,17 @@ export default function CourseListPage({ activeCategory, parentCategories, cours
                     className="mt-10 grid grid-cols-1 justify-items-center gap-6 transition-all duration-500 ease-in-out sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
                 >
                     {courses.data.length == 0 ? (
-                        <p className="text-gray-500">Course empty.</p>
+                        <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
+                            <p className="text-base font-semibold text-gray-700 dark:text-white">
+                                {isFiltering ? 'No courses found' : 'No courses available'}
+                            </p>
+
+                            <p className="mt-1 max-w-sm text-sm text-gray-500 dark:text-white/70">
+                                {isFiltering
+                                    ? 'Try adjusting your search or filters to see more results.'
+                                    : 'Courses will appear here once they are published.'}
+                            </p>
+                        </div>
                     ) : (
                         courses.data.map((course: any, index: number) => <CourseCard key={index} course={course} isTag={false} />)
                     )}

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import ReviewCard from '../ui/review-card';
 
 export default function ReviewSection({ reviews }: { reviews: any[] }) {
+
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [perPage, setPerPage] = useState(1);
@@ -43,7 +44,14 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
             <h2 className="mb-4 text-base font-semibold sm:text-lg md:mb-8 md:text-xl">Reviews from Students and Teachers</h2>
 
             {total === 0 ? (
-                <p className="py-10 text-sm text-gray-500 dark:text-white/80">No review available.</p>
+                <div className="py-12 text-center text-sm text-gray-500 dark:text-white/80">
+                    <p className="font-medium text-gray-700 dark:text-white">
+                        No reviews yet
+                    </p>
+                    <p className="mt-1">
+                        Be the first to share your learning experience with us.
+                    </p>
+                </div>
             ) : (
                 <div className="flex flex-col items-center gap-10 md:grid md:grid-cols-7">
                     <div className="hidden justify-center md:col-span-2 md:flex">

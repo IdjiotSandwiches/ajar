@@ -34,7 +34,7 @@ export default function InstituteListPage({ parentCategories, institutes, active
     return (
         <>
             <Head title="Institute List" />
-            <section className="min-h-screen bg-[#F7FDFD] px-6 pb-24 md:px-12">
+            <section className="min-h-screen px-6 pb-24 md:px-12">
                 <div className="flex w-full flex-col items-center pt-12">
                     <div className="relative mb-8 flex w-[240px] flex-col items-center">
                         <div className="absolute bottom-0 left-0 h-[2px] w-full bg-[#D8F4FF]" />
@@ -70,7 +70,7 @@ export default function InstituteListPage({ parentCategories, institutes, active
                                 onChange={(e) => handleFilterChange({ search: e.target.value })}
                                 onKeyDown={(e) => e.key === 'Enter' && handleFilterChange({ enter: true })}
                                 placeholder={`Search institutes...`}
-                                className="w-full rounded-full border border-[#D8F4FF] bg-white px-4 py-2 pr-10 text-sm text-gray-700 placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none"
+                                className="w-full rounded-full border bg-white dark:bg-[#222831] shadow-sm dark:shadow-[#ffffff]/20 px-4 py-2 pr-10 text-sm text-gray-700 dark:text-white placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none"
                             />
                             <button
                                 onClick={() => handleFilterChange({ enter: true })}

@@ -13,7 +13,7 @@ export default function SwitchDarkMode() {
   return (
     <button
       onClick={() => updateAppearance(isDark ? "light" : "dark")}
-      className="relative flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white transition dark:border-gray-700 dark:bg-gray-800"
+      className="relative flex h-10 w-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-white/20 bg-white transition dark:border-gray-700 dark:bg-gray-800"
       aria-label="Toggle dark mode"
     >
       <Sun

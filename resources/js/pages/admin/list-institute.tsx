@@ -4,7 +4,7 @@ import DynamicModal from '@/components/modal/modal';
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
 import { router } from '@inertiajs/react';
-import { Plus, Star, Trash2 } from 'lucide-react';
+import { Plus, Star, Trash2, University } from 'lucide-react';
 import React, { useState } from 'react';
 
 export default function InstituteList({ institutes, categories, filters }: any) {
@@ -32,6 +32,8 @@ export default function InstituteList({ institutes, categories, filters }: any) 
             },
         });
     };
+
+    const hasInstitute = institutes?.data && institutes.data.length > 0;
 
     return (
         <>
@@ -62,12 +64,18 @@ export default function InstituteList({ institutes, categories, filters }: any) 
                                 </tr>
                             </thead>
                             <tbody>
-                                {institutes.data?.map((inst: any, index: number) => (
+                                {!hasInstitute && (
+                                    <tr>
+                                        <td colSpan={7} className="p-6 text-center text-sm text-gray-500 dark:text-white/70">
+                                            No institute found
+                                        </td>
+                                    </tr>
+                                )}
+                                {hasInstitute && institutes.data?.map((inst: any, index: number) => (
                                     <tr
                                         key={inst.id}
-                                        className={`border-b hover:bg-[#42C2FF]/10 dark:border-white/20 dark:text-white ${
-                                            index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
-                                        }`}
+                                        className={`border-b hover:bg-[#42C2FF]/10 dark:border-white/20 dark:text-white ${index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                            }`}
                                     >
                                         <td className="p-2 text-center">{institutes.from + index}</td>
                                         <td className="p-3 font-semibold">{inst.name}</td>
@@ -104,24 +112,39 @@ export default function InstituteList({ institutes, categories, filters }: any) 
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 lg:hidden">
-                        {institutes.data?.map((inst: any) => (
-                            <div key={inst.id} className="dark:border-whie/20 rounded-xl border p-4 shadow-sm dark:shadow-white/20">
-                                <p className="font-semibold text-gray-800 dark:text-white">{inst.name}</p>
-                                <p className="text-sm text-gray-600 dark:text-white/80">Category: {inst.category}</p>
-                                <p className="text-sm text-gray-600 dark:text-white/80">Courses: {inst.courses_count}</p>
-                                <p className="text-sm text-gray-600 dark:text-white/80">
-                                    Rating: {inst.rating ? `⭐ ${inst.reviews_avg_rating} (${inst.reviews_count})` : 'No review'}
+                        {!hasInstitute && (
+                            <div className="flex flex-col items-center justify-center py-24 text-center">
+                                <University className="mb-4 h-12 w-12 text-gray-400" />
+
+                                <p className="text-base font-semibold text-gray-700 dark:text-white">
+                                    No institute found
                                 </p>
 
-                                <p className="text-xs text-gray-500 dark:text-white/70">Registered on 12 Dec 2025 12:00</p>
-
-                                <div className="mt-3 flex justify-end gap-2">
-                                    <button onClick={() => handleDeleteClick(inst.id)} className="rounded-md bg-[#FF1818] p-2 text-white">
-                                        <Trash2 size={16} />
-                                    </button>
-                                </div>
+                                <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
+                                    The institute with the status or category you selected is not yet available.
+                                    Try changing the filter or selecting a different category.
+                                </p>
                             </div>
-                        ))}
+                        )}
+                        {hasInstitute &&
+                            institutes.data?.map((inst: any) => (
+                                <div key={inst.id} className="dark:border-whie/20 rounded-xl border p-4 shadow-sm dark:shadow-white/20">
+                                    <p className="font-semibold text-gray-800 dark:text-white">{inst.name}</p>
+                                    <p className="text-sm text-gray-600 dark:text-white/80">Category: {inst.category}</p>
+                                    <p className="text-sm text-gray-600 dark:text-white/80">Courses: {inst.courses_count}</p>
+                                    <p className="text-sm text-gray-600 dark:text-white/80">
+                                        Rating: {inst.rating ? `⭐ ${inst.reviews_avg_rating} (${inst.reviews_count})` : 'No review'}
+                                    </p>
+
+                                    <p className="text-xs text-gray-500 dark:text-white/70">Registered on 12 Dec 2025 12:00</p>
+
+                                    <div className="mt-3 flex justify-end gap-2">
+                                        <button onClick={() => handleDeleteClick(inst.id)} className="rounded-md bg-[#FF1818] p-2 text-white">
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
                     </div>
                     <Pagination links={institutes.links} />
                 </div>

@@ -1,11 +1,8 @@
-import { router, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 export default function CalendarSection({ courses, date }: any) {
-    const { props } = usePage();
-    const states = props.enums?.learning_status_enum;
-
     const now = new Date();
     const [month, setMonth] = useState(now.getMonth());
     const [year, setYear] = useState(now.getFullYear());
