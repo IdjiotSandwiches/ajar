@@ -19,7 +19,7 @@ export default function AppLayout({ children, showBackButton = true, useContaine
                         <BackButton label="Back" />
                     </div>
                 )}
-                <main className={`flex-1 ${useContainer ? 'container mx-auto' : 'w-full'}`}>{children}</main>
+                <main className={`flex-1 pt-[72px] ${useContainer ? 'container mx-auto' : 'w-full'}`}>{children}</main>
                 <Footer />
             </div>
         </RootLayout>

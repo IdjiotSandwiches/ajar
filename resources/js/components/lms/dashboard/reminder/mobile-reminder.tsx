@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { Bell, ChevronDown, ChevronUp } from 'lucide-react';
 import { router, usePage } from '@inertiajs/react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import ReminderItem from './reminder-item';
 
@@ -87,9 +87,13 @@ export default function MobileReminder({ reminder }: any) {
                             </div>
                         ) : (
                             <div className="flex flex-col items-center justify-center py-6 text-center">
-                                <span className="mb-1 text-2xl">🔔</span>
-                                <p className="text-sm text-gray-500 dark:text-white/70">No reminders yet</p>
-                                <span className="text-xs text-gray-400 dark:text-white/50">You're all caught up</span>
+                                <Bell className="mb-4 h-12 w-12 text-gray-400" />
+                                <p className="text-base font-semibold text-gray-700 dark:text-white">
+                                    No reminders yet
+                                </p>
+                                <span className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
+                                    You're all caught up
+                                </span>
                             </div>
                         )}
                     </div>

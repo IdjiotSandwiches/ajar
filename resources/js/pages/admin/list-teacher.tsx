@@ -5,7 +5,7 @@ import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
 import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
-import { Star, Trash2 } from 'lucide-react';
+import { Star, Trash2, UsersRound } from 'lucide-react';
 import React, { useState } from 'react';
 
 export default function ManageTeachersPage({ teachers, filters }: any) {
@@ -34,6 +34,8 @@ export default function ManageTeachersPage({ teachers, filters }: any) {
         });
     };
 
+    const hasTeachers = teachers?.data && teachers.data.length > 0;
+
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
@@ -56,19 +58,22 @@ export default function ManageTeachersPage({ teachers, filters }: any) {
                             </thead>
 
                             <tbody>
-                                {teachers.data?.length === 0 ? (
+                                {!hasTeachers && (
                                     <tr>
-                                        <td colSpan={6} className="py-10 text-center text-gray-500">
-                                            No teachers found.
+                                        <td
+                                            colSpan={6}
+                                            className="p-6 text-center justify-center text-sm text-gray-500 dark:text-white/70"
+                                        >
+                                            No teachers available.
                                         </td>
                                     </tr>
-                                ) : (
+                                )}
+                                {hasTeachers &&
                                     teachers.data?.map((teacher: any, index: number) => (
                                         <tr
                                             key={teacher.id}
-                                            className={`border-b transition hover:bg-[#42C2FF]/10 dark:border-white/20 dark:text-white ${
-                                                index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
-                                            }`}
+                                            className={`border-b transition hover:bg-[#42C2FF]/10 dark:border-white/20 dark:text-white ${index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                                }`}
                                         >
                                             <td className="p-2 text-center">{index + 1}</td>
                                             <td className="p-3">
@@ -114,42 +119,54 @@ export default function ManageTeachersPage({ teachers, filters }: any) {
                                             </td>
                                         </tr>
                                     ))
-                                )}
+                                }
                             </tbody>
                         </table>
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 lg:hidden">
-                        {teachers.data?.map((teacher: any) => (
-                            <div key={teacher.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-white/20">
-                                <div className="mb-3 flex items-center gap-3">
-                                    <img src={storageUrl(teacher.avatar)} alt={teacher.name} className="h-12 w-12 rounded-full object-cover" />
-                                    <div>
-                                        <p className="font-semibold text-gray-800 dark:text-white">{teacher.name}</p>
-                                        <p className="text-xs text-gray-500 dark:text-white/70">Course count: {teacher.courses_count}</p>
-                                        <p className="text-xs text-gray-500 dark:text-white/70">
-                                            Rating: {teacher.rating ? `⭐ ${teacher.reviews_avg_rating} (${teacher.reviews_count})` : 'No review'}
-                                        </p>
+                        {!hasTeachers && (
+                            <div className="flex flex-col items-center justify-center py-12 text-center">
+                                <UsersRound className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
+                                <p className="text-base font-semibold text-gray-700 dark:text-white">
+                                    No teachers available
+                                </p>
+                                <p className="mt-1 text-sm text-gray-500 dark:text-white/70">
+                                    There are currently no teacher found.
+                                </p>
+                            </div>
+                        )}
+                        {hasTeachers &&
+                            teachers.data?.map((teacher: any) => (
+                                <div key={teacher.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-white/20">
+                                    <div className="mb-3 flex items-center gap-3">
+                                        <img src={storageUrl(teacher.avatar)} alt={teacher.name} className="h-12 w-12 rounded-full object-cover" />
+                                        <div>
+                                            <p className="font-semibold text-gray-800 dark:text-white">{teacher.name}</p>
+                                            <p className="text-xs text-gray-500 dark:text-white/70">Course count: {teacher.courses_count}</p>
+                                            <p className="text-xs text-gray-500 dark:text-white/70">
+                                                Rating: {teacher.rating ? `⭐ ${teacher.reviews_avg_rating} (${teacher.reviews_count})` : 'No review'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p className="text-xs text-gray-500 dark:text-white/70">
+                                        Registered on{' '}
+                                        {new Date(teacher.register_date).toLocaleString('id-ID', {
+                                            day: '2-digit',
+                                            month: 'short',
+                                            year: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                        })}
+                                    </p>
+
+                                    <div className="flex justify-end">
+                                        <button onClick={() => handleRemoveClick(teacher.id)} className="rounded-md bg-[#FF5C5C] p-2 text-white">
+                                            <Trash2 size={16} />
+                                        </button>
                                     </div>
                                 </div>
-                                <p className="text-xs text-gray-500 dark:text-white/70">
-                                    Registered on{' '}
-                                    {new Date(teacher.register_date).toLocaleString('id-ID', {
-                                        day: '2-digit',
-                                        month: 'short',
-                                        year: 'numeric',
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                    })}
-                                </p>
-
-                                <div className="flex justify-end">
-                                    <button onClick={() => handleRemoveClick(teacher.id)} className="rounded-md bg-[#FF5C5C] p-2 text-white">
-                                        <Trash2 size={16} />
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+                            ))}
                     </div>
 
                     <Pagination links={teachers.links} />

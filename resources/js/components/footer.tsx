@@ -32,7 +32,7 @@ const Footer = () => {
     const activeContent = CONTENTS[activeIndex];
 
     return (
-        <footer className="relative bg-[#3ABEFF] dark:bg-[#222831] text-white pt-12 overflow-hidden mt-24 mb-20 sm:mb-0">
+        <footer className="relative bg-[#3ABEFF] dark:bg-[#222831] text-white pt-12 overflow-hidden mt-24 mb-20 lg:mb-0">
             <img
                 src={activeContent.image}
                 alt="gear-bg"

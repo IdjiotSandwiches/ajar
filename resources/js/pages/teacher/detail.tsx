@@ -8,15 +8,14 @@ import { Album, BriefcaseBusiness, FileBadge, GraduationCap, Star, X } from 'luc
 import React, { useState } from 'react';
 
 export default function TeacherDetailPage({ teacher, application }: any) {
+    const { props } = usePage();
+    const user = props.auth?.user;
+    const roles = props.enums?.roles_enum;
+
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     if (!teacher) {
         return <div className="flex min-h-screen items-center justify-center text-gray-500">Teacher not found.</div>;
     }
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { props } = usePage();
-    const user = props.auth?.user;
-    const roles = props.enums?.roles_enum;
 
     return (
         <>
@@ -50,12 +49,18 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                     <h3 className="font-semibold text-gray-700 dark:text-white/90">Graduate</h3>
                                 </div>
                                 <div className="space-y-2 pl-1 text-gray-600 dark:text-white/80 md:col-span-2 md:pl-0">
-                                    {teacher.graduates?.map((item: any, index: number) => (
-                                        <div key={index}>
-                                            <p className="text-sm opacity-70">{item.degree_title}</p>
-                                            <p>{item.university_name}</p>
-                                        </div>
-                                    ))}
+                                    {teacher.graduates && teacher.graduates.length > 0 ? (
+                                        teacher.graduates.map((item: any, index: number) => (
+                                            <div key={index}>
+                                                <p className="text-sm opacity-70">{item.degree_title}</p>
+                                                <p>{item.university_name}</p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-sm text-gray-500 dark:text-white/70">
+                                            No education history available.
+                                        </p>
+                                    )}
                                 </div>
                             </div>
 
@@ -67,12 +72,18 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                     <h3 className="font-semibold text-gray-700 dark:text-white/90">Work Experience</h3>
                                 </div>
                                 <div className="space-y-3 pl-1 text-gray-600 dark:text-white/80 md:col-span-2 md:pl-0">
-                                    {teacher.work_experiences?.map((item: any, index: number) => (
-                                        <div key={index}>
-                                            <p className="text-sm opacity-70">{item.duration} month</p>
-                                            <p>{item.institution}</p>
-                                        </div>
-                                    ))}
+                                    {teacher.work_experiences && teacher.work_experiences.length > 0 ? (
+                                        teacher.work_experiences.map((item: any, index: number) => (
+                                            <div key={index}>
+                                                <p className="text-sm opacity-70">{item.duration} month</p>
+                                                <p>{item.institution}</p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-sm text-gray-500 dark:text-white/70">
+                                            No work experience available.
+                                        </p>
+                                    )}
                                 </div>
                             </div>
 
@@ -84,16 +95,27 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                     <h3 className="font-semibold text-gray-700 dark:text-white/90">Certificate</h3>
                                 </div>
                                 <div className="flex flex-col gap-3 pl-1 md:col-span-2 md:pl-0">
-                                    {teacher.certificates?.map((item: any, index: number) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => setPreviewImage(storageUrl(item?.image))}
-                                            className="flex items-center gap-3 rounded-lg border border-[#3ABEFF]/40 bg-[#3ABEFF]/20 px-3 py-2 text-left transition hover:bg-[#3ABEFF]/30 cursor-pointer"
-                                        >
-                                            <img src={storageUrl(item?.image) || 'https://placehold.co/400'} className="h-10 w-14 rounded object-cover" />
-                                            <span className="text-sm font-medium text-gray-700 dark:text-white/90">Certificate {index + 1}</span>
-                                        </button>
-                                    ))}
+                                    {teacher.certificates && teacher.certificates.length > 0 ? (
+                                        teacher.certificates.map((item: any, index: number) => (
+                                            <button
+                                                key={index}
+                                                onClick={() => setPreviewImage(storageUrl(item?.image))}
+                                                className="flex items-center gap-3 rounded-lg border border-[#3ABEFF]/40 bg-[#3ABEFF]/20 px-3 py-2 text-left transition hover:bg-[#3ABEFF]/30 cursor-pointer"
+                                            >
+                                                <img
+                                                    src={storageUrl(item?.image) || 'https://placehold.co/400'}
+                                                    className="h-10 w-14 rounded object-cover"
+                                                />
+                                                <span className="text-sm font-medium text-gray-700 dark:text-white/90">
+                                                    Certificate {index + 1}
+                                                </span>
+                                            </button>
+                                        ))
+                                    ) : (
+                                        <p className="text-sm text-gray-500 dark:text-white/70">
+                                            No certificates available.
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -104,9 +126,15 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                 <h3 className="font-semibold text-gray-700 dark:text-white/90">Courses taught</h3>
                             </div>
                             <div className="scrollbar-thin scrollbar-thumb-[#42C2FF]/30 scrollbar-track-transparent flex gap-6 overflow-x-auto pb-4">
-                                {teacher.teaching_courses.map((course: any, index: number) => {
-                                    return <CourseCard key={index} course={course.course} isTag={false} />;
-                                })}
+                                {teacher.teaching_courses && teacher.teaching_courses.length > 0 ? (
+                                    teacher.teaching_courses.map((course: any, index: number) => (
+                                        <CourseCard key={index} course={course.course} isTag={false} />
+                                    ))
+                                ) : (
+                                    <p className="text-sm text-gray-500 dark:text-white/70">
+                                        No courses taught yet.
+                                    </p>
+                                )}
                             </div>
                         </div>
                         <div className="rounded-xl border dark:border-white/20 p-4 shadow md:p-6">
@@ -114,7 +142,15 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                 <Star size={24} className="text-[#3ABEFF]" />
                                 <h3 className="font-semibold text-gray-700 dark:text-white/90">Reviews</h3>
                             </div>
-                            {/* <ReviewSection reviews={teacher.reviews} /> */}
+
+                            {teacher.reviews && teacher.reviews.length > 0 ? (
+                                // <ReviewSection reviews={teacher.reviews} />
+                                <></>
+                            ) : (
+                                <p className="text-sm text-gray-500 dark:text-white/70">
+                                    No reviews available.
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>

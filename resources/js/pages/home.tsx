@@ -18,7 +18,7 @@ export default function HomePage({ courses, institutes, reviews }: { courses: an
             <Head title="Home" />
             <div className="flex min-h-screen flex-col">
                 <Navbar />
-                <main className="flex-1">
+                <main className="flex-1 pt-[72px]">
                     <HeroSection />
                     <PopularCourses courses={courses} />
                     <InstitutionSection institutes={institutes} />

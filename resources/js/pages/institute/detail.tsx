@@ -19,7 +19,6 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
         setShowApplyModal(false);
     };
 
-
     const icons: any = {
         Github: FaGithub,
         Instagram: FaInstagram,
@@ -34,7 +33,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
         <>
             <Head title={institute?.user?.name || 'Not Found'} />
             <div className="flex min-h-screen flex-col">
-                <div className="mx-auto w-full max-w-6xl p-6">
+                <div className="mx-auto w-full max-w-6xl p-6 mt-8">
                     <div className="flex flex-col items-stretch overflow-hidden rounded-xl shadow-md md:flex-row">
                         <div className="flex items-center justify-center bg-[#3ABEFF] dark:bg-[#222831] p-6 py-8 md:p-6 md:py-6">
                             <img
@@ -104,7 +103,6 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                     {user?.role_id === roles.Teacher &&
                         (!application?.is_verified ? (
                             <button
-                                // onClick={() => router.post(route('teacher.apply-as-teacher', institute?.user_id))}
                                 onClick={() => setShowApplyModal(true)}
                                 disabled={application && application?.is_verified == null}
                                 className="mt-5 w-full cursor-pointer rounded-lg bg-[#3ABEFF] py-2 font-semibold text-white transition-all hover:bg-[#3ABEFF]/90 disabled:cursor-not-allowed disabled:bg-[#3ABEFF]/90"
@@ -145,7 +143,14 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                                 })}
                             </div>
                         ) : (
-                            <p className="text-gray-500">No teachers found for this institution.</p>
+                            <div className="py-8 text-center text-sm text-gray-500 dark:text-white/80">
+                                <p className="font-medium text-gray-700 dark:text-white">
+                                    No teachers yet
+                                </p>
+                                <p className="mt-1">
+                                    This institution hasn’t added any teachers yet.
+                                </p>
+                            </div>
                         )}
                     </div>
                     <div className="mt-10">
@@ -157,7 +162,14 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
                         >
                             {courses.data.length == 0 ? (
-                                <p className="text-gray-500">Course empty.</p>
+                                <div className="py-8 text-center text-sm text-gray-500 dark:text-white/80">
+                                    <p className="font-medium text-gray-700 dark:text-white">
+                                        No courses available
+                                    </p>
+                                    <p className="mt-1">
+                                        This institution hasn’t added any courses yet.
+                                    </p>
+                                </div>
                             ) : (
                                 courses.data.map((course: any, index: number) => <CourseCard key={index} course={course} isTag={false} />)
                             )}
