@@ -27,7 +27,7 @@ export default function InstituteList({ institutes, categories, filters }: any) 
             data: {
                 search: filters.search,
                 category_id: filters.category,
-                count: filters.count,
+                count: filters.total_course,
                 rating: filters.rating,
             },
         });

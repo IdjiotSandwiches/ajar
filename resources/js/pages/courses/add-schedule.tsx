@@ -3,14 +3,14 @@ import { InputSwitch } from '@/components/ui/input-switch';
 import LMSLayout from '@/layouts/lms-layout';
 import { Form, router, usePage } from '@inertiajs/react';
 import { Calendar, Info } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function AddSchedulePage({ sessions, teachings, availability, errors }: any) {
     const { props } = usePage();
     const days = Object.values(props.enums?.days_enum || {});
     const hours = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
     const [showApplyModal, setShowApplyModal] = React.useState(false);
-    const formRef = React.useRef<HTMLFormElement | null>(null);
+    const formRef = useRef<any>(null);
 
     const [popup, setPopup] = useState<{ visible: boolean; day?: string; hour?: string; id?: any }>({
         visible: false,
@@ -94,7 +94,6 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
         setShowApplyModal(false);
     };
 
-
     return (
         <div className="flex min-h-screen flex-col gap-6">
             <div className="flex items-start gap-2 rounded-lg bg-[#3ABEFF]/10 p-3 text-sm">
@@ -106,6 +105,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                 method="post"
                 action={route('teacher.manage-availability')}
                 className="rounded-2xl border p-6 shadow-sm dark:border-white/20 dark:shadow-white/20"
+                ref={formRef}
             >
                 <h3 className="mb-4 text-lg font-semibold dark:text-white">Availability</h3>
 

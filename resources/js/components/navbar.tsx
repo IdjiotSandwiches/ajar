@@ -9,6 +9,7 @@ import SwitchDarkMode from './ui/switch-dark-mode';
 export default function Navbar() {
     const { props } = usePage();
     const user = props.auth?.user;
+    const roles = props.enums?.roles_enum;
     const isLoggedIn = !!user;
 
     const [showNavbar, setShowNavbar] = useState(true);
@@ -119,7 +120,11 @@ export default function Navbar() {
                                     {isLoggedIn ? (
                                         <>
                                             <button
-                                                onClick={() => router.get(route('profile'))}
+                                                onClick={() => {
+                                                    if (user?.role_id === roles.Student) router.get(route('profile'));
+                                                    else if (user?.role_id === roles.Teacher) router.get(route('teacher.profile'));
+                                                    else if (user?.role_id === roles.Institute) router.get(route('institute.profile'));
+                                                }}
                                                 className="w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-white/20"
                                             >
                                                 Profile
