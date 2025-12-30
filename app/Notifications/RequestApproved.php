@@ -55,8 +55,12 @@ class RequestApproved extends Notification implements ShouldQueue
     {
         return new BroadcastMessage([
             'id' => $this->id,
-            'title' => $this->title,
-            'message' => $this->message,
+            'data' => [
+                'title' => $this->title,
+                'message' => $this->message,
+            ],
+            'created_at' => now()->toISOString(),
+            'read_at' => null,
         ]);
     }
 }

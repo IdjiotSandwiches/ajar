@@ -5,11 +5,13 @@ import { toast } from 'sonner';
 
 type Notification = {
     id: string;
-    title: string;
-    message?: string;
-    url?: string;
+    data: {
+        title: string;
+        message?: string;
+        url?: string;
+    };
     created_at: string;
-    read_at: string;
+    read_at: string | null;
 };
 
 const NotificationContext = createContext<any>(null);
@@ -24,8 +26,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         if (!user) return;
         const channel = window.Echo.private(`App.Models.User.${user.id}`);
         channel.notification((notification: any) => {
-            toast.info(notification.title, {
-                description: notification.message,
+            toast.info(notification.data.title, {
+                description: notification.data.message,
                 position: 'top-right',
             });
             setNotifications((prev) => {
