@@ -1,4 +1,4 @@
-import { useNotifications } from '@/hooks/use-notification';
+// import { useNotifications } from '@/hooks/use-notification';
 import { storageUrl } from '@/utils/storage';
 import { router, usePage } from '@inertiajs/react';
 import { Book, GraduationCap, Home } from 'lucide-react';
@@ -16,12 +16,8 @@ export default function Navbar() {
     const lastScrollY = useRef(0);
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-
     const dropdownRef = useRef<HTMLDivElement>(null);
-
     const currentRoute = route().current();
-
-    const { notifications, unreadCount, markAllAsRead } = useNotifications();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -102,9 +98,7 @@ export default function Navbar() {
 
                     <div className="relative flex items-center space-x-4">
                         <SwitchDarkMode />
-
-                        <NotificationDropdown notifications={notifications} unreadCount={unreadCount} onOpen={markAllAsRead} />
-
+                        <NotificationDropdown />
                         <span className="hidden font-medium text-[#3ABEFF] md:block">Hello, {user?.name ?? 'Guest'}</span>
 
                         <div className="relative" ref={dropdownRef}>

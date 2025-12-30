@@ -1,16 +1,9 @@
 import { Menu } from 'lucide-react';
 import { useRef } from 'react';
-import SwitchDarkMode from '../ui/switch-dark-mode';
 import NotificationDropdown from '../ui/notification';
-import { useNotifications } from '@/hooks/use-notification';
-
+import SwitchDarkMode from '../ui/switch-dark-mode';
 export default function MobileNavbar({ title, onMenu }: any) {
-
     const dropdownRef = useRef<HTMLDivElement>(null);
-
-    const { notifications, unreadCount, markAllAsRead } = useNotifications();
-
-
     return (
         <div className="fixed top-0 right-0 left-0 z-20 bg-white shadow-sm md:hidden dark:bg-[#222831]">
             <div className="relative flex items-center px-4 py-3">
@@ -22,12 +15,7 @@ export default function MobileNavbar({ title, onMenu }: any) {
 
                 <div className="relative ml-auto flex items-center gap-2" ref={dropdownRef}>
                     <SwitchDarkMode />
-
-                    <NotificationDropdown
-                        notifications={notifications}
-                        unreadCount={unreadCount}
-                        onOpen={markAllAsRead}
-                    />
+                    <NotificationDropdown />
                 </div>
             </div>
         </div>
