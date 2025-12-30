@@ -12,15 +12,6 @@ export default function CourseSection({ courses, counts, review, state }: any) {
 
     const [activeStatus, setActiveStatus] = useState<number>(state || states.Ongoing);
 
-    const isOngoing = state === states.Ongoing;
-
-    const emptyConfig = {
-        icon: isOngoing ? BookOpen : CheckCircle2,
-        title: isOngoing ? 'No ongoing courses' : 'No completed courses',
-        desc: isOngoing ? 'You are not enrolled in any active courses yet.' : 'You have not completed any courses yet.',
-        cta: isOngoing ? 'Browse Courses' : null,
-    };
-
     const handleStatusChange = (status: any) => {
         setActiveStatus(status || activeStatus);
         router.reload({ data: { status: status || activeStatus } });
