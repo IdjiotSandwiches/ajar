@@ -1,6 +1,5 @@
 import Footer from '@/components/footer';
 import Navbar from '@/components/navbar';
-import NavigationList from '@/components/navigation-list';
 import BackButton from '@/components/ui/back-button';
 import { usePage } from '@inertiajs/react';
 import { PropsWithChildren, useEffect } from 'react';
@@ -13,7 +12,6 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children, showBackButton = true, useContainer = true }: PropsWithChildren<AppLayoutProps>) {
     const { props } = usePage();
-    const user = props.auth?.user;
     const { flash }: any = props;
 
     useEffect(() => {
@@ -31,9 +29,7 @@ export default function AppLayout({ children, showBackButton = true, useContaine
                 </div>
             )}
 
-            {/* {(user?.role_id === 1 || user?.role_id === 2 || user?.role_id === 3) && <NavigationList role={user?.role_id} />} */}
-
-            <main className={`flex-1 ${useContainer ? 'container mx-auto' : 'w-full'}`}>{children}</main>
+            <main className={`flex-1 pt-[72px] ${useContainer ? 'container mx-auto' : 'w-full'}`}>{children}</main>
             <Toaster richColors={true} />
             <Footer />
         </div>

@@ -23,7 +23,7 @@ export default function HomePage({ courses, institutes, reviews }: { courses: an
                 {/* {(user?.role_id == roles.Institute || user?.role_id == roles.Admin) && (
                     <NavigationList role={user?.role_id} />
                 )} */}
-                <main className="flex-1">
+                <main className="flex-1 pt-[72px]">
                     <HeroSection />
                     <PopularCourses courses={courses} />
                     <InstitutionSection institutes={institutes} />
