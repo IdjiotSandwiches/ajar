@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('teacher_id');
             $table->boolean('is_verified')->nullable();
-            $table->enum('status', ['scheduled', 'canceled', 'completed'])
+            $table->enum('status', ['scheduled', 'cancelled', 'completed'])
                 ->default('scheduled');
             $table->timestamps();
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MidtransWebhookRequest;
-use App\Services\PaymentService;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use App\Services\PaymentService;
+use App\Http\Requests\MidtransWebhookRequest;
 
 class PaymentController extends Controller
 {
@@ -37,6 +37,9 @@ class PaymentController extends Controller
     public function getPendingEnrollment($id)
     {
         $enrollment = $this->service->getPendingEnrollment($id);
+        if (!$enrollment)
+            return back();
+
         return Inertia::render('courses/payment', [
             'course' => $enrollment['course'],
             'teachers' => [$enrollment['teacher']],

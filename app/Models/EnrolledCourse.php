@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\CourseStatusEnum;
+use App\Enums\PaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,10 +21,14 @@ class EnrolledCourse extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'is_complete',
+        'status',
         'is_verified',
         'course_schedule_id',
         'student_id'
+    ];
+
+    protected $casts = [
+        'status' => CourseStatusEnum::class,
     ];
 
     /**
@@ -43,8 +49,18 @@ class EnrolledCourse extends Model
         return $this->belongsTo(User::class, 'student_id');
     }
 
-    public function payment()
+    public function payments()
     {
-        return $this->hasOne(Payment::class);
+        return $this->hasMany(Payment::class);
+    }
+
+    public function activePayment()
+    {
+        return $this->hasOne(Payment::class)
+            ->whereIn('status', [
+                PaymentStatusEnum::Paid,
+                PaymentStatusEnum::Pending,
+            ])
+            ->latestOfMany();
     }
 }

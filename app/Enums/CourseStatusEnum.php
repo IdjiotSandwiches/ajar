@@ -5,7 +5,7 @@ namespace App\Enums;
 enum CourseStatusEnum: string
 {
     case Scheduled = "scheduled";
-    case Canceled = "canceled";
+    case Cancelled = "cancelled";
     case Completed = "completed";
 
     public static function asArray(): array

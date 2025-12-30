@@ -9,8 +9,9 @@ export default function PaymentsPage({ payments, amounts }: any) {
     const status = props.enums?.payment_status_enum;
     const statusStyle: Record<string, string> = {
         paid: 'bg-green-100 text-green-600',
-        pending: 'bg-yellow-100 text-yellow-600',
+        pending: 'bg-blue-100 text-blue-600',
         failed: 'bg-red-100 text-red-600',
+        refund: 'bg-yellow-100 text-yellow-600',
     };
 
     return (
@@ -68,7 +69,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
                                 <div className="mt-4 flex items-center justify-between">
                                     <div>
                                         <p className="text-sm text-gray-500 dark:text-white/70">Price</p>
-                                        <p className="font-semibold">Rp {payment.amount.toLocaleString('id-ID')}</p>
+                                        <p className="font-semibold">Rp {Number(payment.amount).toLocaleString('id-ID')}</p>
                                     </div>
 
                                     <span

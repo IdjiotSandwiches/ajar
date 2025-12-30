@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('enrolled_courses', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_complete')->default(false);
+            $table->enum('status', ['scheduled', 'cancelled', 'completed'])
+                ->default('scheduled');
             $table->boolean('is_verified')->nullable();
             $table->unsignedBigInteger('course_schedule_id');
             $table->unsignedBigInteger('student_id');

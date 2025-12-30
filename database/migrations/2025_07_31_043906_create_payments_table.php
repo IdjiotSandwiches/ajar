@@ -16,9 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('enrolled_course_id');
             $table->unsignedBigInteger('user_id');
             $table->string('unique_id');
+            $table->string('refund_id')->nullable();
             $table->string('snap_token')->nullable();
             $table->decimal('amount', 12, 2);
-            $table->enum('status', ['pending', 'paid', 'expired'])->default('pending');
+            $table->enum('status', ['pending', 'paid', 'failed', 'refund'])->default('pending');
+            $table->datetime('expired_at');
             $table->timestamps();
 
             $table->foreign('enrolled_course_id')->references('id')->on('enrolled_courses')->onDelete('cascade');

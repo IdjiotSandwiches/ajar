@@ -22,9 +22,11 @@ class Payment extends Model
         'enrolled_course_id',
         'user_id',
         'unique_id',
+        'refund_id',
         'snap_token',
         'amount',
-        'status'
+        'status',
+        'expired_at'
     ];
 
     protected $casts = [

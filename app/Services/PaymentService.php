@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use App\Enums\MidtransTransactionEnum;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Midtrans\Snap;
 use Midtrans\Config;
 use App\Enums\CourseStatusEnum;
 use App\Enums\PaymentStatusEnum;
@@ -13,8 +12,10 @@ use App\Models\Payment;
 use App\Models\CourseSchedule;
 use App\Models\EnrolledCourse;
 use App\Models\TeachingCourse;
+use App\Jobs\ProcessPaymentRefund;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Midtrans\Snap;
+use App\Enums\MidtransTransactionEnum;
 
 class PaymentService
 {
@@ -58,7 +59,7 @@ class PaymentService
     public function getCourseSchedules($courseId, $teacherId)
     {
         $user = Auth::user();
-        $buffer = 15;
+        $buffer = 30;
         $schedules = CourseSchedule::query()
             ->where('course_id', $courseId)
             ->where('teacher_id', $teacherId)
@@ -90,71 +91,76 @@ class PaymentService
         $user = Auth::user();
         $existingEnrollment = EnrolledCourse::where('course_schedule_id', $scheduleId)
             ->where('student_id', $user->id)
-            ->whereHas('payment', function ($q) {
-                $q->where('status', PaymentStatusEnum::Pending);
-            })
-            ->with('payment')
+            ->whereHas('activePayment')
+            ->with('activePayment')
             ->first();
 
-        if ($existingEnrollment && $existingEnrollment->payment->snap_token) {
-            return [$existingEnrollment->payment->unique_id, $existingEnrollment->payment->snap_token];
+        if ($existingEnrollment && $existingEnrollment->activePayment->snap_token) {
+            return [$existingEnrollment->activePayment->unique_id, $existingEnrollment->activePayment->snap_token];
         }
 
-        $enrolled = EnrolledCourse::createOrFirst([
-            'course_schedule_id' => $scheduleId,
-            'student_id' => $user->id
-        ]);
+        $snapToken = "";
+        DB::transaction(function () use ($scheduleId, $user, &$snapToken) {
+            $enrolled = EnrolledCourse::createOrFirst([
+                'course_schedule_id' => $scheduleId,
+                'student_id' => $user->id
+            ]);
 
-        $schedule = CourseSchedule::with(['course.category'])
-            ->where('id', $scheduleId)
-            ->first();
+            $enrolled->status = CourseStatusEnum::Scheduled;
+            $enrolled->save();
 
-        $payment = Payment::create([
-            'unique_id' => 'ENRL' . time() . random_int(100, 999),
-            'enrolled_course_id' => $enrolled->id,
-            'amount' => $schedule->course->price - $schedule->course->discount,
-            'user_id' => $user->id
-        ]);
+            $schedule = CourseSchedule::with(['course.category'])
+                ->where('id', $scheduleId)
+                ->first();
 
-        $params = [
-            'transaction_details' => [
-                'order_id' => $payment->unique_id,
-                'gross_amount' => $payment->amount,
-            ],
-            'customer_details' => [
-                'first_name' => $user->name,
-                'email' => $user->email,
-                'phone' => $user->phone_number,
-            ],
-            "page_expiry" => [
-                "duration" => 10,
-                "unit" => "minutes"
-            ]
-        ];
+            $payment = Payment::create([
+                'unique_id' => 'ENRL' . time() . random_int(100, 999),
+                'enrolled_course_id' => $enrolled->id,
+                'amount' => $schedule->course->price - $schedule->course->discount,
+                'user_id' => $user->id,
+                'expired_at' => $schedule->start_time->subMinutes(10)
+            ]);
 
-        $snapToken = Snap::getSnapToken($params);
-        $payment->snap_token = $snapToken;
-        $payment->save();
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $payment->unique_id,
+                    'gross_amount' => $payment->amount,
+                ],
+                'customer_details' => [
+                    'first_name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->phone_number,
+                ],
+                "page_expiry" => [
+                    "duration" => 10,
+                    "unit" => "minutes"
+                ]
+            ];
 
-        return $payment->snap_token;
+            $snapToken = Snap::getSnapToken($params);
+            $payment->snap_token = $snapToken;
+            $payment->save();
+        });
+
+        return $snapToken;
     }
 
     public function getPendingEnrollment($paymentId)
     {
         $user = Auth::user();
-        $data = EnrolledCourse::with(['courseSchedule.teacher.user', 'courseSchedule.course', 'payment'])
+        $data = EnrolledCourse::with(['courseSchedule.teacher.user', 'courseSchedule.course', 'activePayment'])
             ->where('student_id', $user->id)
-            ->whereHas(
-                'payment',
-                fn($q) => $q->where('status', PaymentStatusEnum::Pending)
-                    ->where('id', $paymentId)
-            )
+            ->whereHas('activePayment', fn($q) => $q->where('id', $paymentId))
             ->first();
+
+        if (!$data) {
+            return null;
+        }
 
         $schedule = $data->courseSchedule;
         $teacher = $schedule->teacher;
         $course = $schedule->course;
-        $payment = $data->payment;
+        $payment = $data->activePayment;
 
         $enrollment = [
             'payment' => [
@@ -255,28 +261,59 @@ class PaymentService
                 ->where('unique_id', $data['order_id'])
                 ->firstOrFail();
 
-            $payment->status = match ($data['transaction_status']) {
-                MidtransTransactionEnum::Settlement->value,
-                MidtransTransactionEnum::Capture->value => PaymentStatusEnum::Paid,
-                MidtransTransactionEnum::Pending->value => PaymentStatusEnum::Pending,
-                MidtransTransactionEnum::Expire->value,
-                MidtransTransactionEnum::Cancel->value,
-                MidtransTransactionEnum::Deny->value => PaymentStatusEnum::Failed,
-                default => PaymentStatusEnum::Failed,
-            };
-
-            if ($payment->enrolledCourse) {
-                $payment->enrolledCourse()->update([
-                    'is_verified' => match ($payment->status) {
-                        PaymentStatusEnum::Paid => true,
-                        PaymentStatusEnum::Pending => null,
-                        PaymentStatusEnum::Failed => false,
-                        default => null,
-                    },
+            if (
+                ($data['transaction_status'] === MidtransTransactionEnum::Settlement->value ||
+                    $data['transaction_status'] === MidtransTransactionEnum::Capture->value) && now()->gt($payment->expired_at)
+            ) {
+                $refundId = 'RFD' . time() . random_int(100, 999);
+                \Midtrans\Transaction::refund($payment->unique_id, [
+                    'refund_key' => $refundId,
+                    'reason' => 'Payment completed after class started'
                 ]);
+
+                $payment->status = PaymentStatusEnum::Refund;
+                $payment->refund_id = $refundId;
+                $payment->enrolledCourse()->delete();
+            } else {
+                if ($data['transaction_status'] === MidtransTransactionEnum::Pending->value) {
+                    \Midtrans\Transaction::cancel($payment->unique_id);
+                }
+
+                $payment->status = match ($data['transaction_status']) {
+                    MidtransTransactionEnum::Settlement->value,
+                    MidtransTransactionEnum::Capture->value => PaymentStatusEnum::Paid,
+                    MidtransTransactionEnum::Pending->value,
+                    MidtransTransactionEnum::Expire->value,
+                    MidtransTransactionEnum::Cancel->value,
+                    MidtransTransactionEnum::Deny->value => PaymentStatusEnum::Failed,
+                    default => PaymentStatusEnum::Failed,
+                };
+
+                if ($payment->enrolledCourse) {
+                    $payment->enrolledCourse()->update([
+                        'is_verified' => match ($payment->status) {
+                            PaymentStatusEnum::Paid => true,
+                            PaymentStatusEnum::Pending => null,
+                            PaymentStatusEnum::Failed => false,
+                            default => null,
+                        },
+                    ]);
+                }
             }
 
             $payment->save();
         });
+    }
+
+    public function handleRefund($ids)
+    {
+        EnrolledCourse::with(['activePayment'])
+            ->whereIn('course_schedule_id', $ids)
+            ->whereHas('activePayment')
+            ->chunkById(50, function ($enrollments) {
+                foreach ($enrollments as $enrollment) {
+                    ProcessPaymentRefund::dispatch($enrollment->id);
+                }
+            });
     }
 }

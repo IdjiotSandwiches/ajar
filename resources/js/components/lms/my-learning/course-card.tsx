@@ -31,10 +31,10 @@ export default function CourseCard({ enroll, state, review }: any) {
         }
     };
 
-    const PrimaryButton = ({ onClick, children, disabled = false }: any) => (
+    const PrimaryButton = ({ onClick, children, disabled = false, destructive = false }: any) => (
         <button
             onClick={onClick}
-            className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90 disabled:bg-[#6ecefd]"
+            className={`rounded-lg ${destructive ? 'bg-red-600 hover:bg-red-600/90 disabled:cursor-not-allowed disabled:bg-red-400' : 'bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 disabled:cursor-not-allowed disabled:bg-[#6ecefd]'} px-4 py-2 text-sm text-white transition`}
             disabled={disabled}
         >
             {children}
@@ -48,7 +48,6 @@ export default function CourseCard({ enroll, state, review }: any) {
             data: { enroll_id: enroll.id },
         });
     };
-
 
     const submitReviews = ({ teacher, institute, course }: any) => {
         form.setData({
@@ -64,27 +63,48 @@ export default function CourseCard({ enroll, state, review }: any) {
             onSuccess: () => {
                 setModalType('success');
                 setReviewModal(false);
-            }
+            },
         });
     };
 
-    console.log(enroll)
+    const handleCancel = () => {
+        router.post(route('teacher.cancel-schedule', { id: enroll.id }));
+    }
 
     const actions = {
         [roles.Student]: () => {
             if (state === states.Ongoing) return <PrimaryButton onClick={handleJoinButton}>Join Meeting</PrimaryButton>;
-            if (!enroll.has_review) return <PrimaryButton onClick={handleReviewButton}>Add Review</PrimaryButton>;
+            if (state === states.Completed && !enroll.has_review) return <PrimaryButton onClick={handleReviewButton}>Add Review</PrimaryButton>;
         },
-        [roles.Teacher]: () => {
-            if (state === states.Completed) {
-                if (enroll.is_verified == null) return <PrimaryButton disabled={true}>Verifying</PrimaryButton>;
-                else if (enroll.is_verified) return <PrimaryButton disabled={true}>Verified</PrimaryButton>;
-                else return <PrimaryButton disabled={true}>Rejected</PrimaryButton>;
-            }
-            if (enroll.has_finished) return <PrimaryButton onClick={() => setModalType('recording')}>Finish Course</PrimaryButton>;
-            if (!enroll.meeting_link) return <PrimaryButton onClick={() => setModalType('meeting')}>Add Meeting</PrimaryButton>;
-            return <PrimaryButton onClick={handleJoinButton}>Join Meeting</PrimaryButton>;
-        },
+        [roles.Teacher]: () => (
+            <>
+                {enroll.can_cancel && (
+                    <PrimaryButton destructive={true} onClick={() => setModalType('confirmation')}>
+                        Cancel
+                    </PrimaryButton>
+                )}
+
+                {state === states.Completed && (
+                    <>
+                        {enroll.is_verified == null && <PrimaryButton disabled>Verifying</PrimaryButton>}
+                        {enroll.is_verified === true && <PrimaryButton disabled>Verified</PrimaryButton>}
+                        {enroll.is_verified === false && <PrimaryButton disabled>Rejected</PrimaryButton>}
+                    </>
+                )}
+
+                {state === states.Ongoing && (
+                    <>
+                        {enroll.has_finished && <PrimaryButton onClick={() => setModalType('recording')}>Finish Course</PrimaryButton>}
+
+                        {!enroll.has_finished && !enroll.meeting_link && (
+                            <PrimaryButton onClick={() => setModalType('meeting')}>Add Meeting</PrimaryButton>
+                        )}
+
+                        {!enroll.has_finished && enroll.meeting_link && <PrimaryButton onClick={handleJoinButton}>Join Meeting</PrimaryButton>}
+                    </>
+                )}
+            </>
+        ),
     };
 
     const actionButton = () => actions[user?.role_id!]?.() ?? null;
@@ -93,7 +113,7 @@ export default function CourseCard({ enroll, state, review }: any) {
         <>
             <div className="flex flex-col gap-4 rounded-xl border p-3 shadow-sm hover:border-[#3ABEFF]/70 sm:flex-row dark:border-white/20 dark:shadow-[#ffffff]/20 dark:hover:border-[#3ABEFF]/70">
                 <img src={storageUrl(enroll.image)} className="h-36 w-full rounded-md object-cover sm:h-32 sm:w-32" alt={enroll.name} />
-                <div className="flex flex-grow flex-col justify-between">
+                <div className="flex grow flex-col justify-between">
                     <div>
                         <h3 className="mb-2 line-clamp-2 text-sm font-semibold text-gray-800 dark:text-white">{enroll.name}</h3>
                         <p className="mb-1 line-clamp-1 text-xs text-gray-600 dark:text-white/80">
@@ -105,7 +125,7 @@ export default function CourseCard({ enroll, state, review }: any) {
                             <span className="font-medium text-black dark:text-white">{enroll.schedule}</span>
                         </p>
                     </div>
-                    <div className="mt-2 flex justify-end">{actionButton()}</div>
+                    <div className="mt-2 flex justify-end gap-2">{actionButton()}</div>
                 </div>
             </div>
 
@@ -115,6 +135,17 @@ export default function CourseCard({ enroll, state, review }: any) {
                     isOpen
                     onClose={() => setModalType(null)}
                     description="Your course has not started yet. You can join 10 minutes before schedule."
+                />
+            )}
+
+            {modalType === 'confirmation' && (
+                <DynamicModal
+                    type="confirmation"
+                    isOpen
+                    onClose={() => setModalType(null)}
+                    onConfirm={handleCancel}
+                    description="Are you sure you want to cancel this schedule?"
+                    confirmText="Confirm"
                 />
             )}
 

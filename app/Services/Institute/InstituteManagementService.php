@@ -2,16 +2,25 @@
 
 namespace App\Services\Institute;
 
+use App\Enums\CourseStatusEnum;
 use App\Models\User;
 use App\Models\CourseSchedule;
 use App\Models\TeachingCourse;
 use App\Models\TeacherApplication;
 use App\Notifications\RequestApproved;
+use App\Services\PaymentService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class InstituteManagementService
 {
+    private PaymentService $service;
+
+    public function __construct(PaymentService $service)
+    {
+        $this->service = $service;
+    }
+
     public function getTeacherApplications()
     {
         $user = Auth::user();
@@ -103,14 +112,26 @@ class InstituteManagementService
 
     public function deactiveTeacher($id)
     {
-        DB::transaction(function () use ($id) {
+        $scheduleIds = [];
+        DB::transaction(function () use ($id, &$scheduleIds) {
             $teacher = TeacherApplication::where('teacher_id', $id)
                 ->firstOrFail();
             $teacher->delete();
 
             TeachingCourse::where('teacher_id', $id)->delete();
-            CourseSchedule::where('teacher_id', $id)->delete();
+            $scheduleIds = CourseSchedule::where('teacher_id', $id)
+                ->where('status', CourseStatusEnum::Scheduled)
+                ->pluck('id')
+                ->toArray();
+
+            CourseSchedule::query()
+                ->whereIn('id', $scheduleIds)
+                ->update(['status' => CourseStatusEnum::Cancelled]);
         });
+
+        if (!empty($scheduleIds)) {
+            $this->service->handleRefund($scheduleIds);
+        }
 
         $user = User::findOrFail($id);
         $user->notify(new RequestApproved('Access Revoked', "Your access to {$user->name} has been revoked."));

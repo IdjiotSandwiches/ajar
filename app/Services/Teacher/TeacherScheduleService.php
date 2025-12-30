@@ -3,15 +3,26 @@
 namespace App\Services\Teacher;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
+use App\Models\CourseSchedule;
+use App\Models\EnrolledCourse;
 use App\Models\TeachingCourse;
 use App\Models\TeacherSchedule;
 use App\Models\CourseWeeklyRule;
+use App\Enums\CourseStatusEnum;
+use App\Services\PaymentService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherScheduleService
 {
+    private PaymentService $service;
+
+    public function __construct(PaymentService $service)
+    {
+        $this->service = $service;
+    }
+
     public function getSchedules()
     {
         $user = Auth::user();
@@ -161,5 +172,28 @@ class TeacherScheduleService
             ]);
 
         return $teaching;
+    }
+
+    public function cancelSchedule($id)
+    {
+        $scheduleIds = [];
+
+        DB::transaction(function () use ($id, &$scheduleIds) {
+            $schedule = CourseSchedule::where('id', $id)
+                ->where('status', CourseStatusEnum::Scheduled)
+                ->where('start_time', '>', now()->addHours(2))
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            $schedule->update([
+                'status' => CourseStatusEnum::Cancelled,
+            ]);
+
+            $scheduleIds = [$schedule->id];
+        });
+
+        if (!empty($scheduleIds)) {
+            $this->service->handleRefund($scheduleIds);
+        }
     }
 }

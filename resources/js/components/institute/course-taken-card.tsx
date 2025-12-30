@@ -16,12 +16,12 @@ const CourseStatusCard: React.FC<CourseStatusCardProps> = ({ image, name, teache
     const statusStyle: Record<string, string> = {
         completed: 'text-green-600',
         scheduled: 'text-gray-600',
-        canceled: 'text-red-600',
+        cancelled: 'text-red-600',
     };
     return (
         <div className="mb-5 flex flex-col gap-4 rounded-xl border p-4 shadow-sm transition hover:border-[#3ABEFF]/50 hover:shadow-md lg:flex-row dark:border-white/20 dark:shadow-white/20">
             <img src={storageUrl(image)} alt={name} className="h-40 w-full rounded-lg border object-cover md:h-32 md:w-32 dark:border-white/20" />
-            <div className="flex flex-grow flex-col">
+            <div className="flex grow flex-col">
                 <h3 className="mb-3 text-base font-semibold text-gray-800 dark:text-white">{name}</h3>
 
                 <div className="space-y-2 text-sm text-gray-700">
