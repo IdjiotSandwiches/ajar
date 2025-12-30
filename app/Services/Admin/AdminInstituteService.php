@@ -4,9 +4,21 @@ namespace App\Services\Admin;
 
 use App\Models\User;
 use App\Models\Institute;
+use App\Models\CourseSchedule;
+use App\Enums\CourseStatusEnum;
+use App\Services\PaymentService;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 
 class AdminInstituteService
 {
+    private PaymentService $service;
+
+    public function __construct(PaymentService $service)
+    {
+        $this->service = $service;
+    }
+
     public function getInstituteList($filters)
     {
         $institutes = Institute::with(['user', 'category', 'courses', 'reviews'])
@@ -37,11 +49,27 @@ class AdminInstituteService
 
     public function removeInstitute($id)
     {
-        $institute = Institute::findOrFail($id)
-            ->pluck('user_id');
+        Institute::findOrFail($id);
+        $scheduleIds = [];
+        DB::transaction(function () use ($id, &$scheduleIds) {
+            $scheduleIds = CourseSchedule::with(['course'])
+                ->whereHas('course', fn($q) => $q->where('institute_id', $id))
+                ->pluck('id')
+                ->toArray();
 
-        User::where('id', $institute)
-        // mungkin send email(?) before deletion
-            ->delete();
+            CourseSchedule::query()
+                ->whereIn('id', $scheduleIds)
+                ->update([
+                    'status' => CourseStatusEnum::Cancelled
+                ]);
+        });
+
+        $jobs = $this->service->handleRefund($scheduleIds);
+        if (!empty($jobs)) {
+            Bus::batch($jobs)
+                ->then(fn($batch) => User::findOrFail($id)->delete())
+                ->name('Handle course refunds (Institute Removal)')
+                ->dispatch();
+        }
     }
 }

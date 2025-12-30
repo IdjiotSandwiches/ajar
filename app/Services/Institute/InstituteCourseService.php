@@ -8,10 +8,21 @@ use App\Models\Course;
 use App\Models\Category;
 use App\Models\CourseSchedule;
 use App\Utilities\UploadUtility;
+use App\Enums\CourseStatusEnum;
+use App\Services\PaymentService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Auth;
 
 class InstituteCourseService
 {
+    private PaymentService $service;
+
+    public function __construct(PaymentService $service)
+    {
+        $this->service = $service;
+    }
+
     public function getCourseByInstitution($filters)
     {
         $user = Auth::user();
@@ -126,7 +137,26 @@ class InstituteCourseService
     public function deleteCourse($id)
     {
         $course = Course::findOrFail($id);
-        $course->delete();
+        $scheduleIds = [];
+        DB::transaction(function () use ($id, &$scheduleIds) {
+            $scheduleIds = CourseSchedule::where('course_id', $id)
+                ->pluck('id')
+                ->toArray();
+
+            CourseSchedule::query()
+                ->whereIn('id', $scheduleIds)
+                ->update([
+                    'status' => CourseStatusEnum::Cancelled
+                ]);
+        });
+
+        $jobs = $this->service->handleRefund($scheduleIds);
+        if (!empty($jobs)) {
+            Bus::batch($jobs)
+                ->then(fn($batch) => $course->delete())
+                ->name('Handle course refunds (Course Removal)')
+                ->dispatch();
+        }
     }
 
     public function getOngoingCourses($filters)

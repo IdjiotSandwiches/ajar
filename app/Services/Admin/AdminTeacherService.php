@@ -2,12 +2,11 @@
 
 namespace App\Services\Admin;
 
-use App\Enums\CourseStatusEnum;
-use App\Jobs\RemoveTeacherProcess;
 use App\Models\User;
 use App\Models\Teacher;
 use App\Models\CourseSchedule;
 use App\Services\PaymentService;
+use App\Enums\CourseStatusEnum;
 use App\Notifications\RequestApproved;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
@@ -64,7 +63,8 @@ class AdminTeacherService
                 ->pluck('id')
                 ->toArray();
 
-            CourseSchedule::whereIn('id', $scheduleIds)
+            CourseSchedule::query()
+                ->whereIn('id', $scheduleIds)
                 ->update([
                     'status' => CourseStatusEnum::Cancelled
                 ]);

@@ -6,10 +6,19 @@ use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\CourseSchedule;
 use App\Enums\CourseStatusEnum;
+use App\Services\PaymentService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Bus;
 
 class AdminCourseService
 {
+    private PaymentService $service;
+
+    public function __construct(PaymentService $service)
+    {
+        $this->service = $service;
+    }
+
     public function getCompletedCourses($filters)
     {
         $schedules = CourseSchedule::with(['teacher.user', 'course'])
@@ -96,6 +105,25 @@ class AdminCourseService
     public function removeCourse($id)
     {
         $course = Course::findOrFail($id);
-        $course->delete();
+        $scheduleIds = [];
+        DB::transaction(function () use ($id, &$scheduleIds) {
+            $scheduleIds = CourseSchedule::where('course_id', $id)
+                ->pluck('id')
+                ->toArray();
+
+            CourseSchedule::query()
+                ->whereIn('id', $scheduleIds)
+                ->update([
+                    'status' => CourseStatusEnum::Cancelled
+                ]);
+        });
+
+        $jobs = $this->service->handleRefund($scheduleIds);
+        if (!empty($jobs)) {
+            Bus::batch($jobs)
+                ->then(fn($batch) => $course->delete())
+                ->name('Handle course refunds (Course Removal)')
+                ->dispatch();
+        }
     }
 }
