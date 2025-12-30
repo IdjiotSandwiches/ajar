@@ -109,7 +109,7 @@ class PaymentService
             $enrolled->status = CourseStatusEnum::Scheduled;
             $enrolled->save();
 
-            $schedule = CourseSchedule::with(['course.category'])
+            $schedule = CourseSchedule::with(['course.category', 'teacher.user'])
                 ->where('id', $scheduleId)
                 ->first();
 
@@ -118,6 +118,11 @@ class PaymentService
                 'enrolled_course_id' => $enrolled->id,
                 'amount' => $schedule->course->price - $schedule->course->discount,
                 'user_id' => $user->id,
+                'course_name' => $schedule->course->name,
+                'teacher_name' => $schedule->teacher->user->name,
+                'schedule' => Carbon::parse($schedule->start_time)->format('d M Y') . ' '
+                    . Carbon::parse($schedule->start_time)->toTimeString('minute') . ' - '
+                    . Carbon::parse($schedule->end_time)->toTimeString('minute'),
                 'expired_at' => $schedule->start_time->subMinutes(10)
             ]);
 
@@ -213,22 +218,15 @@ class PaymentService
             ")
             ->orderByDesc('created_at')
             ->paginate(10)
-            ->through(function ($item) {
-                $schedule = $item->enrolledCourse->courseSchedule;
-                $course = $schedule->course;
-                $teacher = $schedule->teacher->user;
-
-                return [
+            ->through(fn($item) =>
+                [
                     'id' => $item->id,
-                    'course_name' => $course->name,
-                    'teacher' => $teacher->name,
-                    'schedule' => Carbon::parse($schedule->start_time)->format('d M Y') . ' '
-                        . Carbon::parse($schedule->start_time)->toTimeString('minute') . ' - '
-                        . Carbon::parse($schedule->end_time)->toTimeString('minute'),
+                    'course_name' => $item->course_name,
+                    'teacher' => $item->teacher_name,
+                    'schedule' => $item->schedule,
                     'amount' => $item->amount,
                     'status' => $item->status
-                ];
-            });
+                ]);
 
         return [$payments, $amounts];
     }
@@ -307,13 +305,16 @@ class PaymentService
 
     public function handleRefund($ids)
     {
+        $jobs = [];
         EnrolledCourse::with(['activePayment'])
             ->whereIn('course_schedule_id', $ids)
             ->whereHas('activePayment')
-            ->chunkById(50, function ($enrollments) {
+            ->chunkById(50, function ($enrollments) use (&$jobs) {
                 foreach ($enrollments as $enrollment) {
-                    ProcessPaymentRefund::dispatch($enrollment->id);
+                    $jobs[] = new ProcessPaymentRefund($enrollment->id);
                 }
             });
+
+        return $jobs;
     }
 }

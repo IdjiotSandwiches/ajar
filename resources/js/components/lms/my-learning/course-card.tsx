@@ -69,6 +69,7 @@ export default function CourseCard({ enroll, state, review }: any) {
 
     const handleCancel = () => {
         router.post(route('teacher.cancel-schedule', { id: enroll.id }));
+        setModalType(null);
     }
 
     const actions = {

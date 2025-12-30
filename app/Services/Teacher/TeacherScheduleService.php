@@ -11,6 +11,7 @@ use App\Models\TeacherSchedule;
 use App\Models\CourseWeeklyRule;
 use App\Enums\CourseStatusEnum;
 use App\Services\PaymentService;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -193,7 +194,9 @@ class TeacherScheduleService
         });
 
         if (!empty($scheduleIds)) {
-            $this->service->handleRefund($scheduleIds);
+            Bus::batch($this->service->handleRefund($scheduleIds))
+                ->name('Handle course refunds (Cancelled Schedule)')
+                ->dispatch();
         }
     }
 }

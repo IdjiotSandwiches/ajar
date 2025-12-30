@@ -2,21 +2,22 @@
 
 namespace App\Jobs;
 
-use App\Enums\MidtransTransactionEnum;
 use Midtrans\Config;
 use App\Models\EnrolledCourse;
 use App\Enums\CourseStatusEnum;
 use App\Enums\PaymentStatusEnum;
+use App\Enums\MidtransTransactionEnum;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Bus\Queueable;
+use Illuminate\Bus\Batchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\DB;
 
 class ProcessPaymentRefund implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Batchable;
 
     /**
      * Create a new job instance.

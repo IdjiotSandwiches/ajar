@@ -2,15 +2,16 @@
 
 namespace App\Services\Institute;
 
-use App\Enums\CourseStatusEnum;
 use App\Models\User;
 use App\Models\CourseSchedule;
 use App\Models\TeachingCourse;
 use App\Models\TeacherApplication;
-use App\Notifications\RequestApproved;
+use App\Enums\CourseStatusEnum;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\RequestApproved;
 
 class InstituteManagementService
 {
@@ -130,7 +131,9 @@ class InstituteManagementService
         });
 
         if (!empty($scheduleIds)) {
-            $this->service->handleRefund($scheduleIds);
+            Bus::batch($this->service->handleRefund($scheduleIds))
+                ->name('Handle course refunds (Deactivated Teacher)')
+                ->dispatch();
         }
 
         $user = User::findOrFail($id);
