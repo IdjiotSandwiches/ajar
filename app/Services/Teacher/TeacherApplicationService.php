@@ -3,11 +3,13 @@
 namespace App\Services\Teacher;
 
 use App\Enums\StateEnum;
-use App\Models\Category;
+use App\Models\User;
 use App\Models\Course;
+use App\Models\Category;
 use App\Models\Institute;
-use App\Models\TeacherApplication;
 use App\Models\TeachingCourse;
+use App\Models\TeacherApplication;
+use App\Notifications\RequestApproved;
 use Illuminate\Support\Facades\Auth;
 
 class TeacherApplicationService
@@ -191,6 +193,9 @@ class TeacherApplicationService
 
         $application->is_verified = null;
         $application->save();
+
+        $course = Course::findOrFail($id);
+        User::findOrFail($id)->notify(new RequestApproved('Course Application', $user->name . ' has applied to teach on ' . $course->name . '.'));
     }
 
     public function applyAsTeacher($id)
@@ -207,5 +212,7 @@ class TeacherApplicationService
 
         $application->is_verified = null;
         $application->save();
+
+        User::findOrFail($id)->notify(new RequestApproved('Teacher Application', "$user->name has applied to become a teacher at your institution."));
     }
 }
