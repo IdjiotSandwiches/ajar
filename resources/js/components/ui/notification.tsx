@@ -1,6 +1,5 @@
 import { Bell } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-// import { Notification } from '@/hooks/useNotifications';
 
 type Notification = {
     id: number;
@@ -65,7 +64,7 @@ export default function NotificationDropdown({
             </button>
 
             {open && (
-                <div className="absolute right-0 mt-3 w-80 rounded-xl border dark:border-white/20 bg-white dark:bg-[#242124] shadow-md">
+                <div className="absolute right-0 mt-3 w-80 rounded-xl border dark:border-white/20 bg-white dark:bg-[#242124] shadow-md z-50">
                     <div className="px-4 py-2 border-b dark:border-white/20 font-semibold text-sm dark:text-white">
                         Notifications
                     </div>
