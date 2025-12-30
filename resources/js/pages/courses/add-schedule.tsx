@@ -1,3 +1,4 @@
+import DynamicModal from '@/components/modal/modal';
 import { InputSwitch } from '@/components/ui/input-switch';
 import LMSLayout from '@/layouts/lms-layout';
 import { Form, router, usePage } from '@inertiajs/react';
@@ -8,6 +9,8 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
     const { props } = usePage();
     const days = Object.values(props.enums?.days_enum || {});
     const hours = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+    const [showApplyModal, setShowApplyModal] = React.useState(false);
+    const formRef = React.useRef<HTMLFormElement | null>(null);
 
     const [popup, setPopup] = useState<{ visible: boolean; day?: string; hour?: string; id?: any }>({
         visible: false,
@@ -70,9 +73,8 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                         id: session?.teaching_course_id,
                     })
                 }
-                className={`flex h-10 w-full cursor-pointer items-center justify-center overflow-hidden rounded border px-1 text-xs text-ellipsis whitespace-nowrap transition ${
-                    session ? 'border-blue-400 bg-blue-200 text-blue-900' : 'border-dashed border-gray-400 text-gray-400 dark:border-white/40'
-                } `}
+                className={`flex h-10 w-full cursor-pointer items-center justify-center overflow-hidden rounded border px-1 text-xs text-ellipsis whitespace-nowrap transition ${session ? 'border-blue-400 bg-blue-200 text-blue-900' : 'border-dashed border-gray-400 text-gray-400 dark:border-white/40'
+                    } `}
                 title={session?.course_name ?? ''}
             >
                 <span className="truncate">{session?.course_name ?? '+'}</span>
@@ -86,6 +88,12 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
             setSelectedCourse(course);
         }
     }, [popup.visible, popup.id, teachings]);
+
+    const handleConfirmSubmit = () => {
+        formRef.current?.submit();
+        setShowApplyModal(false);
+    };
+
 
     return (
         <div className="flex min-h-screen flex-col gap-6">
@@ -157,9 +165,8 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                             {days.map((day, index) => (
                                 <tr
                                     key={day}
-                                    className={`border-b dark:border-white/20 ${
-                                        index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
-                                    }`}
+                                    className={`border-b dark:border-white/20 ${index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                        }`}
                                 >
                                     <td className="p-2">
                                         {day}
@@ -205,7 +212,10 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                 </div>
 
                 <div className="mt-6 flex justify-end">
-                    <button type="submit" className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white hover:bg-[#3ABEFF]/90">
+                    <button
+                        type="button"
+                        onClick={() => setShowApplyModal(true)}
+                        className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white hover:bg-[#3ABEFF]/90">
                         Submit
                     </button>
                 </div>
@@ -215,9 +225,16 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                 <h3 className="mb-4 text-lg font-semibold dark:text-white">Schedule</h3>
                 {availability?.length === 0 ? (
                     <>
-                        <div className="flex flex-col items-center justify-center py-6 text-center">
-                            <span className="mb-2 text-2xl"><Calendar size="2.5rem" /></span>
-                            <p className="text-sm text-gray-500 dark:text-white/70">Please set up your availability schedule before creating weekly course schedules.</p>
+                        <div className="flex flex-col items-center justify-center py-12 text-center">
+                            <Calendar className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
+
+                            <p className="text-base font-semibold text-gray-700 dark:text-white">
+                                Schedule unavailable
+                            </p>
+
+                            <p className="mt-1 max-w-sm text-sm text-gray-500 dark:text-white/70">
+                                You need to set your availability first before managing weekly course schedules.
+                            </p>
                         </div>
                     </>
                 ) : (
@@ -230,7 +247,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                     <div className="grid grid-cols-3 gap-2">
                                         {hours.map((hour) => (
                                             <div key={hour}>
-                                                <p className="mb-1 text-xs text-gray-500">{hour}</p>
+                                                <p className="mb-1 text-xs text-gray-500 dark:text-white/70">{hour}</p>
                                                 {renderCell(day, hour)}
                                             </div>
                                         ))}
@@ -311,6 +328,14 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                     </div>
                 </div>
             )}
+
+            <DynamicModal
+                type="confirmation"
+                isOpen={showApplyModal}
+                onClose={() => setShowApplyModal(false)}
+                onConfirm={handleConfirmSubmit}
+                description={`Are you sure you want to update your availability? This will affect your schedule starting next week.`}
+            />
         </div>
     );
 }

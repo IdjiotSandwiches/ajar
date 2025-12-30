@@ -2,6 +2,7 @@ import { InfiniteScroll, router, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { StatusTabs } from '../applications-teacher/status-switch';
 import CourseCard from './course-card';
+import { BookOpen, CheckCircle2 } from 'lucide-react';
 
 export default function CourseSection({ courses, counts, review, state }: any) {
     const { props } = usePage();
@@ -10,6 +11,18 @@ export default function CourseSection({ courses, counts, review, state }: any) {
     const states = props.enums?.learning_status_enum;
 
     const [activeStatus, setActiveStatus] = useState<number>(state || states.Ongoing);
+
+    const isOngoing = state === states.Ongoing;
+
+    const emptyConfig = {
+        icon: isOngoing ? BookOpen : CheckCircle2,
+        title: isOngoing ? 'No ongoing courses' : 'No completed courses',
+        desc: isOngoing
+            ? 'You are not enrolled in any active courses yet.'
+            : 'You have not completed any courses yet.',
+        cta: isOngoing ? 'Browse Courses' : null,
+    };
+
 
     const handleStatusChange = (status: any) => {
         setActiveStatus(status || activeStatus);
@@ -32,20 +45,23 @@ export default function CourseSection({ courses, counts, review, state }: any) {
                     <h3 className="mb-4 text-lg font-semibold">{Object.keys(states).find((key) => states[key] === state)} Courses</h3>
 
                     {courses.data?.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
-                            <p className="mb-1 font-medium text-gray-700 dark:text-white/80">
-                                {state === states.Ongoing ? 'No ongoing courses.' : 'No completed courses yet.'}
-                            </p>
-                            <p className="mb-4 max-w-xs text-sm dark:text-white/70">
-                                {state === states.Ongoing ? 'Start learning by enrolling in a course!' : 'Finish a course to see it here!'}
+                        <div className="flex flex-col items-center justify-center py-14 text-center">
+                            <emptyConfig.icon className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
+
+                            <p className="text-base font-semibold text-gray-700 dark:text-white">
+                                {emptyConfig.title}
                             </p>
 
-                            {user?.role_id === roles.Student && (
+                            <p className="mt-1 max-w-xs text-sm text-gray-500 dark:text-white/70">
+                                {emptyConfig.desc}
+                            </p>
+
+                            {user?.role_id === roles.Student && emptyConfig.cta && (
                                 <button
-                                    onClick={() => router.get(route('list-course', { category_id: 1 }))}
-                                    className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
+                                    onClick={() => router.get(route('list-course'))}
+                                    className="mt-4 rounded-lg bg-[#3ABEFF] px-5 py-2 text-sm font-medium text-white transition hover:bg-[#3ABEFF]/90"
                                 >
-                                    Browse Courses
+                                    {emptyConfig.cta}
                                 </button>
                             )}
                         </div>

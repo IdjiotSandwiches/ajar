@@ -4,6 +4,7 @@ import TeacherCourseCardWrapper from '@/components/lms/teacher/TeacherCourseCard
 import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
 import { router, usePage } from '@inertiajs/react';
+import { BookOpen } from 'lucide-react';
 import React from 'react';
 
 export default function TeacherCourses({ teachings, categories, filters }: any) {
@@ -32,7 +33,18 @@ export default function TeacherCourses({ teachings, categories, filters }: any) 
                 Add Schedule
             </button>
             {teachings.data?.length === 0 ? (
-                <p className="dark:text-while/80 py-10 text-center text-gray-500">Belum ada kursus yang diajar.</p>
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                    <BookOpen className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
+
+                    <p className="text-base font-semibold text-gray-700 dark:text-white">
+                        No courses taught
+                    </p>
+
+                    <p className="mt-1 max-w-xs text-sm text-gray-500 dark:text-white/70">
+                        You are not teaching any courses yet.
+                        Try to apply teachings in the available courses.
+                    </p>
+                </div>
             ) : (
                 <>
                     {teachings.data.map((teaching: any, index: number) => (

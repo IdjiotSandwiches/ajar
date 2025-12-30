@@ -3,7 +3,7 @@ import Pagination from '@/components/pagination';
 import LMSLayout from '@/layouts/lms-layout';
 import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
-import { Check, X } from 'lucide-react';
+import { Check, UserPlus, X } from 'lucide-react';
 import React, { useState } from 'react';
 
 export default function TeacherApplicationsPage({ applications }: any) {
@@ -32,11 +32,15 @@ export default function TeacherApplicationsPage({ applications }: any) {
                     <h3 className="mb-6 text-xl font-semibold">Applications</h3>
                     <div className="flex flex-col gap-4 lg:hidden">
                         {!hasApplications && (
-                            <tr>
-                                <td colSpan={3} className="flex justify-center p-6 text-center text-sm text-gray-500 dark:text-white/70">
-                                    No teacher applications available.
-                                </td>
-                            </tr>
+                            <div className="flex flex-col items-center justify-center py-12 text-center">
+                                <UserPlus className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
+                                <p className="text-base font-semibold text-gray-700 dark:text-white">
+                                    No teacher applications yet
+                                </p>
+                                <p className="mt-1 text-sm text-gray-500 dark:text-white/70">
+                                    There are currently no teacher applications to review.
+                                </p>
+                            </div>
                         )}
                         {hasApplications &&
                             applications.data.map((app: any) => {
@@ -59,12 +63,12 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                             <span className="font-medium">Submitted:</span>{' '}
                                             {teacher?.email_verified_at
                                                 ? new Date(teacher?.email_verified_at).toLocaleString('id-ID', {
-                                                      day: '2-digit',
-                                                      month: 'short',
-                                                      year: 'numeric',
-                                                      hour: '2-digit',
-                                                      minute: '2-digit',
-                                                  })
+                                                    day: '2-digit',
+                                                    month: 'short',
+                                                    year: 'numeric',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit',
+                                                })
                                                 : '-'}
                                         </p>
 
@@ -99,7 +103,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                 {!hasApplications && (
                                     <tr>
                                         <td colSpan={3} className="p-6 text-center text-sm text-gray-500 dark:text-white/70">
-                                            No teacher applications available.
+                                            No teacher applications yet.
                                         </td>
                                     </tr>
                                 )}
@@ -109,9 +113,8 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                         return (
                                             <tr
                                                 key={app.id}
-                                                className={`border-b transition hover:bg-[#3ABEFF]/10 ${
-                                                    index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
-                                                }`}
+                                                className={`border-b transition hover:bg-[#3ABEFF]/10 ${index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                                    }`}
                                             >
                                                 <td className="p-1 text-center dark:text-white">{index + 1}</td>
                                                 <td className="p-3">
@@ -133,12 +136,12 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                                                 <span className="font-medium">Submitted:</span>{' '}
                                                                 {teacher?.email_verified_at
                                                                     ? new Date(teacher?.email_verified_at).toLocaleString('id-ID', {
-                                                                          day: '2-digit',
-                                                                          month: 'short',
-                                                                          year: 'numeric',
-                                                                          hour: '2-digit',
-                                                                          minute: '2-digit',
-                                                                      })
+                                                                        day: '2-digit',
+                                                                        month: 'short',
+                                                                        year: 'numeric',
+                                                                        hour: '2-digit',
+                                                                        minute: '2-digit',
+                                                                    })
                                                                     : '-'}
                                                             </p>
                                                         </div>

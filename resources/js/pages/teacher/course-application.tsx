@@ -4,6 +4,7 @@ import Filter from '@/components/lms/filter/filter';
 import CourseCard from '@/components/ui/course-card';
 import LMSLayout from '@/layouts/lms-layout';
 import { InfiniteScroll, router, usePage } from '@inertiajs/react';
+import { BookOpen } from 'lucide-react';
 import { useState } from 'react';
 
 export default function TeacherApplyCourses({ courses, categories, counts, filters }: any) {
@@ -37,7 +38,17 @@ export default function TeacherApplyCourses({ courses, categories, counts, filte
                     <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} />
                     <Filter key={filters.state} schema={courseApplicationFilter(categories, filters)} onChange={handleFilterChange} />
                     {courses.data?.length === 0 ? (
-                        <p className="py-10 text-center text-sm text-gray-500 italic">Tidak ada kursus pada kategori ini.</p>
+                        <div className="flex flex-col items-center justify-center py-16 text-center">
+                            <BookOpen className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
+
+                            <p className="text-base font-semibold text-gray-700 dark:text-white">
+                                No courses available
+                            </p>
+
+                            <p className="mt-1 max-w-xs text-sm text-gray-500 dark:text-white/70">
+                                There are no courses available for application under the selected category or status.
+                            </p>
+                        </div>
                     ) : (
                         <InfiniteScroll
                             buffer={1}
