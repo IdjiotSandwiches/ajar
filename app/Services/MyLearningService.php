@@ -47,6 +47,9 @@ class MyLearningService
                     LearningStatusEnum::Completed->value => (clone $base)
                         ->where('status', CourseStatusEnum::Completed)
                         ->count(),
+                    LearningStatusEnum::Cancelled->value => (clone $base)
+                        ->where('status', CourseStatusEnum::Cancelled)
+                        ->count(),
                 ];
                 break;
             }
@@ -56,10 +59,13 @@ class MyLearningService
                     ->where('is_verified', true);
                 $counts = [
                     LearningStatusEnum::Ongoing->value => (clone $base)
-                        ->where('is_complete', false)
+                        ->where('status', CourseStatusEnum::Scheduled)
                         ->count(),
                     LearningStatusEnum::Completed->value => (clone $base)
-                        ->where('is_complete', true)
+                        ->where('status', CourseStatusEnum::Completed)
+                        ->count(),
+                    LearningStatusEnum::Cancelled->value => (clone $base)
+                        ->where('status', CourseStatusEnum::Cancelled)
                         ->count(),
                 ];
                 break;
@@ -88,6 +94,7 @@ class MyLearningService
                             'duration' => $course->duration,
                             'time' => Carbon::parse($item->start_time)->toTimeString('minute') . ' - '
                                 . Carbon::parse($item->end_time)->toTimeString('minute'),
+                            'status' => $item->status
                         ];
                     });
                 break;
@@ -109,6 +116,7 @@ class MyLearningService
                             'duration' => $course->duration,
                             'time' => Carbon::parse($schedule->start_time)->toTimeString('minute') . ' - '
                                 . Carbon::parse($schedule->end_time)->toTimeString('minute'),
+                            'status' => $item->status
                         ];
                     });
                 break;
@@ -158,7 +166,7 @@ class MyLearningService
         $schedule->recording_link = $data['link'];
         $schedule->status = CourseStatusEnum::Completed;
         $schedule->enrolledCourses()->update([
-            'is_complete' => true
+            'status' => CourseStatusEnum::Completed
         ]);
         $schedule->save();
     }
@@ -220,6 +228,7 @@ class MyLearningService
             ->where('teacher_id', $userId)
             ->when($status === LearningStatusEnum::Ongoing, fn($q) => $q->where('status', CourseStatusEnum::Scheduled))
             ->when($status === LearningStatusEnum::Completed, fn($q) => $q->where('status', CourseStatusEnum::Completed))
+            ->when($status === LearningStatusEnum::Cancelled, fn($q) => $q->where('status', CourseStatusEnum::Cancelled))
             ->orderBy('start_time')
             ->paginate(10)
             ->through(function ($item) {
@@ -238,7 +247,8 @@ class MyLearningService
                     'meeting_link' => $item->meeting_link,
                     'image' => $course->image,
                     'has_finished' => now() >= $item->end_time,
-                    'is_verified' => $item->is_verified
+                    'is_verified' => $item->is_verified,
+                    'can_cancel' => $item->status === CourseStatusEnum::Scheduled && now()->lt($item->start_time->subHours(2)),
                 ];
             });
 
@@ -253,7 +263,9 @@ class MyLearningService
             ->select('enrolled_courses.*')
             ->where('student_id', $userId)
             ->where('enrolled_courses.is_verified', true)
-            ->where('is_complete', LearningStatusEnum::Completed === $status)
+            ->when($status === LearningStatusEnum::Ongoing, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Scheduled))
+            ->when($status === LearningStatusEnum::Completed, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Completed))
+            ->when($status === LearningStatusEnum::Cancelled, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Cancelled))
             ->paginate(10)
             ->through(function ($item) {
                 $schedule = $item->courseSchedule;

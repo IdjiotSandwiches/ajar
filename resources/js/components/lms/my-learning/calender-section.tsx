@@ -1,8 +1,11 @@
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 export default function CalendarSection({ courses, date }: any) {
+    const { props } = usePage();
+    const states = props.enums?.learning_status_enum;
+
     const now = new Date();
     const [month, setMonth] = useState(now.getMonth());
     const [year, setYear] = useState(now.getFullYear());
@@ -26,6 +29,12 @@ export default function CalendarSection({ courses, date }: any) {
             data: { date: date },
             preserveUrl: false,
         });
+    };
+
+    const statusStyle: Record<string, string> = {
+        completed: 'border-green-600',
+        scheduled: 'border-[#3ABEFF]',
+        cancelled: 'border-red-600',
     };
 
     return (
@@ -104,10 +113,10 @@ export default function CalendarSection({ courses, date }: any) {
                     </div>
                 </div>
 
-                <div className="border-t pt-2 md:border-t-0 md:border-l md:pt-0 md:pl-4 2xl:border-t 2xl:border-l-0 2xl:pt-2 2xl:pl-0 dark:border-white/20 max-h-60 overflow-auto">
+                <div className="max-h-60 overflow-auto border-t pt-2 md:border-t-0 md:border-l md:pt-0 md:pl-4 2xl:border-t 2xl:border-l-0 2xl:pt-2 2xl:pl-0 dark:border-white/20">
                     {courses.length > 0 ? (
                         courses.map((course: any, index: number) => (
-                            <div key={index} className="mb-2 border-l-2 border-[#3ABEFF] px-3 text-sm text-gray-600">
+                            <div key={index} className={`mb-2 border-l-2 ${statusStyle[course.status]} px-3 text-sm text-gray-600`}>
                                 <p className="font-medium text-gray-800 dark:text-white">{course.name}</p>
                                 <p className="dark:text-white/50">Duration: {course.duration} Minutes</p>
                                 <p className="dark:text-white/50">Time: {course.time}</p>

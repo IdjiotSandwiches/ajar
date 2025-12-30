@@ -117,7 +117,7 @@ export default function Navbar() {
                     <span className={`mt-1 text-xs ${currentRoute === 'home' ? 'font-semibold text-[#3ABEFF]' : 'text-[#3ABEFF]'}`}>Home</span>
                 </button>
 
-                <button onClick={() => router.get(route('list-course'))} className="group flex flex-col items-center">
+                <button onClick={() => router.get(route('list-course', { category_id: 1 }))} className="group flex flex-col items-center">
                     <div
                         className={`rounded-full p-2 transition-all ${currentRoute === 'list-course' ? 'bg-[#3ABEFF] text-white' : 'text-[#3ABEFF] group-hover:bg-blue-100 dark:group-hover:bg-white/20'}`}
                     >

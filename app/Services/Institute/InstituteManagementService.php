@@ -2,15 +2,26 @@
 
 namespace App\Services\Institute;
 
-use App\Models\Course;
-use App\Models\Institute;
-use App\Models\TeacherApplication;
+use App\Models\User;
+use App\Models\CourseSchedule;
 use App\Models\TeachingCourse;
-use App\Utilities\Utility;
+use App\Models\TeacherApplication;
+use App\Enums\CourseStatusEnum;
+use App\Services\PaymentService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\RequestApproved;
 
 class InstituteManagementService
 {
+    private PaymentService $service;
+
+    public function __construct(PaymentService $service)
+    {
+        $this->service = $service;
+    }
+
     public function getTeacherApplications()
     {
         $user = Auth::user();
@@ -35,15 +46,17 @@ class InstituteManagementService
 
         $teacher = TeacherApplication::where('teacher_id', $id)
             ->where('institute_id', $user?->id)
-            ->first();
-
-        if (!$teacher) {
-            return false;
-        }
+            ->firstOrFail();
 
         $teacher->is_verified = $isVerified;
         $teacher->save();
-        return true;
+
+        $toBeNotify = User::findOrFail($id);
+        if ($isVerified) {
+            $toBeNotify->notify(new RequestApproved('Application Accepted', "Your application at {$user?->name} has been accepted."));
+        } else {
+            $toBeNotify->notify(new RequestApproved('Application Rejected', "Your application at {$user?->name} has been rejected."));
+        }
     }
 
     public function teacherList($filters)
@@ -100,23 +113,31 @@ class InstituteManagementService
 
     public function deactiveTeacher($id)
     {
-        $teacher = TeacherApplication::where('teacher_id', $id)
-            ->first();
+        $scheduleIds = [];
+        DB::transaction(function () use ($id, &$scheduleIds) {
+            $teacher = TeacherApplication::where('teacher_id', $id)
+                ->firstOrFail();
+            $teacher->delete();
 
-        if (!$teacher)
-            return null;
+            TeachingCourse::where('teacher_id', $id)->delete();
+            $scheduleIds = CourseSchedule::where('teacher_id', $id)
+                ->where('status', CourseStatusEnum::Scheduled)
+                ->pluck('id')
+                ->toArray();
 
-        $courses = Course::where('institute_id', $teacher->institute_id)
-            ->pluck('id');
+            CourseSchedule::query()
+                ->whereIn('id', $scheduleIds)
+                ->update(['status' => CourseStatusEnum::Cancelled]);
+        });
 
-        TeachingCourse::query()
-            ->where('teacher_id', $id)
-            ->whereIn('course_id', $courses)
-            ->update(['is_verified' => false]);
+        if (!empty($scheduleIds)) {
+            Bus::batch($this->service->handleRefund($scheduleIds))
+                ->name('Handle course refunds (Deactivated Teacher)')
+                ->dispatch();
+        }
 
-        $teacher->is_verified = false;
-        $teacher->save();
-        return $teacher;
+        $user = User::findOrFail($id);
+        $user->notify(new RequestApproved('Access Revoked', "Your access to {$user->name} has been revoked."));
     }
 
     public function getCourseApplications()
@@ -147,22 +168,20 @@ class InstituteManagementService
     public function verifyCourse($id, $isVerified)
     {
         $user = Auth::user();
-        if ($user) {
-            $user = $user->load('institute');
-        }
-
         $teaching = TeachingCourse::with(['course'])
             ->where('id', $id)
             ->whereNull('is_verified')
             ->whereHas('course', fn($q) => $q->where('institute_id', $user?->id))
-            ->first();
-
-        if (!$teaching) {
-            return false;
-        }
+            ->firstOrFail();
 
         $teaching->is_verified = $isVerified;
         $teaching->save();
-        return true;
+
+        $toBeNotify = User::findOrFail($teaching->teacher_id);
+        if ($isVerified) {
+            $toBeNotify->notify(new RequestApproved('Application Accepted', "Your {$teaching->course->name} course application has been accepted."));
+        } else {
+            $toBeNotify->notify(new RequestApproved('Application Rejected', "Your {$teaching->course->name} course application has been rejected."));
+        }
     }
 }

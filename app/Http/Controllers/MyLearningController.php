@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\LearningStatusEnum;
+use Inertia\Inertia;
+use Illuminate\Http\Request;
 use App\Http\Requests\LinkRequest;
 use App\Http\Requests\ReviewRequest;
+use App\Enums\LearningStatusEnum;
 use App\Services\MyLearningService;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class MyLearningController extends Controller
 {

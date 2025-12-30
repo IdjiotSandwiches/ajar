@@ -7,6 +7,7 @@ enum PaymentStatusEnum: string
     case Pending = "pending";
     case Paid = "paid";
     case Failed = "failed";
+    case Refund = "refund";
 
     public static function asArray(): array
     {

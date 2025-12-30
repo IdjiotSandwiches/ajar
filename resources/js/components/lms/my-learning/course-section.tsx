@@ -24,6 +24,21 @@ export default function CourseSection({ courses, counts, review, state }: any) {
         return () => clearInterval(interval);
     }, []);
 
+    const EmptyCourse = ({ title, body }: any) => {
+        return (
+            <>
+                <p className="mb-1 font-medium text-gray-700 dark:text-white/80">{title}</p>
+                <p className="mb-4 max-w-xs text-sm dark:text-white/70">{body}</p>
+            </>
+        );
+    };
+
+    const statusDict: Record<number, any> = {
+        1: <EmptyCourse title={'No ongoing courses.'} body={'Start learning by enrolling in a course!'} />,
+        2: <EmptyCourse title={'No completed courses yet.'} body={'Finish a course to see it here!'} />,
+        3: <EmptyCourse title={'No cancelled courses.'} body={'Cancelled courses will appear here!'} />,
+    };
+
     return (
         <>
             <StatusTabs active={activeStatus} onChange={handleStatusChange} counts={counts} states={states} />
@@ -33,14 +48,8 @@ export default function CourseSection({ courses, counts, review, state }: any) {
 
                     {courses.data?.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-10 text-center text-gray-500">
-                            <p className="mb-1 font-medium text-gray-700 dark:text-white/80">
-                                {state === states.Ongoing ? 'No ongoing courses.' : 'No completed courses yet.'}
-                            </p>
-                            <p className="mb-4 max-w-xs text-sm dark:text-white/70">
-                                {state === states.Ongoing ? 'Start learning by enrolling in a course!' : 'Finish a course to see it here!'}
-                            </p>
-
-                            {user?.role_id === roles.Student && (
+                            {statusDict[state]}
+                            {(user?.role_id === roles.Student && state !== states.Cancelled) && (
                                 <button
                                     onClick={() => router.get(route('list-course', { category_id: 1 }))}
                                     className="rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
@@ -64,9 +73,11 @@ export default function CourseSection({ courses, counts, review, state }: any) {
                             buffer={1}
                             loading={() => 'Loading more courses...'}
                             data="courses"
-                            className="flex max-h-[42rem] flex-col gap-4 overflow-y-auto"
+                            className="flex max-h-168 flex-col gap-4 overflow-y-auto"
                         >
-                            {courses.data?.map((course: any, index: number) => <CourseCard key={index} enroll={course} review={review} state={state} />)}
+                            {courses.data?.map((course: any, index: number) => (
+                                <CourseCard key={index} enroll={course} review={review} state={state} />
+                            ))}
                         </InfiniteScroll>
                     )}
                 </div>
