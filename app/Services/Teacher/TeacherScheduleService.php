@@ -2,6 +2,7 @@
 
 namespace App\Services\Teacher;
 
+use App\Jobs\EnrollmentMassNotification;
 use Carbon\Carbon;
 use App\Models\Category;
 use App\Models\CourseSchedule;
@@ -178,9 +179,10 @@ class TeacherScheduleService
     public function cancelSchedule($id)
     {
         $scheduleIds = [];
-
-        DB::transaction(function () use ($id, &$scheduleIds) {
-            $schedule = CourseSchedule::where('id', $id)
+        $courseName = "";
+        DB::transaction(function () use ($id, &$scheduleIds, &$courseName) {
+            $schedule = CourseSchedule::with(['course'])
+                ->where('id', $id)
                 ->where('status', CourseStatusEnum::Scheduled)
                 ->where('start_time', '>', now()->addHours(2))
                 ->lockForUpdate()
@@ -191,10 +193,14 @@ class TeacherScheduleService
             ]);
 
             $scheduleIds = [$schedule->id];
+            $courseName = $schedule->course->name;
         });
 
         if (!empty($scheduleIds)) {
-            Bus::batch($this->service->handleRefund($scheduleIds))
+            Bus::batch([
+                new EnrollmentMassNotification($scheduleIds, 'Class Cancellation', \sprintf('%s class has been cancelled.', $courseName)),
+                ...$this->service->handleRefund($scheduleIds)
+            ])
                 ->name('Handle course refunds (Cancelled Schedule)')
                 ->dispatch();
         }

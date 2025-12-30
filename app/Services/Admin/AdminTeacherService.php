@@ -48,7 +48,7 @@ class AdminTeacherService
                 'reviews_avg_rating' => round($item->reviews_avg_rating ?? 0, 1),
                 'reviews_count' => $item->reviews_count,
                 'courses_count' => $item->teaching_courses_count,
-                'register_date' => $item->user->email_verified_at
+                'register_date' => $item->user->created_at
             ]);
 
         return $teachers;
@@ -84,13 +84,13 @@ class AdminTeacherService
         $teachers = Teacher::query()
             ->with(['user'])
             ->whereNull('is_verified')
-            ->whereHas('user', fn($q) => $q->whereNotNull('email_verified_at'))
+            // ->whereHas('user', fn($q) => $q->whereNotNull('email_verified_at'))
             ->paginate(10)
             ->through(fn($item) => [
                 'id' => $item->user_id,
                 'name' => $item->user->name,
                 'profile_picture' => $item->user->profile_picture,
-                'created_at' => $item->user->email_verified_at?->toDateTimeString()
+                'created_at' => $item->user->created_at?->toDateTimeString()
             ]);
 
         return $teachers;

@@ -61,8 +61,8 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                         <p className="mb-2 text-sm text-gray-600 dark:text-white/80">I applied to be a Teacher at Ajar.</p>
                                         <p className="mb-3 text-xs text-gray-500 dark:text-white/70">
                                             <span className="font-medium">Submitted:</span>{' '}
-                                            {teacher?.email_verified_at
-                                                ? new Date(teacher?.email_verified_at).toLocaleString('id-ID', {
+                                            {teacher?.created_at
+                                                ? new Date(teacher?.created_at).toLocaleString('id-ID', {
                                                     day: '2-digit',
                                                     month: 'short',
                                                     year: 'numeric',
@@ -134,8 +134,8 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                                             </p>
                                                             <p className="text-sm text-gray-700 dark:text-white/90">
                                                                 <span className="font-medium">Submitted:</span>{' '}
-                                                                {teacher?.email_verified_at
-                                                                    ? new Date(teacher?.email_verified_at).toLocaleString('id-ID', {
+                                                                {teacher?.created_at
+                                                                    ? new Date(teacher?.created_at).toLocaleString('id-ID', {
                                                                         day: '2-digit',
                                                                         month: 'short',
                                                                         year: 'numeric',
