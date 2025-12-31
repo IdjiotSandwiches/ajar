@@ -61,10 +61,7 @@ export default function CourseDetailPage({ course, popularCourses, teaching, can
             <Head title={course?.name || 'Not Found'} />
             <div className="min-h-screen">
                 <CourseHero course={course} teaching={teaching} canApply={canApply} hasSchedule={hasSchedule} />
-                <div className="mt-4 block px-4 sm:px-6 md:px-12 lg:hidden">
-                    <CourseSidebar institute={course.institute.user} teacher={course.teacher_schedules} />
-                </div>
-                <div className="relative z-20 mt-6 mb-8 flex justify-center px-3 lg:-mt-6">
+                <div className="relative z-20 mb-8 flex justify-center px-3 -mt-6">
                     <div className="scrollbar-hide flex max-w-full gap-4 overflow-x-auto rounded-full border bg-white px-6 py-1 shadow-sm dark:bg-[#222831] dark:shadow-[#ffffff]/20">
                         {[
                             { id: 'syllabus', label: 'Syllabus', ref: syllabusRef },
@@ -85,7 +82,10 @@ export default function CourseDetailPage({ course, popularCourses, teaching, can
                         ))}
                     </div>
                 </div>
-                <div className="mx-auto grid grid-cols-1 gap-10 px-4 sm:px-6 md:px-12 lg:grid-cols-6 2xl:grid-cols-8">
+                <div className="mt-4 block px-4 sm:px-6 lg:px-12 lg:hidden">
+                    <CourseSidebar institute={course.institute.user} teacher={course.teacher_schedules} />
+                </div>
+                <div className="mx-auto mt-10 lg:mt-0 grid grid-cols-1 gap-10 px-4 sm:px-6 lg:px-12 lg:grid-cols-6 2xl:grid-cols-8">
                     <div className="space-y-10 lg:col-span-4 2xl:col-span-6">
                         <section>
                             <h4 ref={syllabusRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
@@ -118,7 +118,7 @@ export default function CourseDetailPage({ course, popularCourses, teaching, can
                             <ReviewSection reviews={course.course_reviews} />
                         </section>
                     </div>
-                    <div className="hidden md:inline lg:col-span-2 2xl:col-span-2">
+                    <div className="hidden lg:inline lg:col-span-2 2xl:col-span-2">
                         <CourseSidebar institute={course.institute.user} teacher={course.teaching_courses} />
                     </div>
                 </div>
