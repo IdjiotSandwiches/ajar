@@ -195,7 +195,7 @@ class TeacherApplicationService
         $application->save();
 
         $course = Course::findOrFail($id);
-        User::findOrFail($id)->notify(new RequestApproved('Course Application', $user->name . ' has applied to teach on ' . $course->name . '.'));
+        User::findOrFail($course->institute_id)->notify(new RequestApproved('Course Application', $user->name . ' has applied to teach on ' . $course->name . '.'));
     }
 
     public function applyAsTeacher($id)

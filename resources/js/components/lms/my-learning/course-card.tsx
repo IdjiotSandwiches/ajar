@@ -70,7 +70,7 @@ export default function CourseCard({ enroll, state, review }: any) {
     const handleCancel = () => {
         router.post(route('teacher.cancel-schedule', { id: enroll.id }));
         setModalType(null);
-    }
+    };
 
     const actions = {
         [roles.Student]: () => {
@@ -125,6 +125,12 @@ export default function CourseCard({ enroll, state, review }: any) {
                             {state === states.Completed ? 'Finish at ' : 'Start at '}
                             <span className="font-medium text-black dark:text-white">{enroll.schedule}</span>
                         </p>
+                        {enroll.enrollment_count && (
+                            <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
+                                {'Enrollment Count '}
+                                <span className="font-medium text-black dark:text-white">{enroll.enrollment_count}</span>
+                            </p>
+                        )}
                     </div>
                     <div className="mt-2 flex justify-end gap-2">{actionButton()}</div>
                 </div>

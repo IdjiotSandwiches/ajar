@@ -1,4 +1,3 @@
-// import { useNotifications } from '@/hooks/use-notification';
 import { storageUrl } from '@/utils/storage';
 import { router, usePage } from '@inertiajs/react';
 import { Book, GraduationCap, Home } from 'lucide-react';

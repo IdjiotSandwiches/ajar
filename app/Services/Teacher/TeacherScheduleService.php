@@ -50,6 +50,7 @@ class TeacherScheduleService
         $user = Auth::user();
         $teachings = TeachingCourse::with(['course'])
             ->where('teacher_id', $user->id)
+            ->where('is_verified', true)
             ->get();
 
         return $teachings;
@@ -59,6 +60,7 @@ class TeacherScheduleService
     {
         $user = Auth::user();
         $teachingCourse = TeachingCourse::with('course')
+            ->where('is_verified', true)
             ->findOrFail($data['teaching_course_id']);
 
         return DB::transaction(function () use ($data, $user, $teachingCourse) {
@@ -134,6 +136,7 @@ class TeacherScheduleService
         $user = Auth::user();
         $teaching = TeachingCourse::with(['course.institute.user', 'courseWeeklyRules'])
             ->where('teacher_id', $user->id)
+            ->where('is_verified', true)
             ->when(
                 !empty($data['search']),
                 fn($q) => $q->whereHas('course', fn($query) => $query->where('name', 'like', "%{$data['search']}%"))
