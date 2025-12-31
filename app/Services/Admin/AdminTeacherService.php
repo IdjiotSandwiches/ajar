@@ -24,6 +24,7 @@ class AdminTeacherService
     public function getTeacherList($filters)
     {
         $teachers = Teacher::with(['user', 'reviews', 'teachingCourses', 'teacherApplications.institute.user'])
+            ->whereRelation('teachingCourses', 'is_verified', '=', true)
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
             ->withCount('teachingCourses')
