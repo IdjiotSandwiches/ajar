@@ -52,7 +52,9 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => fn() => $request->user()
+                    ? $request->user()->loadMissing('teacher')
+                    : null,
                 'notifications' => fn() => auth()->user()?->unreadNotifications ?? []
             ],
             'enums' => [
@@ -65,14 +67,15 @@ class HandleInertiaRequests extends Middleware
                 'learning_status_enum' => LearningStatusEnum::asArray(),
                 'course_status_enum' => CourseStatusEnum::asArray()
             ],
-            'ziggy' => fn (): array => [
+            'ziggy' => fn(): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
             'flash' => [
-                'success' => fn () => $request->session()->get('success'),
-                'error' => fn () => $request->session()->get('error'),
-                'snap_token' => fn () => $request->session()->get('snap_token'),
+                'success' => fn() => $request->session()->get('success'),
+                'error' => fn() => $request->session()->get('error'),
+                'info' => fn() => $request->session()->get('info'),
+                'snap_token' => fn() => $request->session()->get('snap_token'),
             ],
         ];
     }

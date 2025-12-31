@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Models\CourseReview;
-use App\Models\InstituteReview;
-use App\Models\TeacherReview;
 use Carbon\Carbon;
 use App\Enums\RoleEnum;
 use App\Enums\CourseStatusEnum;
 use App\Enums\LearningStatusEnum;
+use App\Models\CourseReview;
+use App\Models\TeacherReview;
+use App\Models\InstituteReview;
 use App\Models\CourseSchedule;
 use App\Models\EnrolledCourse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MyLearningService
 {
@@ -229,6 +229,7 @@ class MyLearningService
             ->when($status === LearningStatusEnum::Ongoing, fn($q) => $q->where('status', CourseStatusEnum::Scheduled))
             ->when($status === LearningStatusEnum::Completed, fn($q) => $q->where('status', CourseStatusEnum::Completed))
             ->when($status === LearningStatusEnum::Cancelled, fn($q) => $q->where('status', CourseStatusEnum::Cancelled))
+            ->withCount('enrolledCourses')
             ->orderBy('start_time')
             ->paginate(10)
             ->through(function ($item) {
@@ -249,6 +250,7 @@ class MyLearningService
                     'has_finished' => now() >= $item->end_time,
                     'is_verified' => $item->is_verified,
                     'can_cancel' => $item->status === CourseStatusEnum::Scheduled && now()->lt($item->start_time->subHours(2)),
+                    'enrollment_count' => $item->enrolled_courses_count
                 ];
             });
 

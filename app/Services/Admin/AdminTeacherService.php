@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Events\TeacherVerificationEvent;
 use App\Models\User;
 use App\Models\Teacher;
 use App\Models\CourseSchedule;
@@ -23,6 +24,7 @@ class AdminTeacherService
     public function getTeacherList($filters)
     {
         $teachers = Teacher::with(['user', 'reviews', 'teachingCourses', 'teacherApplications.institute.user'])
+            ->whereRelation('teachingCourses', 'is_verified', '=', true)
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
             ->withCount('teachingCourses')
@@ -110,5 +112,7 @@ class AdminTeacherService
         } else {
             $toBeNotify->notify(new RequestApproved('Account Rejected', "Your account has been rejected."));
         }
+
+        broadcast(new TeacherVerificationEvent($id, $isVerified));
     }
 }

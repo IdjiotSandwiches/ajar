@@ -32,19 +32,21 @@ Route::group([], function () {
     Route::post('payment-webhook', [PaymentController::class, 'updateStatus'])
         ->withoutMiddleware([VerifyCsrfToken::class])
         ->name('midtrans-webhook');
+    Route::middleware(['auth'])
+        ->post('notifications/read', fn() => auth()->user()
+            ->notifications()
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]))
+        ->name('mark-as-read');
 });
 
-Route::middleware(['auth', 'verified'])
+// Route::middleware(['auth', 'verified', 'block.unverified.teacher'])
+Route::middleware(['auth', 'block.unverified.teacher'])
     ->group(function () {
         Route::group([], function () {
             Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
             Route::get('dashboard', [DashboardController::class, 'getDashboardData'])->name('dashboard');
             Route::post('update-image', [UtilityController::class, 'postImage'])->name('update-image');
-            Route::post('notifications/read', fn() => auth()->user()
-                ->notifications()
-                ->whereNull('read_at')
-                ->update(['read_at' => now()])
-            )->name('mark-as-read');
         });
         Route::middleware(['role:Student'])->group(function () {
             Route::controller(StudentController::class)->group(function () {
