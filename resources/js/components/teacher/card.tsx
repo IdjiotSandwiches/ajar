@@ -1,4 +1,5 @@
 import { storageUrl } from '@/utils/storage';
+import { router } from '@inertiajs/react';
 import { Send } from 'lucide-react';
 import { FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
@@ -22,7 +23,7 @@ export default function TeacherProfileCard({ teacher }: any) {
                     </div>
                     <h2 className="z-10 cursor-default text-xl font-bold text-white">{teacher.user?.name}</h2>
                     <p className="z-10 mb-4 cursor-default text-sm text-white/90">{teacher.description}</p>
-                    <button className="z-10 mb-5 flex cursor-pointer items-center gap-2 rounded-lg bg-white dark:bg-white/90 px-4 py-2 font-medium text-[#3ABEFF] shadow transition hover:bg-blue-50">
+                    <button onClick={() => router.visit(route('chat.show', teacher.user?.uuid))} className="z-10 mb-5 flex cursor-pointer items-center gap-2 rounded-lg bg-white dark:bg-white/90 px-4 py-2 font-medium text-[#3ABEFF] shadow transition hover:bg-blue-50">
                         <Send size={18} /> Send Message
                     </button>
                     <div className="z-10 flex cursor-pointer gap-8 text-xl text-white">
