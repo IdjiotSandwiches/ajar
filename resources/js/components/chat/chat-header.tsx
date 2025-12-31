@@ -9,7 +9,18 @@ export default function ChatHeader({ user }: any) {
     return (
         <div
             className="flex cursor-pointer items-center gap-3 border-b pb-3 dark:border-white/20"
-            onClick={() => router.get(route('detail-teacher', user.id))}
+            onClick={() => {
+                switch (user.role_id) {
+                    case roles.Teacher:
+                        router.get(route('detail-teacher', user.id));
+                        break;
+                    case roles.Institute:
+                        router.get(route('detail-institute', user.id));
+                        break;
+                    default:
+                        break;
+                }
+            }}
         >
             <img src={storageUrl(user.profile_picture)} className="h-12 w-12 rounded-full object-cover" />
             <div>
