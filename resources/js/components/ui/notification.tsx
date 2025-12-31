@@ -52,8 +52,8 @@ export default function NotificationDropdown() {
                         {notifications.length === 0 ? (
                             <div className="flex flex-col items-center justify-center p-6 text-center">
                                 <Bell className="mb-2 h-8 w-8 text-gray-400" />
-                                <p className="text-sm font-medium text-gray-600 dark:text-white/70">Tidak ada notifikasi</p>
-                                <p className="text-xs text-gray-400">Semua notifikasi akan muncul di sini</p>
+                                <p className="text-sm font-medium text-gray-600 dark:text-white/70">No notifications</p>
+                                <p className="text-xs text-gray-400">All notifications will appear here</p>
                             </div>
                         ) : (
                             notifications.map((notif: any) => (

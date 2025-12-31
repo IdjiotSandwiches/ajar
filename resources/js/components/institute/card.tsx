@@ -59,7 +59,6 @@ export default function InstituteCard({ institute, showTeacher = true }: any) {
                     </button>
                 )}
 
-                {/* ================= TEACHERS ================= */}
                 {showTeacher && (
                     <div className="group relative mt-2 rounded-2xl bg-white p-4">
                         {!hasTeachers && <p className="py-3 text-center text-sm text-gray-500">No teacher in this institute</p>}
@@ -87,7 +86,7 @@ export default function InstituteCard({ institute, showTeacher = true }: any) {
                                                     <img
                                                         src={storageUrl(t?.teacher?.user?.profile_picture)}
                                                         alt={t?.teacher?.user?.name ?? 'Teacher'}
-                                                        className="h-12 w-12 rounded-full border object-cover"
+                                                        className="h-12 w-12 rounded-full object-cover"
                                                     />
                                                     <p className="text-base font-semibold whitespace-nowrap text-gray-700">{t?.teacher?.user?.name}</p>
                                                 </div>

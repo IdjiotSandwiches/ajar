@@ -31,6 +31,8 @@ export default function InstituteListPage({ parentCategories, institutes, active
         }
     };
 
+    const isFiltering = localSearch && localSearch.trim() !== '';
+
     return (
         <>
             <Head title="Institute List" />
@@ -43,22 +45,20 @@ export default function InstituteListPage({ parentCategories, institutes, active
                                 <div key={cat.id} className="relative flex w-1/2 justify-center">
                                     <button
                                         onClick={() => handleFilterChange({ category_id: cat.id })}
-                                        className={`relative pb-2 text-lg font-semibold transition-all md:text-xl ${
-                                            Number(activeCategory) === cat.id ? 'text-[#3ABEFF]' : 'text-gray-400 hover:text-[#3ABEFF]'
-                                        }`}
+                                        className={`relative pb-2 text-lg font-semibold transition-all md:text-xl ${Number(activeCategory) === cat.id ? 'text-[#3ABEFF]' : 'text-gray-400 hover:text-[#3ABEFF]'
+                                            }`}
                                     >
                                         {cat.name}
                                     </button>
                                 </div>
                             ))}
                             <span
-                                className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-300 ease-in-out ${
-                                    activeCategory == null
+                                className={`absolute bottom-0 h-[2px] bg-[#3ABEFF] transition-all duration-300 ease-in-out ${activeCategory == null
                                         ? 'hidden'
                                         : Number(activeCategory) === parentCategories[0].id
-                                        ? 'left-0 w-1/2'
-                                        : 'left-1/2 w-1/2'
-                                } `}
+                                            ? 'left-0 w-1/2'
+                                            : 'left-1/2 w-1/2'
+                                    } `}
                             />
                         </div>
                     </div>
@@ -70,7 +70,7 @@ export default function InstituteListPage({ parentCategories, institutes, active
                                 onChange={(e) => handleFilterChange({ search: e.target.value })}
                                 onKeyDown={(e) => e.key === 'Enter' && handleFilterChange({ enter: true })}
                                 placeholder={`Search institutes...`}
-                                className="w-full rounded-full border bg-white dark:bg-[#222831] shadow-sm dark:shadow-[#ffffff]/20 px-4 py-2 pr-10 text-sm text-gray-700 dark:text-white placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none"
+                                className="w-full rounded-full border bg-white dark:bg-[#222831] dark:shadow-[#ffffff]/20 px-4 py-2 pr-10 text-sm text-gray-700 dark:text-white placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none"
                             />
                             <button
                                 onClick={() => handleFilterChange({ enter: true })}
@@ -88,10 +88,23 @@ export default function InstituteListPage({ parentCategories, institutes, active
                     className="mt-10 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
                 >
                     {institutes.data.length == 0 ? (
-                        <p className="text-gray-500">Institute empty.</p>
+                        <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
+                            <p className="text-base font-semibold text-gray-700 dark:text-white">
+                                {isFiltering ? 'No institutes found' : 'No institutes available'}
+                            </p>
+
+                            <p className="mt-1 max-w-sm text-sm text-gray-500 dark:text-white/70">
+                                {isFiltering
+                                    ? 'Try adjusting your search to find other institutes.'
+                                    : 'Institutes will appear here once they are available.'}
+                            </p>
+                        </div>
                     ) : (
-                        institutes.data.map((institute: any, index: number) => <InstituteCard key={index} institute={institute} />)
+                        institutes.data.map((institute: any, index: number) => (
+                            <InstituteCard key={index} institute={institute} />
+                        ))
                     )}
+
                 </InfiniteScroll>
             </section>
         </>

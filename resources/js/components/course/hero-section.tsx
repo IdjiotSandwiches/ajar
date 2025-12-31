@@ -11,7 +11,7 @@ export default function CourseHero({ course, teaching, canApply, hasSchedule }: 
     const roles = props.enums?.roles_enum;
     const [showApplyModal, setShowApplyModal] = useState(false);
 
-    const handleTeacherApply = () => {
+    const handleTeacherApply: any = () => {
         setShowApplyModal(true);
     };
 
