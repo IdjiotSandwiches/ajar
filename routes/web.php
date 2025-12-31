@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\ChatController;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\DashboardController;
@@ -45,7 +44,6 @@ Route::group([], function () {
 Route::middleware(['auth', 'block.unverified.teacher'])
     ->group(function () {
         Route::group([], function () {
-            // Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
             Route::get('dashboard', [DashboardController::class, 'getDashboardData'])->name('dashboard');
             Route::post('update-image', [UtilityController::class, 'postImage'])->name('update-image');
         });
