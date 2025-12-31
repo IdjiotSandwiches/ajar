@@ -38,7 +38,7 @@ export default function TeacherVerificationStatus() {
     if (status === 'hidden') return null;
 
     return (
-        <div className="fixed right-6 bottom-6 z-50 rounded-lg border bg-white px-4 py-3 shadow-lg transition-all duration-500">
+        <div className="fixed right-5 bottom-6 z-50 rounded-lg border bg-white px-4 py-3 shadow-lg transition-all duration-500">
             <div className="flex items-center gap-2">
                 <span
                     className={`h-3 w-3 rounded-full ${
