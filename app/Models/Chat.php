@@ -18,27 +18,31 @@ class Chat extends Model
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'message',
-        'receiver_id',
-        'sender_id'
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'seen_at' => 'datetime',
+        'message_deleted_at' => 'datetime',
     ];
 
-    /**
-     * BelongsTo: Sender (User)
-     * @return BelongsTo<User, Chat>
-     */
-    public function sender(): BelongsTo
+
+    public function user()
     {
-        return $this->belongsTo(User::class, 'sender_id');
+        return $this->belongsTo(User::class, 'sender_id', 'id');
     }
 
-    /**
-     * BelongsTo: Receiver (User)
-     * @return BelongsTo<User, Chat>
-     */
-    public function receiver(): BelongsTo
+    public function reply()
     {
-        return $this->belongsTo(User::class, 'receiver_id');
+        return $this->belongsTo(Chat::class, 'reply_id', 'id');
+    }
+
+    public function receiver()
+    {
+        return $this->belongsTo(User::class, 'receiver_id', 'id');
+    }
+
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id', 'id');
     }
 }

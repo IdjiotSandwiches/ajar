@@ -9,3 +9,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('teacher.{id}', function ($user, $id) {
     return $user->id === (int) $id;
 });
+
+Broadcast::channel('message.{uuid}', function ($user, $uuid) {
+    return Auth::check();
+});
