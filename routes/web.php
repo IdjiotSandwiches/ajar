@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -44,7 +45,7 @@ Route::group([], function () {
 Route::middleware(['auth', 'block.unverified.teacher'])
     ->group(function () {
         Route::group([], function () {
-            Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
+            // Route::get('chat', fn() => Inertia::render('chat'))->name('chat');
             Route::get('dashboard', [DashboardController::class, 'getDashboardData'])->name('dashboard');
             Route::post('update-image', [UtilityController::class, 'postImage'])->name('update-image');
         });
@@ -143,6 +144,14 @@ Route::middleware(['auth', 'block.unverified.teacher'])
                     Route::post('course-meeting/{id}', 'saveCourseMeeting')->name('course-meeting');
                     Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
                 });
+            });
+        Route::middleware(['role:Student,Teacher,Institute', 'user.last.seen.at'])
+            ->controller(ChatController::class)
+            ->group(function () {
+                Route::get('chat', 'index')->name('chat.index');
+                Route::get('chat/{user:uuid}', 'show')->name('chat.show');
+                Route::post('chat/{user:uuid}', 'chat')->name('chat.store');
+                Route::delete('chat/delete/{chat}', 'destroy')->name('chat.destroy');
             });
     });
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->unique()->index();
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->string('phone_number')->unique();
             $table->string('profile_picture')->nullable();
             $table->unsignedBigInteger('role_id')->nullable();
+            $table->timestamp('last_seen_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
 
