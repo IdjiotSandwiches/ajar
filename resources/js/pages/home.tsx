@@ -7,9 +7,10 @@ import PopularCourses from '@/components/home/popular-courses';
 import BecomeTeacherSection from '@/components/home/register-teacher';
 import ReviewSection from '@/components/home/review';
 import Navbar from '@/components/navbar';
+import AppLayout from '@/layouts/app-layout';
 import { Head, usePage } from '@inertiajs/react';
 
-export default function HomePage({ courses, institutes, reviews }: { courses: any[]; institutes: any[]; reviews: any[] }) {
+export default function HomePage({ courses, institutes, reviews }: any) {
     const { props } = usePage();
     const user = props.auth?.user;
 
@@ -32,3 +33,5 @@ export default function HomePage({ courses, institutes, reviews }: { courses: an
         </>
     );
 }
+
+HomePage.layout = (page: React.ReactNode) => <AppLayout useContainer={false} showBackButton={false}>{page}</AppLayout>;

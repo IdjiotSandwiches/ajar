@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Events\TeacherVerificationEvent;
 use App\Models\User;
 use App\Models\Teacher;
 use App\Models\CourseSchedule;
@@ -110,5 +111,7 @@ class AdminTeacherService
         } else {
             $toBeNotify->notify(new RequestApproved('Account Rejected', "Your account has been rejected."));
         }
+
+        broadcast(new TeacherVerificationEvent($id, $isVerified));
     }
 }
