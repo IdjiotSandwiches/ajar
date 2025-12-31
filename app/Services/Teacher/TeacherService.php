@@ -50,22 +50,6 @@ class TeacherService
         ];
     }
 
-    public function applyAsTeacher($id)
-    {
-        $user = Auth::user();
-        if ($user) {
-            $user = $user->load('teacher');
-        }
-
-        $application = TeacherApplication::firstOrNew([
-            'teacher_id' => $user?->id,
-            'institute_id' => $id
-        ]);
-
-        $application->is_verified = null;
-        $application->save();
-    }
-
     public function getProfile()
     {
         $user = Auth::user();

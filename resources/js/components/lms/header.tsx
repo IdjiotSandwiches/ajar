@@ -1,23 +1,13 @@
-import { useNotifications } from "@/hooks/use-notification";
-import NotificationDropdown from "../ui/notification";
-import SwitchDarkMode from "../ui/switch-dark-mode";
+import NotificationDropdown from '../ui/notification';
+import SwitchDarkMode from '../ui/switch-dark-mode';
 
 export default function PageHeader({ title }: { title: string }) {
-
-    const { notifications, unreadCount, markAllAsRead } = useNotifications();
-
     return (
-        <div className="flex h-16 items-center border-b dark:border-white/20 mx-4 justify-between">
-            <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
-                {title}
-            </h1>
-            <div className="flex gap-2 items-center">
+        <div className="mx-4 flex h-16 items-center justify-between border-b dark:border-white/20">
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white">{title}</h1>
+            <div className="flex items-center gap-2">
                 <SwitchDarkMode />
-                <NotificationDropdown
-                    notifications={notifications}
-                    unreadCount={unreadCount}
-                    onOpen={markAllAsRead}
-                />
+                <NotificationDropdown />
             </div>
         </div>
     );

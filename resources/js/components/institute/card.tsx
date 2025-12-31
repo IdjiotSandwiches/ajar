@@ -9,7 +9,6 @@ export default function InstituteCard({ institute, showTeacher = true }: any) {
 
     const teachers = institute?.teacher_applications ?? [];
     const hasTeachers = teachers.length > 0;
-    console.log(teachers)
     const [index, setIndex] = useState(0);
 
     const next = () => {

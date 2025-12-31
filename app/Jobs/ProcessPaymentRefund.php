@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\User;
+use App\Notifications\RequestApproved;
 use Midtrans\Config;
 use App\Models\EnrolledCourse;
 use App\Enums\CourseStatusEnum;
@@ -92,6 +94,11 @@ class ProcessPaymentRefund implements ShouldQueue
             'status' => PaymentStatusEnum::Refund,
             'refund_id' => $refundId,
         ]);
+
+        User::findOrFail($payment->user_id)->notify(new RequestApproved(
+            'Payment Refunded',
+            \sprintf('Your %s payment has been refunded.', $payment->course_name)
+        ));
     }
 
     private function cancelPending($payment): void
@@ -99,7 +106,7 @@ class ProcessPaymentRefund implements ShouldQueue
         try {
             $response = \Midtrans\Transaction::status($payment->unique_id);
             $transactionStatus = \is_array($response) ? ($response['transaction_status'] ?? null) : ($response->transaction_status ?? null);
-            if ($transactionStatus  === MidtransTransactionEnum::Pending) {
+            if ($transactionStatus === MidtransTransactionEnum::Pending) {
                 \Midtrans\Transaction::cancel($payment->unique_id);
             }
         } catch (\Exception $e) {
@@ -111,5 +118,10 @@ class ProcessPaymentRefund implements ShouldQueue
         $payment->update([
             'status' => PaymentStatusEnum::Failed,
         ]);
+
+        User::findOrFail($payment->user_id)->notify(new RequestApproved(
+            'Payment Cancelled',
+            \sprintf('Your %s payment was cancelled due to exceeding the payment time limit.', $payment->course_name)
+        ));
     }
 }
