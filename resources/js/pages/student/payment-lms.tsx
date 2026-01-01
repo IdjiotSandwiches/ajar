@@ -13,7 +13,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
         paid: 'bg-green-100 text-green-600',
         pending: 'bg-blue-100 text-blue-600',
         failed: 'bg-red-100 text-red-600',
-        "not eligible": 'bg-red-100 text-red-600',
+        'not eligible': 'bg-red-100 text-red-600',
         refund: 'bg-yellow-100 text-yellow-600',
     };
 
@@ -21,7 +21,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
     const userRelated: Record<number, string> = {
         2: 'Institute',
         3: 'Teacher',
-        4: 'Teacher'
+        4: 'Teacher',
     };
 
     return (
@@ -60,19 +60,28 @@ export default function PaymentsPage({ payments, amounts }: any) {
                     {isEmpty ? (
                         <div className="flex flex-col items-center justify-center py-16 text-center">
                             <Wallet className="mb-4 h-12 w-12 text-gray-400" />
-
-                            <p className="text-base font-semibold text-gray-700 dark:text-white">There are no courses registered yet</p>
-
-                            <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
-                                You haven't made any payments or registered for any courses yet. Please explore the courses and start learning now.
-                            </p>
-
-                            <button
-                                onClick={() => router.get(route('list-course'))}
-                                className="mt-6 rounded-lg bg-[#3ABEFF] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
-                            >
-                                Browse Courses
-                            </button>
+                            {user?.role_id === roles.Student ? (
+                                <>
+                                    <p className="text-base font-semibold text-gray-700 dark:text-white">There are no courses registered yet</p>
+                                    <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
+                                        You haven't made any payments or registered for any courses yet. Please explore the courses and start learning
+                                        now.
+                                    </p>
+                                    <button
+                                        onClick={() => router.get(route('list-course'))}
+                                        className="mt-6 rounded-lg bg-[#3ABEFF] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
+                                    >
+                                        Browse Courses
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <p className="text-base font-semibold text-gray-700 dark:text-white">Your earnings will appear here</p>
+                                    <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
+                                        Once your courses are completed and verified, any earnings will show up in this dashboard.
+                                    </p>
+                                </>
+                            )}
                         </div>
                     ) : (
                         <>
@@ -105,7 +114,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
                                             </span>
                                         </div>
 
-                                        {(payment.status === status.Pending && user?.role_id === roles.Student) && (
+                                        {payment.status === status.Pending && user?.role_id === roles.Student && (
                                             <button
                                                 onClick={() => router.get(route('pending-payment', payment.id))}
                                                 className="mt-4 w-full rounded-md bg-[#3ABEFF] py-2 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
@@ -147,7 +156,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
                                                     </span>
                                                 </td>
                                                 <td className="p-3 text-center">
-                                                    {(payment.status === status.Pending && user?.role_id === roles.Student) ? (
+                                                    {payment.status === status.Pending && user?.role_id === roles.Student ? (
                                                         <button
                                                             onClick={() => router.get(route('pending-payment', payment.id))}
                                                             className="rounded-md bg-[#3ABEFF] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#3ABEFF]/90"
