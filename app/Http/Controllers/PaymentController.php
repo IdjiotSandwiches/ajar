@@ -48,13 +48,17 @@ class PaymentController extends Controller
         ]);
     }
 
-    public function createPayment($scheduleId)
+    public function createPayment($scheduleId, $bypass = false)
     {
         try {
-            $snapToken = $this->service->payment($scheduleId);
-            return back()->with([
-                'snap_token' => $snapToken
-            ]);
+            $snapToken = $this->service->payment($scheduleId, $bypass);
+            if (!$bypass) {
+                return back()->with([
+                    'snap_token' => $snapToken
+                ]);
+            } else {
+                return redirect()->route('payment-lms');
+            }
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

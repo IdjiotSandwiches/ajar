@@ -2,15 +2,16 @@
 
 namespace App\Services;
 
-use App\Models\Teacher;
-use App\Models\TeacherApplication;
-use App\Models\TeachingCourse;
+use App\Models\Chat;
 use Carbon\Carbon;
 use App\Enums\RoleEnum;
-use App\Enums\CourseStatusEnum;
 use App\Enums\ReminderEnum;
+use App\Enums\CourseStatusEnum;
+use App\Models\Teacher;
 use App\Models\CourseSchedule;
 use App\Models\EnrolledCourse;
+use App\Models\TeachingCourse;
+use App\Models\TeacherApplication;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardService
@@ -70,82 +71,26 @@ class DashboardService
         $now = now();
         switch ($user->role_id) {
             case RoleEnum::Admin:
-                $teachers = Teacher::query()
-                    ->whereNull('is_verified')
-                    ->exists();
-                $courses = CourseSchedule::query()
-                    ->whereNotNull('recording_link')
-                    ->whereNull('is_verified')
-                    ->where('status', CourseStatusEnum::Completed)
-                    ->exists();
-
-                if ($teachers)
-                    $reminder->add(ReminderEnum::HasTeacherVerification);
-                if ($courses)
-                    $reminder->add(ReminderEnum::HasCourseVerification);
+                $reminder = $this->getAdminReminder();
                 break;
             case RoleEnum::Institute:
-                $teachers = TeacherApplication::query()
-                    ->where('institute_id', $user->id)
-                    ->whereNull('is_verified')
-                    ->exists();
-                $courses = TeachingCourse::with(['course'])
-                    ->whereHas('course', fn($q) => $q->where('institute_id', $user->id))
-                    ->whereNull('is_verified')
-                    ->exists();
-
-                if ($teachers)
-                    $reminder->add(ReminderEnum::HasTeacherApplication);
-                if ($courses)
-                    $reminder->add(ReminderEnum::HasCourseApplication);
+                $reminder = $this->getInstituteReminder($user->id);
                 break;
             case RoleEnum::Teacher: {
-                $query = CourseSchedule::query();
-                $addMeeting = (clone $query)
-                    ->where('teacher_id', $user->id)
-                    ->whereRaw("TIME(?) BETWEEN SUBTIME(start_time, '00:30:00') AND start_time", [$now])
-                    ->whereNull('meeting_link')
-                    ->exists();
-                $complete = (clone $query)
-                    ->where('status', CourseStatusEnum::Completed)
-                    ->whereNull('recording_link')
-                    ->where('end_time', '>', $now)
-                    ->exists();
-
-                if ($addMeeting)
-                    $reminder->add(ReminderEnum::AddMeetingLink);
-                if ($complete)
-                    $reminder->add(ReminderEnum::CompleteCourse);
+                $reminder = $this->getTeacherReminder($user->id, $now);
                 break;
             }
             case RoleEnum::Student: {
-                $query = EnrolledCourse::with(['courseSchedule.course.courseReviews', 'courseSchedule.teacher.reviews'])
-                    ->where('student_id', $user->id);
-                $review = (clone $query)
-                    ->where('status', CourseStatusEnum::Completed)
-                    ->whereDoesntHave(
-                        'courseSchedule.course.courseReviews',
-                        fn($q) => $q->where('reviewer_id', $user->id)
-                    )
-                    ->whereDoesntHave(
-                        'courseSchedule.teacher.reviews',
-                        fn($q) => $q->where('reviewer_id', $user->id)
-                    )
-                    ->exists();
-                $meeting = (clone $query)
-                    ->where('status', CourseStatusEnum::Scheduled)
-                    ->whereHas('courseSchedule', fn($q) => $q->whereToday('start_time')
-                        ->whereRaw("TIME(?) BETWEEN SUBTIME(start_time, '00:15:00') AND start_time", [$now]))
-                    ->exists();
-
-                if ($review)
-                    $reminder->add(ReminderEnum::AddReview);
-                if ($meeting)
-                    $reminder->add(ReminderEnum::JoinMeeting);
+                $reminder = $this->getStudentReminder($user->id, $now);
                 break;
             }
             default:
                 break;
+        }
+
+        $message = $this->getMessageReminder($user->id);
+        if ($message && $user->role_id !== RoleEnum::Admin) {
+            $reminder->add(ReminderEnum::Message);
         }
 
         return $reminder;
@@ -249,5 +194,103 @@ class DashboardService
             });
 
         return $courses;
+    }
+
+    private function getStudentReminder($userId, $now)
+    {
+        $reminder = collect();
+        $query = EnrolledCourse::with(['courseSchedule.course.courseReviews', 'courseSchedule.teacher.reviews'])
+            ->where('student_id', $userId);
+        $review = (clone $query)
+            ->where('status', CourseStatusEnum::Completed)
+            ->whereDoesntHave(
+                'courseSchedule.course.courseReviews',
+                fn($q) => $q->where('reviewer_id', $userId)
+            )
+            ->whereDoesntHave(
+                'courseSchedule.teacher.reviews',
+                fn($q) => $q->where('reviewer_id', $userId)
+            )
+            ->exists();
+        $meeting = (clone $query)
+            ->where('status', CourseStatusEnum::Scheduled)
+            ->whereHas('courseSchedule', fn($q) => $q->whereToday('start_time')
+                ->whereRaw("TIME(?) BETWEEN SUBTIME(start_time, '00:15:00') AND start_time", [$now]))
+            ->exists();
+
+        if ($review)
+            $reminder->add(ReminderEnum::AddReview);
+        if ($meeting)
+            $reminder->add(ReminderEnum::JoinMeeting);
+        return $reminder;
+    }
+
+    private function getTeacherReminder($userId, $now)
+    {
+        $reminder = collect();
+        $query = CourseSchedule::query();
+        $addMeeting = (clone $query)
+            ->where('teacher_id', $userId)
+            ->whereRaw("TIME(?) BETWEEN SUBTIME(start_time, '00:30:00') AND start_time", [$now])
+            ->whereNull('meeting_link')
+            ->exists();
+        $complete = (clone $query)
+            ->where('status', CourseStatusEnum::Completed)
+            ->whereNull('recording_link')
+            ->where('end_time', '>', $now)
+            ->exists();
+
+        if ($addMeeting)
+            $reminder->add(ReminderEnum::AddMeetingLink);
+        if ($complete)
+            $reminder->add(ReminderEnum::CompleteCourse);
+        return $reminder;
+    }
+
+    private function getInstituteReminder($userId)
+    {
+        $reminder = collect();
+        $teachers = TeacherApplication::query()
+            ->where('institute_id', $userId)
+            ->whereNull('is_verified')
+            ->exists();
+        $courses = TeachingCourse::with(['course'])
+            ->whereHas('course', fn($q) => $q->where('institute_id', $userId))
+            ->whereNull('is_verified')
+            ->exists();
+
+        if ($teachers)
+            $reminder->add(ReminderEnum::HasTeacherApplication);
+        if ($courses)
+            $reminder->add(ReminderEnum::HasCourseApplication);
+        return $reminder;
+    }
+
+    private function getAdminReminder()
+    {
+        $reminder = collect();
+        $teachers = Teacher::query()
+            ->whereNull('is_verified')
+            ->exists();
+        $courses = CourseSchedule::query()
+            ->whereNotNull('recording_link')
+            ->whereNull('is_verified')
+            ->where('status', CourseStatusEnum::Completed)
+            ->exists();
+
+        if ($teachers)
+            $reminder->add(ReminderEnum::HasTeacherVerification);
+        if ($courses)
+            $reminder->add(ReminderEnum::HasCourseVerification);
+        return $reminder;
+    }
+
+    private function getMessageReminder($userId)
+    {
+        $messages = Chat::query()
+            ->where('receiver_id', $userId)
+            ->whereNull('seen_at')
+            ->exists();
+        return $messages;
     }
 }
