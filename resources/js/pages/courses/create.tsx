@@ -4,22 +4,23 @@ import DetailSelect from '@/components/detail-select';
 import LMSLayout from '@/layouts/lms-layout';
 import { Form, router } from '@inertiajs/react';
 import { CirclePlus, Trash2 } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function CreateCoursePage({ course, skills, categories, errors }: any) {
+    console.log(errors);
     const [category, setCategory] = useState(course?.category_id);
 
     const handleBack = () => {
         if (window.history.length > 1) {
             window.history.back();
         } else {
-            router.visit("/");
+            router.visit('/');
         }
-    }
+    };
 
     const categorySelect = categories.map((cat: any) => ({
         value: cat.id,
-        label: cat.name
+        label: cat.name,
     }));
     const handleCategoryChange = (val: any) => {
         setCategory(val);
@@ -136,7 +137,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
         <>
             <div className="flex min-h-screen flex-col gap-6">
                 {/* <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">{course ? "Course Edit" : "Course Create"}</h1> */}
-                <div className="rounded-xl border dark:border-white/20 p-6 shadow-sm dark:shadow-white/20">
+                <div className="rounded-xl border p-6 shadow-sm dark:border-white/20 dark:shadow-white/20">
                     <Form
                         action={course ? route('institute.put-course', course?.id) : route('institute.post-course')}
                         method="post"
@@ -426,7 +427,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                             </button>
                             <button
                                 type="submit"
-                                className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white transition-all hover:bg-[#3ABEFF]/90 "
+                                className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white transition-all hover:bg-[#3ABEFF]/90"
                             >
                                 Submit
                             </button>
@@ -441,10 +442,5 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
 CreateCoursePage.layout = (page: any) => {
     const course = page.props.course;
 
-    return (
-        <LMSLayout title={course ? "Course Edit" : "Course Create"}>
-            {page}
-        </LMSLayout>
-    );
+    return <LMSLayout title={course ? 'Course Edit' : 'Course Create'}>{page}</LMSLayout>;
 };
-
