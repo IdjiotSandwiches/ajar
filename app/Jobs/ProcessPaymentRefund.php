@@ -81,7 +81,7 @@ class ProcessPaymentRefund implements ShouldQueue
 
     private function refundPaid($payment): void
     {
-        $refundId = 'RFD' . now()->timestamp . random_int(100, 999);
+        $refundId = 'RFD' . now(config('app.timezone'))->timestamp . random_int(100, 999);
         \Midtrans\Transaction::refund(
             $payment->unique_id,
             [
