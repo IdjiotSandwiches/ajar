@@ -31,8 +31,10 @@ class TeacherApplicationService
             return null;
 
         $application = TeacherApplication::where('teacher_id', $user->id)
-            ->when($status === StateEnum::Available, fn($q) => $q->whereNull('is_verified')
-                ->orWhere('is_verified', true))
+            ->when($status === StateEnum::Available, fn($q) => $q->where(function ($q) {
+                $q->whereNull('is_verified')
+                    ->orWhere('is_verified', true);
+            }))
             ->when($status === StateEnum::Pending, fn($q) => $q->whereNull('is_verified'))
             ->when($status === StateEnum::Accepted, fn($q) => $q->where('is_verified', true))
             ->pluck('institute_id');
@@ -66,8 +68,10 @@ class TeacherApplicationService
 
         $applications = [
             StateEnum::Available->value => (clone $base)
-                ->whereNull('is_verified')
-                ->orWhere('is_verified', true)
+                ->where(function ($q) {
+                    $q->whereNull('is_verified')
+                        ->orWhere('is_verified', true);
+                })
                 ->pluck('institute_id'),
             StateEnum::Pending->value => (clone $base)
                 ->whereNull('is_verified')
@@ -103,8 +107,10 @@ class TeacherApplicationService
             ->pluck('institute_id');
 
         $application = TeachingCourse::where('teacher_id', $user->id)
-            ->when($status === StateEnum::Available, fn($q) => $q->whereNull('is_verified')
-                ->orWhere('is_verified', true))
+            ->when($status === StateEnum::Available, fn($q) => $q->where(function ($q) {
+                $q->whereNull('is_verified')
+                    ->orWhere('is_verified', true);
+            }))
             ->when($status === StateEnum::Pending, fn($q) => $q->whereNull('is_verified'))
             ->when($status === StateEnum::Accepted, fn($q) => $q->where('is_verified', true))
             ->pluck('course_id');
@@ -150,8 +156,10 @@ class TeacherApplicationService
 
         $applications = [
             StateEnum::Available->value => (clone $base)
-                ->whereNull('is_verified')
-                ->orWhere('is_verified', true)
+                ->where(function ($q) {
+                    $q->whereNull('is_verified')
+                        ->orWhere('is_verified', true);
+                })
                 ->pluck('course_id'),
             StateEnum::Pending->value => (clone $base)
                 ->whereNull('is_verified')

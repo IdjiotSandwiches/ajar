@@ -6,6 +6,7 @@ import RightBubble from '@/components/chat/right-bubble';
 import { usePage } from '@inertiajs/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import ChatLayout from './layout';
+import useMediaQuery from '@/hooks/use-media-query';
 
 export default function ChatShow() {
     const { auth, chat_with: chatWithUser, messages }: any = usePage().props;
@@ -13,6 +14,7 @@ export default function ChatShow() {
     const [reply, setReply] = useState<any>(null);
     const [onlineUsers, setOnlineUsers] = useState<any>([]);
     const [isTyping, setIsTyping] = useState(false);
+    const isMobile = useMediaQuery('(max-width: 1024px)');
 
     useEffect(() => {
         window.Echo.join('online-users')
@@ -64,8 +66,8 @@ export default function ChatShow() {
 
     return (
         <>
-            <ChatHeader user={chatWithUser} />
-            <div className="h-screen flex-1 overflow-y-scroll px-2 pb-5 lg:px-8" ref={scrollRef}>
+            <ChatHeader user={chatWithUser} isMobile={isMobile} />
+            <div className="h-screen flex-1 overflow-y-auto px-2 pb-5 lg:px-8" ref={scrollRef}>
                 <div className="grid grid-cols-12">{renderMessage(messages, auth)}</div>
             </div>
             <div className={`transform transition-transform ${reply ? 'translate-y-0' : 'translate-y-full'} duration-150 ease-in-out`}>
@@ -100,7 +102,7 @@ export default function ChatShow() {
                     </div>
                 )}
             </div>
-            <div className="flex items-end border-t pt-3">
+            <div className="flex flex-shrink-0 items-end border-t p-3 dark:border-white/20">
                 <ChatInputMessage reply={reply} setReply={setReply} setIsTyping={setIsTyping} />
             </div>
         </>
