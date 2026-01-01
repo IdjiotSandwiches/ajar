@@ -7,7 +7,6 @@ import { CirclePlus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 export default function CreateCoursePage({ course, skills, categories, errors }: any) {
-    console.log(errors);
     const [category, setCategory] = useState(course?.category_id);
 
     const handleBack = () => {
@@ -139,12 +138,11 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                 {/* <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">{course ? "Course Edit" : "Course Create"}</h1> */}
                 <div className="rounded-xl border p-6 shadow-sm dark:border-white/20 dark:shadow-white/20">
                     <Form
-                        action={course ? route('institute.put-course', course?.id) : route('institute.post-course')}
+                        action={route('institute.post-course', course?.id)}
                         method="post"
                         encType="multipart/form-data"
                         className="flex flex-col gap-4"
                     >
-                        {course && <input type="hidden" name="_method" value="PUT" />}
                         <div className="mb-2 items-center gap-2">
                             <DetailInput type="text" name="name" id="name" title="Name" value={course?.name} />
                             {errors.name && <p className="text-red-500">{errors.name}</p>}
