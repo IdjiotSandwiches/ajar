@@ -147,6 +147,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                 {errors[`availability.${index}.end_time`] && (
                                     <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.end_time`]}</p>
                                 )}
+                                {errors[`availability.${index}`] && <p className="text-red-500">{errors[`availability.${index}`]}</p>}
                             </div>
                         </div>
                     ))}
@@ -199,6 +200,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                         {errors[`availability.${index}.end_time`] && (
                                             <p className="text-red-500">{errors[`availability.${index}.end_time`]}</p>
                                         )}
+                                        {errors[`availability.${index}`] && <p className="text-red-500">{errors[`availability.${index}`]}</p>}
                                     </td>
 
                                     <td className="p-2 text-center">
@@ -285,7 +287,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                     </>
                 )}
                 {sessions.length !== 0 && (
-                    <button onClick={() => router.post(route('teacher.generate-now'))} className="mt-3 w-full rounded-md bg-blue-600 py-2 text-white">
+                    <button onClick={() => router.post(route('teacher.generate-now'))} className="mt-3 w-full rounded-md bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 py-2 text-white">
                         Generate Now
                     </button>
                 )}

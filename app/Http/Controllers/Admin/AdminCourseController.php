@@ -34,10 +34,10 @@ class AdminCourseController extends Controller
         ]);
     }
 
-    public function completeCourse($id)
+    public function completeCourse($id, $isVerified)
     {
         try {
-            $this->service->completeCourse($id);
+            $this->service->completeCourse($id, $isVerified);
             return back()->with('success', 'Course completed.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());

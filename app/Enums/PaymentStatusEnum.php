@@ -8,6 +8,7 @@ enum PaymentStatusEnum: string
     case Paid = "paid";
     case Failed = "failed";
     case Refund = "refund";
+    case NotEligible = "not eligible";
 
     public static function asArray(): array
     {

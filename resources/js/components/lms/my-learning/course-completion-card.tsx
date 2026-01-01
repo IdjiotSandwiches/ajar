@@ -9,6 +9,7 @@ interface CourseCompletionCardProps {
     start_time: string;
     end_time: string;
     recording_link?: string;
+    onRejectClick: () => void;
     onCompleteClick: () => void;
 }
 
@@ -20,6 +21,7 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
     start_time,
     end_time,
     recording_link,
+    onRejectClick,
     onCompleteClick,
 }) => {
     return (
@@ -59,7 +61,13 @@ const CourseCompletionCard: React.FC<CourseCompletionCardProps> = ({
                         </div>
                     </div>
                 </div>
-                <div className="mt-4 flex justify-end">
+                <div className="flex justify-end mt-4 gap-2">
+                    <button
+                        onClick={onRejectClick}
+                        className="w-full rounded-lg bg-red-600 px-5 py-2 text-sm text-white transition hover:bg-red-600/90 md:w-auto"
+                    >
+                        Reject
+                    </button>
                     <button
                         onClick={onCompleteClick}
                         className="w-full rounded-lg bg-[#3ABEFF] px-5 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90 md:w-auto"

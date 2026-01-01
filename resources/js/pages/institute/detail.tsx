@@ -15,7 +15,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
     const [showApplyModal, setShowApplyModal] = React.useState(false);
 
     const handleConfirmApply = () => {
-        router.post(route('teacher.apply-as-teacher', institute?.id));
+        router.post(route('teacher.apply-as-teacher', institute?.user_id));
         setShowApplyModal(false);
     };
 

@@ -6,15 +6,23 @@ import React from 'react';
 
 export default function PaymentsPage({ payments, amounts }: any) {
     const { props } = usePage();
+    const user = props.auth?.user;
+    const roles = props.enums?.roles_enum;
     const status = props.enums?.payment_status_enum;
     const statusStyle: Record<string, string> = {
         paid: 'bg-green-100 text-green-600',
         pending: 'bg-blue-100 text-blue-600',
         failed: 'bg-red-100 text-red-600',
+        "not eligible": 'bg-red-100 text-red-600',
         refund: 'bg-yellow-100 text-yellow-600',
     };
 
     const isEmpty = !payments.data || payments.data.length === 0;
+    const userRelated: Record<number, string> = {
+        2: 'Institute',
+        3: 'Teacher',
+        4: 'Teacher'
+    };
 
     return (
         <>
@@ -77,8 +85,8 @@ export default function PaymentsPage({ payments, amounts }: any) {
                                         </div>
 
                                         <div className="mb-2">
-                                            <p className="text-sm text-gray-500 dark:text-white/70">Teacher</p>
-                                            <p className="text-gray-700 dark:text-white/90">{payment.teacher}</p>
+                                            <p className="text-sm text-gray-500 dark:text-white/70">{userRelated[user?.role_id!]}</p>
+                                            <p className="text-gray-700 dark:text-white/90">{payment.related_user}</p>
                                         </div>
 
                                         <div className="mb-2">
@@ -88,7 +96,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
 
                                         <div className="mt-4 flex items-center justify-between">
                                             <div>
-                                                <p className="text-sm text-gray-500 dark:text-white/70">Price</p>
+                                                <p className="text-sm text-gray-500 dark:text-white/70">Amount</p>
                                                 <p className="font-semibold">Rp {payment.amount.toLocaleString('id-ID')}</p>
                                             </div>
 
@@ -97,7 +105,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
                                             </span>
                                         </div>
 
-                                        {payment.status === status.Pending && (
+                                        {(payment.status === status.Pending && user?.role_id === roles.Student) && (
                                             <button
                                                 onClick={() => router.get(route('pending-payment', payment.id))}
                                                 className="mt-4 w-full rounded-md bg-[#3ABEFF] py-2 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
@@ -114,7 +122,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
                                     <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20">
                                         <tr>
                                             <th className="p-3 text-left font-semibold">Course</th>
-                                            <th className="p-3 text-left font-semibold">Teacher</th>
+                                            <th className="p-3 text-left font-semibold">{userRelated[user?.role_id!]}</th>
                                             <th className="p-3 text-left font-semibold">Schedule</th>
                                             <th className="p-3 text-left font-semibold">Price</th>
                                             <th className="p-3 text-center font-semibold">Status</th>
@@ -130,7 +138,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
                                                 }`}
                                             >
                                                 <td className="p-3 font-medium">{payment.course_name}</td>
-                                                <td className="p-3">{payment.teacher}</td>
+                                                <td className="p-3">{payment.related_user}</td>
                                                 <td className="p-3">{payment.schedule}</td>
                                                 <td className="p-3 font-semibold">Rp {payment.amount.toLocaleString('id-ID')}</td>
                                                 <td className="p-3 text-center">
@@ -139,7 +147,7 @@ export default function PaymentsPage({ payments, amounts }: any) {
                                                     </span>
                                                 </td>
                                                 <td className="p-3 text-center">
-                                                    {payment.status === status.Pending ? (
+                                                    {(payment.status === status.Pending && user?.role_id === roles.Student) ? (
                                                         <button
                                                             onClick={() => router.get(route('pending-payment', payment.id))}
                                                             className="rounded-md bg-[#3ABEFF] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#3ABEFF]/90"

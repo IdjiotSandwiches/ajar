@@ -2,14 +2,16 @@
 
 namespace App\Services;
 
-use App\Models\User;
-use App\Notifications\RequestApproved;
 use Carbon\Carbon;
 use Midtrans\Snap;
 use Midtrans\Config;
+use App\Enums\RoleEnum;
 use App\Enums\CourseStatusEnum;
 use App\Enums\PaymentStatusEnum;
+use App\Enums\MidtransTransactionEnum;
+use App\Models\User;
 use App\Models\Course;
+use App\Models\Earning;
 use App\Models\Payment;
 use App\Models\CourseSchedule;
 use App\Models\EnrolledCourse;
@@ -17,7 +19,7 @@ use App\Models\TeachingCourse;
 use App\Jobs\ProcessPaymentRefund;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Enums\MidtransTransactionEnum;
+use App\Notifications\RequestApproved;
 
 class PaymentService
 {
@@ -221,32 +223,10 @@ class PaymentService
     public function getPaymentList()
     {
         $user = Auth::user();
-        $amounts = [
-            'paid' => $this->getTotalAmount(PaymentStatusEnum::Paid),
-            'pending' => $this->getTotalAmount(PaymentStatusEnum::Pending)
-        ];
-
-        $payments = Payment::with(['enrolledCourse.courseSchedule.teacher.user', 'enrolledCourse.courseSchedule.course'])
-            ->where('user_id', $user->id)
-            ->orderByRaw("
-                CASE status
-                    WHEN 'pending' THEN 3
-                    WHEN 'paid' THEN 2
-                    WHEN 'failed' THEN 1
-                    ELSE 0
-                END DESC
-            ")
-            ->orderByDesc('created_at')
-            ->paginate(10)
-            ->through(fn($item) =>
-                [
-                    'id' => $item->id,
-                    'course_name' => $item->course_name,
-                    'teacher' => $item->teacher_name,
-                    'schedule' => $item->schedule,
-                    'amount' => $item->amount,
-                    'status' => $item->status
-                ]);
+        [$payments, $amounts] = match ($user->role_id) {
+            RoleEnum::Student => $this->getStudentPayments($user->id),
+            RoleEnum::Teacher, RoleEnum::Institute => $this->getEarnings($user)
+        };
 
         return [$payments, $amounts];
     }
@@ -350,5 +330,58 @@ class PaymentService
             });
 
         return $jobs;
+    }
+
+    private function getStudentPayments($userId)
+    {
+        $amounts = [
+            'paid' => $this->getTotalAmount(PaymentStatusEnum::Paid),
+            'pending' => $this->getTotalAmount(PaymentStatusEnum::Pending)
+        ];
+
+        $payments = Payment::query()
+            ->where('user_id', $userId)
+            ->orderByRaw("
+                CASE status
+                    WHEN 'pending' THEN 3
+                    WHEN 'paid' THEN 2
+                    WHEN 'failed' THEN 1
+                    ELSE 0
+                END DESC
+            ")
+            ->orderByDesc('created_at')
+            ->paginate(10)
+            ->withQueryString()
+            ->through(fn($item) => [
+                'id' => $item->id,
+                'course_name' => $item->course_name,
+                'related_user' => $item->teacher_name,
+                'schedule' => $item->schedule,
+                'amount' => $item->amount,
+                'status' => $item->status
+            ]);
+
+        return [$payments, $amounts];
+    }
+
+    private function getEarnings($user)
+    {
+        $amounts = [
+            'pending' => Earning::query()
+                ->where('user_id', $user->id)
+                ->where('status', PaymentStatusEnum::Pending)
+                ->sum('amount'),
+            'paid' => Earning::query()
+                ->where('user_id', $user->id)
+                ->where('status', PaymentStatusEnum::Paid)
+                ->sum('amount')
+        ];
+
+        $earnings = Earning::query()
+            ->where('user_id', $user->id)
+            ->orderByDesc('created_at')
+            ->paginate(10);
+
+        return [$earnings, $amounts];
     }
 }

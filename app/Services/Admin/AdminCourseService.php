@@ -2,6 +2,9 @@
 
 namespace App\Services\Admin;
 
+use App\Enums\PaymentStatusEnum;
+use App\Models\User;
+use App\Notifications\RequestApproved;
 use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\CourseSchedule;
@@ -36,6 +39,7 @@ class AdminCourseService
                         fn($q) => $q->where('category_id', $filters['category_id'])
                     )
             )
+            ->whereHas('enrolledCourses')
             ->when(!empty($filters['time']), fn($q) => $q->whereTime('start_time', '>=', Carbon::parse($filters['time'])->format('H:i:s')))
             ->when(!empty($filters['date']), fn($q) => $q->whereDate('start_time', $filters['date']))
             ->paginate(10)
@@ -54,31 +58,54 @@ class AdminCourseService
         return $schedules;
     }
 
-    public function completeCourse($id)
+    public function completeCourse($id, $isVerified)
     {
-        return DB::transaction(function () use ($id) {
-            $schedule = CourseSchedule::with(['course'])
+        $schedule = null;
+        $teacherAmount = 0;
+        $instituteAmount = 0;
+        DB::transaction(function () use ($id, $isVerified, &$schedule, &$teacherAmount, &$instituteAmount) {
+            $schedule = CourseSchedule::with(['course.institute.user', 'teacher.user'])
                 ->findOrFail($id);
-            $schedule->is_verified = true;
+            $schedule->is_verified = $isVerified;
 
             $teacherAmount = $schedule->course->teacher_salary;
             $instituteAmount = $schedule->course->price - $teacherAmount;
+            $courseSchedule = Carbon::parse($schedule->start_time)->format('d M Y') . ' '
+                . Carbon::parse($schedule->start_time)->toTimeString('minute') . ' - '
+                . Carbon::parse($schedule->end_time)->toTimeString('minute');
+            $status = $isVerified ? PaymentStatusEnum::Paid : PaymentStatusEnum::NotEligible;
             $schedule->disbursements()->createMany([
                 [
                     'course_schedule_id' => $schedule->id,
                     'user_id' => $schedule->teacher_id,
                     'unique_id' => 'TCR_PAY' . time() . random_int(100, 999),
-                    'amount' => $teacherAmount
+                    'course_name' => $schedule->course->name,
+                    'related_entry' => $schedule->course->institute->user->name,
+                    'schedule' => $courseSchedule,
+                    'amount' => $teacherAmount,
+                    'status' => $status
                 ],
                 [
                     'course_schedule_id' => $schedule->id,
                     'user_id' => $schedule->course->institute_id,
                     'unique_id' => 'INS_PAY' . time() . random_int(100, 999),
-                    'amount' => $instituteAmount
+                    'course_name' => $schedule->course->name,
+                    'related_entry' => $schedule->teacher->user->name,
+                    'schedule' => $courseSchedule,
+                    'amount' => $instituteAmount,
+                    'status' => $status
                 ]
             ]);
             $schedule->save();
         });
+
+        if ($schedule && $schedule->is_verified == true) {
+            User::findOrFail($schedule->teacher_id)->notify(new RequestApproved('Earnings Received', "Your payout of Rp{$teacherAmount} for the course '{$schedule->course->name}' has been successfully processed and credited to your account."));
+            User::findOrFail($schedule->course->institute_id)->notify(new RequestApproved('Funds Disbursed', "A payout of Rp{$instituteAmount} for completed courses has been successfully disbursed to your account."));
+        } else if ($schedule && $schedule->is_verified == false) {
+            User::findOrFail($schedule->teacher_id)->notify(new RequestApproved('Payout Not Eligible', "The payout for your course '{$schedule->course->name}' is not eligible at this time."));
+            User::findOrFail($schedule->course->institute_id)->notify(new RequestApproved('Payout Not Eligible', "The payout for completed courses has been marked as not eligible due to verification issues."));
+        }
     }
 
     public function getAllCourses($filters)

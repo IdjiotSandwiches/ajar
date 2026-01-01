@@ -31,13 +31,13 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
         if (window.snap) {
             window.snap.pay(token, {
                 onSuccess: () => {
-                    router.get(route('payment-lms'));
+                    router.visit(route('my-learning'));
                 },
                 onPending: () => {
-                    router.get(route('payment-lms'));
+                    router.visit(route('payment-lms'));
                 },
                 onError: (result: any) => {
-                    console.error('error', result);
+                    router.visit(route('payment-lms'));
                 },
             });
         }

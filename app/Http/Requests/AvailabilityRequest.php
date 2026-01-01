@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\StartBeforeEnd;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AvailabilityRequest extends FormRequest
@@ -36,7 +37,8 @@ class AvailabilityRequest extends FormRequest
             'availability.*.day' => 'nullable|string',
             'availability.*.start_time' => 'nullable|date_format:H:i',
             'availability.*.end_time' => 'nullable|date_format:H:i',
-            'availability.*.available' => 'required|boolean'
+            'availability.*.available' => 'required|boolean',
+            'availability.*' => [new StartBeforeEnd()]
         ];
     }
 }
