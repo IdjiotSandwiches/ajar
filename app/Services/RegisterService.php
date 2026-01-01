@@ -25,17 +25,18 @@ class RegisterService
      */
     public function register(array $data): User
     {
-        return DB::transaction(function() use ($data) {
+        return DB::transaction(function () use ($data) {
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'phone_number' => $data['phone_number'],
-                'role_id' => RoleEnum::from($data['role_id'])->value
+                'role_id' => RoleEnum::from($data['role_id'])->value,
+                'uuid' => str()->uuid(),
+                'last_seen_at' => now(),
             ]);
 
-            switch ($user->role_id)
-            {
+            switch ($user->role_id) {
                 case RoleEnum::Teacher:
                     $this->createTeacher($data, $user);
                     break;
@@ -69,7 +70,7 @@ class RegisterService
             'description' => $data['description']
         ]);
 
-        foreach($data['graduates'] as $graduate) {
+        foreach ($data['graduates'] as $graduate) {
             Graduate::create([
                 'degree_title' => $graduate['degree_title'],
                 'university_name' => $graduate['university_name'],
@@ -78,7 +79,7 @@ class RegisterService
             ]);
         }
 
-        foreach($data['works'] as $work) {
+        foreach ($data['works'] as $work) {
             WorkExperience::create([
                 'position' => $work['position'],
                 'institution' => $work['institution'],
@@ -87,7 +88,7 @@ class RegisterService
             ]);
         }
 
-        foreach($data['certificates'] as $certificate) {
+        foreach ($data['certificates'] as $certificate) {
             $url = UploadUtility::upload($certificate, 'certificates');
             if ($url) {
                 Certificate::create([

@@ -73,6 +73,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081200000001',
                 'role_id' => 1,
+                'uuid' => str()->uuid()
             ],
 
             [
@@ -81,6 +82,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081211110001',
                 'role_id' => 2,
+                'uuid' => str()->uuid()
             ],
             [
                 'name' => 'James Rodriguez',
@@ -88,6 +90,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081211110002',
                 'role_id' => 2,
+                'uuid' => str()->uuid()
             ],
             [
                 'name' => 'Emily Chen',
@@ -95,6 +98,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081211110003',
                 'role_id' => 2,
+                'uuid' => str()->uuid()
             ],
             [
                 'name' => 'Robert "Bob" Wilson',
@@ -102,6 +106,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081211110004',
                 'role_id' => 2,
+                'uuid' => str()->uuid()
             ],
             [
                 'name' => 'Jessica Alana',
@@ -109,6 +114,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081211110005',
                 'role_id' => 2,
+                'uuid' => str()->uuid()
             ],
 
             [
@@ -117,6 +123,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081222220001',
                 'role_id' => 3,
+                'uuid' => str()->uuid()
             ],
             [
                 'name' => 'CyberShield Security Labs',
@@ -124,6 +131,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081222220002',
                 'role_id' => 3,
+                'uuid' => str()->uuid()
             ],
             [
                 'name' => 'Creative Pixel Studio',
@@ -131,6 +139,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081222220003',
                 'role_id' => 3,
+                'uuid' => str()->uuid()
             ],
             [
                 'name' => 'DataStream Institute',
@@ -138,6 +147,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081222220004',
                 'role_id' => 3,
+                'uuid' => str()->uuid()
             ],
             [
                 'name' => 'CodeMaster Bootcamp',
@@ -145,6 +155,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081222220005',
                 'role_id' => 3,
+                'uuid' => str()->uuid()
             ],
 
             [
@@ -153,6 +164,7 @@ class UserSeeder extends Seeder
                 'password' => $defaultPassword,
                 'phone_number' => '081233330001',
                 'role_id' => 4,
+                'uuid' => str()->uuid()
             ],
         ];
 

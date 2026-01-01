@@ -31,7 +31,9 @@ class User extends Authenticatable
         'password',
         'phone_number',
         'profile_picture',
-        'role_id'
+        'role_id',
+        'uuid',
+        'last_seen_at',
     ];
 
     /**
@@ -56,7 +58,8 @@ class User extends Authenticatable
             'created_at' => 'datetime:Y-m-d H:i:s',
             'updated_at' => 'datetime:Y-m-d H:i:s',
             'password' => 'hashed',
-            'role_id' => RoleEnum::class
+            'role_id' => RoleEnum::class,
+            'last_seen_at' => 'datetime',
         ];
     }
 
@@ -132,26 +135,23 @@ class User extends Authenticatable
         return $this->hasMany(Payment::class, 'student_id');
     }
 
-    /**
-     * HasMany: Chats(Send)
-     * @return HasMany<Chat, User>
-     */
-    public function sentMessages(): HasMany
-    {
-        return $this->hasMany(Chat::class, 'sender_id');
-    }
-
-    /**
-     * HasMany: Chats(Receive)
-     * @return HasMany<Chat, User>
-     */
-    public function receivedMessages(): HasMany
-    {
-        return $this->hasMany(Chat::class, 'receiver_id');
-    }
-
     public function socialMedias()
     {
         return $this->hasMany(SocialMedia::class, 'user_id');
+    }
+
+    public function receiveMessages()
+    {
+        return $this->hasMany(Chat::class, 'receiver_id', 'id')->orderByDesc('id');
+    }
+
+    public function sendMessages()
+    {
+        return $this->hasMany(Chat::class, 'sender_id', 'id')->orderByDesc('id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Chat::class, 'sender_id', 'id');
     }
 }

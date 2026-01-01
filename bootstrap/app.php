@@ -26,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'block.unverified.teacher' => \App\Http\Middleware\UnverifiedTeacherMiddleware::class,
+            'user.last.seen.at' => \App\Http\Middleware\UserLastSeenAtMiddleware::class,
         ]);
 
         $middleware->trustProxies(at: '*');

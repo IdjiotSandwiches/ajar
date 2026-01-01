@@ -14,7 +14,7 @@ export default function MobileReminder({ reminder }: any) {
     };
 
     const REMINDER_TITLE_MAP: Record<number, ReminderConfig> = {
-        1: { title: 'You have new messages.', url: route('chat') },
+        1: { title: 'You have new messages.', url: route('chat.index') },
         2: { title: 'Please review your completed course.', url: route('my-learning', { status: status.Completed }) },
         3: { title: 'Your class is about to start.', url: route('my-learning') },
         4: { title: 'Please complete your course.', url: route('my-learning') },
