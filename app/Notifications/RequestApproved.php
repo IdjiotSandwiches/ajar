@@ -59,7 +59,7 @@ class RequestApproved extends Notification implements ShouldQueue
                 'title' => $this->title,
                 'message' => $this->message,
             ],
-            'created_at' => now()->toISOString(),
+            'created_at' => now(config('app.timezone'))->toISOString(),
             'read_at' => null,
         ]);
     }
