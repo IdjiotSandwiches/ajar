@@ -34,6 +34,7 @@ class EnrollmentMassNotification implements ShouldQueue
      */
     public function handle(): void
     {
+        date_default_timezone_set(config('app.timezone'));
         User::query()
             ->whereHas('enrolledCourses', fn($q) => $q->whereIn('course_schedule_id', $this->scheduleIds))
             ->chunkById(50, function ($users) {

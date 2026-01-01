@@ -31,7 +31,8 @@ class GenerateWeeklyCourseSchedules implements ShouldQueue
      */
     public function handle(): void
     {
-        $tomorrow = Carbon::tomorrow(config('app.timezone'));
+        date_default_timezone_set(config('app.timezone'));
+        $tomorrow = Carbon::tomorrow();
         $rules = CourseWeeklyRule::with('teachingCourse.course')
             ->when($this->generateNow, function ($q) use ($tomorrow) {
                 $tomorrowIso = $tomorrow->dayOfWeekIso;
@@ -51,7 +52,7 @@ class GenerateWeeklyCourseSchedules implements ShouldQueue
                 if ($daysToAdd < 0) continue;
                 $date = $tomorrow->copy()->addDays($daysToAdd);
             } else {
-                $weekStart = Carbon::now(config('app.timezone'))
+                $weekStart = Carbon::now()
                     ->startOfWeek()
                     ->addWeek();
 
