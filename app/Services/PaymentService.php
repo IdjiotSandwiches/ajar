@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\User;
+use App\Notifications\RequestApproved;
 use Carbon\Carbon;
 use Midtrans\Snap;
 use Midtrans\Config;
@@ -272,7 +274,8 @@ class PaymentService
             abort(403);
         }
 
-        return DB::transaction(function () use ($data) {
+        $payment = null;
+        DB::transaction(function () use ($data, &$payment) {
             $payment = Payment::with(['enrolledCourse'])
                 ->where('unique_id', $data['order_id'])
                 ->firstOrFail();
@@ -319,6 +322,19 @@ class PaymentService
 
             $payment->save();
         });
+
+        $user = User::findOrFail($payment->user_id);
+        if ($payment) {
+            $user->notify(new RequestApproved(
+                'Payment Success',
+                \sprintf('Your %s payment has success.', $payment->course_name)
+            ));
+        } else {
+            $user->notify(new RequestApproved(
+                'Payment Failed',
+                \sprintf('Your %s payment has failed.', $payment->course_name)
+            ));
+        }
     }
 
     public function handleRefund($ids)
