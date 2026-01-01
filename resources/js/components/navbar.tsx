@@ -97,7 +97,7 @@ export default function Navbar() {
 
                     <div className="relative flex items-center space-x-4">
                         <SwitchDarkMode />
-                        {/* {user && <NotificationDropdown />} */}
+                        {user && <NotificationDropdown />}
                         <span className="hidden font-medium text-[#3ABEFF] md:block">Hello, {user?.name ?? 'Guest'}</span>
 
                         <div className="relative" ref={dropdownRef}>
