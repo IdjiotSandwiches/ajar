@@ -75,7 +75,7 @@ class InstituteCourseService
         return $categories;
     }
 
-    public function createOrUpdateCourses(array $data, $id = null)
+    public function createOrUpdateCourses($data, $id = null)
     {
         $user = Auth::user();
         $user = $user->load('institute');
