@@ -86,7 +86,7 @@ class PaymentService
         return $schedules;
     }
 
-    public function payment($scheduleId)
+    public function payment($scheduleId, $bypass)
     {
         $user = Auth::user();
         $existingEnrollment = EnrolledCourse::where('course_schedule_id', $scheduleId)
@@ -100,7 +100,7 @@ class PaymentService
         }
 
         $snapToken = "";
-        DB::transaction(function () use ($scheduleId, $user, &$snapToken) {
+        DB::transaction(function () use ($scheduleId, $user, $bypass, &$snapToken) {
             $enrolled = EnrolledCourse::createOrFirst([
                 'course_schedule_id' => $scheduleId,
                 'student_id' => $user->id
@@ -142,8 +142,26 @@ class PaymentService
                 ]
             ];
 
-            $snapToken = Snap::getSnapToken($params);
-            $payment->snap_token = $snapToken;
+
+            if (!$bypass) {
+                $snapToken = Snap::getSnapToken($params);
+                $payment->snap_token = $snapToken;
+            } else {
+                $this->completePayment([
+                    'order_id' => $payment->unique_id,
+                    'status_code' => 200,
+                    'gross_amount' => $payment->amount,
+                    'transaction_status' => MidtransTransactionEnum::Settlement->value,
+                    'signature_key' => hash(
+                        'sha512',
+                        $payment->unique_id
+                        . 200
+                        . $payment->amount
+                        . config('midtrans.server_key')
+                    )
+                ]);
+            }
+
             $payment->save();
         });
 

@@ -56,7 +56,7 @@ Route::middleware(['auth', 'block.unverified.teacher'])
                 Route::get('payment-lms', 'getPaymentList')->name('payment-lms');
                 Route::get('payment-register', 'getEnrollment')->name('payment-register');
                 Route::get('payment-register/{id}', 'getPendingEnrollment')->name('pending-payment');
-                Route::post('payment-register/{id}', 'createPayment')->name('pay');
+                Route::post('payment-register/{id}/{bypass?}', 'createPayment')->name('pay');
             });
         });
         Route::middleware(['role:Admin'])

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import { Switch } from "@/components/ui/switch"
+import { Label } from "./label";
 
-export function InputSwitch({ name, checked: controlledChecked, onChange, ...props }: any) {
+export function InputSwitch({ name, checked: controlledChecked, onChange, label, ...props }: any) {
     const [isChecked, setIsChecked] = useState(controlledChecked ?? true);
 
     useEffect(() => {
@@ -14,9 +15,12 @@ export function InputSwitch({ name, checked: controlledChecked, onChange, ...pro
     };
 
     return (
-        <div className="inline-flex items-center">
+        <div className="flex items-center space-x-2">
             <Switch checked={isChecked} onCheckedChange={handleToggle} {...props} />
             <input type="hidden" name={name} value={isChecked ? "1" : "0"} />
+            {label && (
+                <Label htmlFor={name}>{label}</Label>
+            )}
         </div>
     )
 }
