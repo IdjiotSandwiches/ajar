@@ -73,8 +73,9 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                         id: session?.teaching_course_id,
                     })
                 }
-                className={`flex h-10 w-full cursor-pointer items-center justify-center overflow-hidden rounded border px-1 text-xs text-ellipsis whitespace-nowrap transition ${session ? 'border-blue-400 bg-blue-200 text-blue-900' : 'border-dashed border-gray-400 text-gray-400 dark:border-white/40'
-                    } `}
+                className={`flex h-10 w-full cursor-pointer items-center justify-center overflow-hidden rounded border px-1 text-xs text-ellipsis whitespace-nowrap transition ${
+                    session ? 'border-blue-400 bg-blue-200 text-blue-900' : 'border-dashed border-gray-400 text-gray-400 dark:border-white/40'
+                } `}
                 title={session?.course_name ?? ''}
             >
                 <span className="truncate">{session?.course_name ?? '+'}</span>
@@ -165,8 +166,9 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                             {days.map((day, index) => (
                                 <tr
                                     key={day}
-                                    className={`border-b dark:border-white/20 ${index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
-                                        }`}
+                                    className={`border-b dark:border-white/20 ${
+                                        index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                    }`}
                                 >
                                     <td className="p-2">
                                         {day}
@@ -215,7 +217,8 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                     <button
                         type="button"
                         onClick={() => setShowApplyModal(true)}
-                        className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white hover:bg-[#3ABEFF]/90">
+                        className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white hover:bg-[#3ABEFF]/90"
+                    >
                         Submit
                     </button>
                 </div>
@@ -228,9 +231,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                         <div className="flex flex-col items-center justify-center py-12 text-center">
                             <Calendar className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
 
-                            <p className="text-base font-semibold text-gray-700 dark:text-white">
-                                Schedule unavailable
-                            </p>
+                            <p className="text-base font-semibold text-gray-700 dark:text-white">Schedule unavailable</p>
 
                             <p className="mt-1 max-w-sm text-sm text-gray-500 dark:text-white/70">
                                 You need to set your availability first before managing weekly course schedules.
@@ -282,6 +283,11 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                             </table>
                         </div>
                     </>
+                )}
+                {sessions.length !== 0 && (
+                    <button onClick={() => router.post(route('teacher.generate-now'))} className="mt-3 w-full rounded-md bg-blue-600 py-2 text-white">
+                        Generate Now
+                    </button>
                 )}
             </div>
             <div className="flex justify-end gap-2">

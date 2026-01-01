@@ -3,10 +3,10 @@
 namespace App\Services\Teacher;
 
 use App\Jobs\EnrollmentMassNotification;
+use App\Jobs\GenerateWeeklyCourseSchedules;
 use Carbon\Carbon;
 use App\Models\Category;
 use App\Models\CourseSchedule;
-use App\Models\EnrolledCourse;
 use App\Models\TeachingCourse;
 use App\Models\TeacherSchedule;
 use App\Models\CourseWeeklyRule;
@@ -207,5 +207,10 @@ class TeacherScheduleService
                 ->name('Handle course refunds (Cancelled Schedule)')
                 ->dispatch();
         }
+    }
+
+    public function generateScheduleNow()
+    {
+        GenerateWeeklyCourseSchedules::dispatch(true);
     }
 }
