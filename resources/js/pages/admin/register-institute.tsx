@@ -83,7 +83,7 @@ export default function InstituteForm({ categories, errors }: any) {
                 isOpen={showApplyModal}
                 onClose={() => setShowApplyModal(false)}
                 onConfirm={handleConfirmSubmit}
-                description={`Are you sure you want to update your availability? This will affect your schedule starting next week.`}
+                description={`Are you sure you want to register institute?`}
             />
         </>
     );
