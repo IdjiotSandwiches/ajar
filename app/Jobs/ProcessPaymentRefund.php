@@ -36,6 +36,7 @@ class ProcessPaymentRefund implements ShouldQueue
      */
     public function handle(): void
     {
+        date_default_timezone_set(config('app.timezone'));
         Config::$serverKey = config('services.midtrans.server_key');
         Config::$isProduction = config('services.midtrans.is_production');
         Config::$isSanitized = config('services.midtrans.is_sanitized');
@@ -81,7 +82,7 @@ class ProcessPaymentRefund implements ShouldQueue
 
     private function refundPaid($payment): void
     {
-        $refundId = 'RFD' . now(config('app.timezone'))->timestamp . random_int(100, 999);
+        $refundId = 'RFD' . now()->timestamp . random_int(100, 999);
         \Midtrans\Transaction::refund(
             $payment->unique_id,
             [
