@@ -12,6 +12,7 @@ class HomeService
     public function getCoursesPreview()
     {
         $courses = Course::with([
+            'teachingCourses' => fn($q) => $q->where('is_verified', true),
             'teachingCourses.teacher.user',
             'institute.user',
             'courseSkills.skill'

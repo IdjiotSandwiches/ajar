@@ -30,7 +30,10 @@ class CourseService
 
         $categoryIds = $categories->pluck('id');
         $baseQuery = Course::query()
-            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachingCourses.teacher.user'))
+            ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with([
+                'teachingCourses' => fn($q) => $q->where('is_verified', true),
+                'teachingCourses.teacher.user'
+            ]))
             ->when($filters['search'] ?? null, fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
             ->with(['institute.user'])
             ->withAvg('courseReviews', 'rating')
