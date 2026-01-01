@@ -36,6 +36,7 @@ class ProcessPaymentRefund implements ShouldQueue
      */
     public function handle(): void
     {
+        date_default_timezone_set(config('app.timezone'));
         Config::$serverKey = config('services.midtrans.server_key');
         Config::$isProduction = config('services.midtrans.is_production');
         Config::$isSanitized = config('services.midtrans.is_sanitized');
