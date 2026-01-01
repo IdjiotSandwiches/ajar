@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Enums\CourseStatusEnum;
-use App\Models\TeacherApplication;
-use App\Models\TeachingCourse;
-use App\Enums\RoleEnum;
-use App\Models\Category;
-use App\Models\Course;
 use App\Models\Skill;
+use App\Models\Course;
+use App\Models\Category;
+use App\Models\TeachingCourse;
+use App\Models\TeacherApplication;
+use App\Enums\RoleEnum;
+use App\Enums\CourseStatusEnum;
 use App\Utilities\UploadUtility;
 use Illuminate\Support\Facades\Auth;
 
@@ -120,7 +120,19 @@ class CourseService
                 'course_reviews_count' => $item->course_reviews_count,
                 'image' => $item->image,
                 'price' => $item->price,
-                'discount' => $item->discount
+                'discount' => $item->discount,
+                'teachers' => $item->teachingCourses->map(function ($item) {
+                    $teacher = $item->teacher;
+                    $profile = $teacher->user;
+                    return [
+                        'id' => $profile->id,
+                        'name' => $profile->name,
+                        'uuid' => $profile->uuid,
+                        'profile_picture' => $profile->profile_picture,
+                        'social_medias' => $profile->socialMedias,
+                        'description' => $teacher->description
+                    ];
+                })
             ]);
         return [$courses, $categories, $minPrice, $maxPrice];
     }
@@ -166,12 +178,61 @@ class CourseService
             }
         }
 
-        $hasSchedule = $user ? $course->courseSchedules
-            ->where('status', CourseStatusEnum::Scheduled)
-            ->count() != 0 : true;
+        $course = [
+            'id' => $course->id,
+            'name' => $course->name,
+            'image' => $course->image,
+            'description' => $course->description,
+            'discount' => $course->discount,
+            'duration' => $course->duration,
+            'price' => $course->price,
+            'teacher_salary' => $course->teacher_salary,
+            'course_reviews_avg_rating' => $course->course_reviews_avg_rating,
+            'course_reviews_count' => $course->course_reviews_count,
+            'institute' => [
+                'id' => $course->institute_id,
+                'name' => $course->institute->user->name,
+                'profile_picture' => $course->institute->user->profile_picture,
+            ],
+            'teachers' => $course->teachingCourses->map(function ($t) {
+                $teacher = $t->teacher;
+                $profile = $teacher->user;
+                return [
+                    'id' => $profile->id,
+                    'name' => $profile->name,
+                    'uuid' => $profile->uuid,
+                    'profile_picture' => $profile->profile_picture,
+                    'social_medias' => $profile->socialMedias,
+                    'description' => $teacher->description
+                ];
+            }),
+            'has_schedule' => $user ? $course->courseSchedules
+                ->where('status', CourseStatusEnum::Scheduled)
+                ->count() != 0 : true,
+            'learning_objectives' => $course->courseLearningObjectives->map(fn($item) => [
+                'description' => $item->description
+            ]),
+            'overviews' => $course->courseOverviews->map(fn($item) => [
+                'description' => $item->description
+            ]),
+            'benefits' => $course->benefits->map(fn($item) => [
+                'description' => $item->description
+            ]),
+            'skills' => $course->courseSkills->map(fn($item) => [
+                'name' => $item->skill->name
+            ]),
+            'reviews' => $course->courseReviews->map(fn($item) => [
+                'rating' => $item->rating,
+                'description' => $item->description,
+                'name' => $item->reviewer->name,
+                'profile_picture' => $item->reviewer->profile_picture,
+            ]),
+            'popular_courses' => $this->getPopularCourseByCategory($course->category_id, $course->id),
+            'teaching' => $teaching,
+            'can_apply' => $canApply
+        ];
 
-        $popularCourses = $this->getPopularCourseByCategory($course->category_id, $course->id);
-        return [$course, $popularCourses, $teaching, $canApply, $hasSchedule];
+        return $course;
     }
 
     public function getPopularCourseByCategory($categoryId, $currentCourseId)

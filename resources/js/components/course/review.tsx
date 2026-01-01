@@ -1,5 +1,4 @@
 import { storageUrl } from '@/utils/storage';
-import { usePage } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -29,20 +28,17 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
     const leftDisabled = currentIndex <= 0;
     const rightDisabled = currentIndex >= maxIndex;
 
-    const { props } = usePage();
-    const roles = props.enums?.roles_enum;
-
     return (
         <section className="pb-16">
-            <h2 className="mb-10 text-base sm:text-lg md:text-xl font-semibold -gray-800">Reviews from Students and Teachers</h2>
+            <h2 className="-gray-800 mb-10 text-base font-semibold sm:text-lg md:text-xl">Reviews</h2>
             <div className="mx-auto grid items-center gap-16 md:grid-cols-4">
                 <div className="relative flex items-center md:col-span-4">
-                    {reviews.length === 0
-                    ?
-                        <p className='text-gray-500 text-sm dark:text-white/70'>
-                            No Reviews
-                        </p>
-                    : (
+                    {reviews.length === 0 ? (
+                        <div className="py-12 text-center text-sm text-gray-500 dark:text-white/80">
+                            <p className="font-medium text-gray-700 dark:text-white">No reviews yet</p>
+                            <p className="mt-1">Be the first to share your learning experience with us.</p>
+                        </div>
+                    ) : (
                         <>
                             <button
                                 onClick={goLeft}
@@ -55,8 +51,6 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
                             </button>
                             <div ref={containerRef} className="flex flex-1 gap-8 overflow-hidden scroll-smooth">
                                 {reviews.map((review: any, index: number) => {
-                                    const user = review.reviewer;
-                                    const role = Object.keys(roles).find(key => roles[key] === user.role_id);
                                     return (
                                         <div
                                             key={index}
@@ -65,13 +59,16 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
                                         >
                                             <div>
                                                 <div className="mb-3 flex items-center gap-3">
-                                                    <img src={storageUrl(review?.avatar)} alt={review.reviewer_name} className="h-10 w-10 rounded-full object-cover" />
+                                                    <img
+                                                        src={storageUrl(review.profile_picture)}
+                                                        alt={review.name}
+                                                        className="h-10 w-10 rounded-full object-cover"
+                                                    />
                                                     <div>
-                                                        <p className="font-medium text-gray-800">
-                                                            {user.name} - <span className="text-gray-500">{role}</span>
-                                                        </p>
+                                                        <p className="font-medium text-gray-800">{review.name}</p>
                                                         <p className="text-sm text-yellow-400">
-                                                            {'★'.repeat(review.rating)} <span className="text-gray-300">{'★'.repeat(5 - review.rating)}</span>
+                                                            {'★'.repeat(review.rating)}{' '}
+                                                            <span className="text-gray-300">{'★'.repeat(5 - review.rating)}</span>
                                                         </p>
                                                     </div>
                                                 </div>

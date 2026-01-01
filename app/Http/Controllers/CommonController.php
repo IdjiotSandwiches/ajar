@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Teacher\TeacherService;
 use Inertia\Inertia;
 use App\Utilities\Utility;
 use App\Http\Requests\FilterRequest;
 use App\Services\CourseService;
+use App\Services\Teacher\TeacherService;
 use App\Services\Institute\InstituteService;
 
 class CommonController extends Controller
@@ -85,13 +85,9 @@ class CommonController extends Controller
 
     public function getCourseDetail($id)
     {
-        [$course, $popularCourses, $teaching, $canApply, $hasSchedule] = $this->courseService->getCourseDetail($id);
+        $course = $this->courseService->getCourseDetail($id);
         return Inertia::render('courses/detail', [
-            'course' => $course,
-            'popularCourses' => $popularCourses,
-            'teaching' => $teaching,
-            'canApply' => $canApply,
-            'hasSchedule' => $hasSchedule
+            'course' => $course
         ]);
     }
 }

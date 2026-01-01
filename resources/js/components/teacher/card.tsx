@@ -3,7 +3,7 @@ import { router, usePage } from '@inertiajs/react';
 import { Send } from 'lucide-react';
 import { FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
-export default function TeacherProfileCard({ teacher }: any) {
+export default function TeacherProfileCard({ teacher, canRedirect = false }: any) {
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
@@ -18,12 +18,19 @@ export default function TeacherProfileCard({ teacher }: any) {
         <div className="rounded-2xl bg-[#3ABEFF] p-1 shadow-lg dark:bg-[#222831]">
             <div className="rounded-2xl bg-white p-0.5">
                 <div className="relative flex flex-col items-center overflow-hidden rounded-2xl bg-[#3ABEFF] p-6 text-center dark:bg-[#222831]">
-                    <div className="z-10 mb-4 h-28 w-28 overflow-hidden rounded-full border-2 border-white shadow-md">
+                    <div
+                        onClick={() => {
+                            if (canRedirect) {
+                                router.visit(route('detail-teacher', teacher.id));
+                            }
+                        }}
+                        className={`z-10 mb-4 h-28 w-28 overflow-hidden rounded-full border-2 border-white shadow-md ${canRedirect ? 'cursor-pointer' : 'cursor-default'}`}
+                    >
                         <img src={storageUrl(teacher.profile_picture)} alt={teacher.name} className="h-full w-full object-cover" />
                     </div>
                     <h2 className="z-10 cursor-default text-xl font-bold text-white">{teacher.name}</h2>
                     <p className="z-10 mb-4 cursor-default text-sm text-white/90">{teacher.description}</p>
-                    {user?.role_id !== roles.Admin && (
+                    {(user?.role_id !== roles.Admin && user?.id !== teacher.id) && (
                         <button
                             onClick={() => router.visit(route('chat.show', teacher.uuid))}
                             className="z-10 mb-5 flex cursor-pointer items-center gap-2 rounded-lg bg-white px-4 py-2 font-medium text-[#3ABEFF] shadow transition hover:bg-blue-50 dark:bg-white/90"
