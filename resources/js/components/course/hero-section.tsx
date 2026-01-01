@@ -79,7 +79,7 @@ export default function CourseHero({ course }: any) {
                                 )
                             )}
                             {(user?.role_id === roles.Teacher && course.can_apply) &&
-                                (!course.teaching.is_verified ? (
+                                (!course.teaching?.is_verified ? (
                                     <button
                                         onClick={handleTeacherApply}
                                         disabled={course.teaching && course.teaching.is_verified == null}
