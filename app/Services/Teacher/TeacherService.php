@@ -25,13 +25,12 @@ class TeacherService
     {
         $teacher = Teacher::with([
             'user',
-            'category',
-            'reviews.reviewer.role',
+            'reviews.reviewer',
             'graduates',
             'workExperiences',
             'certificates',
             'teachingCourses' => fn($q) => $q->where('is_verified', true),
-            'teachingCourses.course.institute.user'
+            'teachingCourses.course.institute.user',
         ])
             ->where('user_id', $id)
             ->first();
@@ -45,7 +44,29 @@ class TeacherService
         }
 
         return [
-            'teacher' => $teacher,
+            'teacher' => [
+                'name' => $teacher->user->name,
+                'description' => $teacher->description,
+                'graduates' => $teacher->graduates,
+                'work_experiences' => $teacher->workExperiences,
+                'certificates' => $teacher->certificates,
+                'courses' => $teacher->teachingCourses->map(fn($item) => [
+                    'name' => $item->course->name,
+                    'description' => $item->course->description,
+                    'duration' => $item->course->duration,
+                    'image' => $item->course->image,
+                    'teacher_salary' => $item->course->teacher_salary,
+                    'price' => $item->course->price,
+                    'discount' => $item->course->discount,
+                    'institute' => $item->course->institute->user->name,
+                ]),
+                'reviews' => $teacher->reviews->map(fn($item) => [
+                    'rating' => $item->rating,
+                    'description' => $item->description,
+                    'name' => $item->reviewer->name,
+                    'profile_picture' => $item->reviewer->profile_picture,
+                ])
+            ],
             'application' => $application ?? null
         ];
     }

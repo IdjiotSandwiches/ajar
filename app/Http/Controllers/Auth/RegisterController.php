@@ -58,7 +58,7 @@ class RegisterController extends Controller
             $user = $this->service
                 ->register($data);
 
-            event(new Registered($user));
+            // event(new Registered($user));
             Auth::login($user);
         } catch (\Exception $e) {
             return back()->withErrors(['error' => $e->getMessage()]);

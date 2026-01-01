@@ -1,37 +1,26 @@
-import { storageUrl } from "@/utils/storage";
+import { storageUrl } from '@/utils/storage';
 
 export default function ReviewCardNew({ review }: any) {
-  return (
-    <div
-      data-card
-      className="bg-white border rounded-lg shadow-sm p-6 sm:p-8 flex flex-col justify-between w-full h-full hover:shadow-md transition-all border-[#3ABEFF]"
-    >
-      <div>
-        <div className="flex items-center gap-3 mb-4">
-          <img
-            src={storageUrl(review.reviewer.profile_picture)}
-            alt={review.reviewer.name}
-            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
-          />
-          <div>
-            <p className="font-semibold text-gray-800 text-sm sm:text-base">
-              {review.reviewer.name} - {" "}
-              <span className="text-gray-500">{review.reviewer.role.name}</span>
-            </p>
+    return (
+        <div
+            data-card
+            className="flex h-full w-full flex-col justify-between rounded-lg border border-[#3ABEFF] bg-white p-6 shadow-sm transition-all hover:shadow-md sm:p-8"
+        >
+            <div>
+                <div className="mb-4 flex items-center gap-3">
+                    <img src={storageUrl(review.profile_picture)} alt={review.name} className="h-10 w-10 rounded-full object-cover sm:h-12 sm:w-12" />
+                    <div>
+                        <p className="text-sm font-semibold text-gray-800 sm:text-base">{review.name}</p>
 
-            <p className="text-yellow-400 text-sm sm:text-base leading-none mt-1">
-              {"★".repeat(review.rating)}
-              <span className="text-gray-300">
-                {"★".repeat(5 - review.rating)}
-              </span>
-            </p>
-          </div>
+                        <p className="mt-1 text-sm leading-none text-yellow-400 sm:text-base">
+                            {'★'.repeat(review.rating)}
+                            <span className="text-gray-300">{'★'.repeat(5 - review.rating)}</span>
+                        </p>
+                    </div>
+                </div>
+
+                <p className="mb-6 text-sm leading-relaxed text-gray-600 sm:text-base">{review.description}</p>
+            </div>
         </div>
-
-        <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6">
-          {review.description}
-        </p>
-      </div>
-    </div>
-  );
+    );
 }

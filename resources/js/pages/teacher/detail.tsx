@@ -9,6 +9,7 @@ import { Album, BriefcaseBusiness, FileBadge, GraduationCap, Star, X } from 'luc
 import React, { useState } from 'react';
 
 export default function TeacherDetailPage({ teacher, application }: any) {
+    console.log(teacher)
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
@@ -43,7 +44,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
 
     return (
         <>
-            <Head title={teacher?.user?.name || "Not Found"} />
+            <Head title={teacher.name || "Not Found"} />
             <div className="min-h-screen w-full py-10">
                 <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 pt-6 sm:px-6 md:grid-cols-3 md:gap-8">
                     <div>
@@ -51,14 +52,12 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                         {application && application?.is_verified === null && user?.role_id === roles.Institute && (
                             <div className="mt-6 flex w-full flex-col">
                                 <button
-                                    // onClick={() => router.post(route('institute.accept-teacher', teacher?.user_id))}
                                     onClick={() => openConfirmModal('accept')}
                                     className="mb-3 w-full cursor-pointer rounded-lg bg-[#3ABEFF] py-2 font-medium text-white transition hover:bg-[#34a9dd]"
                                 >
                                     Accept
                                 </button>
                                 <button
-                                    // onClick={() => router.post(route('institute.reject-teacher', teacher?.user_id))}
                                     onClick={() => openConfirmModal('reject')}
                                     className="w-full cursor-pointer rounded-lg border border-[#3ABEFF] py-2 font-mum text-[#3ABEFF] transition hover:bg-[#3ABEFF]/10"
                                 >
@@ -154,7 +153,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                             <div className="scrollbar-thin scrollbar-thumb-[#42C2FF]/30 scrollbar-track-transparent flex gap-6 overflow-x-auto pb-4">
                                 {teacher.teaching_courses && teacher.teaching_courses.length > 0 ? (
                                     teacher.teaching_courses.map((course: any, index: number) => (
-                                        <CourseCard key={index} course={course.course} isTag={false} />
+                                        <CourseCard key={index} course={course.course} isTag={false} showTeacher={false} />
                                     ))
                                 ) : (
                                     <p className="text-sm text-gray-500 dark:text-white/70">
@@ -170,8 +169,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                             </div>
 
                             {teacher.reviews && teacher.reviews.length > 0 ? (
-                                // <ReviewSection reviews={teacher.reviews} />
-                                <></>
+                                <ReviewSection reviews={teacher.reviews} />
                             ) : (
                                 <p className="text-sm text-gray-500 dark:text-white/70">
                                     No reviews available.
@@ -208,8 +206,8 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                 onConfirm={handleConfirmAction}
                 description={
                     confirmAction === 'accept'
-                        ? `Are you sure you want to accept ${teacher.user.name} as a teacher?`
-                        : `Are you sure you want to reject ${teacher.user.name}'s application?`
+                        ? `Are you sure you want to accept ${teacher.name} as a teacher?`
+                        : `Are you sure you want to reject ${teacher.name}'s application?`
                 }
             />
         </>
