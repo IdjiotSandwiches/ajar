@@ -24,10 +24,10 @@ export default function CourseCard({ enroll, state, review }: any) {
     });
 
     const handleJoinButton = () => {
-        if (!enroll.meetingLink && !enroll.can_join && user?.role_id === roles.Student) {
+        if ((!enroll.meeting_link || !enroll.can_join) && user?.role_id === roles.Student) {
             setModalType('warning');
         } else {
-            window.open(enroll.meetingLink, '_blank');
+            window.open(enroll.meeting_link, '_blank');
         }
     };
 
@@ -109,7 +109,6 @@ export default function CourseCard({ enroll, state, review }: any) {
     };
 
     const actionButton = () => actions[user?.role_id!]?.() ?? null;
-    console.log(enroll);
 
     return (
         <>
@@ -126,9 +125,11 @@ export default function CourseCard({ enroll, state, review }: any) {
                             {state === states.Completed ? 'Finish at ' : 'Start at '}
                             <span className="font-medium text-black dark:text-white">{enroll.schedule}</span>
                         </p>
-                        <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
-                            Enrollment Count: <span className="font-medium text-black dark:text-white">{enroll.enrollment_count}</span>
-                        </p>
+                        {user?.role_id === roles.Teacher && (
+                            <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
+                                Enrollment Count: <span className="font-medium text-black dark:text-white">{enroll.enrollment_count}</span>
+                            </p>
+                        )}
                     </div>
                     <div className="mt-2 flex justify-end gap-2">{actionButton()}</div>
                 </div>

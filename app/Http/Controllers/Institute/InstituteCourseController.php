@@ -59,23 +59,12 @@ class InstituteCourseController extends Controller
         ]);
     }
 
-    public function postCourse(CourseRequest $request)
-    {
-        try {
-            $data = $request->validated();
-            $this->service->createOrUpdateCourses($data);
-            return redirect(route('institute.my-courses'))->with('success', 'Course created!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => $e->getMessage()]);
-        }
-    }
-
-    public function putCourse(CourseRequest $request, $id)
+    public function postCourse(CourseRequest $request, $id)
     {
         try {
             $data = $request->validated();
             $this->service->createOrUpdateCourses($data, $id);
-            return redirect(route('institute.my-courses'))->with('success', 'Course updated!');
+            return redirect(route('institute.my-courses'))->with('success', 'Course created!');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => $e->getMessage()]);
         }

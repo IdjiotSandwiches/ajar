@@ -14,15 +14,13 @@ export default function TeacherList({ teachers }: any) {
         }
     }, [safeTeachers.length]);
 
-    const teacher = safeTeachers[currentTeacherIndex]?.teacher?.user;
-    const imgSrc = teacher?.profile_picture || "https://placehold.co/400";
-
+    const teacher = safeTeachers[currentTeacherIndex];
     return (
         <div className="relative h-[56px] overflow-hidden bg-[#F9FCFF] dark:bg-gray-700">
             {safeTeachers.length > 0 ? (
                 <div className="absolute inset-0 transition-all duration-700 ease-in-out flex items-center gap-2 px-4 py-2">
                     <img
-                        src={storageUrl(imgSrc)}
+                        src={storageUrl(teacher?.profile_picture)}
                         alt={teacher?.name || "Teacher"}
                         className="w-8 h-8 rounded-full object-cover border"
                     />

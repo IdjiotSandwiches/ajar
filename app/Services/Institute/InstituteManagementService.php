@@ -136,7 +136,7 @@ class InstituteManagementService
                 ->dispatch();
         }
 
-        $user = User::findOrFail($id);
+        $user = Auth::user();
         $user->notify(new RequestApproved('Access Revoked', "Your access to {$user->name} has been revoked."));
     }
 

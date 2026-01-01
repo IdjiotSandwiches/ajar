@@ -34,6 +34,7 @@ class CourseRequest extends FormRequest
      */
     public function rules(): array
     {
+        // dd($this->all());
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -54,9 +55,9 @@ class CourseRequest extends FormRequest
             'course_overviews' => 'required|array',
             'course_overviews.*.id' => 'numeric',
             'course_overviews.*.description' => 'required|string',
-            'course_sessions' => 'required|array',
-            'course_sessions.*.id' => 'numeric',
-            'course_sessions.*.description' => 'required|string',
+            // 'course_sessions' => 'required|array',
+            // 'course_sessions.*.id' => 'numeric',
+            // 'course_sessions.*.description' => 'required|string',
             'course_skills' => 'required|array',
             'course_skills.*.id' => 'required|numeric|exists:skills,id',
             'course_images' => 'required|image|max:256',

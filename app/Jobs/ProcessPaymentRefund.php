@@ -83,13 +83,19 @@ class ProcessPaymentRefund implements ShouldQueue
     private function refundPaid($payment): void
     {
         $refundId = 'RFD' . now()->timestamp . random_int(100, 999);
-        \Midtrans\Transaction::refund(
-            $payment->unique_id,
-            [
-                'refund_key' => $refundId,
-                'reason' => 'Class cancellation',
-            ]
-        );
+        try {
+            \Midtrans\Transaction::refund(
+                $payment->unique_id,
+                [
+                    'refund_key' => $refundId,
+                    'reason' => 'Class cancellation',
+                ]
+            );
+        } catch (\Exception $e) {
+            logger()->warning('Midtrans refund failed', [
+                'order_id' => $payment->unique_id
+            ]);
+        }
 
         $payment->update([
             'status' => PaymentStatusEnum::Refund,

@@ -45,6 +45,8 @@ class TeacherService
 
         return [
             'teacher' => [
+                'id' => $teacher->user_id,
+                'uuid' => $teacher->user->uuid,
                 'name' => $teacher->user->name,
                 'description' => $teacher->description,
                 'graduates' => $teacher->graduates,

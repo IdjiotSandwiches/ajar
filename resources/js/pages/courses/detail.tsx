@@ -6,7 +6,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 
-export default function CourseDetailPage({ course, popularCourses, teaching, canApply, hasSchedule }: any) {
+export default function CourseDetailPage({ course }: any) {
     const [activeTab, setActiveTab] = useState('syllabus');
 
     const syllabusRef = useRef<HTMLHeadingElement | null>(null);
@@ -60,7 +60,7 @@ export default function CourseDetailPage({ course, popularCourses, teaching, can
         <>
             <Head title={course?.name || 'Not Found'} />
             <div className="min-h-screen">
-                <CourseHero course={course} teaching={teaching} canApply={canApply} hasSchedule={hasSchedule} />
+                <CourseHero course={course} />
                 <div className="relative z-20 mb-8 flex justify-center px-3 -mt-6">
                     <div className="scrollbar-hide flex max-w-full gap-4 overflow-x-auto rounded-full border bg-white px-6 py-1 shadow-sm dark:bg-[#222831] dark:shadow-[#ffffff]/20">
                         {[
@@ -83,7 +83,7 @@ export default function CourseDetailPage({ course, popularCourses, teaching, can
                     </div>
                 </div>
                 <div className="mt-4 block px-4 sm:px-6 lg:px-12 lg:hidden">
-                    <CourseSidebar institute={course.institute.user} teacher={course.teacher_schedules} />
+                    <CourseSidebar institute={course.institute} teacher={course.teachers} />
                 </div>
                 <div className="mx-auto mt-10 lg:mt-0 grid grid-cols-1 gap-10 px-4 sm:px-6 lg:px-12 lg:grid-cols-6 2xl:grid-cols-8">
                     <div className="space-y-10 lg:col-span-4 2xl:col-span-6">
@@ -94,12 +94,12 @@ export default function CourseDetailPage({ course, popularCourses, teaching, can
                             <h2 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Learning Objectives</h2>
 
                             <ul className="ml-5 list-disc space-y-2 text-gray-600 dark:text-white/80">
-                                {course.course_learning_objectives?.map((item: any) => <li key={item.id}>{item.description}</li>)}
+                                {course.learning_objectives?.map((item: any, index: number) => <li key={index}>{item.description}</li>)}
                             </ul>
 
                             <h2 className="mt-8 mb-4 text-lg font-semibold text-gray-800 dark:text-white">Course Overview</h2>
                             <ul className="ml-5 list-disc space-y-2 text-gray-600 dark:text-white/80">
-                                {course.course_overviews?.map((item: any) => <li key={item.id}>{item.description}</li>)}
+                                {course.overviews?.map((item: any, index: number) => <li key={index}>{item.description}</li>)}
                             </ul>
                         </section>
                         <section>
@@ -108,22 +108,22 @@ export default function CourseDetailPage({ course, popularCourses, teaching, can
                             </h4>
                             <h2 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Skills to be Learned</h2>
                             <ul className="ml-5 list-disc space-y-2 text-gray-600 dark:text-white/80">
-                                {course.course_skills?.map((item: any) => <li key={item.id}>{item.skill.name}</li>)}
+                                {course.skills?.map((item: any, index: number) => <li key={index}>{item.name}</li>)}
                             </ul>
                         </section>
                         <section>
                             <h4 ref={testimonialRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
                                 Testimonial
                             </h4>
-                            <ReviewSection reviews={course.course_reviews} />
+                            <ReviewSection reviews={course.reviews} />
                         </section>
                     </div>
                     <div className="hidden lg:inline lg:col-span-2 2xl:col-span-2">
-                        <CourseSidebar institute={course.institute.user} teacher={course.teaching_courses} />
+                        <CourseSidebar institute={course.institute} teacher={course.teachers} />
                     </div>
                 </div>
                 <div className="mx-auto">
-                    <PopularCourses courses={popularCourses} />
+                    <PopularCourses courses={course.popular_courses} />
                 </div>
             </div>
         </>

@@ -5,7 +5,7 @@ import { FaCheck } from 'react-icons/fa6';
 import DynamicModal from '../modal/modal';
 import { storageUrl } from '@/utils/storage';
 
-export default function CourseHero({ course, teaching, canApply, hasSchedule }: any) {
+export default function CourseHero({ course }: any) {
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
@@ -53,9 +53,9 @@ export default function CourseHero({ course, teaching, canApply, hasSchedule }: 
                         </p>
 
                         <div className="mb-8 grid gap-x-6 gap-y-3 text-gray-700 dark:text-white/90 md:grid-cols-3">
-                            {course.benefits?.map((item: any) => (
+                            {course.benefits?.map((item: any, index: number) => (
                                 <p
-                                    key={item.id}
+                                    key={index}
                                     className="flex items-center gap-2 text-sm"
                                 >
                                     <FaCheck className="text-[#3ABEFF]" />
@@ -65,7 +65,7 @@ export default function CourseHero({ course, teaching, canApply, hasSchedule }: 
                         </div>
                         <div className="mt-4 flex flex-wrap items-center gap-6">
                             {(user?.role_id === roles.Student || !user) && (
-                                hasSchedule ? (
+                                course.has_schedule ? (
                                     <button
                                         onClick={() => router.get(route('payment-register', { course: course.id }))}
                                         className="cursor-pointer rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
@@ -78,14 +78,14 @@ export default function CourseHero({ course, teaching, canApply, hasSchedule }: 
                                     </div>
                                 )
                             )}
-                            {(user?.role_id === roles.Teacher && canApply) &&
-                                (!teaching?.is_verified ? (
+                            {(user?.role_id === roles.Teacher && course.can_apply) &&
+                                (!course.teaching?.is_verified ? (
                                     <button
                                         onClick={handleTeacherApply}
-                                        disabled={teaching && teaching?.is_verified == null}
+                                        disabled={course.teaching && course.teaching.is_verified == null}
                                         className="cursor-pointer rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
                                     >
-                                        {teaching && teaching?.is_verified == null ? 'Please wait a moment' : 'Apply As Teacher'}
+                                        {course.teaching && course.teaching.is_verified == null ? 'Please wait a moment' : 'Apply As Teacher'}
                                     </button>
                                 ) : (
                                     <div className="rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]">

@@ -102,12 +102,13 @@ class DashboardService
             ->where('student_id', $userId)
             ->where('is_verified', true)
             ->whereHas('courseSchedule', function ($query) use ($isToday) {
-                $query->when(
-                    $isToday,
-                    fn($q) => $q->whereToday('start_time')
-                        ->where('start_time', '>', Carbon::now())
-                );
-                $query->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'));
+                $query->where('status', CourseStatusEnum::Scheduled)
+                    ->when(
+                        $isToday,
+                        fn($q) => $q->whereToday('start_time')
+                            ->where('start_time', '>', Carbon::now())
+                    )
+                    ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'));
             })
             ->paginate(5)
             ->through(function ($item) {
@@ -130,9 +131,10 @@ class DashboardService
     {
         $courses = CourseSchedule::with(['teacher.user'])
             ->where('teacher_id', $userId)
+            ->where('start_time', '>', Carbon::now())
+            ->where('status', CourseStatusEnum::Scheduled)
             ->when($isToday, fn($q) => $q->whereToday('start_time'))
             ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'))
-            ->where('start_time', '>', Carbon::now())
             ->paginate(5)
             ->through(function ($item) {
                 $course = $item->course;
@@ -152,6 +154,7 @@ class DashboardService
     private function getInstituteCourses($isToday, $userId)
     {
         $courses = CourseSchedule::with(['teacher.user', 'course'])
+            ->where('status', CourseStatusEnum::Scheduled)
             ->whereHas('course', fn($q) => $q->where('institute_id', $userId))
             ->when($isToday, fn($q) => $q->whereToday('start_time'))
             ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'))
@@ -174,6 +177,7 @@ class DashboardService
     private function getAdminCourses($isToday)
     {
         $courses = CourseSchedule::with(['teacher.user'])
+            ->where('status', CourseStatusEnum::Scheduled)
             ->when($isToday, fn($q) => $q->whereToday('start_time'))
             ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'))
             ->paginate(5)
