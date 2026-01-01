@@ -64,6 +64,7 @@ class RegisterController extends Controller
             return back()->withErrors(['error' => $e->getMessage()]);
         }
 
-        return to_route('verification.notice');
+        // return to_route('verification.notice');
+        return to_route('dashboard');
     }
 }
