@@ -49,18 +49,31 @@ export function AddReviewModal({
         setComment: (v: string) => void;
     }) => (
         <>
-            <button onClick={onClose} className="absolute top-4 right-4 text-gray-500">
+            <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-white/70 dark:hover:text-white">
                 <X size={20} />
             </button>
 
-            <h2 className="mb-1 text-xl font-semibold text-gray-800">Give Review</h2>
-            <p className="mb-6 text-sm text-gray-500">{data.subtitle}</p>
+            <h2 className="mb-1 text-xl font-semibold text-gray-800 dark:text-white">
+                Give Review
+            </h2>
+
+            <p className="mb-6 text-sm text-gray-500 dark:text-white/70">
+                {data.subtitle}
+            </p>
 
             <div className="mb-3 flex items-center justify-center gap-3">
                 <img src={storageUrl(data.image)} className="h-12 w-12 rounded-md object-cover" />
                 <div className="text-left">
-                    <p className="font-medium text-gray-800">{data.name}</p>
-                    {data.role && <p className="text-xs text-gray-500">{data.role}</p>}
+                    <p className="font-medium text-gray-800 dark:text-white">
+                        {data.name}
+                    </p>
+
+                    {data.role && (
+                        <p className="text-xs text-gray-500 dark:text-white/60">
+                            {data.role}
+                        </p>
+                    )}
+
                 </div>
             </div>
 
@@ -69,10 +82,12 @@ export function AddReviewModal({
                     <button
                         key={num}
                         onClick={() => data.setRating(num)}
-                        className={`text-2xl ${num <= data.rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                        className={`text-2xl transition
+                            ${num <= data.rating ? 'text-yellow-400' : 'text-gray-300 dark:text-white/30'}`}
                     >
                         ★
                     </button>
+
                 ))}
             </div>
 
@@ -80,14 +95,15 @@ export function AddReviewModal({
                 value={data.comment}
                 onChange={(e) => data.setComment(e.target.value)}
                 placeholder="Type your review..."
-                className="mb-4 h-24 w-full rounded-lg border px-4 py-2 text-sm"
+                className="mb-4 h-24 w-full rounded-lg border border-gray-300 dark:border-white/20 bg-white dark:bg-[#222831] px-4 py-2 text-sm text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/40 focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none"
             />
+
         </>
     );
 
     return (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm">
-            <div className="animate-fadeIn relative max-h-[85vh] w-[90%] max-w-lg overflow-y-auto rounded-2xl bg-white p-6 text-center shadow-2xl">
+            <div className="animate-fadeIn relative max-h-[85vh] w-[90%] max-w-lg overflow-y-auto rounded-2xl bg-white dark:bg-[#222831] p-6 text-center shadow-md dark:shadow-white/20">
                 {step === 1 &&
                     renderSection({
                         title: 'Teacher Review',
