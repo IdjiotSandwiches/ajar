@@ -33,16 +33,16 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
         <>
             <Head title={institute?.user?.name || 'Not Found'} />
             <div className="flex min-h-screen flex-col">
-                <div className="mx-auto w-full max-w-6xl p-6 mt-8">
+                <div className="mx-auto mt-8 w-full max-w-6xl p-6">
                     <div className="flex flex-col items-stretch overflow-hidden rounded-xl shadow-md md:flex-row">
-                        <div className="flex items-center justify-center bg-[#3ABEFF] dark:bg-[#222831] p-6 py-8 md:p-6 md:py-6">
+                        <div className="flex items-center justify-center bg-[#3ABEFF] p-6 py-8 md:p-6 md:py-6 dark:bg-[#222831]">
                             <img
                                 src={storageUrl(institute.user?.profile_picture)}
                                 alt={institute.user.name}
                                 className="h-28 w-28 rounded-lg object-cover outline-6 outline-white md:h-40 md:w-40"
                             />
                         </div>
-                        <div className="relative flex flex-1 cursor-default flex-col items-center justify-between gap-4 bg-[#3ABEFF] dark:bg-[#222831] p-4 text-white md:flex-row md:items-center md:gap-0 md:p-6">
+                        <div className="relative flex flex-1 cursor-default flex-col items-center justify-between gap-4 bg-[#3ABEFF] p-4 text-white md:flex-row md:items-center md:gap-0 md:p-6 dark:bg-[#222831]">
                             <div className="pointer-events-none absolute top-0 right-0 h-full opacity-100">
                                 <img src="/images/gear.png" alt="gear-bg" className="h-full object-contain" />
                             </div>
@@ -144,36 +144,30 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                             </div>
                         ) : (
                             <div className="py-8 text-center text-sm text-gray-500 dark:text-white/80">
-                                <p className="font-medium text-gray-700 dark:text-white">
-                                    No teachers yet
-                                </p>
-                                <p className="mt-1">
-                                    This institution hasn’t added any teachers yet.
-                                </p>
+                                <p className="font-medium text-gray-700 dark:text-white">No teachers yet</p>
+                                <p className="mt-1">This institution hasn't added any teachers yet.</p>
                             </div>
                         )}
                     </div>
                     <div className="mt-10">
                         <h3 className="mb-4 text-xl font-semibold">Courses</h3>
-                        <InfiniteScroll
-                            buffer={1}
-                            loading={() => 'Loading more courses...'}
-                            data="courses"
-                            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-                        >
-                            {courses.data.length == 0 ? (
-                                <div className="py-8 text-center text-sm text-gray-500 dark:text-white/80">
-                                    <p className="font-medium text-gray-700 dark:text-white">
-                                        No courses available
-                                    </p>
-                                    <p className="mt-1">
-                                        This institution hasn’t added any courses yet.
-                                    </p>
-                                </div>
-                            ) : (
-                                courses.data.map((course: any, index: number) => <CourseCard key={index} course={course} isTag={false} />)
-                            )}
-                        </InfiniteScroll>
+                        {courses.data.length == 0 ? (
+                            <div className="py-8 text-center text-sm text-gray-500 dark:text-white/80">
+                                <p className="font-medium text-gray-700 dark:text-white">No courses available</p>
+                                <p className="mt-1">This institution hasn't added any courses yet.</p>
+                            </div>
+                        ) : (
+                            <InfiniteScroll
+                                buffer={1}
+                                loading={() => 'Loading more courses...'}
+                                data="courses"
+                                className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                            >
+                                {courses.data.map((course: any, index: number) => (
+                                    <CourseCard key={index} course={course} isTag={false} />
+                                ))}
+                            </InfiniteScroll>
+                        )}
                     </div>
                 </div>
             </div>
@@ -185,7 +179,6 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                 onConfirm={handleConfirmApply}
                 description={`Are you sure you want to apply as a teacher at ${institute.user.name}?`}
             />
-
         </>
     );
 }
