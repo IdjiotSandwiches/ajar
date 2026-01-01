@@ -1,7 +1,7 @@
+import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
 import { useEffect, useRef } from 'react';
 import TeacherProfileCard from '../teacher/card';
-import { storageUrl } from '@/utils/storage';
 
 export default function CourseSidebar({ teacher, institute }: any) {
     const sliderRef = useRef<HTMLDivElement | null>(null);
@@ -29,16 +29,12 @@ export default function CourseSidebar({ teacher, institute }: any) {
             <div>
                 <h3 className="mb-2 text-sm font-semibold text-gray-700 dark:text-white">Institution</h3>
                 <div
-                    className="cursor-pointer rounded-2xl bg-[#3ABEFF] dark:bg-[#222831] p-1 shadow-lg"
+                    className="cursor-pointer rounded-2xl bg-[#3ABEFF] p-1 shadow-lg dark:bg-[#222831]"
                     onClick={() => router.get(route('detail-institute', institute.id))}
                 >
                     <div className="rounded-2xl bg-white p-0.5">
-                        <div className="relative flex items-center gap-4 overflow-hidden rounded-2xl bg-[#3ABEFF] dark:bg-[#222831] p-2 text-center">
-                            <img
-                                src={storageUrl(institute?.profile_picture)}
-                                alt="ins"
-                                className="h-12 w-12 rounded-full"
-                            />
+                        <div className="relative flex items-center gap-4 overflow-hidden rounded-2xl bg-[#3ABEFF] p-2 text-center dark:bg-[#222831]">
+                            <img src={storageUrl(institute.profile_picture)} alt="ins" className="h-12 w-12 rounded-full" />
                             <span className="font-medium text-white">{institute.name}</span>
                         </div>
                     </div>
@@ -47,7 +43,7 @@ export default function CourseSidebar({ teacher, institute }: any) {
             <div>
                 <h3 className="mb-2 text-sm font-semibold text-gray-700 dark:text-white">Teachers</h3>
                 {teachers.length === 0 ? (
-                    <p className="text-gray-500 text-sm dark:text-white/70">No teacher yet</p>
+                    <p className="text-sm text-gray-500 dark:text-white/70">No teacher yet</p>
                 ) : (
                     <div
                         ref={sliderRef}
@@ -56,9 +52,7 @@ export default function CourseSidebar({ teacher, institute }: any) {
                     >
                         {teachers.map((t: any, index: number) => (
                             <div key={index} className="w-full flex-shrink-0 snap-center">
-                                <div className="cursor-pointer" onClick={() => router.get(route('detail-teacher', t.teacher.user_id))}>
-                                    <TeacherProfileCard teacher={t.teacher} />
-                                </div>
+                                <TeacherProfileCard teacher={t} canRedirect={true} />
                             </div>
                         ))}
                     </div>
