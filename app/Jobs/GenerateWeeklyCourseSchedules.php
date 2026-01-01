@@ -35,7 +35,7 @@ class GenerateWeeklyCourseSchedules implements ShouldQueue
         $rules = CourseWeeklyRule::with('teachingCourse.course')
             ->when($this->generateNow, function ($q) use ($tomorrow) {
                 $tomorrowIso = $tomorrow->dayOfWeekIso;
-                $allowedDays = array_filter(DayEnum::cases(), fn($d) =>  $d->carbonDay() + 1 >= $tomorrowIso);
+                $allowedDays = array_filter(DayEnum::cases(), fn($d) => $d->carbonDay() + 1 >= $tomorrowIso);
                 $allowedDayValues = array_map(fn($d) => $d->value, $allowedDays);
                 return $q->whereIn('day', $allowedDayValues);
             })
@@ -44,7 +44,12 @@ class GenerateWeeklyCourseSchedules implements ShouldQueue
 
         foreach ($rules as $rule) {
             if ($this->generateNow) {
-                $date = $tomorrow;
+                $ruleOffset = $rule->day->offsetFromMonday();
+                $tomorrowOffset = $tomorrow->dayOfWeekIso - 1;
+                $daysToAdd = $ruleOffset - $tomorrowOffset;
+
+                if ($daysToAdd < 0) continue;
+                $date = $tomorrow->copy()->addDays($daysToAdd);
             } else {
                 $weekStart = Carbon::now()
                     ->startOfWeek()
