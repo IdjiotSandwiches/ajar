@@ -53,7 +53,6 @@ Route::middleware(['auth', 'block.unverified.teacher'])
                 Route::put('profile', 'putProfile')->name('update-profile');
             });
             Route::controller(PaymentController::class)->group(function () {
-                Route::get('payment-lms', 'getPaymentList')->name('payment-lms');
                 Route::get('payment-register', 'getEnrollment')->name('payment-register');
                 Route::get('payment-register/{id}', 'getPendingEnrollment')->name('pending-payment');
                 Route::post('payment-register/{id}/{bypass?}', 'createPayment')->name('pay');
@@ -65,7 +64,7 @@ Route::middleware(['auth', 'block.unverified.teacher'])
             ->group(function () {
                 Route::controller(AdminCourseController::class)->group(function () {
                     Route::get('course-completion', 'getCompletedCourses')->name('course-completion');
-                    Route::post('course-completion/{id}', 'completeCourse')->name('complete-course');
+                    Route::post('course-completion/{id}/{isVerified}', 'completeCourse')->name('complete-course');
                     Route::get('remove-course', 'getAllCourses')->name('course-management');
                     Route::delete('remove-course/{id}', 'removeCourse')->name('remove-course');
                 });
@@ -143,13 +142,17 @@ Route::middleware(['auth', 'block.unverified.teacher'])
                     Route::post('reviews/{id}', 'addReviews')->name('add-reviews');
                 });
             });
-        Route::middleware(['role:Student,Teacher,Institute', 'user.last.seen.at'])
-            ->controller(ChatController::class)
+        Route::middleware(['role:Student,Teacher,Institute'])
             ->group(function () {
-                Route::get('chat', 'index')->name('chat.index');
-                Route::get('chat/{user:uuid}', 'show')->name('chat.show');
-                Route::post('chat/{user:uuid}', 'chat')->name('chat.store');
-                Route::delete('chat/delete/{chat}', 'destroy')->name('chat.destroy');
+                Route::middleware(['user.last.seen.at'])
+                    ->controller(ChatController::class)
+                    ->group(function () {
+                        Route::get('chat', 'index')->name('chat.index');
+                        Route::get('chat/{user:uuid}', 'show')->name('chat.show');
+                        Route::post('chat/{user:uuid}', 'chat')->name('chat.store');
+                        Route::delete('chat/delete/{chat}', 'destroy')->name('chat.destroy');
+                    });
+                Route::get('payment-lms', [PaymentController::class, 'getPaymentList'])->name('payment-lms');
             });
     });
 

@@ -45,6 +45,7 @@ const MENU_TEACHER: NavItem[] = [
     },
     { id: "coursestaught", label: "Courses Taught", icon: <BookA size={18} />, route: "teacher.courses-taught" },
     { id: "messages", label: "Messages", icon: <MessageSquare size={18} />, route: "chat.index" },
+    { id: "earnings", label: "Earnings", icon: <FaMoneyBill size={18} />, route: "payment-lms" },
     { id: "profile", label: "Profile", icon: <User size={18} />, route: "teacher.profile" },
 ];
 
@@ -78,6 +79,7 @@ const MENU_INSTITUTE: NavItem[] = [
         ],
     },
     { id: "messages", label: "Messages", icon: <MessageSquare size={18} />, route: "chat.index" },
+    { id: "earnings", label: "Earnings", icon: <FaMoneyBill size={18} />, route: "payment-lms" },
     { id: "profile", label: "Profile", icon: <User size={18} />, route: "institute.profile" },
 ];
 

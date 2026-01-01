@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,6 +20,14 @@ class Disbursement extends Model
         'user_id',
         'unique_id',
         'amount',
+        'course_name',
+        'related_entry',
+        'schedule',
+        'status'
+    ];
+
+    protected $casts = [
+        'status' => PaymentStatusEnum::class
     ];
 
     public function courseSchedule()
