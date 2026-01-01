@@ -57,8 +57,7 @@ class PaymentController extends Controller
                     'snap_token' => $snapToken
                 ]);
             } else {
-                return redirect()->route('payment-lms')
-                    ->with('success', 'Enroll success.');
+                return redirect()->route('payment-lms');
             }
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
