@@ -24,10 +24,10 @@ export default function CourseCard({ enroll, state, review }: any) {
     });
 
     const handleJoinButton = () => {
-        if (!enroll.meetingLink && !enroll.can_join && user?.role_id === roles.Student) {
+        if ((!enroll.meeting_link || !enroll.can_join) && user?.role_id === roles.Student) {
             setModalType('warning');
         } else {
-            window.open(enroll.meetingLink, '_blank');
+            window.open(enroll.meeting_link, '_blank');
         }
     };
 
