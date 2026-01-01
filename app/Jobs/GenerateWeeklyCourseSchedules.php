@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Enums\DayEnum;
 use Carbon\Carbon;
 use App\Models\CourseSchedule;
 use App\Models\CourseWeeklyRule;
@@ -18,9 +19,11 @@ class GenerateWeeklyCourseSchedules implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    private bool $generateNow;
+
+    public function __construct(bool $generateNow = false)
     {
-        //
+        $this->generateNow = $generateNow;
     }
 
     /**
@@ -28,17 +31,28 @@ class GenerateWeeklyCourseSchedules implements ShouldQueue
      */
     public function handle(): void
     {
+        $tomorrow = Carbon::tomorrow();
         $rules = CourseWeeklyRule::with('teachingCourse.course')
+            ->when($this->generateNow, function ($q) use ($tomorrow) {
+                $tomorrowIso = $tomorrow->dayOfWeekIso;
+                $allowedDays = array_filter(DayEnum::cases(), fn($d) =>  $d->carbonDay() + 1 >= $tomorrowIso);
+                $allowedDayValues = array_map(fn($d) => $d->value, $allowedDays);
+                return $q->whereIn('day', $allowedDayValues);
+            })
             ->where('active', true)
             ->get();
 
         foreach ($rules as $rule) {
-            $weekStart = Carbon::now()
-                ->startOfWeek()
-                ->addWeek();
+            if ($this->generateNow) {
+                $date = $tomorrow;
+            } else {
+                $weekStart = Carbon::now()
+                    ->startOfWeek()
+                    ->addWeek();
 
-            $date = $weekStart->copy()
-                ->addDays($rule->day->offsetFromMonday());
+                $date = $weekStart->copy()
+                    ->addDays($rule->day->offsetFromMonday());
+            }
 
             $start = $date->copy()->setTime($rule->start_time->hour, $rule->start_time->minute);
             $end = $start->copy()->addMinutes($rule->teachingCourse->course->duration);

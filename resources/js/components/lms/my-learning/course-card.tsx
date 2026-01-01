@@ -109,6 +109,7 @@ export default function CourseCard({ enroll, state, review }: any) {
     };
 
     const actionButton = () => actions[user?.role_id!]?.() ?? null;
+    console.log(enroll);
 
     return (
         <>
@@ -121,16 +122,13 @@ export default function CourseCard({ enroll, state, review }: any) {
                             {enroll.teacher} | {enroll.institute}
                         </p>
                         <p className="mb-1 text-xs text-gray-500 dark:text-white/70">{enroll.duration} Minutes</p>
-                        <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
+                        <p className="mb-1 text-xs text-gray-600 dark:text-white/80">
                             {state === states.Completed ? 'Finish at ' : 'Start at '}
                             <span className="font-medium text-black dark:text-white">{enroll.schedule}</span>
                         </p>
-                        {enroll.enrollment_count && (
-                            <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
-                                {'Enrollment Count '}
-                                <span className="font-medium text-black dark:text-white">{enroll.enrollment_count}</span>
-                            </p>
-                        )}
+                        <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
+                            Enrollment Count: <span className="font-medium text-black dark:text-white">{enroll.enrollment_count}</span>
+                        </p>
                     </div>
                     <div className="mt-2 flex justify-end gap-2">{actionButton()}</div>
                 </div>

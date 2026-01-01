@@ -78,4 +78,14 @@ class TeacherScheduleController extends Controller
             return back()->with('error', 'Schedule not found.');
         }
     }
+
+    public function generateScheduleNow()
+    {
+        try {
+            $this->service->generateScheduleNow();
+            return back()->with('success', 'Schedules are being generated.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to generate schedules. Please try again.');
+        }
+    }
 }

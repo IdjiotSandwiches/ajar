@@ -104,6 +104,7 @@ Route::middleware(['auth', 'block.unverified.teacher'])
                     Route::post('manage-availability', 'manageAvailability')->name('manage-availability');
                     Route::get('courses-taught', 'getTeachingCourses')->name('courses-taught');
                     Route::post('cancel-schedule/{id}', 'cancelSchedule')->name('cancel-schedule');
+                    Route::post('generate-now', 'generateScheduleNow')->name('generate-now');
                 });
             });
         Route::middleware(['role:Institute'])
