@@ -1,3 +1,4 @@
+import DynamicModal from '@/components/modal/modal';
 import TeacherProfileCard from '@/components/teacher/card';
 import ReviewSection from '@/components/teacher/review';
 import CourseCard from '@/components/ui/course-card';
@@ -13,6 +14,29 @@ export default function TeacherDetailPage({ teacher, application }: any) {
     const roles = props.enums?.roles_enum;
 
     const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [confirmAction, setConfirmAction] = useState<'accept' | 'reject' | null>(null);
+
+    const openConfirmModal = (action: 'accept' | 'reject') => {
+        setConfirmAction(action);
+        setShowConfirmModal(true);
+    };
+
+    const handleConfirmAction = () => {
+        if (!confirmAction) return;
+
+        if (confirmAction === 'accept') {
+            router.post(route('institute.accept-teacher', teacher?.user_id));
+        }
+
+        if (confirmAction === 'reject') {
+            router.post(route('institute.reject-teacher', teacher?.user_id));
+        }
+
+        setShowConfirmModal(false);
+        setConfirmAction(null);
+    };
+
     if (!teacher) {
         return <div className="flex min-h-screen items-center justify-center text-gray-500">Teacher not found.</div>;
     }
@@ -27,14 +51,16 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                         {application && application?.is_verified === null && user?.role_id === roles.Institute && (
                             <div className="mt-6 flex w-full flex-col">
                                 <button
-                                    onClick={() => router.post(route('institute.accept-teacher', teacher?.user_id))}
+                                    // onClick={() => router.post(route('institute.accept-teacher', teacher?.user_id))}
+                                    onClick={() => openConfirmModal('accept')}
                                     className="mb-3 w-full cursor-pointer rounded-lg bg-[#3ABEFF] py-2 font-medium text-white transition hover:bg-[#34a9dd]"
                                 >
                                     Accept
                                 </button>
                                 <button
-                                    onClick={() => router.post(route('institute.reject-teacher', teacher?.user_id))}
-                                    className="w-full cursor-pointer rounded-lg border border-[#3ABEFF] py-2 font-medium text-[#3ABEFF] transition hover:bg-[#3ABEFF]/10"
+                                    // onClick={() => router.post(route('institute.reject-teacher', teacher?.user_id))}
+                                    onClick={() => openConfirmModal('reject')}
+                                    className="w-full cursor-pointer rounded-lg border border-[#3ABEFF] py-2 font-mum text-[#3ABEFF] transition hover:bg-[#3ABEFF]/10"
                                 >
                                     Reject
                                 </button>
@@ -171,8 +197,23 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                     </div>
                 </div>
             )}
+
+            <DynamicModal
+                type="confirmation"
+                isOpen={showConfirmModal}
+                onClose={() => {
+                    setShowConfirmModal(false);
+                    setConfirmAction(null);
+                }}
+                onConfirm={handleConfirmAction}
+                description={
+                    confirmAction === 'accept'
+                        ? `Are you sure you want to accept ${teacher.user.name} as a teacher?`
+                        : `Are you sure you want to reject ${teacher.user.name}'s application?`
+                }
+            />
         </>
     );
 }
 
-TeacherDetailPage.layout = (page: React.ReactNode) => <AppLayout useContainer={false}>{page}</AppLayout>;
+TeacherDetailPage.layout = (page: React.ReactNode) => <AppLayout >{page}</AppLayout>;
