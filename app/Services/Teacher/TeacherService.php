@@ -2,25 +2,15 @@
 
 namespace App\Services\Teacher;
 
-use App\Models\Category;
 use App\Models\Teacher;
 use App\Models\TeacherApplication;
 use App\Utilities\UploadUtility;
 use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TeacherService
 {
-    public function getSubCategories()
-    {
-        $categories = Category::query()
-            ->whereNotNull('parent_id')
-            ->select(['id', 'name'])
-            ->get();
-
-        return $categories;
-    }
-
     public function getTeacherDetail($id)
     {
         $teacher = Teacher::with([
@@ -95,49 +85,58 @@ class TeacherService
         Utility::updateSocialMedias($user, $data);
     }
 
-    public function updateDetail($data)
+
+    public function updateDetail(array $data)
     {
-        $user = Auth::user();
-        $teacher = $user->teacher;
-        $teacher->update([
-            'description' => $data['description'],
-        ]);
+        return DB::transaction(function () use ($data) {
+            $user = Auth::user();
+            $teacher = $user->teacher;
 
-        $teacher->graduates()->delete();
-        foreach ($data['graduates'] as $g) {
-            $teacher->graduates()->create([
-                'degree_title' => $g['degree_title'],
-                'university_name' => $g['university_name'],
-                'degree_type_id' => $g['degree_type'],
+            $teacher->update([
+                'description' => $data['description'],
             ]);
-        }
 
-        $teacher->workExperiences()->delete();
-        foreach ($data['works'] as $w) {
-            $teacher->workExperiences()->create([
-                'position' => $w['position'],
-                'institution' => $w['institution'],
-                'duration' => $w['duration'],
-            ]);
-        }
-
-        if (!empty($data['certificates'])) {
-            foreach ($data['certificates'] as $file) {
-                $url = UploadUtility::upload($file, 'certificates');
-                $teacher->certificates()->create([
-                    'image' => $url,
+            $teacher->graduates()->delete();
+            foreach ($data['graduates'] as $g) {
+                $teacher->graduates()->create([
+                    'degree_title' => $g['degree_title'],
+                    'university_name' => $g['university_name'],
+                    'degree_type_id' => $g['degree_type'],
                 ]);
             }
-        }
 
-        if (!empty($data['deleted_certificates'])) {
-            $teacher->certificates()
-                ->whereIn('image', $data['deleted_certificates'])
-                ->delete();
-
-            foreach ($data['deleted_certificates'] as $file) {
-                UploadUtility::remove($file);
+            $teacher->workExperiences()->delete();
+            foreach ($data['works'] as $w) {
+                $teacher->workExperiences()->create([
+                    'position' => $w['position'],
+                    'institution' => $w['institution'],
+                    'duration' => $w['duration'],
+                ]);
             }
+
+            if (!empty($data['deleted_certificates'])) {
+                $teacher->certificates()
+                    ->whereIn('image', $data['deleted_certificates'])
+                    ->delete();
+            }
+
+            if (!empty($data['certificates'])) {
+                foreach ($data['certificates'] as $file) {
+                    $url = UploadUtility::upload($file, 'certificates');
+
+                    $teacher->certificates()->create([
+                        'image' => $url,
+                    ]);
+                }
+            }
+
+            if ($teacher->certificates()->count() === 0) {
+                throw new \Exception('At least one certificate is required.');
+            }
+        });
+
+        foreach ($data['deleted_certificates'] ?? [] as $file) {
+            UploadUtility::remove($file);
         }
     }
 }

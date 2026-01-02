@@ -1,66 +1,61 @@
 import { storageUrl } from '@/utils/storage';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-interface DetailImageProps {
-    Index: number;
-    onFilesChange: (files: File[]) => void;
-    onRemove?: (file: File | string) => void;
-    productImages?: (File | string)[];
-    multiple?: boolean;
+interface Props {
+    index: number;
     name: string;
+    images: (File | string)[];
+    multiple?: boolean;
+    onChange: (files: (File | string)[]) => void;
+    onRemove?: (file: File | string) => void;
 }
 
-const DetailImage: React.FC<DetailImageProps> = ({ Index, onFilesChange, onRemove, productImages = [], multiple = true, name }) => {
-    const [files, setFiles] = useState<(File | string)[]>(productImages);
-    const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+export default function DetailImage({ index, name, images, multiple = true, onChange, onRemove }: Props) {
+    const [previews, setPreviews] = useState<string[]>([]);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        const urls = (files ?? []).map((img) => {
-            if (img instanceof File) return URL.createObjectURL(img);
-            if (typeof img === 'string') return storageUrl(img);
-            return '';
-        });
+        const urls = images.map((img) => (img instanceof File ? URL.createObjectURL(img) : storageUrl(img)));
 
-        setPreviewUrls(urls);
+        setPreviews(urls);
 
         return () => {
-            (files ?? []).forEach((img, i) => {
-                if (img instanceof File) URL.revokeObjectURL(urls[i]);
-            });
+            urls.forEach((url) => URL.revokeObjectURL(url));
         };
-    }, [files]);
+    }, [images]);
 
-    const handleFilesChange = (newFiles: FileList | null) => {
-        if (!newFiles) return;
-        const selectedFiles = Array.from(newFiles);
-        const updatedFiles = multiple ? [...files, ...selectedFiles] : [selectedFiles[selectedFiles.length - 1]];
-        setFiles(updatedFiles);
-        onFilesChange(selectedFiles);
-    };
+    const handleFileSelect = (files: FileList | null) => {
+        if (!files) return;
 
-    const removeFile = (fileToRemove: File | string) => {
-        const updatedFiles = files.filter((file) => file !== fileToRemove);
-        setFiles(updatedFiles);
+        const selected = Array.from(files);
+        const newFiles = selected.filter((file) => !images.some((img) => img instanceof File && img.name === file.name && img.size === file.size));
 
-        if (onRemove) {
-            onRemove(fileToRemove);
-        } else {
-            onFilesChange(updatedFiles as File[]);
+        const updated = multiple ? [...images, ...newFiles] : [selected.at(-1)!];
+        onChange(updated);
+
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
         }
     };
 
-    const inputId = `hidden-input-${Index}`;
+    const remove = (file: File | string) => {
+        onRemove?.(file);
+    };
+
+    const inputId = `file-input-${index}`;
 
     return (
-        <div className="my-6 rounded-lg border dark:border-white/20 p-6">
-            <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed dark:border-white/20 py-24">
+        <div className="my-6 rounded-lg border p-6 dark:border-white/20">
+            <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed py-24 dark:border-white/20">
                 <input
+                    ref={fileInputRef}
                     type="file"
                     name={name}
                     id={inputId}
-                    {...(multiple ? { multiple: true } : {})}
-                    className="hidden"
-                    onChange={(e) => handleFilesChange(e.target.files)}
+                    multiple={multiple}
+                    hidden
+                    onChange={(e) => handleFileSelect(e.target.files)}
                     accept="image/*"
                 />
                 <button
@@ -75,26 +70,20 @@ const DetailImage: React.FC<DetailImageProps> = ({ Index, onFilesChange, onRemov
             <div className="mt-4">
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white">To Upload</h3>
                 <ul className="mt-4 flex flex-wrap gap-4">
-                    {previewUrls.length > 0 ? (
-                        previewUrls.map((url, index) => (
-                            <li key={index} className="relative h-24 w-24 rounded-md border dark:border-white/20">
-                                <img src={url} alt="preview" className="h-full w-full rounded-md object-cover" />
-                                <button
-                                    type="button"
-                                    onClick={() => removeFile(files[index])}
-                                    className="absolute top-0 right-0 pr-1 text-sm text-red-600"
-                                >
+                    {previews.length > 0 ? (
+                        previews.map((src, i) => (
+                            <li key={i} className="relative h-24 w-24">
+                                <img src={src} className="h-full w-full rounded object-cover" />
+                                <button type="button" onClick={() => remove(images[i])} className="absolute top-0 right-0 text-red-600">
                                     &times;
                                 </button>
                             </li>
                         ))
                     ) : (
-                        <li className="text-sm text-gray-500">There is no image!</li>
+                        <li className="text-sm text-gray-500">No images uploaded</li>
                     )}
                 </ul>
             </div>
         </div>
     );
-};
-
-export default DetailImage;
+}

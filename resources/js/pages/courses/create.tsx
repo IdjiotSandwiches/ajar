@@ -128,7 +128,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
         setRows(rows.filter((_: any, i: any) => i !== index));
     };
 
-    const handleImageChange = (files: File[]) => {
+    const handleImageChange = (files: (File | string)[]) => {
         setImage(files[files.length - 1] || null);
     };
 
@@ -408,9 +408,9 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                             <h3 className="mb-3 text-sm font-medium text-gray-800">Course Image</h3>
                             <DetailImage
                                 name="course_images"
-                                productImages={image ? [image] : []}
-                                onFilesChange={handleImageChange}
-                                Index={0}
+                                images={image ? [image] : []}
+                                onChange={handleImageChange}
+                                index={0}
                                 multiple={false}
                             />
                             {errors[`course_images`] && <p className="text-red-500">{errors[`course_images`]}</p>}

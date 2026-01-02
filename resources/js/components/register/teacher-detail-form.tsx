@@ -6,8 +6,22 @@ import WorkForm from './work';
 
 export default function TeacherDetailForm({ form }: any) {
     const getError = (field: any) => form.errors[field];
-    const handleCertificatesChange = (files: File[]) => {
+    const handleCertificatesChange = (files: (File | string)[]) => {
         form.setData('certificates', files);
+    };
+
+    const handleRemoveCertificate = (file: File | string) => {
+        const updated = form.data.certificates.filter((c: any) => c !== file);
+
+        if (typeof file === 'string') {
+            form.setData({
+                ...form.data,
+                certificates: updated,
+                deleted_certificates: [...form.data.deleted_certificates, file],
+            });
+        } else {
+            form.setData('certificates', updated);
+        }
     };
 
     return (
@@ -30,10 +44,11 @@ export default function TeacherDetailForm({ form }: any) {
             <div>
                 <h3 className="mb-3 font-medium text-gray-800 dark:text-white">Certificates</h3>
                 <DetailImage
-                    Index={0}
+                    index={0}
                     multiple={true}
-                    productImages={form.data.certificates ?? []}
-                    onFilesChange={handleCertificatesChange}
+                    images={form.data.certificates ?? []}
+                    onChange={handleCertificatesChange}
+                    onRemove={handleRemoveCertificate}
                     name={'certificates'}
                 />
                 <div className={getError(`certificates`) ? 'h-5' : ''}>

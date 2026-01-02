@@ -3,11 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Enums\DegreeTypeEnum;
-use App\Models\Teacher;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Foundation\Http\FormRequest;
 
 class TeacherDetailRequest extends FormRequest
 {
@@ -25,14 +22,44 @@ class TeacherDetailRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        $certificates = collect($this->get('certificates'))
-            ->filter(fn($certificate) => !\is_string($certificate))
-            ->all();
-
+        $files = $this->file('certificates');
         $this->merge([
-            'certificates' => $certificates,
-            'deleted_certificates' => $this->get('deleted_certificates', []),
+            'certificates' => \is_array($files) ? $files : ($files ? [$files] : []),
+            'deleted_certificates' => $this->deleted_certificates ?? [],
         ]);
+    }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            $errors = $validator->errors();
+            $certificateErrors = collect($errors->getMessages())
+                ->filter(fn($_, $key) => str_starts_with($key, 'certificates.'));
+
+            if ($certificateErrors->isNotEmpty()) {
+                foreach ($certificateErrors as $key => $_) {
+                    $errors->forget($key);
+                }
+
+                $errors->add(
+                    'certificates',
+                    'One or more certificates are invalid. Please upload valid images (max 256KB).'
+                );
+            }
+
+            $teacher = auth()->user()->teacher;
+
+            $existing = $teacher->certificates()->count();
+            $deleted = \count($this->deleted_certificates ?? []);
+            $new = \count($this->certificates ?? []);
+
+            if (($existing - $deleted + $new) <= 0) {
+                $errors->add(
+                    'certificates',
+                    'At least one certificate is required.'
+                );
+            }
+        });
     }
 
     /**
@@ -60,9 +87,6 @@ class TeacherDetailRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user = Auth::user();
-        $teacher = Teacher::find($user->id);
-        $hasCerts = $teacher->certificates()->exists();
         return [
             'description' => 'required|string',
             'graduates' => 'required|array|min:1',
@@ -72,9 +96,9 @@ class TeacherDetailRequest extends FormRequest
             'works' => 'required|array|min:1',
             'works.*.position' => 'required|string',
             'works.*.institution' => 'required|string',
-            'works.*.duration' => 'required|int|min:1',
-            'certificates' => [Rule::requiredIf(!$hasCerts), 'array', 'min:1'],
-            'certificates.*' => 'file|image|max:256',
+            'works.*.duration' => 'required|integer|min:1',
+            'certificates' => 'array',
+            'certificates.*' => 'image|max:256',
             'deleted_certificates' => 'nullable|array',
             'deleted_certificates.*' => 'string',
         ];
