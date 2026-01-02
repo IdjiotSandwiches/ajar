@@ -156,6 +156,8 @@ class InstituteCourseService
                 ->then(fn($batch) => $course->delete())
                 ->name('Handle course refunds (Course Removal)')
                 ->dispatch();
+        } else {
+            $course->delete();
         }
     }
 

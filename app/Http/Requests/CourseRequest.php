@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Course;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CourseRequest extends FormRequest
 {
@@ -34,7 +36,8 @@ class CourseRequest extends FormRequest
      */
     public function rules(): array
     {
-        // dd($this->all());
+        $course = Course::find($this->route('id'));
+        $hasImage = !empty($course?->image);
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -60,7 +63,7 @@ class CourseRequest extends FormRequest
             // 'course_sessions.*.description' => 'required|string',
             'course_skills' => 'required|array',
             'course_skills.*.id' => 'required|numeric|exists:skills,id',
-            'course_images' => 'required|image|max:256',
+            'course_images' => [Rule::requiredIf(!$hasImage), 'image', 'max:256']
         ];
     }
 }

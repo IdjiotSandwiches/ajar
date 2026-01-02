@@ -3,7 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Enums\DegreeTypeEnum;
+use App\Models\Teacher;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
 class TeacherDetailRequest extends FormRequest
@@ -57,7 +60,9 @@ class TeacherDetailRequest extends FormRequest
      */
     public function rules(): array
     {
-        // dd($this->all());
+        $user = Auth::user();
+        $teacher = Teacher::find($user->id);
+        $hasCerts = $teacher->certificates()->exists();
         return [
             'description' => 'required|string',
             'graduates' => 'required|array|min:1',
@@ -68,8 +73,8 @@ class TeacherDetailRequest extends FormRequest
             'works.*.position' => 'required|string',
             'works.*.institution' => 'required|string',
             'works.*.duration' => 'required|int|min:1',
-            'certificates' => 'required|array|min:1',
-            'certificates.*' => 'file|image|mimes:jpeg,png,jpg|max:256',
+            'certificates' => [Rule::requiredIf(!$hasCerts), 'array', 'min:1'],
+            'certificates.*' => 'file|image|max:256',
             'deleted_certificates' => 'nullable|array',
             'deleted_certificates.*' => 'string',
         ];
