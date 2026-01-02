@@ -30,8 +30,8 @@ export default function WorkForm({ form }: any) {
 
                             return (
                                 <>
-                                    <div className="mb-2 grid flex-1 gap-4 md:grid-cols-3">
-                                        <div className="grid w-full max-w-sm items-center gap-2" key={`works.${idx}.institution`}>
+                                    <div className="mb-2 grid flex-1 gap-4 2xl:grid-cols-3">
+                                        <div className="grid w-full items-center gap-2" key={`works.${idx}.institution`}>
                                             {/* <Label htmlFor={`works.${idx}.institution`}>Company/Institution Name - {idx + 1}</Label> */}
                                             <DetailInput
                                                 id={`works.${idx}.institution`}
@@ -53,7 +53,7 @@ export default function WorkForm({ form }: any) {
                                                 <InputError message={getError(`works.${idx}.institution`)} />
                                             </div>
                                         </div>
-                                        <div className="grid w-full max-w-sm items-center gap-2" key={`works.${idx}.position`}>
+                                        <div className="grid w-full items-center gap-2" key={`works.${idx}.position`}>
                                             {/* <Label htmlFor={`works.${idx}.position`}>Position - {idx + 1}</Label> */}
                                             <DetailInput
                                                 id={`works.${idx}.position`}
@@ -75,7 +75,7 @@ export default function WorkForm({ form }: any) {
                                                 <InputError message={getError(`works.${idx}.position`)} />
                                             </div>
                                         </div>
-                                        <div className="grid w-full max-w-sm items-center gap-2" key={`works.${idx}.duration`}>
+                                        <div className="grid w-full items-center gap-2" key={`works.${idx}.duration`}>
                                             {/* <Label htmlFor={`works.${idx}.duration`}>Duration in month - {idx + 1}</Label> */}
                                             <DetailInput
                                                 id={`works.${idx}.duration`}

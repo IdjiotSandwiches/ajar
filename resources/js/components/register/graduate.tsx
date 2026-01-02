@@ -36,8 +36,8 @@ export default function GraduateForm({ form }: any) {
 
                                 return (
                                     <>
-                                        <div className="mb-2 grid flex-1 gap-4 md:grid-cols-3">
-                                            <div className="grid w-full max-w-sm items-center gap-2" key={`graduates.${idx}.university_name`}>
+                                        <div className="mb-2 grid flex-1 gap-4 2xl:grid-cols-3">
+                                            <div className="grid w-full items-center gap-2" key={`graduates.${idx}.university_name`}>
                                                 {/* <Label htmlFor={`graduates.${idx}.university_name`}>Educational Institution {idx + 1}</Label> */}
                                                 <DetailInput
                                                     id={`graduates.${idx}.university_name`}
@@ -59,7 +59,7 @@ export default function GraduateForm({ form }: any) {
                                                     <InputError message={getError(`graduates.${idx}.university_name`)} />
                                                 </div>
                                             </div>
-                                            <div className="grid w-full max-w-sm items-center gap-2" key={`graduates.${idx}.degree_title`}>
+                                            <div className="grid w-full items-center gap-2" key={`graduates.${idx}.degree_title`}>
                                                 {/* <Label htmlFor={`graduates.${idx}.degree_title`}>Title/Major - {idx + 1}</Label> */}
                                                 <DetailInput
                                                     id={`graduates.${idx}.degree_title`}
@@ -81,7 +81,7 @@ export default function GraduateForm({ form }: any) {
                                                     <InputError message={getError(`graduates.${idx}.degree_title`)} />
                                                 </div>
                                             </div>
-                                            <div className="grid w-full max-w-sm items-center gap-2" key={`graduates.${idx}.degree_type`}>
+                                            <div className="grid w-full items-center gap-2" key={`graduates.${idx}.degree_type`}>
                                                 <DetailSelect
                                                     id={`graduates.${idx}.degree_type`}
                                                     name={`graduates.${idx}.degree_type`}

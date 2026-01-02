@@ -77,7 +77,7 @@ export default function ProfileTeacherForm({ detail }: any) {
                     <GraduateForm form={form} />
                     <WorkForm form={form} />
                     <div>
-                        <h4 className="mb-3 font-medium text-gray-800">Certificates</h4>
+                        <h4 className="mb-3 font-medium text-gray-800 dark:text-white">Certificates</h4>
                         <DetailImage
                             Index={0}
                             multiple
