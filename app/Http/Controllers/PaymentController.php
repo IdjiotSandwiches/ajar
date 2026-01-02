@@ -57,8 +57,7 @@ class PaymentController extends Controller
                     'snap_token' => $snapToken
                 ]);
             } else {
-                return redirect()->route('my-learning')
-                    ->with('success', 'Payment success');
+                return Inertia::location(route('my-learning'));
             }
         } catch (\Exception $e) {
             return redirect()->route('payment-lms')

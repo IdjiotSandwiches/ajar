@@ -50,7 +50,7 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
         }
 
         router.post(
-            route('pay', { id: selectedSchedule, bypass: bypass}),
+            route('pay', { id: selectedSchedule, bypass: bypass ? 1 : 0}),
             {},
             {
                 preserveState: true,
