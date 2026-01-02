@@ -258,7 +258,7 @@ class MyLearningService
                     'recording_link' => $item->recording_link,
                     'image' => $course->image,
                     'has_finished' => now() >= $item->end_time,
-                    'is_verified' => $item->is_verified ? $item->is_verified == true : null,
+                    'is_verified' => $item->is_verified !== null ? $item->is_verified == true : null,
                     'can_cancel' => $item->status === CourseStatusEnum::Scheduled && now()->lt($item->start_time->subHours(2)),
                     'enrollment_count' => $item->enrolled_courses_count
                 ];
