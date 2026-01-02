@@ -6,11 +6,12 @@ interface Props {
     name: string;
     images: (File | string)[];
     multiple?: boolean;
+    ref?: boolean;
     onChange: (files: (File | string)[]) => void;
     onRemove?: (file: File | string) => void;
 }
 
-export default function DetailImage({ index, name, images, multiple = true, onChange, onRemove }: Props) {
+export default function DetailImage({ index, name, images, multiple = true, ref = true, onChange, onRemove }: Props) {
     const [previews, setPreviews] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -49,7 +50,7 @@ export default function DetailImage({ index, name, images, multiple = true, onCh
         <div className="my-6 rounded-lg border p-6 dark:border-white/20">
             <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed py-24 dark:border-white/20">
                 <input
-                    ref={fileInputRef}
+                    ref={ref ? fileInputRef : undefined}
                     type="file"
                     name={name}
                     id={inputId}

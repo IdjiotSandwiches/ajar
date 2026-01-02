@@ -412,6 +412,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                                 onChange={handleImageChange}
                                 index={0}
                                 multiple={false}
+                                ref={false}
                             />
                             {errors[`course_images`] && <p className="text-red-500">{errors[`course_images`]}</p>}
                         </div>
