@@ -9,7 +9,6 @@ import { Album, BriefcaseBusiness, FileBadge, GraduationCap, Star, X } from 'luc
 import React, { useState } from 'react';
 
 export default function TeacherDetailPage({ teacher, application }: any) {
-    console.log(teacher)
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
@@ -27,11 +26,11 @@ export default function TeacherDetailPage({ teacher, application }: any) {
         if (!confirmAction) return;
 
         if (confirmAction === 'accept') {
-            router.post(route('institute.accept-teacher', teacher?.user_id));
+            router.post(route('institute.accept-teacher', teacher?.id));
         }
 
         if (confirmAction === 'reject') {
-            router.post(route('institute.reject-teacher', teacher?.user_id));
+            router.post(route('institute.reject-teacher', teacher?.id));
         }
 
         setShowConfirmModal(false);
