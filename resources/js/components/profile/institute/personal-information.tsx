@@ -10,7 +10,7 @@ export default function ProfilePersonalForm({ profile }: any) {
                 {profile && <input type="hidden" name="_method" value="PUT" />}
                 <div>
                     <DetailInput type="text" name="name" id="name" title="Full Name" value={profile?.user?.name} />
-                    {errors.name && <p className="text-red-500">{errors.name}</p>}
+                    {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                 </div>
                 <div>
                     <DetailInput
@@ -20,7 +20,7 @@ export default function ProfilePersonalForm({ profile }: any) {
                         title="Instagram Link"
                         value={profile?.user?.social_medias?.find((x: any) => x.social_media_type?.name === 'Instagram')?.url}
                     />
-                    {errors.instagram && <p className="text-red-500">{errors.instagram}</p>}
+                    {errors.instagram && <p className="text-red-500 text-sm">{errors.instagram}</p>}
                 </div>
                 <div>
                     <DetailInput
@@ -30,7 +30,7 @@ export default function ProfilePersonalForm({ profile }: any) {
                         title="LinkedIn Link"
                         value={profile?.user?.social_medias?.find((x: any) => x.social_media_type?.name === 'LinkedIn')?.url}
                     />
-                    {errors.linkedin && <p className="text-red-500">{errors.linkedin}</p>}
+                    {errors.linkedin && <p className="text-red-500 text-sm">{errors.linkedin}</p>}
                 </div>
                 <div>
                     <DetailInput
@@ -40,11 +40,11 @@ export default function ProfilePersonalForm({ profile }: any) {
                         title="Github Link"
                         value={profile?.user?.social_medias?.find((x: any) => x.social_media_type?.name === 'Github')?.url}
                     />
-                    {errors.github && <p className="text-red-500">{errors.github}</p>}
+                    {errors.github && <p className="text-red-500 text-sm">{errors.github}</p>}
                 </div>
                 <div>
                     <DetailInput type="text" name="website" id="website_link" title="Website Link" value={profile?.website} />
-                    {errors.website && <p className="text-red-500">{errors.website}</p>}
+                    {errors.website && <p className="text-red-500 text-sm">{errors.website}</p>}
                 </div>
 
                 <div className="mt-6">
