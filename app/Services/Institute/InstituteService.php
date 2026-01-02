@@ -81,11 +81,23 @@ class InstituteService
                     'institute' => $item->institute->user->name,
                     'duration' => $item->duration,
                     'teacher_salary' => $item->teacher_salary,
-                    'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
+                    'course_reviews_avg_rating' => round($item->course_reviews_avg_rating),
                     'course_reviews_count' => $item->course_reviews_count,
                     'image' => $item->image,
                     'price' => $item->price,
-                    'discount' => $item->discount
+                    'discount' => $item->discount,
+                    'teachers' => $item->teachingCourses->map(function ($item) {
+                        $teacher = $item->teacher;
+                        $profile = $teacher->user;
+                        return [
+                            'id' => $profile->id,
+                            'name' => $profile->name,
+                            'uuid' => $profile->uuid,
+                            'profile_picture' => $profile->profile_picture,
+                            'social_medias' => $profile->socialMedias,
+                            'description' => $teacher->description
+                        ];
+                    })
                 ]);
         }
 

@@ -2,7 +2,7 @@ import { storageUrl } from '@/utils/storage';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-export default function ReviewSection({ reviews }: { reviews: any[] }) {
+export default function ReviewSection({ reviews }: any) {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
 

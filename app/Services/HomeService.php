@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Course;
 use App\Models\Institute;
+use App\Models\InstituteReview;
 use App\Models\Teacher;
 use App\Models\TeacherReview;
 
@@ -31,7 +32,7 @@ class HomeService
                 'institute' => $item->institute->user->name,
                 'duration' => $item->duration,
                 'teacher_salary' => $item->teacher_salary,
-                'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
+                'course_reviews_avg_rating' => round($item->course_reviews_avg_rating),
                 'course_reviews_count' => $item->course_reviews_count,
                 'image' => $item->image,
                 'price' => $item->price,
@@ -73,11 +74,42 @@ class HomeService
 
     public function getRandomReviews()
     {
-        $reviews = TeacherReview::with('teacher.user', 'reviewer.role')
+        $teacherReviews = TeacherReview::with('teacher.user', 'reviewer')
             ->where('rating', '>=', 4)
             ->inRandomOrder()
-            ->limit(10)
-            ->get();
+            ->limit(5)
+            ->get()
+            ->map(fn($item) => [
+                'name' => $item->reviewer->name,
+                'profile_picture' => $item->reviewer->profile_picture,
+                'review_to' => [
+                    'name' => $item->teacher->user->name,
+                    'profile_picture' => $item->teacher->user->profile_picture,
+                ],
+                'rating' => $item->rating,
+                'description' => $item->description
+            ]);
+
+        $instituteReviews = InstituteReview::with('institute.user', 'reviewer')
+            ->where('rating', '>=', 4)
+            ->inRandomOrder()
+            ->limit(5)
+            ->get()
+            ->map(fn($item) => [
+                'name' => $item->reviewer->name,
+                'profile_picture' => $item->reviewer->profile_picture,
+                'review_to' => [
+                    'name' => $item->institute->user->name,
+                    'profile_picture' => $item->institute->user->profile_picture,
+                ],
+                'rating' => $item->rating,
+                'description' => $item->description
+            ]);
+
+        $reviews = $teacherReviews
+            ->merge($instituteReviews)
+            ->shuffle()
+            ->values();
 
         return $reviews;
     }
