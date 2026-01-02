@@ -255,6 +255,7 @@ class MyLearningService
                         . Carbon::parse($item->start_time)->toTimeString('minute') . ' - '
                         . Carbon::parse($item->end_time)->toTimeString('minute'),
                     'meeting_link' => $item->meeting_link,
+                    'recording_link' => $item->recording_link,
                     'image' => $course->image,
                     'has_finished' => now() >= $item->end_time,
                     'is_verified' => $item->is_verified == true,
@@ -293,6 +294,7 @@ class MyLearningService
                         . Carbon::parse($schedule->start_time)->toTimeString('minute') . ' - '
                         . Carbon::parse($schedule->end_time)->toTimeString('minute'),
                     'meeting_link' => $schedule->meeting_link,
+                    'recording_link' => $schedule->recording_link,
                     'image' => $course->image,
                     'can_join' => now()->addMinutes(15)->greaterThanOrEqualTo($schedule->start_time),
                     'has_review' => $course->courseReviews->count() != 0

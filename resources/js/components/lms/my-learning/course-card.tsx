@@ -136,8 +136,23 @@ export default function CourseCard({ enroll, state, review }: any) {
                             <span className="font-medium text-black dark:text-white">{enroll.schedule}</span>
                         </p>
                         {user?.role_id === roles.Teacher && (
-                            <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
+                            <p className="mb-1 text-xs text-gray-600 dark:text-white/80">
                                 Enrollment Count: <span className="font-medium text-black dark:text-white">{enroll.enrollment_count}</span>
+                            </p>
+                        )}
+                        {state === states.Completed && enroll.recording_link && (
+                            <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
+                                Recording:{' '}
+                                <span className="font-medium text-black dark:text-white">
+                                    <a
+                                        href={enroll.recording_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex-1 font-medium break-all text-[#3ABEFF] hover:underline"
+                                    >
+                                        {enroll.recording_link}
+                                    </a>
+                                </span>
                             </p>
                         )}
                     </div>
