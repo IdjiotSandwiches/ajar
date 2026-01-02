@@ -79,6 +79,7 @@ class PaymentService
                     ->whereRaw("cs2.start_time - INTERVAL ? MINUTE < course_schedules.end_time", [$buffer])
                     ->whereRaw("course_schedules.start_time < cs2.end_time + INTERVAL ? MINUTE", [$buffer]);
             })
+            ->orderBy('start_time')
             ->get()
             ->map(fn($item) => [
                 'id' => $item->id,
