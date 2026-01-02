@@ -49,4 +49,17 @@ enum DayEnum: string
             self::Sunday => 6,
         };
     }
+
+    public function isoDay(): int
+    {
+        return match ($this) {
+            self::Monday => 1,
+            self::Tuesday => 2,
+            self::Wednesday => 3,
+            self::Thursday => 4,
+            self::Friday => 5,
+            self::Saturday => 6,
+            self::Sunday => 7,
+        };
+    }
 }

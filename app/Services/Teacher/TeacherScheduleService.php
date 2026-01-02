@@ -219,6 +219,7 @@ class TeacherScheduleService
 
     public function generateScheduleNow()
     {
-        GenerateWeeklyCourseSchedules::dispatch(true);
+        $user = Auth::user();
+        GenerateWeeklyCourseSchedules::dispatch(true, $user->id);
     }
 }

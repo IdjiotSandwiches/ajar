@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class GenerateWeeklyCourseSchedules implements ShouldQueue
 {
@@ -20,10 +21,12 @@ class GenerateWeeklyCourseSchedules implements ShouldQueue
      * Create a new job instance.
      */
     private bool $generateNow;
+    private $id;
 
-    public function __construct(bool $generateNow = false)
+    public function __construct(bool $generateNow = false, $id = null)
     {
         $this->generateNow = $generateNow;
+        $this->id = $id;
     }
 
     /**
@@ -32,24 +35,26 @@ class GenerateWeeklyCourseSchedules implements ShouldQueue
     public function handle(): void
     {
         date_default_timezone_set(config('app.timezone'));
-        $tomorrow = Carbon::tomorrow();
         $rules = CourseWeeklyRule::with('teachingCourse.course')
-            ->when($this->generateNow, function ($q) use ($tomorrow) {
-                $tomorrowIso = $tomorrow->dayOfWeekIso;
-                $allowedDays = array_filter(DayEnum::cases(), fn($d) => $d->carbonDay() + 1 >= $tomorrowIso);
-                $allowedDayValues = array_map(fn($d) => $d->value, $allowedDays);
-                return $q->whereIn('day', $allowedDayValues);
-            })
+            ->when($this->generateNow, fn($q) => $q->where('teacher_id', $this->id))
             ->where('active', true)
             ->get();
 
         foreach ($rules as $rule) {
-            if ($this->generateNow) {
-                $ruleOffset = $rule->day->offsetFromMonday();
-                $tomorrowOffset = $tomorrow->dayOfWeekIso - 1;
-                $daysToAdd = $ruleOffset - $tomorrowOffset;
+            if (!$rule->teachingCourse || !$rule->teachingCourse->course) {
+                continue;
+            }
 
-                if ($daysToAdd < 0) continue;
+            if ($this->generateNow) {
+                $tomorrow = Carbon::tomorrow();
+                $tomorrowIso = $tomorrow->dayOfWeekIso;
+                $ruleIso = $rule->day->isoDay();
+
+                if ($ruleIso < $tomorrowIso) {
+                    continue;
+                }
+
+                $daysToAdd = $ruleIso - $tomorrowIso;
                 $date = $tomorrow->copy()->addDays($daysToAdd);
             } else {
                 $weekStart = Carbon::now()
