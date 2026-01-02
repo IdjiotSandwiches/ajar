@@ -94,7 +94,6 @@ class InstituteService
                             'name' => $profile->name,
                             'uuid' => $profile->uuid,
                             'profile_picture' => $profile->profile_picture,
-                            'social_medias' => $profile->socialMedias,
                             'description' => $teacher->description
                         ];
                     })
