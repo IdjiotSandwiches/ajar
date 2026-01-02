@@ -14,7 +14,7 @@ class TeacherService
     public function getTeacherDetail($id)
     {
         $teacher = Teacher::with([
-            'user',
+            'user.socialMedias.socialMediaType',
             'reviews.reviewer',
             'graduates',
             'workExperiences',
@@ -42,6 +42,7 @@ class TeacherService
                 'graduates' => $teacher->graduates,
                 'work_experiences' => $teacher->workExperiences,
                 'certificates' => $teacher->certificates,
+                'profile_picture' => $teacher->user->profile_picture,
                 'courses' => $teacher->teachingCourses->map(fn($item) => [
                     'name' => $item->course->name,
                     'description' => $item->course->description,
@@ -57,6 +58,10 @@ class TeacherService
                     'description' => $item->description,
                     'name' => $item->reviewer->name,
                     'profile_picture' => $item->reviewer->profile_picture,
+                ]),
+                'social_medias' => $teacher->user->socialMedias->map(fn($item) => [
+                    'name' => $item->socialMediaType->name,
+                    'url' => $item->url
                 ])
             ],
             'application' => $application ?? null

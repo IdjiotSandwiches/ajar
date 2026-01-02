@@ -152,7 +152,7 @@ class CourseService
                 'courseOverviews',
                 'courseSchedules',
                 'teachingCourses' => fn($q) => $q->where('is_verified', true),
-                'teachingCourses.teacher.user.socialMedias',
+                'teachingCourses.teacher.user.socialMedias.socialMediaType',
             ]
         )
             ->withAvg('courseReviews', 'rating')
@@ -205,7 +205,10 @@ class CourseService
                     'name' => $profile->name,
                     'uuid' => $profile->uuid,
                     'profile_picture' => $profile->profile_picture,
-                    'social_medias' => $profile->socialMedias,
+                    'social_medias' => $profile->socialMedias->map(fn($item) => [
+                        'name' => $item->socialMediaType->name,
+                        'url' => $item->url
+                    ]),
                     'description' => $teacher->description
                 ];
             }),

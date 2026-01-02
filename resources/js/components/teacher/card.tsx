@@ -4,6 +4,7 @@ import { Send } from 'lucide-react';
 import { FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
 export default function TeacherProfileCard({ teacher, canRedirect = false }: any) {
+    console.log(teacher)
     const { props } = usePage();
     const user = props.auth?.user;
     const roles = props.enums?.roles_enum;
@@ -42,11 +43,11 @@ export default function TeacherProfileCard({ teacher, canRedirect = false }: any
                         {(() => {
                             const socials = teacher?.social_medias ?? [];
                             return socials
-                                .filter((x: any) => icons[x.social_media_type?.name])
-                                .map((x: any) => {
-                                    const Icon = icons[x.social_media_type.name];
+                                .filter((x: any) => icons[x.name])
+                                .map((x: any, index: number) => {
+                                    const Icon = icons[x.name];
                                     return (
-                                        <a key={x.id} href={x.url} className="hover:text-blue-100" target="_blank" rel="noopener noreferrer">
+                                        <a key={index} href={x.url} className="hover:text-blue-100" target="_blank" rel="noopener noreferrer">
                                             <Icon size={28} />
                                         </a>
                                     );
