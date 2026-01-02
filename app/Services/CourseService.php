@@ -287,7 +287,19 @@ class CourseService
                     'course_reviews_count' => $item->course_reviews_count,
                     'image' => $item->image,
                     'price' => $item->price,
-                    'discount' => $item->discount
+                    'discount' => $item->discount,
+                    'teachers' => $item->teachingCourses->map(function ($item) {
+                        $teacher = $item->teacher;
+                        $profile = $teacher->user;
+                        return [
+                            'id' => $profile->id,
+                            'name' => $profile->name,
+                            'uuid' => $profile->uuid,
+                            'profile_picture' => $profile->profile_picture,
+                            'social_medias' => $profile->socialMedias,
+                            'description' => $teacher->description
+                        ];
+                    })
                 ]);
         }
 
