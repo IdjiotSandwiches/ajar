@@ -79,4 +79,24 @@ class RegisterRequest extends FormRequest
 
         return $rules;
     }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            $errors = $validator->errors();
+            $certificateErrors = collect($errors->getMessages())
+                ->filter(fn($_, $key) => str_starts_with($key, 'certificates.'));
+
+            if ($certificateErrors->isNotEmpty()) {
+                foreach ($certificateErrors as $key => $_) {
+                    $errors->forget($key);
+                }
+
+                $errors->add(
+                    'certificates',
+                    'One or more certificates are invalid. Please upload valid images (max 256KB).'
+                );
+            }
+        });
+    }
 }

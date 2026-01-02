@@ -65,6 +65,6 @@ class RegisterController extends Controller
         }
 
         // return to_route('verification.notice');
-        return to_route('dashboard');
+        return to_route('dashboard')->with('success', 'Welcome! Your account has been successfully created.');
     }
 }
