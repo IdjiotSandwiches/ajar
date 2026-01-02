@@ -78,6 +78,8 @@ class AdminTeacherService
                 ->then(fn($batch) => User::findOrFail($id)->delete())
                 ->name('Handle course refunds (Teacher Removal)')
                 ->dispatch();
+        } else {
+            User::findOrFail($id)->delete();
         }
     }
 

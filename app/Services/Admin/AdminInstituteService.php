@@ -70,6 +70,8 @@ class AdminInstituteService
                 ->then(fn($batch) => User::findOrFail($id)->delete())
                 ->name('Handle course refunds (Institute Removal)')
                 ->dispatch();
+        } else {
+            User::findOrFail($id)->delete();
         }
     }
 }
