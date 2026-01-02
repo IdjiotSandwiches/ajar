@@ -35,9 +35,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                         {!hasApplications && (
                             <div className="flex flex-col items-center justify-center py-12 text-center">
                                 <BookUser className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
-                                <p className="text-base font-semibold text-gray-700 dark:text-white">
-                                    No course's teacher applications yet
-                                </p>
+                                <p className="text-base font-semibold text-gray-700 dark:text-white">No course's teacher applications yet</p>
                                 <p className="mt-1 text-sm text-gray-500 dark:text-white/70">
                                     There are currently no course's teacher applications to review.
                                 </p>
@@ -46,7 +44,10 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                         {hasApplications &&
                             applications.data.map((app: any) => (
                                 <div key={app.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-white/20">
-                                    <div className="mb-3 flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-teacher', app.teacher.id))}>
+                                    <div
+                                        className="mb-3 flex cursor-pointer items-center gap-3"
+                                        onClick={() => router.get(route('detail-teacher', app.teacher.id))}
+                                    >
                                         <img
                                             src={storageUrl(app.teacher.profile_picture)}
                                             alt={app.teacher.name}
@@ -57,21 +58,24 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                         </div>
                                     </div>
 
-                                    <p className="mb-2 text-sm font-medium text-gray-600 dark:text-white/80">Saya ingin mengajar di kursus ini</p>
+                                    <p className="mb-2 text-sm font-medium text-gray-600 dark:text-white/80">
+                                        I am interested in teaching this course
+                                    </p>
 
-                                    <div className="mb-3 flex items-center gap-3 rounded-lg border p-3 dark:border-white/20 cursor-pointer" onClick={() => router.get(route('detail-course', app.course.id))}>
+                                    <div
+                                        className="mb-3 flex cursor-pointer items-center gap-3 rounded-lg border p-3 dark:border-white/20"
+                                        onClick={() => router.get(route('detail-course', app.course.id))}
+                                    >
                                         <img src={storageUrl(app.course.image)} alt={app.course.name} className="h-10 w-10 rounded-md object-cover" />
                                         <p className="text-sm font-medium text-gray-700 dark:text-white/90">{app.course.name}</p>
                                     </div>
 
                                     <p className="mb-3 text-xs text-gray-500 dark:text-white/70">
-                                        Submitted:{' '}
-                                        {new Date(app.created_at).toLocaleString('id-ID', {
+                                        Register Date:{' '}
+                                        {new Date(app.register_date).toLocaleDateString('id-ID', {
                                             day: '2-digit',
-                                            month: 'short',
+                                            month: 'long',
                                             year: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit',
                                         })}
                                     </p>
 
@@ -100,6 +104,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                     <th className="p-1 text-center font-semibold">No</th>
                                     <th className="p-3 text-left font-semibold">Teacher</th>
                                     <th className="p-3 text-left font-semibold">Course</th>
+                                    <th className="p-3 text-center font-semibold">Register Date</th>
                                     <th className="p-3 text-center font-semibold">Actions</th>
                                 </tr>
                             </thead>
@@ -116,12 +121,16 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                     applications.data.map((app: any, index: number) => (
                                         <tr
                                             key={app.id}
-                                            className={`border-b transition hover:bg-[#42C2FF]/10 ${index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
-                                                }`}
+                                            className={`border-b transition hover:bg-[#42C2FF]/10 ${
+                                                index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                            }`}
                                         >
                                             <td className="p-1 text-center dark:text-white">{applications.from + index}</td>
                                             <td className="p-3">
-                                                <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-teacher', app.teacher.id))}>
+                                                <div
+                                                    className="flex cursor-pointer items-center gap-3"
+                                                    onClick={() => router.get(route('detail-teacher', app.teacher.id))}
+                                                >
                                                     <img
                                                         src={storageUrl(app.teacher.profile_picture)}
                                                         className="h-12 w-12 rounded-full border object-cover"
@@ -133,10 +142,20 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                             </td>
 
                                             <td className="p-3">
-                                                <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-course', app.course.id))}>
+                                                <div
+                                                    className="flex cursor-pointer items-center gap-3"
+                                                    onClick={() => router.get(route('detail-course', app.course.id))}
+                                                >
                                                     <img src={storageUrl(app.course.image)} className="h-10 w-10 rounded-md object-cover" />
                                                     <span className="font-medium dark:text-white">{app.course.name}</span>
                                                 </div>
+                                            </td>
+                                            <td className="p-3 text-center">
+                                                {new Date(app.register_date).toLocaleDateString('id-ID', {
+                                                    day: '2-digit',
+                                                    month: 'long',
+                                                    year: 'numeric',
+                                                })}
                                             </td>
 
                                             <td className="p-3 text-center">

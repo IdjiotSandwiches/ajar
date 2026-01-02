@@ -112,18 +112,21 @@ export default function Navbar() {
                                 <div className="absolute right-0 mt-3 w-48 rounded-xl border bg-white p-2 shadow-lg dark:bg-[#242124]">
                                     {isLoggedIn ? (
                                         <>
-                                            <button
-                                                onClick={() => {
-                                                    if (user?.role_id === roles.Student) router.get(route('profile'));
-                                                    else if (user?.role_id === roles.Teacher) router.get(route('teacher.profile'));
-                                                    else if (user?.role_id === roles.Institute) router.get(route('institute.profile'));
-                                                }}
-                                                className="w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-white/20"
-                                            >
-                                                Profile
-                                            </button>
-
-                                            <div className="my-1 h-px bg-gray-200"></div>
+                                            {user?.role_id !== roles.Admin && (
+                                                <>
+                                                    <button
+                                                        onClick={() => {
+                                                            if (user?.role_id === roles.Student) router.get(route('profile'));
+                                                            else if (user?.role_id === roles.Teacher) router.get(route('teacher.profile'));
+                                                            else if (user?.role_id === roles.Institute) router.get(route('institute.profile'));
+                                                        }}
+                                                        className="w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-white/20"
+                                                    >
+                                                        Profile
+                                                    </button>
+                                                    <div className="my-1 h-px bg-gray-200"></div>
+                                                </>
+                                            )}
 
                                             <button
                                                 onClick={() => router.post(route('logout'))}

@@ -161,7 +161,8 @@ class InstituteManagementService
                     'id' => $item->course->id,
                     'name' => $item->course->name,
                     'image' => $item->course->image
-                ]
+                ],
+                'register_date' => $item->created_at
             ]);
 
         return $applications;
