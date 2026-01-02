@@ -70,37 +70,45 @@ class TeacherScheduleService
             $start = Carbon::createFromFormat('H:i', $data['start_time']);
             $end = $start->copy()->addMinutes($duration);
 
-            if (!$data['delete']) {
-                $available = TeacherSchedule::query()
+            if ($data['delete']) {
+                CourseWeeklyRule::query()
                     ->where('teacher_id', $user->id)
                     ->where('day', $data['day'])
-                    ->where('start_time', '<=', $start)
-                    ->where('end_time', '>=', $start)
-                    ->where('active', true)
-                    ->exists();
+                    ->where('start_time', '<=', $start->format('H:i'))
+                    ->where('end_time', '>=', $start->format('H:i'))
+                    ->limit(1)
+                    ->delete();
 
-                if (!$available) {
-                    throw new \Exception('Schedule not available.');
-                }
+                return;
+            }
+
+            $available = TeacherSchedule::query()
+                ->where('teacher_id', $user->id)
+                ->where('day', $data['day'])
+                ->where('start_time', '<=', $start->format('H:i'))
+                ->where('end_time', '>=', $end->format('H:i'))
+                ->where('active', true)
+                ->exists();
+
+            if (!$available) {
+                throw new \Exception('Schedule not available.');
             }
 
             CourseWeeklyRule::where('teacher_id', $user->id)
                 ->where('day', $data['day'])
                 ->where(function ($q) use ($start, $end) {
-                    $q->where('start_time', '<', $end)
-                        ->where('end_time', '>', $start);
+                    $q->where('start_time', '<', $end->format('H:i'))
+                        ->where('end_time', '>', $start->format('H:i'));
                 })
                 ->delete();
 
-            if (!$data['delete']) {
-                CourseWeeklyRule::create([
-                    'teacher_id' => $user->id,
-                    'day' => $data['day'],
-                    'start_time' => $start->format('H:i'),
-                    'end_time' => $end->format('H:i'),
-                    'teaching_course_id' => $teachingCourse->id,
-                ]);
-            }
+            CourseWeeklyRule::create([
+                'teacher_id' => $user->id,
+                'day' => $data['day'],
+                'start_time' => $start->format('H:i'),
+                'end_time' => $end->format('H:i'),
+                'teaching_course_id' => $teachingCourse->id,
+            ]);
         });
     }
 
