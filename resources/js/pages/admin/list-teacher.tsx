@@ -75,9 +75,9 @@ export default function ManageTeachersPage({ teachers, filters }: any) {
                                             className={`border-b transition hover:bg-[#42C2FF]/10 dark:border-white/20 dark:text-white ${index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
                                                 }`}
                                         >
-                                            <td className="p-2 text-center">{index + 1}</td>
+                                            <td className="p-2 text-center">{teachers.from + index}</td>
                                             <td className="p-3">
-                                                <div className="flex items-center gap-3">
+                                                <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-teacher', teacher.id))}>
                                                     <img
                                                         src={storageUrl(teacher.avatar)}
                                                         alt={teacher.name}
@@ -139,7 +139,7 @@ export default function ManageTeachersPage({ teachers, filters }: any) {
                         {hasTeachers &&
                             teachers.data?.map((teacher: any) => (
                                 <div key={teacher.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-white/20">
-                                    <div className="mb-3 flex items-center gap-3">
+                                    <div className="mb-3 flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-teacher', teacher.id))}>
                                         <img src={storageUrl(teacher.avatar)} alt={teacher.name} className="h-12 w-12 rounded-full object-cover" />
                                         <div>
                                             <p className="font-semibold text-gray-800 dark:text-white">{teacher.name}</p>

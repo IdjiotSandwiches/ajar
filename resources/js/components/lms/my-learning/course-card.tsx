@@ -3,7 +3,7 @@ import AddLinkModal from '@/components/modal/my-learning/add-link-modal';
 import { AddReviewModal } from '@/components/modal/my-learning/add-review-modal';
 import { storageUrl } from '@/utils/storage';
 import { router, useForm, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function CourseCard({ enroll, state, review }: any) {
     const { props } = usePage();
@@ -14,14 +14,18 @@ export default function CourseCard({ enroll, state, review }: any) {
     const [modalType, setModalType] = useState<string | null>(null);
     const [reviewModal, setReviewModal] = useState(false);
 
-    const form = useForm({
-        teacher_rating: 0,
-        teacher_review: '',
-        institute_rating: 0,
-        institute_review: '',
-        course_rating: 0,
-        course_review: '',
-    });
+    const form = useForm({});
+
+    useEffect(() => {
+        if (Object.keys(form.errors).length > 0) {
+            setReviewModal(true);
+
+            router.reload({
+                only: ['review'],
+                data: { enroll_id: enroll.id },
+            });
+        }
+    }, [form.errors]);
 
     const handleJoinButton = () => {
         if ((!enroll.meeting_link || !enroll.can_join) && user?.role_id === roles.Student) {
@@ -42,22 +46,24 @@ export default function CourseCard({ enroll, state, review }: any) {
     );
 
     const handleReviewButton = () => {
-        setReviewModal(true);
         router.reload({
             only: ['review'],
             data: { enroll_id: enroll.id },
+            onSuccess: () => {
+                setReviewModal(true);
+            },
         });
     };
 
     const submitReviews = ({ teacher, institute, course }: any) => {
-        form.setData({
+        form.transform(() => ({
             teacher_rating: teacher.rating,
             teacher_review: teacher.comment,
             institute_rating: institute.rating,
             institute_review: institute.comment,
             course_rating: course.rating,
             course_review: course.comment,
-        });
+        }));
 
         form.post(route('add-reviews', enroll.id), {
             onSuccess: () => {
@@ -87,9 +93,13 @@ export default function CourseCard({ enroll, state, review }: any) {
 
                 {state === states.Completed && (
                     <>
-                        {enroll.is_verified == null && <PrimaryButton disabled>Verifying</PrimaryButton>}
+                        {enroll.is_verified === null && <PrimaryButton disabled>Verifying</PrimaryButton>}
                         {enroll.is_verified === true && <PrimaryButton disabled>Verified</PrimaryButton>}
-                        {enroll.is_verified === false && <PrimaryButton disabled destructive>Rejected</PrimaryButton>}
+                        {enroll.is_verified === false && (
+                            <PrimaryButton disabled destructive>
+                                Rejected
+                            </PrimaryButton>
+                        )}
                     </>
                 )}
 
@@ -126,8 +136,23 @@ export default function CourseCard({ enroll, state, review }: any) {
                             <span className="font-medium text-black dark:text-white">{enroll.schedule}</span>
                         </p>
                         {user?.role_id === roles.Teacher && (
-                            <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
+                            <p className="mb-1 text-xs text-gray-600 dark:text-white/80">
                                 Enrollment Count: <span className="font-medium text-black dark:text-white">{enroll.enrollment_count}</span>
+                            </p>
+                        )}
+                        {state === states.Completed && enroll.recording_link && (
+                            <p className="mb-2 text-xs text-gray-600 dark:text-white/80">
+                                Recording:{' '}
+                                <span className="font-medium text-black dark:text-white">
+                                    <a
+                                        href={enroll.recording_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex-1 font-medium break-all text-[#3ABEFF] hover:underline"
+                                    >
+                                        {enroll.recording_link}
+                                    </a>
+                                </span>
                             </p>
                         )}
                     </div>
@@ -196,6 +221,7 @@ export default function CourseCard({ enroll, state, review }: any) {
                     course={{
                         ...review?.course,
                     }}
+                    errors={form.errors}
                 />
             )}
         </>

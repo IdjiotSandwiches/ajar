@@ -104,7 +104,7 @@ class InstituteManagementService
                 'profile_picture' => $item->teacher->user->profile_picture,
                 'course_taught' => $item->teacher->teaching_courses_count ?? 0,
                 'review_count' => $item->teacher_reviews_count ?? 0,
-                'review_rating' => round($item->teacher_reviews_avg_rating ?? 0, 1),
+                'review_rating' => round($item->teacher_reviews_avg_rating, 1),
                 'registered_at' => $item->created_at
             ]);
 
@@ -153,10 +153,12 @@ class InstituteManagementService
             ->through(fn($item) => [
                 'id' => $item->id,
                 'teacher' => [
+                    'id' => $item->teacher->user_id,
                     'name' => $item->teacher->user->name,
                     'profile_picture' => $item->teacher->user->profile_picture,
                 ],
                 'course' => [
+                    'id' => $item->course->id,
                     'name' => $item->course->name,
                     'image' => $item->course->image
                 ]

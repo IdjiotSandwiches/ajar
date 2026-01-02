@@ -22,11 +22,11 @@ class ReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'teacher_rating' => 'required|integer',
+            'teacher_rating' => 'required|integer|min:1',
             'teacher_review' => 'nullable|string',
-            'institute_rating' => 'required|integer',
+            'institute_rating' => 'required|integer|min:1',
             'institute_review' => 'nullable|string',
-            'course_rating' => 'required|integer',
+            'course_rating' => 'required|integer|min:1',
             'course_review' => 'nullable|string',
         ];
     }

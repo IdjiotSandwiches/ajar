@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ReviewCard from '../ui/review-card';
 
-export default function ReviewSection({ reviews }: { reviews: any[] }) {
+export default function ReviewSection({ reviews }: any) {
 
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -86,23 +86,9 @@ export default function ReviewSection({ reviews }: { reviews: any[] }) {
 
                         <div className="w-full overflow-hidden">
                             <div ref={containerRef} className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth">
-                                {reviews.map((review) => (
+                                {reviews.map((review: any, index: number) => (
                                     <div
-                                        key={review.id}
-                                        data-card
-                                        className={`w-full flex-shrink-0 snap-start sm:w-[90%] md:w-[80%] ${perPage === 2 ? 'lg:w-[50%]' : 'lg:w-full'}`}
-                                    >
-                                        <ReviewCard review={review} />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="w-full overflow-hidden">
-                            <div ref={containerRef} className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth">
-                                {reviews.map((review) => (
-                                    <div
-                                        key={review.id}
+                                        key={index}
                                         data-card
                                         className={`w-full flex-shrink-0 snap-start sm:w-[90%] md:w-[80%] ${perPage === 2 ? 'lg:w-[50%]' : 'lg:w-full'}`}
                                     >

@@ -38,7 +38,7 @@ class AdminInstituteService
             ->through(fn($item) => [
                 'id' => $item->user_id,
                 'name' => $item->user->name,
-                'reviews_avg_rating' => round($item->reviews_avg_rating ?? 0, 1),
+                'reviews_avg_rating' => round($item->reviews_avg_rating, 1),
                 'reviews_count' => $item->reviews_count,
                 'courses_count' => $item->courses_count,
                 'category' => $item->category->name

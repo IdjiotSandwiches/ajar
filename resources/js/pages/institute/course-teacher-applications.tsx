@@ -46,7 +46,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                         {hasApplications &&
                             applications.data.map((app: any) => (
                                 <div key={app.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-white/20">
-                                    <div className="mb-3 flex items-center gap-3">
+                                    <div className="mb-3 flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-teacher', app.teacher.id))}>
                                         <img
                                             src={storageUrl(app.teacher.profile_picture)}
                                             alt={app.teacher.name}
@@ -59,7 +59,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
 
                                     <p className="mb-2 text-sm font-medium text-gray-600 dark:text-white/80">Saya ingin mengajar di kursus ini</p>
 
-                                    <div className="mb-3 flex items-center gap-3 rounded-lg border p-3 dark:border-white/20">
+                                    <div className="mb-3 flex items-center gap-3 rounded-lg border p-3 dark:border-white/20 cursor-pointer" onClick={() => router.get(route('detail-course', app.course.id))}>
                                         <img src={storageUrl(app.course.image)} alt={app.course.name} className="h-10 w-10 rounded-md object-cover" />
                                         <p className="text-sm font-medium text-gray-700 dark:text-white/90">{app.course.name}</p>
                                     </div>
@@ -121,7 +121,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                         >
                                             <td className="p-1 text-center dark:text-white">{applications.from + index}</td>
                                             <td className="p-3">
-                                                <div className="flex items-center gap-3">
+                                                <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-teacher', app.teacher.id))}>
                                                     <img
                                                         src={storageUrl(app.teacher.profile_picture)}
                                                         className="h-12 w-12 rounded-full border object-cover"
@@ -133,7 +133,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                                             </td>
 
                                             <td className="p-3">
-                                                <div className="flex items-center gap-3">
+                                                <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-course', app.course.id))}>
                                                     <img src={storageUrl(app.course.image)} className="h-10 w-10 rounded-md object-cover" />
                                                     <span className="font-medium dark:text-white">{app.course.name}</span>
                                                 </div>

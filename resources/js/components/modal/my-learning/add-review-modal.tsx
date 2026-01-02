@@ -1,6 +1,6 @@
 import { storageUrl } from '@/utils/storage';
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function AddReviewModal({
     onSubmit,
@@ -8,6 +8,7 @@ export function AddReviewModal({
     teacher,
     institute,
     course,
+    errors,
 }: {
     onSubmit: (review: {
         teacher: { rating: number; comment: string };
@@ -19,6 +20,7 @@ export function AddReviewModal({
     teacher: { image: string; name: string; role: string };
     institute: { image: string; name: string; role: string };
     course: { image: string; name: string };
+    errors?: any;
 }) {
     const [step, setStep] = useState(1);
 
@@ -53,57 +55,60 @@ export function AddReviewModal({
                 <X size={20} />
             </button>
 
-            <h2 className="mb-1 text-xl font-semibold text-gray-800 dark:text-white">
-                Give Review
-            </h2>
+            <h2 className="mb-1 text-xl font-semibold text-gray-800 dark:text-white">Give Review</h2>
 
-            <p className="mb-6 text-sm text-gray-500 dark:text-white/70">
-                {data.subtitle}
-            </p>
+            <p className="mb-6 text-sm text-gray-500 dark:text-white/70">{data.subtitle}</p>
 
             <div className="mb-3 flex items-center justify-center gap-3">
                 <img src={storageUrl(data.image)} className="h-12 w-12 rounded-md object-cover" />
                 <div className="text-left">
-                    <p className="font-medium text-gray-800 dark:text-white">
-                        {data.name}
-                    </p>
+                    <p className="font-medium text-gray-800 dark:text-white">{data.name}</p>
 
-                    {data.role && (
-                        <p className="text-xs text-gray-500 dark:text-white/60">
-                            {data.role}
-                        </p>
-                    )}
-
+                    {data.role && <p className="text-xs text-gray-500 dark:text-white/60">{data.role}</p>}
                 </div>
             </div>
 
-            <div className="mb-4 flex justify-center">
+            <div className="flex justify-center">
                 {[1, 2, 3, 4, 5].map((num) => (
                     <button
                         key={num}
                         onClick={() => data.setRating(num)}
-                        className={`text-2xl transition
-                            ${num <= data.rating ? 'text-yellow-400' : 'text-gray-300 dark:text-white/30'}`}
+                        className={`text-2xl transition ${num <= data.rating ? 'text-yellow-400' : 'text-gray-300 dark:text-white/30'}`}
                     >
                         ★
                     </button>
-
                 ))}
+            </div>
+            <div className="mb-4">
+                {errors?.teacher_rating && step === 1 && <p className="mt-1 text-xs text-red-500">{errors.teacher_rating}</p>}
+                {errors?.institute_rating && step === 2 && <p className="mt-1 text-xs text-red-500">{errors.institute_rating}</p>}
+                {errors?.course_rating && step === 3 && <p className="mt-1 text-xs text-red-500">{errors.course_rating}</p>}
             </div>
 
             <textarea
                 value={data.comment}
                 onChange={(e) => data.setComment(e.target.value)}
                 placeholder="Type your review..."
-                className="mb-4 h-24 w-full rounded-lg border border-gray-300 dark:border-white/20 bg-white dark:bg-[#222831] px-4 py-2 text-sm text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/40 focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none"
+                className="mb-4 h-24 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none dark:border-white/20 dark:bg-[#222831] dark:text-white dark:placeholder:text-white/40"
             />
-
         </>
     );
 
+    useEffect(() => {
+        if (!errors) return;
+
+        if (errors.teacher_rating || errors.teacher_review) {
+            setStep(1);
+        } else if (errors.institute_rating || errors.institute_review) {
+            setStep(2);
+        } else if (errors.course_rating || errors.course_review) {
+            setStep(3);
+        }
+    }, [errors]);
+
     return (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#3ABEFF]/40 backdrop-blur-sm">
-            <div className="animate-fadeIn relative max-h-[85vh] w-[90%] max-w-lg overflow-y-auto rounded-2xl bg-white dark:bg-[#222831] p-6 text-center shadow-md dark:shadow-white/20">
+            <div className="animate-fadeIn relative max-h-[85vh] w-[90%] max-w-lg overflow-y-auto rounded-2xl bg-white p-6 text-center shadow-md dark:bg-[#222831] dark:shadow-white/20">
                 {step === 1 &&
                     renderSection({
                         title: 'Teacher Review',

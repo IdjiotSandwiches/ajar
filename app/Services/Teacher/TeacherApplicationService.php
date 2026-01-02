@@ -133,7 +133,7 @@ class TeacherApplicationService
                 'duration' => $item->duration,
                 'teacher_salary' => $item->teacher_salary,
                 'status' => $status,
-                'course_reviews_avg_rating' => $item->course_reviews_avg_rating ?? 0,
+                'course_reviews_avg_rating' => round($item->course_reviews_avg_rating, 1),
                 'course_reviews_count' => $item->course_reviews_count,
                 'image' => $item->image
             ]);
