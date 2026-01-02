@@ -44,6 +44,7 @@ class TeacherService
                 'certificates' => $teacher->certificates,
                 'profile_picture' => $teacher->user->profile_picture,
                 'courses' => $teacher->teachingCourses->map(fn($item) => [
+                    'id' => $item->course->id,
                     'name' => $item->course->name,
                     'description' => $item->course->description,
                     'duration' => $item->course->duration,
