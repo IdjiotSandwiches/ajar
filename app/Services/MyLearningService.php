@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\User;
+use App\Notifications\RequestApproved;
 use Carbon\Carbon;
 use App\Enums\RoleEnum;
 use App\Enums\CourseStatusEnum;
@@ -13,6 +15,7 @@ use App\Models\CourseSchedule;
 use App\Models\EnrolledCourse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class MyLearningService
 {
@@ -169,6 +172,12 @@ class MyLearningService
             'status' => CourseStatusEnum::Completed
         ]);
         $schedule->save();
+
+        $admins = User::where('role_id', RoleEnum::Admin)->get();
+        Notification::send($admins, new RequestApproved(
+            'New Course Completion',
+            'A completed course requires administrative approval before finalization.'
+        ));
     }
 
     public function addReviews($id, $data)
@@ -248,7 +257,7 @@ class MyLearningService
                     'meeting_link' => $item->meeting_link,
                     'image' => $course->image,
                     'has_finished' => now() >= $item->end_time,
-                    'is_verified' => $item->is_verified,
+                    'is_verified' => $item->is_verified == true,
                     'can_cancel' => $item->status === CourseStatusEnum::Scheduled && now()->lt($item->start_time->subHours(2)),
                     'enrollment_count' => $item->enrolled_courses_count
                 ];

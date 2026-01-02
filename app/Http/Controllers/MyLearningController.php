@@ -48,7 +48,7 @@ class MyLearningController extends Controller
         try {
             $validated = $request->validated();
             $this->service->saveCourseRecording($id, $validated);
-            return back();
+            return back()->with('sucess', 'Recording link added.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -59,7 +59,7 @@ class MyLearningController extends Controller
         try {
             $validated = $request->validated();
             $this->service->saveCourseMeeting($id, $validated);
-            return back();
+            return back()->with('sucess', 'Meeting link added.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

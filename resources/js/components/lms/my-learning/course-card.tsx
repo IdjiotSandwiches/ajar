@@ -89,7 +89,7 @@ export default function CourseCard({ enroll, state, review }: any) {
                     <>
                         {enroll.is_verified == null && <PrimaryButton disabled>Verifying</PrimaryButton>}
                         {enroll.is_verified === true && <PrimaryButton disabled>Verified</PrimaryButton>}
-                        {enroll.is_verified === false && <PrimaryButton disabled>Rejected</PrimaryButton>}
+                        {enroll.is_verified === false && <PrimaryButton disabled destructive>Rejected</PrimaryButton>}
                     </>
                 )}
 
