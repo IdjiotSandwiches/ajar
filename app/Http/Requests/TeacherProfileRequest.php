@@ -26,9 +26,9 @@ class TeacherProfileRequest extends FormRequest
             'name' => 'required|string',
             'phone_number' => 'required|string|phone:ID|unique:users,phone_number,' . $userId,
             'email' => 'required|string|lowercase|email|max:255|unique:users,email,' . $userId,
-            'instagram' => 'nullable|url|regex:/^https:\/\/(www\.)?instagram\.com\/[A-Za-z0-9_-]+(\/[A-Za-z0-9._-]+)*$/',
-            'linkedin' => 'nullable|url|regex:/^https:\/\/(www\.)?linkedin\.com\/[A-Za-z0-9_-]+(\/[A-Za-z0-9._-]+)*$/',
-            'github' => 'nullable|url|regex:/^https:\/\/github\.com\/[A-Za-z0-9_-]+(\/[A-Za-z0-9._-]+)*$/'
+            'instagram' => 'nullable|url|regex:/^https:\/\/(www\.)?instagram\.com\/(\/[A-Za-z0-9._-]+)*$/',
+            'linkedin' => 'nullable|url|regex:/^https:\/\/(www\.)?linkedin\.com\/(\/[A-Za-z0-9._-]+)*$/',
+            'github' => 'nullable|url|regex:/^https:\/\/github\.com\/(\/[A-Za-z0-9._-]+)*$/'
         ];
     }
 }

@@ -151,9 +151,9 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                 <h3 className="font-semibold text-gray-700 dark:text-white/90">Courses taught</h3>
                             </div>
                             <div className="scrollbar-thin scrollbar-thumb-[#42C2FF]/30 scrollbar-track-transparent flex gap-6 overflow-x-auto pb-4">
-                                {teacher.teaching_courses && teacher.teaching_courses.length > 0 ? (
-                                    teacher.teaching_courses.map((course: any, index: number) => (
-                                        <CourseCard key={index} course={course.course} isTag={false} showTeacher={false} />
+                                {teacher.courses && teacher.courses.length > 0 ? (
+                                    teacher.courses.map((course: any, index: number) => (
+                                        <CourseCard key={index} course={course} isTag={false} showTeacher={false} />
                                     ))
                                 ) : (
                                     <p className="text-sm text-gray-500 dark:text-white/70">
