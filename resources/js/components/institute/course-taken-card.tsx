@@ -17,6 +17,7 @@ const CourseStatusCard: React.FC<CourseStatusCardProps> = ({ image, name, teache
         completed: 'text-green-600',
         scheduled: 'text-gray-600',
         cancelled: 'text-red-600',
+        ongoing: 'text-yellow-500',
     };
     return (
         <div className="mb-5 flex flex-col gap-4 rounded-xl border p-4 shadow-sm transition hover:border-[#3ABEFF]/50 hover:shadow-md lg:flex-row dark:border-white/20 dark:shadow-white/20">

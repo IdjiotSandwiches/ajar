@@ -68,7 +68,7 @@ class TeacherDetailRequest extends FormRequest
             'works.*.position' => 'required|string',
             'works.*.institution' => 'required|string',
             'works.*.duration' => 'required|int|min:1',
-            'certificates' => 'nullable|array',
+            'certificates' => 'required|array|min:1',
             'certificates.*' => 'file|image|mimes:jpeg,png,jpg|max:256',
             'deleted_certificates' => 'nullable|array',
             'deleted_certificates.*' => 'string',

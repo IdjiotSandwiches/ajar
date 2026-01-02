@@ -168,7 +168,15 @@ class InstituteCourseService
             ->when(!empty($filters['status']), fn($q) => $q->where('status', $filters['status']))
             ->when(!empty($filters['time']), fn($q) => $q->whereTime('start_time', '>=', Carbon::parse($filters['time'])->format('H:i:s')))
             ->when(!empty($filters['date']), fn($q) => $q->whereDate('start_time', $filters['date']))
-            ->orderByDesc('start_time')
+            ->orderByRaw("
+                CASE status
+                    WHEN 'scheduled' THEN 3
+                    WHEN 'cancelled' THEN 2
+                    WHEN 'completed' THEN 1
+                    ELSE 0
+                END DESC
+            ")
+            ->orderBy('start_time')
             ->paginate(10)
             ->through(fn($item) => [
                 'name' => $item->course->name,
@@ -178,7 +186,7 @@ class InstituteCourseService
                 'end_time' => $item->end_time->format('d M Y H:i'),
                 'recording_link' => $item->recording_link,
                 'image' => $item->course->image,
-                'status' => $item->status
+                'status' => $item->status === CourseStatusEnum::Scheduled && now()->greaterThan($item->start_time) ? 'ongoing' : $item->status
             ]);
 
         return $courses;
