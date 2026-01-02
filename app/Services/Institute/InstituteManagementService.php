@@ -153,10 +153,12 @@ class InstituteManagementService
             ->through(fn($item) => [
                 'id' => $item->id,
                 'teacher' => [
+                    'id' => $item->teacher->user_id,
                     'name' => $item->teacher->user->name,
                     'profile_picture' => $item->teacher->user->profile_picture,
                 ],
                 'course' => [
+                    'id' => $item->course->id,
                     'name' => $item->course->name,
                     'image' => $item->course->image
                 ]

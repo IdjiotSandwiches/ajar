@@ -10,12 +10,13 @@ interface MobileTeacherCardProps {
     totalReviews: number;
     registerDate: Date;
     onDelete: () => void;
+    redirect: () => void;
 }
 
-const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({ avatar, fullName, coursesCount, rating, totalReviews, registerDate, onDelete }) => {
+const MobileTeacherCard: React.FC<MobileTeacherCardProps> = ({ avatar, fullName, coursesCount, rating, totalReviews, registerDate, onDelete, redirect }) => {
     return (
         <div className="rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4" onClick={redirect}>
                 <img src={storageUrl(avatar)} alt={fullName} className="h-16 w-16 rounded-full object-cover" />
 
                 <div className="flex-1">

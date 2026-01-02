@@ -78,7 +78,7 @@ export default function InstituteList({ institutes, categories, filters }: any) 
                                             }`}
                                     >
                                         <td className="p-2 text-center">{institutes.from + index}</td>
-                                        <td className="p-3 font-semibold">{inst.name}</td>
+                                        <td className="p-3 font-semibold cursor-pointer" onClick={() => router.get(route('detail-institute', inst.id))}>{inst.name}</td>
                                         <td className="p-3 text-center">{inst.category}</td>
                                         <td className="p-3 text-center">{inst.courses_count}</td>
                                         <td className="p-3 text-center">
@@ -129,7 +129,7 @@ export default function InstituteList({ institutes, categories, filters }: any) 
                         {hasInstitute &&
                             institutes.data?.map((inst: any) => (
                                 <div key={inst.id} className="dark:border-whie/20 rounded-xl border p-4 shadow-sm dark:shadow-white/20">
-                                    <p className="font-semibold text-gray-800 dark:text-white">{inst.name}</p>
+                                    <p className="font-semibold text-gray-800 dark:text-white cursor-pointer" onClick={() => router.get(route('detail-institute', inst.id))}>{inst.name}</p>
                                     <p className="text-sm text-gray-600 dark:text-white/80">Category: {inst.category}</p>
                                     <p className="text-sm text-gray-600 dark:text-white/80">Courses: {inst.courses_count}</p>
                                     <p className="text-sm text-gray-600 dark:text-white/80">

@@ -101,6 +101,7 @@ class InstituteService
                 ]);
         }
 
+        $detail->reviews_avg_rating = round($detail->reviews_avg_rating, 1);
         return [
             'institute' => $detail,
             'courses' => $courses,

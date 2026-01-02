@@ -45,7 +45,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                         {hasApplications && applications.data.map((app: any) => {
                             return (
                                 <div key={app.id} className="rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-white/20">
-                                    <div className="mb-3 flex items-center gap-3">
+                                    <div className="mb-3 flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-teacher', app.id))}>
                                         <img
                                             src={storageUrl(app.profile_picture)}
                                             alt={app.name}
@@ -115,7 +115,7 @@ export default function TeacherApplicationsPage({ applications }: any) {
                                                 <td className="p-1 text-center">{index + 1}</td>
 
                                                 <td className="p-3">
-                                                    <div className="flex items-center gap-4">
+                                                    <div className="flex items-center gap-4 cursor-pointer" onClick={() => router.get(route('detail-teacher', app.id))}>
                                                         <img
                                                             src={storageUrl(app.profile_picture)}
                                                             alt={app.name}

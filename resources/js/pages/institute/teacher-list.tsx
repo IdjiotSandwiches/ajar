@@ -33,6 +33,10 @@ export default function TeacherList({ teachers, filters }: any) {
         });
     };
 
+    const redirectToUser = (id: any) => {
+        router.get(route('detail-teacher', id));
+    }
+
     const hasTeachers = teachers?.data && teachers.data.length > 0;
 
     return (
@@ -75,7 +79,7 @@ export default function TeacherList({ teachers, filters }: any) {
                                             : 'bg-white dark:bg-[#222831]'}`}
                                     >
                                         <td className="p-3 text-center dark:text-white">{teachers.from + index}</td>
-                                        <td className="p-3 font-semibold dark:text-white">{teacher.name}</td>
+                                        <td className="p-3 font-semibold dark:text-white cursor-pointer" onClick={() => redirectToUser(teacher.id)}>{teacher.name}</td>
                                         <td className="p-3 text-center font-semibold dark:text-white">{teacher.course_taught}</td>
                                         <td className="p-3 text-center">
                                             <div className="flex items-center justify-center gap-1">
@@ -128,6 +132,7 @@ export default function TeacherList({ teachers, filters }: any) {
                                 totalReviews={teacher.review_count}
                                 registerDate={teacher.registered_at}
                                 onDelete={() => handleDeleteClick(teacher.id)}
+                                redirect={() => redirectToUser(teacher.id)}
                             />
                         ))}
                     </div>

@@ -63,7 +63,7 @@ export default function RemoveCoursePage({ courses, categories, filters }: any) 
                         {hasCourses &&
                             courses.data?.map((course: any, index: number) => (
                                 <div key={index} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-white/20">
-                                    <div className="mb-3 flex items-center gap-3">
+                                    <div className="mb-3 flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-course', course.id))}>
                                         <img src={storageUrl(course.image)} alt={course.name} className="h-14 w-14 rounded-lg object-cover" />
 
                                         <div className="flex-1">
@@ -115,7 +115,7 @@ export default function RemoveCoursePage({ courses, categories, filters }: any) 
                                             <td className="p-3 text-center">{courses.from + index}</td>
 
                                             <td className="p-3">
-                                                <div className="flex items-center gap-3">
+                                                <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.get(route('detail-course', course.id))}>
                                                     <img
                                                         src={storageUrl(course.image)}
                                                         alt={course.name}
