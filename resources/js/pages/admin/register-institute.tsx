@@ -33,7 +33,7 @@ export default function InstituteForm({ categories, errors }: any) {
                         <input type="hidden" name="role_id" value={roles.Institute} />
 
                         <DetailInput title="Institute Name" name="name" id="name" type="text" />
-                        {errors?.name && <p className="text-red-500">{errors.name}</p>}
+                        {errors?.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
                         <div>
                             <p className="mb-2 text-sm font-medium text-gray-800 dark:text-white">Institute Category</p>
@@ -47,17 +47,17 @@ export default function InstituteForm({ categories, errors }: any) {
                                     );
                                 })}
                             </div>
-                            {errors?.category && <p className="mt-1 text-red-500">{errors.category}</p>}
+                            {errors?.category && <p className="mt-1 text-red-500 text-sm">{errors.category}</p>}
                         </div>
 
                         <DetailInput title="Email" name="email" id="email" type="email" />
-                        {errors?.email && <p className="text-red-500">{errors.email}</p>}
+                        {errors?.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
                         <DetailInput title="Phone Number" name="phone_number" id="phone_number" type="text" />
-                        {errors?.email && <p className="text-red-500">{errors.phone_number}</p>}
+                        {errors?.phone_number && <p className="text-red-500 text-sm">{errors.phone_number}</p>}
 
                         <DetailInput title="Password" name="password" id="password" type="password" />
-                        {errors?.password && <p className="text-red-500">{errors.password}</p>}
+                        {errors?.password && <p className="text-red-500 text-sm">{errors.password}</p>}
 
                         <div className="flex justify-end gap-2 pt-4">
                             <button
