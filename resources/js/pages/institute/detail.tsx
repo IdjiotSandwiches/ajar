@@ -29,6 +29,8 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
         return <div className="flex min-h-screen items-center justify-center text-gray-500">Institution not found.</div>;
     }
 
+    console.log(institute)
+
     return (
         <>
             <Head title={institute?.user?.name || 'Not Found'} />
@@ -50,12 +52,13 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                             <div className="z-10 flex flex-1 flex-col items-center text-center md:items-start md:text-left">
                                 <h2 className="text-2xl font-semibold md:text-3xl">{institute.user.name}</h2>
 
-                                {institute.user.email ? (
+                                {institute.website ? (
                                     <a
-                                        href={`mailto:${institute.user.email}`}
+                                        href={institute.website}
+                                        target="_blank"
                                         className="flex cursor-pointer items-center justify-center gap-1 text-sm text-white underline transition hover:opacity-90 md:justify-start"
                                     >
-                                        {institute.user.email}
+                                        {institute.website}
                                         <SquareArrowOutUpRight className="h-4 w-4" />
                                     </a>
                                 ) : (

@@ -4,8 +4,6 @@ namespace App\Services\Institute;
 
 use App\Models\Institute;
 use App\Models\TeacherApplication;
-use App\Models\User;
-use App\Notifications\RequestApproved;
 use App\Utilities\Utility;
 use Illuminate\Support\Facades\Auth;
 

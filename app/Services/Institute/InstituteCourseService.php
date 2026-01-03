@@ -180,16 +180,23 @@ class InstituteCourseService
             ")
             ->orderBy('start_time')
             ->paginate(10)
-            ->through(fn($item) => [
-                'name' => $item->course->name,
-                'teacher_name' => $item->teacher->user->name,
-                'duration' => $item->course->duration,
-                'start_time' => $item->start_time->format('d M Y H:i'),
-                'end_time' => $item->end_time->format('d M Y H:i'),
-                'recording_link' => $item->recording_link,
-                'image' => $item->course->image,
-                'status' => $item->status === CourseStatusEnum::Scheduled && now()->greaterThan($item->start_time) ? 'ongoing' : $item->status
-            ]);
+            ->through(function ($item) {
+                $status = $item->status;
+                if ($item->status === CourseStatusEnum::Scheduled && now()->greaterThan($item->start_time))
+                    $status = 'ongoing';
+                else if ($item->status === CourseStatusEnum::Completed && $item->is_verified == false)
+                    $status  = 'rejected';
+                return [
+                    'name' => $item->course->name,
+                    'teacher_name' => $item->teacher->user->name,
+                    'duration' => $item->course->duration,
+                    'start_time' => $item->start_time->format('d M Y H:i'),
+                    'end_time' => $item->end_time->format('d M Y H:i'),
+                    'recording_link' => $item->recording_link,
+                    'image' => $item->course->image,
+                    'status' => $status
+                ];
+            });
 
         return $courses;
     }

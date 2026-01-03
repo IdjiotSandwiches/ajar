@@ -17,6 +17,7 @@ const CourseStatusCard: React.FC<CourseStatusCardProps> = ({ image, name, teache
         completed: 'text-green-600',
         scheduled: 'text-gray-600',
         cancelled: 'text-red-600',
+        rejected: 'text-red-600',
         ongoing: 'text-yellow-500',
     };
     return (
