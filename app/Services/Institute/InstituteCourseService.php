@@ -166,7 +166,7 @@ class InstituteCourseService
         $user = Auth::user();
         $courses = CourseSchedule::with(['course', 'teacher.user'])
             ->whereHas('course', fn($q) => $q->where('institute_id', $user->id)
-                ->when(!empty($filters['search']), fn($query) => $query->where('name', $filters['search'])))
+                ->when(!empty($filters['search']), fn($query) => $query->where('name', 'like', "%{$filters['search']}%")))
             ->when(!empty($filters['status']), fn($q) => $q->where('status', $filters['status']))
             ->when(!empty($filters['time']), fn($q) => $q->whereTime('start_time', '>=', Carbon::parse($filters['time'])->format('H:i:s')))
             ->when(!empty($filters['date']), fn($q) => $q->whereDate('start_time', $filters['date']))
