@@ -2,17 +2,18 @@
 
 namespace App\Services;
 
-use App\Models\User;
-use App\Notifications\RequestApproved;
 use Carbon\Carbon;
 use App\Enums\RoleEnum;
 use App\Enums\CourseStatusEnum;
+use App\Enums\PaymentStatusEnum;
 use App\Enums\LearningStatusEnum;
+use App\Models\User;
 use App\Models\CourseReview;
 use App\Models\TeacherReview;
 use App\Models\InstituteReview;
 use App\Models\CourseSchedule;
 use App\Models\EnrolledCourse;
+use App\Notifications\RequestApproved;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -57,9 +58,10 @@ class MyLearningService
                 break;
             }
             case RoleEnum::Student: {
-                $base = EnrolledCourse::query()
+                $base = EnrolledCourse::with(['payments'])
                     ->where('student_id', $user->id)
-                    ->where('is_verified', true);
+                    ->where('is_verified', true)
+                    ->whereHas('payments', fn($q) => $q->where('status', PaymentStatusEnum::Paid));
                 $counts = [
                     LearningStatusEnum::Ongoing->value => (clone $base)
                         ->where('status', CourseStatusEnum::Scheduled)
@@ -103,11 +105,12 @@ class MyLearningService
                 break;
             }
             case RoleEnum::Student: {
-                $courses = EnrolledCourse::with(['courseSchedule.course'])
+                $courses = EnrolledCourse::with(['courseSchedule.course', 'payments'])
                     ->join('course_schedules', 'enrolled_courses.course_schedule_id', '=', 'course_schedules.id')
                     ->where('student_id', $user->id)
                     ->where('enrolled_courses.is_verified', true)
                     ->whereDate('course_schedules.start_time', $date)
+                    ->whereHas('payments', fn($q) => $q->where('status', PaymentStatusEnum::Paid))
                     ->orderBy('course_schedules.start_time', 'asc')
                     ->select('enrolled_courses.*')
                     ->get()
@@ -269,7 +272,7 @@ class MyLearningService
 
     private function getStudentCourses($userId, $status)
     {
-        $courses = EnrolledCourse::with(['courseSchedule.course.institute.user', 'courseSchedule.teacher.user', 'courseSchedule.course.courseReviews'])
+        $courses = EnrolledCourse::with(['courseSchedule.course.institute.user', 'courseSchedule.teacher.user', 'courseSchedule.course.courseReviews', 'payments'])
             ->join('course_schedules', 'enrolled_courses.course_schedule_id', '=', 'course_schedules.id')
             ->orderBy('course_schedules.start_time', 'asc')
             ->select('enrolled_courses.*')
@@ -278,6 +281,7 @@ class MyLearningService
             ->when($status === LearningStatusEnum::Ongoing, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Scheduled))
             ->when($status === LearningStatusEnum::Completed, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Completed))
             ->when($status === LearningStatusEnum::Cancelled, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Cancelled))
+            ->whereHas('payments', fn($q) => $q->where('status', PaymentStatusEnum::Paid))
             ->paginate(10)
             ->through(function ($item) {
                 $schedule = $item->courseSchedule;
