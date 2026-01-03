@@ -117,7 +117,7 @@ class DashboardService
                     'end_time' => $schedule->end_time,
                     'teacher' => $teacher->user->name,
                     'meeting_link' => $item->courseSchedule->meeting_link,
-                    'can_join' => $isToday && now() < $item->end_time
+                    'can_join' => $isToday && now() < $schedule->end_time
                 ];
             });
 
