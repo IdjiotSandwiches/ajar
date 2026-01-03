@@ -28,6 +28,27 @@ export default function NotificationDropdown() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    useEffect(() => {
+    if (!open) return;
+
+    function handleScroll(e: Event) {
+        if (!ref.current) return;
+
+        const target = e.target as Node;
+
+        if (ref.current.contains(target)) return;
+
+        setOpen(false);
+    }
+
+    window.addEventListener('scroll', handleScroll, true);
+
+    return () => {
+        window.removeEventListener('scroll', handleScroll, true);
+    };
+}, [open]);
+
+
     const handleToggle = () => {
         setOpen(!open);
         if (!open) markAllAsRead();
@@ -45,7 +66,7 @@ export default function NotificationDropdown() {
             </button>
 
             {open && (
-                <div className="absolute right-0 z-50 mt-3 w-80 rounded-xl border bg-white shadow-md dark:border-white/20 dark:bg-[#242124]">
+                <div className="absolute right-0 z-50 mt-3 w-72 sm:w-80 rounded-xl border bg-white shadow-md dark:border-white/20 dark:bg-[#242124]">
                     <div className="border-b px-4 py-2 text-sm font-semibold dark:border-white/20 dark:text-white">Notifications</div>
 
                     <div className="max-h-72 overflow-y-auto">
