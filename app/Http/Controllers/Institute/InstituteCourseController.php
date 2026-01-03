@@ -27,7 +27,8 @@ class InstituteCourseController extends Controller
             'filters' => [
                 'search' => $filters['search'] ?? null,
                 'category_id' => $filters['category_id'] ?? null,
-                'duration' => $filters['duration'] ?? null
+                'duration' => $filters['duration'] ?? null,
+                'sort_by' => $filters['sort_by'] ?? null
             ]
         ]);
     }

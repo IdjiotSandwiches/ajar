@@ -36,7 +36,7 @@ class InstituteCourseService
             ->when(!empty($filters['search']), fn($q) => $q->where('name', 'like', "%{$filters['search']}%"))
             ->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
             ->when(!empty($filters['duration']), fn($q) => $q->where('duration', $filters['duration']))
-            ->when(!empty($filters['sort_by']), fn($q) => $q->orderBy('price', $filters['sort_by'] ? 'desc' : 'asc'))
+            ->when(isset($filters['sort_by']) && $filters['sort_by'] !== '', fn($q) => $q->orderBy('price', $filters['sort_by'] ? 'desc' : 'asc'))
             ->paginate(10)
             ->withQueryString();
 
