@@ -88,7 +88,7 @@ class AdminTeacherService
         $teachers = Teacher::query()
             ->with(['user'])
             ->whereNull('is_verified')
-            // ->whereHas('user', fn($q) => $q->whereNotNull('email_verified_at'))
+            ->whereHas('user', fn($q) => $q->whereNotNull('email_verified_at'))
             ->paginate(10)
             ->through(fn($item) => [
                 'id' => $item->user_id,

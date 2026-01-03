@@ -58,13 +58,12 @@ class RegisterController extends Controller
             $user = $this->service
                 ->register($data);
 
-            // event(new Registered($user));
+            event(new Registered($user));
             Auth::login($user);
         } catch (\Exception $e) {
             return back()->withErrors(['error' => $e->getMessage()]);
         }
 
-        // return to_route('verification.notice');
-        return to_route('dashboard')->with('success', 'Welcome! Your account has been successfully created.');
+        return to_route('verification.notice')->with('success', 'Welcome! Your account has been successfully created.');
     }
 }

@@ -98,7 +98,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             <Label htmlFor="remember">Remember me</Label>
                         </div>
 
-                        {/* {canResetPassword && (
+                        {canResetPassword && (
                             <TextLink
                                 href={route('password.request')}
                                 className="text-sm text-gray-600 dark:text-white/80 hover:text-[#3ABEFF] transition-colors"
@@ -106,7 +106,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             >
                                 Forgot password?
                             </TextLink>
-                        )} */}
+                        )}
                     </div>
                     <div className="mt-4 flex justify-end gap-2">
                         <Button
