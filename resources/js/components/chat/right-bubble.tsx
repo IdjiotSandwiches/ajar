@@ -10,17 +10,17 @@ export default function RightBubble({ message, replyHandleState }: any) {
                 <div
                     className={clsx(
                         message.message_deleted_at ? '' : 'lg:pr-20',
-                        'rounded-md bg-gray-800 px-3 py-2 text-xs text-gray-300 lg:text-sm',
+                        'rounded-lg border dark:border-white/20 shadow-sm dark:shadow-white/20 px-3 py-2 text-xs text-gray-800 dark:text-white lg:text-sm',
                     )}
                 >
                     {/* Replied Chat */}
                     {message.reply && !message.message_deleted_at && (
-                        <div className="mb-1.5 max-w-full rounded border-l-4 border-gray-600 bg-gray-700/50 px-2 py-1.5">
+                        <div className="mb-1.5 max-w-full rounded border-l-4 border-[#3ABEFF] bg-gray-200/50 dark:bg-gray-700/50 px-2 py-1.5">
                             <div className="text-[10px] lg:text-xs">
-                                <div className="mb-1 text-purple-400">{message.reply.sender_id === user?.id ? 'You' : message.reply.sender_name}</div>
+                                <div className="mb-1 text-[#3ABEFF]">{message.reply.sender_id === user?.id ? 'You' : message.reply.sender_name}</div>
                                 {!message.reply.message_deleted_at ? (
                                     <div
-                                        className="overflow-hidden text-gray-300/80"
+                                        className="overflow-hidden text-gray-800/80 dark:text-white/80"
                                         style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
                                     >
                                         <div className="break-all whitespace-pre-wrap">{message.reply.message}</div>
@@ -38,7 +38,7 @@ export default function RightBubble({ message, replyHandleState }: any) {
                     {!message.message_deleted_at ? (
                         <div className="break-all whitespace-pre-wrap">{message.message}</div>
                     ) : (
-                        <div className="mr-1 flex items-center justify-center text-center text-xs text-gray-400/60 italic select-none">
+                        <div className="mr-1 flex items-center justify-center text-center text-xs text-gray-400/60 dark:text-white/60 italic select-none">
                             {message.message}
                         </div>
                     )}
@@ -46,7 +46,7 @@ export default function RightBubble({ message, replyHandleState }: any) {
                     {/* Chat Timestamp */}
                     {!message.message_deleted_at && (
                         <div className="mr-2 flex items-center justify-end lg:-mt-2.5 lg:-mr-16">
-                            <div className="text-[9px] text-gray-400/70 lg:text-[10px]">{message.sent_at}</div>
+                            <div className="text-[9px] text-gray-400/70 dark:text-white/70 lg:text-[10px]">{message.sent_at}</div>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
@@ -68,7 +68,7 @@ export default function RightBubble({ message, replyHandleState }: any) {
 
                 {!message.message_deleted_at && (
                     <div className="relative">
-                        <div className="absolute top-0 bottom-0 left-0 -ml-14 flex flex-row items-center justify-center text-xs text-gray-700 opacity-0 group-hover:opacity-100">
+                        <div className="absolute top-0 bottom-0 left-0 -ml-14 flex flex-row items-center justify-center text-xs text-gray-700 dark:text-white opacity-0 group-hover:opacity-100">
                             <button className="mr-1" onClick={() => replyHandleState(message)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" id="reply" fill="currentColor" className="h-5 w-5">
                                     <path d="M13.6 39.4l28 28c1.3 1.3 3.4.4 3.4-1.4V51.8c.6 0 1.2-.1 1.7-.1 12.8 0 23.2 10.3 23.2 22.9 0 5.2-1.8 9.7-5.4 14-1.4 1.6.5 4.1 2.4 3.1C79.5 85.3 87 73.4 87 59.9c0-20.2-16.7-36.5-37.3-36.5-1.6 0-3.3.1-4.7.3V10c0-1.8-2.1-2.7-3.4-1.4l-28 28c-.8.8-.8 2 0 2.8zm4.2-1.4L41 14.8V26c0 1.2 1.1 2.2 2.4 2 1.6-.3 4-.7 6.4-.7C68.1 27.3 83 41.9 83 59.9c0 9.1-3.9 17.5-10.7 23.4 1-2.7 1.6-5.6 1.6-8.6 0-14.9-12.2-26.9-27.2-26.9-3.1 0-5.7 0-5.7 2.2v11.2L17.8 38z"></path>
