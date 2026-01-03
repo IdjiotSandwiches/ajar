@@ -22,7 +22,8 @@ class InstituteReview extends Model
         'rating',
         'description',
         'reviewer_id',
-        'institute_id'
+        'institute_id',
+        'enrolled_course_id'
     ];
 
     /**

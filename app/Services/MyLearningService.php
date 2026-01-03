@@ -194,21 +194,24 @@ class MyLearningService
                 'rating' => $data['teacher_rating'],
                 'description' => $data['teacher_review'],
                 'reviewer_id' => $user->id,
-                'teacher_id' => $schedule->teacher_id
+                'teacher_id' => $schedule->teacher_id,
+                'enrolled_course_id' => $enroll->id
             ]);
 
             InstituteReview::create([
                 'rating' => $data['institute_rating'],
                 'description' => $data['institute_review'],
                 'reviewer_id' => $user->id,
-                'institute_id' => $schedule->course->institute_id
+                'institute_id' => $schedule->course->institute_id,
+                'enrolled_course_id' => $enroll->id
             ]);
 
             CourseReview::create([
                 'rating' => $data['course_rating'],
                 'description' => $data['course_review'],
                 'reviewer_id' => $user->id,
-                'course_id' => $schedule->course_id
+                'course_id' => $schedule->course_id,
+                'enrolled_course_id' => $enroll->id
             ]);
         });
     }
@@ -251,7 +254,11 @@ class MyLearningService
 
     private function getStudentCourses($userId, $status)
     {
-        $courses = EnrolledCourse::with(['courseSchedule.course.institute.user', 'courseSchedule.teacher.user', 'courseSchedule.course.courseReviews', 'payments'])
+        $courses = EnrolledCourse::with([
+            'courseSchedule.course.institute.user',
+            'courseSchedule.teacher.user',
+            'payments'
+        ])
             ->join('course_schedules', 'enrolled_courses.course_schedule_id', '=', 'course_schedules.id')
             ->orderBy('course_schedules.start_time', 'asc')
             ->select('enrolled_courses.*')
@@ -261,6 +268,9 @@ class MyLearningService
             ->when($status === LearningStatusEnum::Completed, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Completed))
             ->when($status === LearningStatusEnum::Cancelled, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Cancelled))
             ->whereHas('payments', fn($q) => $q->where('status', PaymentStatusEnum::Paid))
+            ->withExists('courseReviews')
+            ->withExists('instituteReviews')
+            ->withExists('teacherReviews')
             ->paginate(10)
             ->through(function ($item) {
                 $schedule = $item->courseSchedule;
@@ -280,7 +290,7 @@ class MyLearningService
                     'recording_link' => $schedule->recording_link,
                     'image' => $course->image,
                     'can_join' => now()->addMinutes(15)->greaterThanOrEqualTo($schedule->start_time),
-                    'has_review' => $course->courseReviews->count() != 0
+                    'has_review' => $item->course_reviews_exists || $item->institute_reviews_exists || $item->teacher_reviews_exists
                 ];
             });
 

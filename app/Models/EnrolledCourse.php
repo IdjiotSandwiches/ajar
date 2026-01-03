@@ -63,4 +63,19 @@ class EnrolledCourse extends Model
             ])
             ->latestOfMany();
     }
+
+    public function courseReviews()
+    {
+        return $this->hasMany(CourseReview::class);
+    }
+
+    public function instituteReviews()
+    {
+        return $this->hasMany(InstituteReview::class);
+    }
+
+    public function teacherReviews()
+    {
+        return $this->hasMany(TeacherReview::class);
+    }
 }

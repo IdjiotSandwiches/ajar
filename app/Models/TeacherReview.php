@@ -22,7 +22,8 @@ class TeacherReview extends Model
         'rating',
         'description',
         'reviewer_id',
-        'teacher_id'
+        'teacher_id',
+        'enrolled_course_id'
     ];
 
     /**
