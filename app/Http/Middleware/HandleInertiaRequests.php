@@ -72,10 +72,10 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'flash' => [
-                'success' => fn() => $request->session()->get('success'),
-                'error' => fn() => $request->session()->get('error'),
-                'info' => fn() => $request->session()->get('info'),
-                'snap_token' => fn() => $request->session()->get('snap_token'),
+                'success' => fn() => $request->session()->pull('success'),
+                'error' => fn() => $request->session()->pull('error'),
+                'info' => fn() => $request->session()->pull('info'),
+                'snap_token' => fn() => $request->session()->pull('snap_token'),
             ],
         ];
     }
