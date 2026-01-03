@@ -55,9 +55,7 @@ class RegisterController extends Controller
     {
         try {
             $data = $request->validated();
-            $user = $this->service
-                ->register($data);
-
+            $user = $this->service->register($data);
             event(new Registered($user));
             Auth::login($user);
         } catch (\Exception $e) {
