@@ -1,0 +1,29 @@
+import Footer from '@/components/footer';
+import Navbar from '@/components/navbar';
+import BackButton from '@/components/ui/back-button';
+import { PropsWithChildren } from 'react';
+import RootLayout from '../root-layout';
+import TeacherVerificationStatus from '@/components/teacher-status';
+
+interface AppLayoutProps {
+    showBackButton?: boolean;
+    useContainer?: boolean;
+}
+
+export default function AppLayout({ children, showBackButton = true, useContainer = true }: PropsWithChildren<AppLayoutProps>) {
+    return (
+        <RootLayout>
+            <div className="flex min-h-screen flex-col">
+                <Navbar />
+                <TeacherVerificationStatus />
+                {showBackButton && (
+                    <div className="absolute top-24 left-6 z-20 hidden lg:block">
+                        <BackButton label="Back" />
+                    </div>
+                )}
+                <main className={`flex-1 mt-8 md:mt-12 lg:mt-16 ${useContainer ? 'container mx-auto' : 'w-full'}`}>{children}</main>
+                <Footer />
+            </div>
+        </RootLayout>
+    );
+}

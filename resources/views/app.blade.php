@@ -42,5 +42,6 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
+        <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
     </body>
 </html>

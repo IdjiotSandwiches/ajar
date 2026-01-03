@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Models;
+
+use App\Enums\DegreeTypeEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * @mixin IdeHelperGraduate
+ */
+class Graduate extends Model
+{
+    use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'degree_title',
+        'university_name',
+        'teacher_id',
+        'degree_type_id'
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'degree_type_id' => DegreeTypeEnum::class
+        ];
+    }
+
+    /**
+     * BelongsTo: Teacher
+     * @return BelongsTo<Teacher, Graduate>
+     */
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id', 'user_id');
+    }
+
+    /**
+     * BelongsTo: DegreeType
+     * @return BelongsTo<DegreeType, Graduate>
+     */
+    public function degreeType(): BelongsTo
+    {
+        return $this->belongsTo(DegreeType::class);
+    }
+}

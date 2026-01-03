@@ -1,0 +1,15 @@
+<?php
+
+use Illuminate\Support\Facades\Broadcast;
+
+Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('teacher.{id}', function ($user, $id) {
+    return $user->id === (int) $id;
+});
+
+Broadcast::channel('message.{uuid}', function ($user, $uuid) {
+    return Auth::check();
+});

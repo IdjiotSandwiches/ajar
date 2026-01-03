@@ -1,14 +1,20 @@
-import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
-import { type BreadcrumbItem } from '@/types';
+import AppLayoutTemplate from '@/layouts/app/app-layout-template';
 import { type ReactNode } from 'react';
 
 interface AppLayoutProps {
-    children: ReactNode;
-    breadcrumbs?: BreadcrumbItem[];
+  children: ReactNode;
+  showBackButton?: boolean;
+  useContainer?: boolean;
 }
 
-export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
-    <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-        {children}
+export default function AppLayout({
+  children,
+  showBackButton = true,
+  useContainer = true,
+}: AppLayoutProps) {
+  return (
+    <AppLayoutTemplate showBackButton={showBackButton} useContainer={useContainer}>
+      {children}
     </AppLayoutTemplate>
-);
+  );
+}

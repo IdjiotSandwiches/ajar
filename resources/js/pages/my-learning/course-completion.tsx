@@ -1,0 +1,101 @@
+import { courseCompletionFilter } from '@/components/lms/filter/dictionary/course-completion';
+import Filter from '@/components/lms/filter/filter';
+import CourseCompletionCard from '@/components/lms/my-learning/course-completion-card';
+import DynamicModal from '@/components/modal/modal';
+import Pagination from '@/components/pagination';
+import LMSLayout from '@/layouts/lms-layout';
+import { router } from '@inertiajs/react';
+import { BookCheck } from 'lucide-react';
+import React, { useState } from 'react';
+
+export default function CourseCompletionPage({ schedules, categories, filters }: any) {
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showWarningModal, setShowWarningModal] = useState(false);
+    const [selectedCourse, setSelectedCourse] = useState<{
+        id: number;
+        name: string;
+    } | null>(null);
+
+    const handleConfirmComplete = (name: any, id: any) => {
+        setSelectedCourse({ id, name });
+        setShowConfirmModal(true);
+    };
+
+    const handleRejectComplete = (name: any, id: any) => {
+        setSelectedCourse({ id, name });
+        setShowWarningModal(true);
+    };
+
+    const confirm = (isConfirm: any) => {
+        router.post(route('admin.complete-course', { id: selectedCourse?.id, isVerified: isConfirm }));
+        if (isConfirm) setShowConfirmModal(false);
+        else setShowWarningModal(false);
+    };
+
+    const onFilterChange = (filters: any) => {
+        router.reload({
+            only: ['schedules'],
+            data: {
+                search: filters.search,
+                category_id: filters.category,
+                time: filters.time,
+                date: filters.date,
+            },
+        });
+    };
+
+    const hasCourses = schedules?.data && schedules.data.length > 0;
+
+    return (
+        <div className="flex min-h-screen flex-col gap-6">
+            <Filter schema={courseCompletionFilter(categories, filters)} onChange={onFilterChange} />
+            <div className="mx-auto w-full rounded-2xl border p-4 shadow-sm lg:p-8 dark:border-white/20 dark:shadow-white/20">
+                <h3 className="mb-6 text-xl font-semibold">Course List</h3>
+                <div>
+                    {!hasCourses && (
+                        <div className="flex flex-col items-center justify-center py-12 text-center">
+                            <BookCheck className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
+                            <p className="text-base font-semibold text-gray-700 dark:text-white">No completed courses</p>
+                            <p className="mt-1 text-sm text-gray-500 dark:text-white/70">There are no completed courses yet.</p>
+                        </div>
+                    )}
+                    {hasCourses && (
+                        <>
+                            {schedules.data?.map((course: any, index: number) => (
+                                <CourseCompletionCard
+                                    key={index}
+                                    {...course}
+                                    onCompleteClick={() => handleConfirmComplete(course.name, course.id)}
+                                    onRejectClick={() => handleRejectComplete(course.name, course.id)}
+                                />
+                            ))}
+                            <Pagination links={schedules.links} />
+                        </>
+                    )}
+                </div>
+            </div>
+
+            {showConfirmModal && (
+                <DynamicModal
+                    type="confirmation"
+                    isOpen={showConfirmModal}
+                    onClose={() => setShowConfirmModal(false)}
+                    onConfirm={() => confirm(1)}
+                    description={`Course status for "${selectedCourse?.name}" will be updated once you submit.`}
+                />
+            )}
+
+            {showWarningModal && (
+                <DynamicModal
+                    type="warning"
+                    isOpen={showWarningModal}
+                    onClose={() => setShowWarningModal(false)}
+                    onConfirm={() => confirm(0)}
+                    description={`Course status for "${selectedCourse?.name}" will be rejected once you submit.`}
+                />
+            )}
+        </div>
+    );
+}
+
+CourseCompletionPage.layout = (page: React.ReactNode) => <LMSLayout title="Courses Completion">{page}</LMSLayout>;

@@ -1,0 +1,185 @@
+import Pagination from '@/components/pagination';
+import LMSLayout from '@/layouts/lms-layout';
+import { router, usePage } from '@inertiajs/react';
+import { CreditCard, Wallet } from 'lucide-react';
+import React from 'react';
+
+export default function PaymentsPage({ payments, amounts }: any) {
+    const { props } = usePage();
+    const user = props.auth?.user;
+    const roles = props.enums?.roles_enum;
+    const status = props.enums?.payment_status_enum;
+    const statusStyle: Record<string, string> = {
+        paid: 'bg-green-100 text-green-600',
+        pending: 'bg-blue-100 text-blue-600',
+        failed: 'bg-red-100 text-red-600',
+        'not eligible': 'bg-red-100 text-red-600',
+        refund: 'bg-yellow-100 text-yellow-600',
+    };
+
+    const isEmpty = !payments.data || payments.data.length === 0;
+    const userRelated: Record<number, string> = {
+        2: 'Institute',
+        3: 'Teacher',
+        4: 'Teacher',
+    };
+
+    return (
+        <>
+            <div className="flex min-h-screen flex-col gap-6">
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                    <div className="flex items-center gap-4 rounded-xl border p-6 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
+                        <div className="rounded-full bg-red-100 p-3">
+                            <Wallet className="text-red-500" size={24} />
+                        </div>
+                        <div>
+                            <p className="text-sm text-gray-500 dark:text-white/70">Total Unpaid Amount</p>
+                            <p className="text-lg font-bold text-gray-800 md:text-xl dark:text-white">
+                                Rp
+                                {Number(amounts.pending).toLocaleString('id-ID')}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 rounded-xl border p-6 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
+                        <div className="rounded-full bg-green-100 p-3">
+                            <CreditCard className="text-green-500" size={24} />
+                        </div>
+                        <div>
+                            <p className="text-sm text-gray-500 dark:text-white/70">Total Paid Amount</p>
+                            <p className="text-lg font-bold text-gray-800 md:text-xl dark:text-white">
+                                Rp
+                                {Number(amounts.paid).toLocaleString('id-ID')}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="rounded-2xl border p-6 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
+                    <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Payment History</h3>
+                    {isEmpty ? (
+                        <div className="flex flex-col items-center justify-center py-16 text-center">
+                            <Wallet className="mb-4 h-12 w-12 text-gray-400" />
+                            {user?.role_id === roles.Student ? (
+                                <>
+                                    <p className="text-base font-semibold text-gray-700 dark:text-white">There are no courses registered yet</p>
+                                    <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
+                                        You haven't made any payments or registered for any courses yet. Please explore the courses and start learning
+                                        now.
+                                    </p>
+                                    <button
+                                        onClick={() => router.get(route('list-course'))}
+                                        className="mt-6 rounded-lg bg-[#3ABEFF] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
+                                    >
+                                        Browse Courses
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <p className="text-base font-semibold text-gray-700 dark:text-white">Your earnings will appear here</p>
+                                    <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
+                                        Once your courses are completed and verified, any earnings will show up in this dashboard.
+                                    </p>
+                                </>
+                            )}
+                        </div>
+                    ) : (
+                        <>
+                            <div className="space-y-4 md:hidden">
+                                {payments.data.map((payment: any) => (
+                                    <div key={payment.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20">
+                                        <div className="mb-2">
+                                            <p className="text-sm text-gray-500 dark:text-white/70">Course</p>
+                                            <p className="font-semibold text-gray-800 dark:text-white">{payment.course_name}</p>
+                                        </div>
+
+                                        <div className="mb-2">
+                                            <p className="text-sm text-gray-500 dark:text-white/70">{userRelated[user?.role_id!]}</p>
+                                            <p className="text-gray-700 dark:text-white/90">{payment.related_user}</p>
+                                        </div>
+
+                                        <div className="mb-2">
+                                            <p className="text-sm text-gray-500 dark:text-white/70">Schedule</p>
+                                            <p className="text-gray-700 dark:text-white/90">{payment.schedule}</p>
+                                        </div>
+
+                                        <div className="mt-4 flex items-center justify-between">
+                                            <div>
+                                                <p className="text-sm text-gray-500 dark:text-white/70">Amount</p>
+                                                <p className="font-semibold">Rp {payment.amount.toLocaleString('id-ID')}</p>
+                                            </div>
+
+                                            <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[payment.status]}`}>
+                                                {payment.status.toUpperCase()}
+                                            </span>
+                                        </div>
+
+                                        {payment.status === status.Pending && user?.role_id === roles.Student && (
+                                            <button
+                                                onClick={() => router.get(route('pending-payment', payment.id))}
+                                                className="mt-4 w-full rounded-md bg-[#3ABEFF] py-2 text-sm font-semibold text-white transition hover:bg-[#3ABEFF]/90"
+                                            >
+                                                Pay Now
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="hidden overflow-x-auto rounded-lg border lg:block dark:border-white/20">
+                                <table className="min-w-full text-sm text-gray-700 dark:text-white/70">
+                                    <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20">
+                                        <tr>
+                                            <th className="p-3 text-left font-semibold">Course</th>
+                                            <th className="p-3 text-left font-semibold">{userRelated[user?.role_id!]}</th>
+                                            <th className="p-3 text-left font-semibold">Schedule</th>
+                                            <th className="p-3 text-left font-semibold">Price</th>
+                                            <th className="p-3 text-center font-semibold">Status</th>
+                                            <th className="p-3 text-center font-semibold">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {payments.data.map((payment: any, index: number) => (
+                                            <tr
+                                                key={index}
+                                                className={`border-b dark:border-white/20 ${
+                                                    index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                                }`}
+                                            >
+                                                <td className="p-3 font-medium">{payment.course_name}</td>
+                                                <td className="p-3">{payment.related_user}</td>
+                                                <td className="p-3">{payment.schedule}</td>
+                                                <td className="p-3 font-semibold">Rp {payment.amount.toLocaleString('id-ID')}</td>
+                                                <td className="p-3 text-center">
+                                                    <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[payment.status]}`}>
+                                                        {payment.status.toUpperCase()}
+                                                    </span>
+                                                </td>
+                                                <td className="p-3 text-center">
+                                                    {payment.status === status.Pending && user?.role_id === roles.Student ? (
+                                                        <button
+                                                            onClick={() => router.get(route('pending-payment', payment.id))}
+                                                            className="rounded-md bg-[#3ABEFF] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#3ABEFF]/90"
+                                                        >
+                                                            Pay Now
+                                                        </button>
+                                                    ) : (
+                                                        <span className="text-xs text-gray-400">—</span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <Pagination links={payments.links} />
+                        </>
+                    )}
+                </div>
+            </div>
+        </>
+    );
+}
+
+PaymentsPage.layout = (page: React.ReactNode) => <LMSLayout title="Payments">{page}</LMSLayout>;

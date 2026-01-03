@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\RoleEnum;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+/**
+ * @mixin IdeHelperUser
+ */
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -21,6 +28,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone_number',
+        'profile_picture',
+        'role_id',
+        'uuid',
+        'last_seen_at',
     ];
 
     /**
@@ -41,8 +53,104 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            'email_verified_at' => 'datetime:Y-m-d H:i:s',
+            'created_at' => 'datetime:Y-m-d H:i:s',
+            'updated_at' => 'datetime:Y-m-d H:i:s',
             'password' => 'hashed',
+            'role_id' => RoleEnum::class,
+            'last_seen_at' => 'datetime',
         ];
+    }
+
+    /**
+     * BelongsTo: Role
+     * @return BelongsTo<Role, User>
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * HasOne: Teacher
+     * @return HasOne<Teacher, User>
+     */
+    public function teacher(): HasOne
+    {
+        return $this->hasOne(Teacher::class, 'user_id');
+    }
+
+    /**
+     * HasMany: TeacherReviews
+     * @return HasMany<TeacherReview, User>
+     */
+    public function writtenTeacherReviews(): HasMany
+    {
+        return $this->hasMany(TeacherReview::class, 'reviewer_id');
+    }
+
+    /**
+     * HasOne: Institute
+     * @return HasOne<Institute, User>
+     */
+    public function institute(): HasOne
+    {
+        return $this->hasOne(Institute::class, 'user_id');
+    }
+
+    /**
+     * HasMany: InstituteReviews
+     * @return HasMany<InstituteReview, User>
+     */
+    public function writtenInstituteReviews(): HasMany
+    {
+        return $this->hasMany(InstituteReview::class, 'reviewer_id');
+    }
+
+    /**
+     * HasMany: EnrolledCourses
+     * @return HasMany<EnrolledCourse, User>
+     */
+    public function enrolledCourses(): HasMany
+    {
+        return $this->hasMany(EnrolledCourse::class, 'student_id');
+    }
+
+    /**
+     * HasMany: CourseReviews
+     * @return HasMany<CourseReview, User>
+     */
+    public function writtenCourseReviews(): HasMany
+    {
+        return $this->hasMany(CourseReview::class, 'reviewer_id');
+    }
+
+    /**
+     * HasMany: Payments
+     * @return HasMany<Payment, User>
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'student_id');
+    }
+
+    public function socialMedias()
+    {
+        return $this->hasMany(SocialMedia::class, 'user_id');
+    }
+
+    public function receiveMessages()
+    {
+        return $this->hasMany(Chat::class, 'receiver_id', 'id')->orderByDesc('id');
+    }
+
+    public function sendMessages()
+    {
+        return $this->hasMany(Chat::class, 'sender_id', 'id')->orderByDesc('id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Chat::class, 'sender_id', 'id');
     }
 }

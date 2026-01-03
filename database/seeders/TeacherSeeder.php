@@ -1,0 +1,47 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Teacher;
+use Illuminate\Database\Seeder;
+
+class TeacherSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $teachers = [
+            [
+                'user_id' => 2,
+                'description' => 'Expert in Artificial Intelligence and Robotics.',
+                'is_verified' => null
+            ],
+            [
+                'user_id' => 3,
+                'description' => 'Senior Network Engineer with CCIE certification.',
+                'is_verified' => true
+            ],
+            [
+                'user_id' => 4,
+                'description' => 'Cybersecurity analyst specializing in ethical hacking.',
+                'is_verified' => null
+            ],
+            [
+                'user_id' => 5,
+                'description' => 'Cloud Solutions Architect (AWS & GCP).',
+                'is_verified' => true
+            ],
+            [
+                'user_id' => 6,
+                'description' => 'Data Scientist experienced in Big Data.',
+                'is_verified' => true
+            ],
+        ];
+
+        foreach ($teachers as $teacher) {
+            Teacher::firstOrCreate($teacher);
+        }
+    }
+}

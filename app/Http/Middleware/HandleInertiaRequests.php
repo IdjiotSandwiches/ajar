@@ -2,6 +2,14 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\CourseStatusEnum;
+use App\Enums\DayEnum;
+use App\Enums\DegreeTypeEnum;
+use App\Enums\LearningStatusEnum;
+use App\Enums\PaymentStatusEnum;
+use App\Enums\ReminderEnum;
+use App\Enums\RoleEnum;
+use App\Enums\StateEnum;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -44,12 +52,31 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => fn() => $request->user()
+                    ? $request->user()->loadMissing('teacher')
+                    : null,
+                'notifications' => fn() => auth()->user()?->unreadNotifications ?? []
             ],
-            'ziggy' => fn (): array => [
+            'enums' => [
+                'roles_enum' => RoleEnum::asArray(),
+                'degree_type_enum' => DegreeTypeEnum::asArray(),
+                'reminder_enum' => ReminderEnum::asArray(),
+                'state_enum' => StateEnum::asArray(),
+                'days_enum' => DayEnum::asArray(),
+                'payment_status_enum' => PaymentStatusEnum::asArray(),
+                'learning_status_enum' => LearningStatusEnum::asArray(),
+                'course_status_enum' => CourseStatusEnum::asArray()
+            ],
+            'ziggy' => fn(): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
-            ]
+            ],
+            'flash' => [
+                'success' => fn() => $request->session()->get('success'),
+                'error' => fn() => $request->session()->get('error'),
+                'info' => fn() => $request->session()->get('info'),
+                'snap_token' => fn() => $request->session()->get('snap_token'),
+            ],
         ];
     }
 }

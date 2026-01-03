@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Enums\DayEnum;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
+
+class ItemFilterRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'category_id' => 'nullable|integer|exists:categories,id',
+            'search' => 'nullable|string',
+            'search_secondary' => 'nullable|string',
+            'price_min' => 'nullable|numeric|min:0',
+            'price_max' => 'nullable|numeric|min:0',
+            'time' => 'nullable|date_format:H:i',
+            'day' => ['nullable', new Enum(DayEnum::class)],
+            'rating' => 'nullable|integer|min:0|max:5',
+            'date' => 'nullable|date',
+            'count' => 'nullable|integer|min:0',
+            'duration' => 'nullable|integer|min:0',
+            'sort_by' => 'nullable|boolean',
+            'status' => 'nullable'
+        ];
+    }
+}
