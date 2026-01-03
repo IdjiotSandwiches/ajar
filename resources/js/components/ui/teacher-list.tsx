@@ -22,13 +22,13 @@ export default function TeacherList({ teachers }: any) {
                     <img
                         src={storageUrl(teacher?.profile_picture)}
                         alt={teacher?.name || "Teacher"}
-                        className="w-8 h-8 rounded-full object-cover border"
+                        className="w-8 h-8 rounded-full object-cover"
                     />
                     <div className="flex flex-col">
-                        <p className="text-sm font-medium text-gray-800 leading-tight">
+                        <p className="text-sm font-medium text-gray-800 dark:text-white leading-tight">
                             {teacher?.name || "Teacher"}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-500 dark:text-white/70">
                             {teacher?.works?.[0]?.position || "Teacher"}
                         </p>
                     </div>
