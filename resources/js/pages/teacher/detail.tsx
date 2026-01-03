@@ -45,7 +45,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
         <>
             <Head title={teacher.name || "Not Found"} />
             <div className="min-h-screen w-full py-10">
-                <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 pt-6 sm:px-6 md:grid-cols-3 md:gap-8">
+                <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 pt-6 sm:px-6 lg:grid-cols-3 lg:gap-8">
                     <div>
                         <TeacherProfileCard teacher={teacher} />
                         {application && application?.is_verified === null && user?.role_id === roles.Institute && (
@@ -66,7 +66,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                         )}
                     </div>
                     <div className="space-y-8 md:col-span-2">
-                        <div className="w-full rounded-xl border dark:border-white/20 p-4 shadow dark:shadow-white/20 md:p-6">
+                        <div className="bg-white dark:bg-[#222831] w-full rounded-xl border dark:border-white/20 p-4 shadow dark:shadow-white/20 md:p-6">
                             <div className="mb-6 grid gap-4 md:grid-cols-3">
                                 <div className="flex items-start gap-2">
                                     <GraduationCap size={24} className="text-[#3ABEFF]" />
@@ -90,7 +90,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
 
                             <hr className="my-6 border-[#3ABEFF]/30" />
 
-                            <div className="mb-6 grid gap-4 md:grid-cols-3">
+                            <div className=" mb-6 grid gap-4 md:grid-cols-3">
                                 <div className="flex items-start gap-2">
                                     <BriefcaseBusiness size={24} className="text-[#3ABEFF]" />
                                     <h3 className="font-semibold text-gray-700 dark:text-white/90">Work Experience</h3>
@@ -144,7 +144,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                             </div>
                         </div>
 
-                        <div className="rounded-xl border dark:border-white/20 p-4 shadow dark:shadow-white/20 md:p-6">
+                        <div className="bg-white dark:bg-[#222831] rounded-xl border dark:border-white/20 p-4 shadow dark:shadow-white/20 md:p-6">
                             <div className="mb-4 flex gap-2">
                                 <Album size={24} className="text-[#3ABEFF]" />
                                 <h3 className="font-semibold text-gray-700 dark:text-white/90">Courses taught</h3>
@@ -161,7 +161,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
                                 )}
                             </div>
                         </div>
-                        <div className="rounded-xl border dark:border-white/20 p-4 shadow md:p-6">
+                        <div className="bg-white dark:bg-[#222831] rounded-xl border dark:border-white/20 p-4 shadow md:p-6">
                             <div className="mb-4 flex gap-2">
                                 <Star size={24} className="text-[#3ABEFF]" />
                                 <h3 className="font-semibold text-gray-700 dark:text-white/90">Reviews</h3>

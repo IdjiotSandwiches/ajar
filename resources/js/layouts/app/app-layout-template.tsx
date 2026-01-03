@@ -17,11 +17,11 @@ export default function AppLayout({ children, showBackButton = true, useContaine
                 <Navbar />
                 <TeacherVerificationStatus />
                 {showBackButton && (
-                    <div className="absolute top-24 left-6 z-20 hidden md:inline">
+                    <div className="absolute top-24 left-6 z-20 hidden lg:block">
                         <BackButton label="Back" />
                     </div>
                 )}
-                <main className={`flex-1 ${showBackButton ? 'pt-[72px]' : ''} ${useContainer ? 'container mx-auto' : 'w-full'}`}>{children}</main>
+                <main className={`flex-1 mt-8 md:mt-12 lg:mt-16 ${useContainer ? 'container mx-auto' : 'w-full'}`}>{children}</main>
                 <Footer />
             </div>
         </RootLayout>

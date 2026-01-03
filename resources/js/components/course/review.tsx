@@ -4,93 +4,111 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function ReviewSection({ reviews }: any) {
     const containerRef = useRef<HTMLDivElement | null>(null);
+
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [perPage, setPerPage] = useState(1);
+    const [cardWidth, setCardWidth] = useState(0);
 
     const gapPx = 32;
-    const perPage = 2;
     const total = reviews.length;
-    const maxIndex = Math.max(0, Math.ceil(total / perPage) * perPage - perPage);
+    const maxIndex = Math.max(0, total - perPage);
 
     useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
-        const cardEl = container.querySelector<HTMLElement>('[data-card]');
-        if (!cardEl) return;
+        const update = () => {
+            const w = window.innerWidth;
+            if (w >= 1024) setPerPage(2);
+            else setPerPage(1);
+        };
+        update();
+        window.addEventListener('resize', update);
+        return () => window.removeEventListener('resize', update);
+    }, []);
 
-        const cardWidth = cardEl.offsetWidth;
-        const offset = (cardWidth + gapPx) * currentIndex;
-        container.scrollTo({ left: offset, behavior: 'smooth' });
-    }, [currentIndex]);
+    useEffect(() => {
+        const el = containerRef.current?.querySelector('[data-card]') as HTMLElement;
+        if (el) setCardWidth(el.offsetWidth + gapPx);
+    }, [perPage, reviews]);
 
-    const goLeft = () => setCurrentIndex((prev) => Math.max(0, prev - perPage));
-    const goRight = () => setCurrentIndex((prev) => Math.min(maxIndex, prev + perPage));
+    useEffect(() => {
+        if (!containerRef.current) return;
+        containerRef.current.scrollTo({
+            left: cardWidth * currentIndex,
+            behavior: 'smooth',
+        });
+    }, [currentIndex, cardWidth]);
 
-    const leftDisabled = currentIndex <= 0;
-    const rightDisabled = currentIndex >= maxIndex;
+    const goLeft = () => setCurrentIndex((i) => Math.max(0, i - perPage));
+    const goRight = () => setCurrentIndex((i) => Math.min(maxIndex, i + perPage));
+
+    if (total === 0) {
+        return (
+            <section className="py-12 text-center text-sm text-gray-500 dark:text-white/80">
+                <p className="font-medium text-gray-700 dark:text-white">No reviews yet</p>
+                <p className="mt-1">Be the first to share your learning experience with us.</p>
+            </section>
+        );
+    }
 
     return (
-        <section className="pb-16">
-            <h2 className="-gray-800 mb-10 text-base font-semibold sm:text-lg md:text-xl">Reviews</h2>
-            <div className="mx-auto grid items-center gap-16 md:grid-cols-4">
-                <div className="relative flex items-center md:col-span-4">
-                    {reviews.length === 0 ? (
-                        <div className="py-12 text-center text-sm text-gray-500 dark:text-white/80">
-                            <p className="font-medium text-gray-700 dark:text-white">No reviews yet</p>
-                            <p className="mt-1">Be the first to share your learning experience with us.</p>
-                        </div>
-                    ) : (
-                        <>
-                            <button
-                                onClick={goLeft}
-                                disabled={leftDisabled}
-                                className={`z-10 mr-4 rounded-full border bg-white p-2 shadow-md transition-opacity ${
-                                    leftDisabled ? 'cursor-not-allowed opacity-40' : 'hover:bg-gray-100'
-                                }`}
-                            >
-                                <ChevronLeft className="h-5 w-5 text-[#3abeff]" />
-                            </button>
-                            <div ref={containerRef} className="flex flex-1 gap-8 overflow-hidden scroll-smooth">
-                                {reviews.map((review: any, index: number) => {
-                                    return (
-                                        <div
-                                            key={index}
-                                            data-card
-                                            className="flex w-[48%] flex-shrink-0 flex-col justify-between rounded-lg border border-gray-100 bg-white p-8 shadow-sm transition-all hover:shadow-md"
-                                        >
-                                            <div>
-                                                <div className="mb-3 flex items-center gap-3">
-                                                    <img
-                                                        src={storageUrl(review.profile_picture)}
-                                                        alt={review.name}
-                                                        className="h-10 w-10 rounded-full object-cover"
-                                                    />
-                                                    <div>
-                                                        <p className="font-medium text-gray-800">{review.name}</p>
-                                                        <p className="text-sm text-yellow-400">
-                                                            {'★'.repeat(review.rating)}{' '}
-                                                            <span className="text-gray-300">{'★'.repeat(5 - review.rating)}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
+        <section>
+            <div className="relative">
+                {total > perPage && (
+                    <>
+                        <button
+                            onClick={goLeft}
+                            disabled={currentIndex <= 0}
+                            className="absolute left-0 top-1/2 z-20 -translate-x-1/3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:opacity-40 dark:bg-[#222831] dark:shadow-white/20"
+                        >
+                            <ChevronLeft className="h-5 w-5 text-[#3ABEFF]" />
+                        </button>
 
-                                                <p className="mb-6 text-sm text-gray-600">{review.description}</p>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
+                        <button
+                            onClick={goRight}
+                            disabled={currentIndex >= maxIndex}
+                            className="absolute right-0 top-1/2 z-20 translate-x-1/3 -translate-y-1/2 rounded-full bg-white p-2 shadow-md disabled:opacity-40 dark:bg-[#222831] dark:shadow-white/20"
+                        >
+                            <ChevronRight className="h-5 w-5 text-[#3ABEFF]" />
+                        </button>
+                    </>
+                )}
+
+                <div className="overflow-x-hidden">
+                    <div
+                    ref={containerRef}
+                    className="no-scrollbar flex gap-8 overflow-x-auto scroll-smooth"
+                >
+                    {reviews.map((review: any, index: number) => (
+                        <div
+                            key={index}
+                            data-card
+                            className={`flex-shrink-0 w-full lg:w-1/2`}
+                        >
+                            <div className="h-full rounded-xl border bg-white p-8 shadow-sm dark:border-white/20 dark:bg-[#222831]">
+                                <div className="mb-4 flex items-center gap-3">
+                                    <img
+                                        src={storageUrl(review.profile_picture)}
+                                        className="h-10 w-10 rounded-full object-cover"
+                                    />
+                                    <div>
+                                        <p className="font-medium text-gray-800 dark:text-white">
+                                            {review.name}
+                                        </p>
+                                        <p className="text-sm text-yellow-400">
+                                            {'★'.repeat(review.rating)}
+                                            <span className="text-gray-300">
+                                                {'★'.repeat(5 - review.rating)}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <p className="text-sm text-gray-600 dark:text-white/80">
+                                    {review.description}
+                                </p>
                             </div>
-
-                            <button
-                                onClick={goRight}
-                                disabled={rightDisabled}
-                                className={`z-10 ml-4 rounded-full border bg-white p-2 shadow-md transition-opacity ${
-                                    rightDisabled ? 'cursor-not-allowed opacity-40' : 'hover:bg-gray-100'
-                                }`}
-                            >
-                                <ChevronRight className="h-5 w-5 text-[#3ABEFF]" />
-                            </button>
-                        </>
-                    )}
+                        </div>
+                    ))}
+                </div>
                 </div>
             </div>
         </section>

@@ -72,12 +72,12 @@ export default function ChatShow() {
             </div>
             <div className={`transform transition-transform ${reply ? 'translate-y-0' : 'translate-y-full'} duration-150 ease-in-out`}>
                 {reply && (
-                    <div className="flex items-center border-t border-gray-700 px-9 py-2">
-                        <div className="flex w-full items-center justify-between rounded border-l-4 border-gray-600 bg-gray-700/50 px-2 py-1.5">
+                    <div className="flex items-center p-3">
+                        <div className="flex w-full items-center justify-between rounded-md border-l-4 border-[#3ABEFF] bg-gray-200/50 dark:bg-gray-700/50 px-2 py-1.5">
                             <div className="text-[10px] lg:text-xs">
-                                <div className="mb-1 text-purple-400">{reply.sender_id === auth.user.id ? 'You' : chatWithUser.name}</div>
+                                <div className="mb-1 text-[#3ABEFF]">{reply.sender_id === auth.user.id ? 'You' : chatWithUser.name}</div>
                                 <div
-                                    className="overflow-hidden text-gray-300/80"
+                                    className="overflow-hidden text-gray-600/80 dark:text-white/80"
                                     style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
                                 >
                                     <div className="whitespace-pre-wrap">{reply.message}</div>

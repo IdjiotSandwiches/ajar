@@ -56,7 +56,7 @@ export default function ChatInputMessage(props: any) {
                     name="message"
                     id="message"
                     autoComplete="off"
-                    className="flex-1 resize-none overflow-y-auto rounded-xl border border-gray-200 px-4 py-2 text-sm"
+                    className="flex-1 resize-none overflow-y-auto rounded-xl border dark:border-white/20 px-4 py-2 text-sm"
                     placeholder="Type a message"
                     value={data.message}
                     rows={1}

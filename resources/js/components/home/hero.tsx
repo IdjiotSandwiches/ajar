@@ -21,7 +21,7 @@ export default function HeroSection() {
     };
 
     return (
-        <section className="flex cursor-default flex-col items-center justify-between gap-12 bg-white dark:bg-[#222831] px-4 sm:px-6 md:px-12 py-14 md:flex-row">
+        <section className="flex cursor-default flex-col items-center justify-between gap-12 bg-white dark:bg-[#222831] px-4 sm:px-6 md:px-12 py-14 md:flex-row mt-6 md:mt-0">
             <div className="space-y-6 md:w-1/2">
                 <h1 className="text-3xl font-bold text-[#3ABEFF] md:text-4xl">
                     Learning, Teaching <br /> Technology and Design
