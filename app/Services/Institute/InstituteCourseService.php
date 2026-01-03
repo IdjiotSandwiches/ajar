@@ -167,7 +167,22 @@ class InstituteCourseService
         $courses = CourseSchedule::with(['course', 'teacher.user'])
             ->whereHas('course', fn($q) => $q->where('institute_id', $user->id)
                 ->when(!empty($filters['search']), fn($query) => $query->where('name', 'like', "%{$filters['search']}%")))
-            ->when(!empty($filters['status']), fn($q) => $q->where('status', $filters['status']))
+            ->when(!empty($filters['status']), fn($q) => $q
+                    ->when(
+                        $filters['status'] !== 'rejected' && $filters['status'] !== CourseStatusEnum::Completed->value,
+                        fn($q) => $q->where('status', $filters['status'])
+                    )
+                    ->when(
+                        $filters['status'] === 'rejected',
+                        fn($q) => $q->where('status', CourseStatusEnum::Completed)
+                            ->where('is_verified', false)
+                    )
+                    ->when(
+                        $filters['status'] === CourseStatusEnum::Completed->value,
+                        fn($q) => $q->where('status', CourseStatusEnum::Completed)
+                            ->where('is_verified', true)
+                    )
+            )
             ->when(!empty($filters['time']), fn($q) => $q->whereTime('start_time', '>=', Carbon::parse($filters['time'])->format('H:i:s')))
             ->when(!empty($filters['date']), fn($q) => $q->whereDate('start_time', $filters['date']))
             ->orderByRaw("
@@ -185,7 +200,7 @@ class InstituteCourseService
                 if ($item->status === CourseStatusEnum::Scheduled && now()->greaterThan($item->start_time))
                     $status = 'ongoing';
                 else if ($item->status === CourseStatusEnum::Completed && $item->is_verified == false)
-                    $status  = 'rejected';
+                    $status = 'rejected';
                 return [
                     'name' => $item->course->name,
                     'teacher_name' => $item->teacher->user->name,

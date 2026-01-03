@@ -13,10 +13,16 @@ export const coursesTakenFilter = (status: any, filters: any): FilterSchema => [
         label: 'Status',
         type: 'dropdown',
         defaultValue: filters.status,
-        options: status.map((s: any) => ({
-            label: String(s).charAt(0).toUpperCase() + String(s).slice(1),
-            value: s,
-        })),
+        options: [
+            ...status.map((s: any) => ({
+                label: String(s).charAt(0).toUpperCase() + String(s).slice(1),
+                value: s,
+            })),
+            {
+                label: 'Rejected',
+                value: 'rejected',
+            }
+        ],
     },
     {
         key: 'time',
