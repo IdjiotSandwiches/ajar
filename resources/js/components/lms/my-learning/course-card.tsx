@@ -12,6 +12,7 @@ export default function CourseCard({ enroll, state, review }: any) {
     const states = props.enums?.learning_status_enum;
 
     const [modalType, setModalType] = useState<string | null>(null);
+    const [modalText, setModalText] = useState<string | null>(null);
     const [reviewModal, setReviewModal] = useState(false);
 
     const form = useForm({});
@@ -28,8 +29,12 @@ export default function CourseCard({ enroll, state, review }: any) {
     }, [form.errors]);
 
     const handleJoinButton = () => {
-        if ((!enroll.meeting_link || !enroll.can_join) && user?.role_id === roles.Student) {
+        if (!enroll.can_join && user?.role_id === roles.Student) {
             setModalType('warning');
+            setModalText('Your course has not started yet. You can join 10 minutes before schedule.');
+        } else if (!enroll.meeting_link && user?.role_id === roles.Student) {
+            setModalType('warning');
+            setModalText("The meeting link isn't available yet.");
         } else {
             window.open(enroll.meeting_link, '_blank');
         }
@@ -165,7 +170,7 @@ export default function CourseCard({ enroll, state, review }: any) {
                     type="warning"
                     isOpen
                     onClose={() => setModalType(null)}
-                    description="Your course has not started yet. You can join 10 minutes before schedule."
+                    description={modalText!}
                 />
             )}
 
