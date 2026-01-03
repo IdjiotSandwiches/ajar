@@ -88,7 +88,7 @@ export default function ManageTeachersPage({ teachers, filters }: any) {
                                             </td>
                                             <td className="p-3 text-center">{teacher.courses_count}</td>
                                             <td className="p-3 text-center">
-                                                {teacher.rating ? (
+                                                {teacher.reviews_avg_rating ? (
                                                     <>
                                                         <div className="flex items-center justify-center gap-1">
                                                             <Star size={14} className="fill-yellow-400 text-yellow-400" />
@@ -145,7 +145,7 @@ export default function ManageTeachersPage({ teachers, filters }: any) {
                                             <p className="font-semibold text-gray-800 dark:text-white">{teacher.name}</p>
                                             <p className="text-xs text-gray-500 dark:text-white/70">Course count: {teacher.courses_count}</p>
                                             <p className="text-xs text-gray-500 dark:text-white/70">
-                                                Rating: {teacher.rating ? `⭐ ${teacher.reviews_avg_rating} (${teacher.reviews_count})` : 'No review'}
+                                                Rating: {teacher.reviews_avg_rating ? `⭐ ${teacher.reviews_avg_rating} (${teacher.reviews_count})` : 'No review'}
                                             </p>
                                         </div>
                                     </div>

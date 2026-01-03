@@ -82,7 +82,7 @@ export default function InstituteList({ institutes, categories, filters }: any) 
                                         <td className="p-3 text-center">{inst.category}</td>
                                         <td className="p-3 text-center">{inst.courses_count}</td>
                                         <td className="p-3 text-center">
-                                            {inst.rating ? (
+                                            {inst.reviews_avg_rating ? (
                                                 <>
                                                     <div className="flex items-center justify-center gap-1">
                                                         <Star size={14} className="fill-yellow-400 text-yellow-400" />
@@ -133,7 +133,7 @@ export default function InstituteList({ institutes, categories, filters }: any) 
                                     <p className="text-sm text-gray-600 dark:text-white/80">Category: {inst.category}</p>
                                     <p className="text-sm text-gray-600 dark:text-white/80">Courses: {inst.courses_count}</p>
                                     <p className="text-sm text-gray-600 dark:text-white/80">
-                                        Rating: {inst.rating ? `⭐ ${inst.reviews_avg_rating} (${inst.reviews_count})` : 'No review'}
+                                        Rating: {inst.reviews_avg_rating ? `⭐ ${inst.reviews_avg_rating} (${inst.reviews_count})` : 'No review'}
                                     </p>
 
                                     <p className="text-xs text-gray-500 dark:text-white/70">Registered on 12 Dec 2025 12:00</p>
