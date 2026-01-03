@@ -58,6 +58,7 @@ class InstituteService
     {
         $detail = Institute::with(['user.socialMedias.socialMediaType'])
             ->withAvg('reviews', 'rating')
+            ->withCount('courses')
             ->where('user_id', $id)
             ->first();
 

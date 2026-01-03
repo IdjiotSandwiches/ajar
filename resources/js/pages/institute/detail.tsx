@@ -67,7 +67,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
 
                             <div className="z-10 flex w-full items-center justify-center gap-10 md:w-auto md:items-center md:justify-end md:gap-16">
                                 <div className="text-center">
-                                    <p className="text-lg font-semibold">{courses.length || 0}</p>
+                                    <p className="text-lg font-semibold">{institute.courses_count || 0}</p>
                                     <p className="text-sm opacity-90">Courses</p>
                                 </div>
                                 <div className="text-center">

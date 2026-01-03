@@ -112,7 +112,7 @@ export default function CourseTeacherApplicationsPage({ applications }: any) {
                             <tbody>
                                 {!hasApplications && (
                                     <tr>
-                                        <td colSpan={4} className="p-6 text-center text-sm text-gray-500 dark:text-white/70">
+                                        <td colSpan={5} className="p-6 text-center text-sm text-gray-500 dark:text-white/70">
                                             No course's teacher applications yet.
                                         </td>
                                     </tr>

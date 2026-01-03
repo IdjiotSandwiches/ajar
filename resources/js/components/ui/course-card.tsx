@@ -37,7 +37,7 @@ export default function CourseCard({ course, isTag, showTeacher = true, showRevi
                             <Star className="mr-1 h-4 w-4 fill-yellow-400 stroke-yellow-400" />
                             <span className="font-medium text-gray-700 dark:text-white/80">{course.course_reviews_avg_rating ?? 0}</span>
                             <span className="mx-1 text-gray-400 dark:text-white/60">•</span>
-                            <span className="text-gray-400 dark:text-white/60">{course.reviews_count ?? 0} reviews</span>
+                            <span className="text-gray-400 dark:text-white/60">{course.course_reviews_count ?? 0} reviews</span>
                         </div>
                     )}
                 </div>
