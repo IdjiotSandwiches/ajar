@@ -18,14 +18,4 @@ export const courseApplicationFilter = (categories: any, filters: any): FilterSc
             value: cat.id,
         })),
     },
-    {
-        key: 'price_range',
-        label: 'Price Range',
-        type: 'dropdown',
-        options: [
-            { label: 'Free', value: 'free' },
-            { label: '< Rp 100.000', value: 'low' },
-            { label: '> Rp 100.000', value: 'high' },
-        ],
-    },
 ];
