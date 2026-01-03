@@ -23,8 +23,6 @@ return new class extends Migration
             $table->foreign('reviewer_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('institute_id')->references('user_id')->on('institutes')->onDelete('cascade');
             $table->foreign('enrolled_course_id')->references('id')->on('enrolled_courses')->onDelete('cascade');
-
-            $table->unique(['reviewer_id', 'institute_id']);
         });
     }
 
