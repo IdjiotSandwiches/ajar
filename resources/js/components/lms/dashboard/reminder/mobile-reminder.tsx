@@ -31,25 +31,30 @@ export default function MobileReminder({ reminder }: any) {
     const hasReminder = Array.isArray(reminder) && reminder.length > 0;
 
     useEffect(() => {
-        const mediaQuery = window.matchMedia('(min-width: 768px)');
+    const mediaQuery = window.matchMedia('(min-width: 768px)');
 
-        const handleResize = () => {
-            setIsDesktop(mediaQuery.matches);
-            setIsOpen(mediaQuery.matches);
-        };
+    const handleResize = () => {
+        const desktop = mediaQuery.matches;
+        setIsDesktop(desktop);
 
-        handleResize();
-        mediaQuery.addEventListener('change', handleResize);
+        if (desktop) {
+            setIsOpen(true); 
+        }
+    };
 
-        return () => mediaQuery.removeEventListener('change', handleResize);
-    }, []);
+    handleResize();
+    mediaQuery.addEventListener('change', handleResize);
+
+    return () => mediaQuery.removeEventListener('change', handleResize);
+}, []);
+
 
     useEffect(() => {
         if (isDesktop) return;
 
         const timer = setTimeout(() => {
             setIsOpen(false);
-        }, 5000);
+        }, 15000);
 
         return () => clearTimeout(timer);
     }, [isDesktop]);
