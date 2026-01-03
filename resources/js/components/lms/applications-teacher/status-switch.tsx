@@ -1,12 +1,12 @@
 export function StatusTabs({ active, onChange, counts, states }: any) {
     return (
-        <div className="w-full">
+        <div className="w-full lg:w-fit">
             <div className="flex flex-wrap gap-1 rounded-lg bg-gray-100 p-1 dark:bg-[#31363F]">
                 {Object.entries(states).map(([label, value]: any) => (
                     <button
                         key={label}
                         onClick={() => onChange(value, {})}
-                        className={`flex-1 min-w-0 whitespace-normal break-words rounded-md px-3 py-2 text-sm font-medium text-center transition
+                        className={`flex-1 lg:flex-none min-w-0 whitespace-normal break-words rounded-md px-3 py-2 text-sm font-medium text-center transition
                             ${
                                 active === value
                                     ? 'bg-white text-gray-800 shadow dark:bg-[#222831] dark:text-white'
