@@ -103,15 +103,11 @@ class DashboardService
             ->where('is_verified', true)
             ->whereHas('courseSchedule', function ($query) use ($isToday) {
                 $query->where('status', CourseStatusEnum::Scheduled)
-                    ->when(
-                        $isToday,
-                        fn($q) => $q->whereToday('start_time')
-                            ->where('start_time', '>', Carbon::now())
-                    )
+                    ->when($isToday, fn($q) => $q->whereToday('start_time'))
                     ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'));
             })
             ->paginate(5)
-            ->through(function ($item) {
+            ->through(function ($item) use ($isToday) {
                 $schedule = $item->courseSchedule;
                 $course = $schedule->course;
                 $teacher = $schedule->teacher;
@@ -120,7 +116,8 @@ class DashboardService
                     'start_time' => $schedule->start_time,
                     'end_time' => $schedule->end_time,
                     'teacher' => $teacher->user->name,
-                    'meeting_link' => $item->courseSchedule->meeting_link
+                    'meeting_link' => $item->courseSchedule->meeting_link,
+                    'can_join' => $isToday && now() < $item->end_time
                 ];
             });
 
@@ -131,12 +128,11 @@ class DashboardService
     {
         $courses = CourseSchedule::with(['teacher.user'])
             ->where('teacher_id', $userId)
-            ->where('start_time', '>', Carbon::now())
             ->where('status', CourseStatusEnum::Scheduled)
             ->when($isToday, fn($q) => $q->whereToday('start_time'))
             ->when(!$isToday, fn($q) => $q->whereAfterToday('start_time'))
             ->paginate(5)
-            ->through(function ($item) {
+            ->through(function ($item) use ($isToday) {
                 $course = $item->course;
                 $teacher = $item->teacher;
                 return [
@@ -144,7 +140,8 @@ class DashboardService
                     'start_time' => $item->start_time,
                     'end_time' => $item->end_time,
                     'teacher' => $teacher->user->name,
-                    'meeting_link' => $item->meeting_link
+                    'meeting_link' => $item->meeting_link,
+                    'can_join' => $isToday && now() < $item->end_time
                 ];
             });
 

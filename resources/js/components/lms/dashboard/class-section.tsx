@@ -80,13 +80,9 @@ export default function ClassSection({ title, course, type }: any) {
                     <div className="flex flex-col items-center justify-center py-14 text-center">
                         <Book className="mb-4 h-10 w-10 text-gray-400 dark:text-white/40" />
 
-                        <p className="text-base font-semibold text-gray-700 dark:text-white">
-                            {empty.title}
-                        </p>
+                        <p className="text-base font-semibold text-gray-700 dark:text-white">{empty.title}</p>
 
-                        <p className="mt-1 max-w-xs text-sm text-gray-500 dark:text-white/70">
-                            {empty.desc}
-                        </p>
+                        <p className="mt-1 max-w-xs text-sm text-gray-500 dark:text-white/70">{empty.desc}</p>
 
                         {user?.role_id === roles.Student && empty.cta && (
                             <button
@@ -113,7 +109,10 @@ export default function ClassSection({ title, course, type }: any) {
                         className="flex max-h-72 flex-col gap-4 overflow-y-scroll"
                     >
                         {course.data?.map((item: any, i: any) => (
-                            <div key={i} className="flex items-center justify-between rounded-xl border dark:border-white/20 p-4 shadow-sm dark:shadow-[#ffffff]/20">
+                            <div
+                                key={i}
+                                className="flex items-center justify-between rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-[#ffffff]/20"
+                            >
                                 <div>
                                     <span className="font-medium">{item.name}</span>
                                     <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-white/60">
@@ -130,15 +129,19 @@ export default function ClassSection({ title, course, type }: any) {
 
                                     <span className="text-sm text-gray-500 dark:text-white/60">{item.teacher}</span>
                                 </div>
-                                {type === 'today' && item.meeting_link && (
-                                    <a
-                                        href={item.meeting_link}
-                                        className="flex items-center gap-2 rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
-                                    >
-                                        <PlayCircle size={16} />
-                                        Join
-                                    </a>
-                                )}
+                                {type === 'today' &&
+                                    item.meeting_link &&
+                                    item.can_join &&
+                                    (user?.role_id !== roles.Institute || user?.role_id !== roles.Admin) && (
+                                        <a
+                                            href={item.meeting_link}
+                                            target="_blank"
+                                            className="flex items-center gap-2 rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
+                                        >
+                                            <PlayCircle size={16} />
+                                            Join
+                                        </a>
+                                    )}
                             </div>
                         ))}
                     </InfiniteScroll>
