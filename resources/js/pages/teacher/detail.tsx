@@ -45,7 +45,7 @@ export default function TeacherDetailPage({ teacher, application }: any) {
         <>
             <Head title={teacher.name || "Not Found"} />
             <div className="min-h-screen w-full py-10">
-                <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 pt-6 sm:px-6 md:grid-cols-3 md:gap-8">
+                <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 pt-6 sm:px-6 lg:grid-cols-3 lg:gap-8">
                     <div>
                         <TeacherProfileCard teacher={teacher} />
                         {application && application?.is_verified === null && user?.role_id === roles.Institute && (
