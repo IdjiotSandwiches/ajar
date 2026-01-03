@@ -71,11 +71,10 @@ export default function CourseDetailPage({ course }: any) {
                             <button
                                 key={tab.id}
                                 onClick={() => handleScrollTo(tab.ref, tab.id)}
-                                className={`rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all md:px-5 md:py-2 md:text-sm ${
-                                    activeTab === tab.id
-                                        ? 'bg-[#3ABEFF] text-white'
-                                        : 'text-gray-600 hover:bg-gray-100 dark:text-white/60 dark:hover:bg-white/20'
-                                }`}
+                                className={`rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all md:px-5 md:py-2 md:text-sm ${activeTab === tab.id
+                                    ? 'bg-[#3ABEFF] text-white'
+                                    : 'text-gray-600 hover:bg-gray-100 dark:text-white/60 dark:hover:bg-white/20'
+                                    }`}
                             >
                                 {tab.label}
                             </button>
@@ -111,16 +110,21 @@ export default function CourseDetailPage({ course }: any) {
                                 {course.skills?.map((item: any, index: number) => <li key={index}>{item.name}</li>)}
                             </ul>
                         </section>
-                        <section>
-                            <h4 ref={testimonialRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
-                                Testimonial
-                            </h4>
-                            <ReviewSection reviews={course.reviews} />
-                        </section>
                     </div>
                     <div className="hidden lg:inline lg:col-span-2 2xl:col-span-2">
                         <CourseSidebar institute={course.institute} teacher={course.teachers} />
                     </div>
+                </div>
+                <div className="mx-auto mt-10 gap-10 px-4 sm:px-6 lg:px-12">
+                    <section>
+                        <h4 ref={testimonialRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
+                            Testimonial
+                        </h4>
+                        <h2 className="mb-8 text-base font-semibold sm:text-lg md:text-xl">
+                            Reviews
+                        </h2>
+                        <ReviewSection reviews={course.reviews} />
+                    </section>
                 </div>
                 <div className="mx-auto">
                     <PopularCourses courses={course.popular_courses} />

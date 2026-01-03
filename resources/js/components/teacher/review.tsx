@@ -33,14 +33,14 @@ export default function ReviewSection({ reviews }: any) {
                 <button
                     onClick={goLeft}
                     disabled={currentIndex === 0}
-                    className={`absolute top-1/2 -left-1 z-20 -translate-y-1/2 rounded-full border bg-white p-2 shadow-md transition-opacity ${currentIndex === 0 ? 'cursor-not-allowed opacity-40' : 'hover:bg-gray-100'}`}
+                    className={`absolute top-1/2 -left-1 z-20 -translate-y-1/2 rounded-full border bg-white p-2 shadow-md  hover:bg-gray-100 disabled:opacity-40 dark:bg-[#222831] dark:shadow-[#ffffff]/20 dark:hover:bg-gray-700 transition-opacity ${currentIndex === 0 ? 'cursor-not-allowed opacity-40' : 'hover:bg-gray-100'}`}
                 >
                     <ChevronLeft className="h-5 w-5 text-[#3ABEFF]" />
                 </button>
                 <button
                     onClick={goRight}
                     disabled={currentIndex === maxIndex}
-                    className={`absolute top-1/2 -right-1 z-20 -translate-y-1/2 rounded-full border bg-white p-2 shadow-md transition-opacity ${currentIndex === maxIndex ? 'cursor-not-allowed opacity-40' : 'hover:bg-gray-100'}`}
+                    className={`absolute top-1/2 -right-1 z-20 -translate-y-1/2 rounded-full border bg-white p-2 shadow-md hover:bg-gray-100 disabled:opacity-40 dark:bg-[#222831] dark:shadow-[#ffffff]/20 dark:hover:bg-gray-700 transition-opacity ${currentIndex === maxIndex ? 'cursor-not-allowed opacity-40' : 'hover:bg-gray-100'}`}
                 >
                     <ChevronRight className="h-5 w-5 text-[#3ABEFF]" />
                 </button>

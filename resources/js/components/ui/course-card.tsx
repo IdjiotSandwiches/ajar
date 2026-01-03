@@ -32,7 +32,7 @@ export default function CourseCard({ course, isTag, showTeacher = true, showRevi
                     </p>
 
                     <p className="mb-3 line-clamp-2 min-h-10 text-sm text-gray-600 dark:text-white/80">{course.description}</p>
-                    {showReview && (
+                    {showReview && ( 
                         <div className="mb-2 flex items-center text-xs">
                             <Star className="mr-1 h-4 w-4 fill-yellow-400 stroke-yellow-400" />
                             <span className="font-medium text-gray-700 dark:text-white/80">{course.course_reviews_avg_rating ?? 0}</span>
