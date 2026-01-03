@@ -27,7 +27,7 @@ class AdminInstituteService
             ->withCount('courses')
             ->when(!empty($filters['search']), fn($q) => $q->whereRelation('user', 'name', 'like', "%{$filters['search']}%"))
             ->when(!empty($filters['category_id']), fn($q) => $q->where('category_id', $filters['category_id']))
-            ->when(!empty($filters['count']), fn($q) => $q->having('courses_count', '=', $filters['count']))
+            ->when(isset($filters['count']), fn($q) => $q->having('courses_count', '=', $filters['count']))
             ->when(!empty($filters['rating']), function ($query) use ($filters) {
                 $query->whereHas('reviews', function ($q) use ($filters) {
                     $q->groupBy('institute_id')

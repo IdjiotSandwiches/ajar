@@ -36,7 +36,7 @@ class AdminTeacherService
                 'user',
                 fn($q) => $q->where('name', 'like', "%{$filters['search']}%")
             ))
-            ->when(!empty($filters['count']), fn($q) => $q->having('teaching_courses_count', '=', $filters['count']))
+            ->when(isset($filters['count']), fn($q) => $q->having('teaching_courses_count', '=', $filters['count']))
             ->when(!empty($filters['rating']), function ($query) use ($filters) {
                 $query->whereHas('reviews', function ($q) use ($filters) {
                     $q->groupBy('teacher_id')
