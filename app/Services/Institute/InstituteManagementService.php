@@ -137,7 +137,7 @@ class InstituteManagementService
         }
 
         $user = Auth::user();
-        $user->notify(new RequestApproved('Access Revoked', "Your access to {$user->name} has been revoked."));
+        User::find($id)->notify(new RequestApproved('Access Revoked', "Your access to {$user->name} has been revoked."));
     }
 
     public function getCourseApplications()
