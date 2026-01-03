@@ -60,7 +60,7 @@ class InstituteCourseController extends Controller
         ]);
     }
 
-    public function postCourse(CourseRequest $request, $id)
+    public function postCourse(CourseRequest $request, $id = null)
     {
         try {
             $data = $request->validated();
