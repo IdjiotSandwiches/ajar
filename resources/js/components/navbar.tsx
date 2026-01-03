@@ -1,6 +1,6 @@
 import { storageUrl } from '@/utils/storage';
 import { router, usePage } from '@inertiajs/react';
-import { Book, GraduationCap, Home } from 'lucide-react';
+import { Book, GraduationCap, Home, LogIn } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import NotificationDropdown from './ui/notification';
 import SwitchDarkMode from './ui/switch-dark-mode';
@@ -98,8 +98,17 @@ export default function Navbar() {
                     <div className="relative flex items-center space-x-4">
                         <SwitchDarkMode />
                         {user && <NotificationDropdown />}
-                        <span className="hidden font-medium text-[#3ABEFF] md:block">Hello, {user?.name ?? 'Guest'}</span>
-
+                        {isLoggedIn ? (
+                            <span className="hidden font-medium text-[#3ABEFF] md:block">Hello, {user?.name ?? 'Guest'}</span>
+                        ) : (
+                            <div
+                                className="flex items-center gap-1 text-[#3ABEFF] group-hover:text-[#3ABEFF]/90 cursor-pointer"
+                                onClick={() => router.get(route('login'))}
+                            >
+                                <LogIn className="w-5 h-5" />
+                                <p className="font-medium">Login</p>
+                            </div>
+                        )}
                         <div className="relative" ref={dropdownRef}>
                             <img
                                 src={storageUrl(user?.profile_picture)}
