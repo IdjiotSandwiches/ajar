@@ -190,47 +190,26 @@ class MyLearningService
             $enroll = EnrolledCourse::findOrFail($id);
             $schedule = $enroll->courseSchedule;
 
-            if (
-                !TeacherReview::query()
-                    ->where('teacher_id', $schedule->teacher_id)
-                    ->where('reviewer_id', $user->id)
-                    ->exists()
-            ) {
-                TeacherReview::create([
-                    'rating' => $data['teacher_rating'],
-                    'description' => $data['teacher_review'],
-                    'reviewer_id' => $user->id,
-                    'teacher_id' => $schedule->teacher_id
-                ]);
-            }
+            TeacherReview::create([
+                'rating' => $data['teacher_rating'],
+                'description' => $data['teacher_review'],
+                'reviewer_id' => $user->id,
+                'teacher_id' => $schedule->teacher_id
+            ]);
 
-            if (
-                !InstituteReview::query()
-                    ->where('institute_id', $schedule->course->institute_id)
-                    ->where('reviewer_id', $user->id)
-                    ->exists()
-            ) {
-                InstituteReview::create([
-                    'rating' => $data['institute_rating'],
-                    'description' => $data['institute_review'],
-                    'reviewer_id' => $user->id,
-                    'institute_id' => $schedule->course->institute_id
-                ]);
-            }
+            InstituteReview::create([
+                'rating' => $data['institute_rating'],
+                'description' => $data['institute_review'],
+                'reviewer_id' => $user->id,
+                'institute_id' => $schedule->course->institute_id
+            ]);
 
-            if (
-                !CourseReview::query()
-                    ->where('course_id', $schedule->course_id)
-                    ->where('reviewer_id', $user->id)
-                    ->exists()
-            ) {
-                CourseReview::create([
-                    'rating' => $data['course_rating'],
-                    'description' => $data['course_review'],
-                    'reviewer_id' => $user->id,
-                    'course_id' => $schedule->course_id
-                ]);
-            }
+            CourseReview::create([
+                'rating' => $data['course_rating'],
+                'description' => $data['course_review'],
+                'reviewer_id' => $user->id,
+                'course_id' => $schedule->course_id
+            ]);
         });
     }
 
