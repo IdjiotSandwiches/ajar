@@ -16,7 +16,7 @@ export default function HomePage({ courses, institutes, reviews }: any) {
         <>
             <Head title="Home" />
             <div className="flex min-h-screen flex-col">
-                <main className="flex-1 pt-[72px]">
+                <main className="flex-1">
                     <HeroSection />
                     <PopularCourses courses={courses} />
                     <InstitutionSection institutes={institutes} />
