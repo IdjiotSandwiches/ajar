@@ -40,8 +40,7 @@ Route::group([], function () {
         ->name('mark-as-read');
 });
 
-// Route::middleware(['auth', 'verified', 'block.unverified.teacher'])
-Route::middleware(['auth', 'block.unverified.teacher'])
+Route::middleware(['auth', 'verified', 'block.unverified.teacher'])
     ->group(function () {
         Route::group([], function () {
             Route::get('dashboard', [DashboardController::class, 'getDashboardData'])->name('dashboard');
