@@ -17,10 +17,12 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('reviewer_id');
             $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('enrolled_course_id');
             $table->timestamps();
 
             $table->foreign('reviewer_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('enrolled_course_id')->references('id')->on('enrolled_courses')->onDelete('cascade');
 
             $table->unique(['reviewer_id', 'course_id']);
         });
