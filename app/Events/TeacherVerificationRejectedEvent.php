@@ -2,17 +2,19 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TeacherVerificationEvent implements ShouldBroadcast
+class TeacherVerificationRejectedEvent implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, SerializesModels;
 
-    public function __construct(public int $id) {}
+    public function __construct(
+        public int $id,
+        public ?string $reason = null
+    ) {}
 
     public function broadcastOn()
     {
@@ -21,13 +23,14 @@ class TeacherVerificationEvent implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'teacher.verified';
+        return 'teacher.rejected';
     }
 
     public function broadcastWith()
     {
         return [
             'id' => $this->id,
+            'reason' => $this->reason,
         ];
     }
 }

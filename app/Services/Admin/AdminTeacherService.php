@@ -3,6 +3,7 @@
 namespace App\Services\Admin;
 
 use App\Events\TeacherVerificationEvent;
+use App\Events\TeacherVerificationRejectedEvent;
 use App\Models\User;
 use App\Models\Teacher;
 use App\Models\CourseSchedule;
@@ -104,21 +105,27 @@ class AdminTeacherService
         return $teachers;
     }
 
-    public function verifyTeacher($id, $isVerified)
+    public function verifyTeacher($id, $isVerified, $reason = null)
     {
-        $teacher = Teacher::where('user_id', $id)
-            ->firstOrFail();
+        $teacher = Teacher::where('user_id', $id)->firstOrFail();
 
         $teacher->is_verified = $isVerified;
         $teacher->save();
 
-        $toBeNotify = User::findOrFail($teacher->user_id);
-        if ($isVerified) {
-            $toBeNotify->notify(new RequestApproved('Account Approved', "Your account has been approved."));
-        } else {
-            $toBeNotify->notify(new RequestApproved('Account Rejected', "Your account has been rejected."));
-        }
+        $user = User::findOrFail($id);
 
-        broadcast(new TeacherVerificationEvent($id, $isVerified));
+        if ($isVerified) {
+            $user->notify(
+                new RequestApproved('Account Approved', 'Your account has been approved.')
+            );
+
+            broadcast(new TeacherVerificationEvent($id));
+        } else {
+            $user->notify(
+                new RequestApproved('Account Rejected', $reason ?? 'Your account has been rejected.')
+            );
+
+            broadcast(new TeacherVerificationRejectedEvent($id, $reason));
+        }
     }
 }
