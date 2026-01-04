@@ -76,96 +76,96 @@ class UserSeeder extends Seeder
                 'uuid' => str()->uuid()
             ],
 
-            [
-                'name' => 'Dr. Sarah Mitchell',
-                'email' => 'sarah.mitchell@example.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081211110001',
-                'role_id' => 2,
-                'uuid' => str()->uuid()
-            ],
-            [
-                'name' => 'James Rodriguez',
-                'email' => 'james.rod@example.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081211110002',
-                'role_id' => 2,
-                'uuid' => str()->uuid()
-            ],
-            [
-                'name' => 'Emily Chen',
-                'email' => 'emily.chen@example.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081211110003',
-                'role_id' => 2,
-                'uuid' => str()->uuid()
-            ],
-            [
-                'name' => 'Robert "Bob" Wilson',
-                'email' => 'bob.wilson@example.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081211110004',
-                'role_id' => 2,
-                'uuid' => str()->uuid()
-            ],
-            [
-                'name' => 'Jessica Alana',
-                'email' => 'jessica.art@example.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081211110005',
-                'role_id' => 2,
-                'uuid' => str()->uuid()
-            ],
+            // [
+            //     'name' => 'Dr. Sarah Mitchell',
+            //     'email' => 'sarah.mitchell@example.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081211110001',
+            //     'role_id' => 2,
+            //     'uuid' => str()->uuid()
+            // ],
+            // [
+            //     'name' => 'James Rodriguez',
+            //     'email' => 'james.rod@example.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081211110002',
+            //     'role_id' => 2,
+            //     'uuid' => str()->uuid()
+            // ],
+            // [
+            //     'name' => 'Emily Chen',
+            //     'email' => 'emily.chen@example.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081211110003',
+            //     'role_id' => 2,
+            //     'uuid' => str()->uuid()
+            // ],
+            // [
+            //     'name' => 'Robert "Bob" Wilson',
+            //     'email' => 'bob.wilson@example.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081211110004',
+            //     'role_id' => 2,
+            //     'uuid' => str()->uuid()
+            // ],
+            // [
+            //     'name' => 'Jessica Alana',
+            //     'email' => 'jessica.art@example.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081211110005',
+            //     'role_id' => 2,
+            //     'uuid' => str()->uuid()
+            // ],
 
-            [
-                'name' => 'TechNova Academy',
-                'email' => 'contact@technova.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081222220001',
-                'role_id' => 3,
-                'uuid' => str()->uuid()
-            ],
-            [
-                'name' => 'CyberShield Security Labs',
-                'email' => 'info@cybershield.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081222220002',
-                'role_id' => 3,
-                'uuid' => str()->uuid()
-            ],
-            [
-                'name' => 'Creative Pixel Studio',
-                'email' => 'hello@creativepixel.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081222220003',
-                'role_id' => 3,
-                'uuid' => str()->uuid()
-            ],
-            [
-                'name' => 'DataStream Institute',
-                'email' => 'support@datastream.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081222220004',
-                'role_id' => 3,
-                'uuid' => str()->uuid()
-            ],
-            [
-                'name' => 'CodeMaster Bootcamp',
-                'email' => 'admissions@codemaster.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081222220005',
-                'role_id' => 3,
-                'uuid' => str()->uuid()
-            ],
+            // [
+            //     'name' => 'TechNova Academy',
+            //     'email' => 'contact@technova.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081222220001',
+            //     'role_id' => 3,
+            //     'uuid' => str()->uuid()
+            // ],
+            // [
+            //     'name' => 'CyberShield Security Labs',
+            //     'email' => 'info@cybershield.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081222220002',
+            //     'role_id' => 3,
+            //     'uuid' => str()->uuid()
+            // ],
+            // [
+            //     'name' => 'Creative Pixel Studio',
+            //     'email' => 'hello@creativepixel.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081222220003',
+            //     'role_id' => 3,
+            //     'uuid' => str()->uuid()
+            // ],
+            // [
+            //     'name' => 'DataStream Institute',
+            //     'email' => 'support@datastream.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081222220004',
+            //     'role_id' => 3,
+            //     'uuid' => str()->uuid()
+            // ],
+            // [
+            //     'name' => 'CodeMaster Bootcamp',
+            //     'email' => 'admissions@codemaster.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081222220005',
+            //     'role_id' => 3,
+            //     'uuid' => str()->uuid()
+            // ],
 
-            [
-                'name' => 'John Student',
-                'email' => 'student@example.com',
-                'password' => $defaultPassword,
-                'phone_number' => '081233330001',
-                'role_id' => 4,
-                'uuid' => str()->uuid()
-            ],
+            // [
+            //     'name' => 'John Student',
+            //     'email' => 'student@example.com',
+            //     'password' => $defaultPassword,
+            //     'phone_number' => '081233330001',
+            //     'role_id' => 4,
+            //     'uuid' => str()->uuid()
+            // ],
         ];
 
         foreach ($users as $user) {
