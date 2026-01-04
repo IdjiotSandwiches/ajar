@@ -114,8 +114,10 @@ class InstituteManagementService
     public function deactiveTeacher($id)
     {
         $scheduleIds = [];
-        DB::transaction(function () use ($id, &$scheduleIds) {
+        $user = Auth::user();
+        DB::transaction(function () use ($id, $user, &$scheduleIds) {
             $teacher = TeacherApplication::where('teacher_id', $id)
+                ->where('institute_id', $user->id)
                 ->firstOrFail();
             $teacher->delete();
 
@@ -136,7 +138,6 @@ class InstituteManagementService
                 ->dispatch();
         }
 
-        $user = Auth::user();
         User::find($id)->notify(new RequestApproved('Access Revoked', "Your access to {$user->name} has been revoked."));
     }
 
