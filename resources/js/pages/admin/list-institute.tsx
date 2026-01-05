@@ -94,7 +94,7 @@ export default function InstituteList({ institutes, categories, filters }: any) 
                                                 <span className="text-gray-400 italic">No review</span>
                                             )}
                                         </td>
-                                        <td className="p-2 text-center">12 Dec 2025 12:00</td>
+                                        <td className="p-2 text-center">{inst.register_date}</td>
                                         <td className="p-3">
                                             <div className="flex justify-center gap-2">
                                                 <button
@@ -136,7 +136,7 @@ export default function InstituteList({ institutes, categories, filters }: any) 
                                         Rating: {inst.reviews_avg_rating ? `⭐ ${inst.reviews_avg_rating} (${inst.reviews_count})` : 'No review'}
                                     </p>
 
-                                    <p className="text-xs text-gray-500 dark:text-white/70">Registered on 12 Dec 2025 12:00</p>
+                                    <p className="text-xs text-gray-500 dark:text-white/70">Registered on {inst.register_date}</p>
 
                                     <div className="mt-3 flex justify-end gap-2">
                                         <button onClick={() => handleDeleteClick(inst.id)} className="rounded-md bg-[#FF1818] p-2 text-white">

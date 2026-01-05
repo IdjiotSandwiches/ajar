@@ -9,11 +9,19 @@ export default function TeacherVerificationStatus() {
     const roles = props.enums.roles_enum;
     const isTeacher = user && user.role_id === roles.Teacher;
 
-    const [status, setStatus] = useState<VerificationStatus>('review');
+    function mapVerificationStatus(isVerified: boolean | null | undefined): VerificationStatus {
+        if (isVerified == true) return 'verified';
+        if (isVerified == false) return 'rejected';
+        return 'review';
+    }
+
+    const [status, setStatus] = useState<VerificationStatus>(() => mapVerificationStatus(user?.teacher?.is_verified));
     const [rejectMessage, setRejectMessage] = useState<string | null>(null);
 
     useEffect(() => {
         if (!user) return;
+
+        setStatus(mapVerificationStatus(user.teacher?.is_verified));
 
         const channelName = `private-teacher.${user.id}`;
         const channel = window.Echo.private(`teacher.${user.id}`);

@@ -8,6 +8,7 @@ use App\Services\RegisterService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ItemFilterRequest;
+use Illuminate\Auth\Events\Registered;
 use App\Services\Admin\AdminInstituteService;
 
 class AdminInstituteController extends Controller
@@ -32,7 +33,8 @@ class AdminInstituteController extends Controller
     {
         try {
             $data = $request->validated();
-            $this->registerService->register($data);
+            $user = $this->registerService->register($data);
+            event(new Registered($user));
             return redirect()->route('admin.list-institute')->with('success', 'Institute created.');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => $e->getMessage()]);
