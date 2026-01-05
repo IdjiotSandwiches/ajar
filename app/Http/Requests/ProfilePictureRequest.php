@@ -22,7 +22,7 @@ class ProfilePictureRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_picture' => 'nullable|image|max:256'
+            'profile_picture' => 'nullable|image|max:1024'
         ];
     }
 }
