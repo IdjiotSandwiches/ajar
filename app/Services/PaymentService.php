@@ -42,6 +42,7 @@ class PaymentService
             ->where('course_id', $id)
             ->exists();
 
+        $course->discount *= $course->price;
         return $hasSchedules ? $course : null;
     }
 
