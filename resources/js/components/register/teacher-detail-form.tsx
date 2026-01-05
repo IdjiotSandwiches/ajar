@@ -25,7 +25,7 @@ export default function TeacherDetailForm({ form }: any) {
     };
 
     return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
             <div>
                 <DetailInput
                     type="textarea"
