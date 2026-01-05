@@ -43,7 +43,7 @@ export default function Greeting() {
             <img
                 src={IMAGES[index]}
                 alt="Greeting"
-                className="hidden lg:block absolute right-[-32px] bottom-[-2px] h-[120%] object-contain pointer-events-none transition-all duration-700 ease-out"
+                className="hidden lg:block absolute right-[-24px] bottom-[-2px] h-[120%] object-contain pointer-events-none transition-all duration-700 ease-out"
             />
         </div>
     );
