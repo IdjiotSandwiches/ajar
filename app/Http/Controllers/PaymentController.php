@@ -70,9 +70,10 @@ class PaymentController extends Controller
         try {
             $validated = $request->validated();
             $this->service->completePayment($validated);
+            return response()->json(['ok' => true], 200);
         } catch (\Exception $e) {
             report($e);
-            return response('Internal error', 500);
+            return response()->json(['handled' => true], 200);
         }
     }
 

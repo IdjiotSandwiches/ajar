@@ -17,6 +17,7 @@ use App\Models\CourseSchedule;
 use App\Models\EnrolledCourse;
 use App\Models\TeachingCourse;
 use App\Jobs\ProcessPaymentRefund;
+use App\Jobs\HandleMidtransPayment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\RequestApproved;
@@ -252,70 +253,10 @@ class PaymentService
         );
 
         if ($signature !== $data['signature_key']) {
-            abort(403);
+            throw new \Exception('Signature key not match');
         }
 
-        $payment = null;
-        DB::transaction(function () use ($data, &$payment) {
-            $payment = Payment::with(['enrolledCourse'])
-                ->where('unique_id', $data['order_id'])
-                ->firstOrFail();
-
-            if (
-                ($data['transaction_status'] === MidtransTransactionEnum::Settlement->value ||
-                    $data['transaction_status'] === MidtransTransactionEnum::Capture->value) && now()->gt($payment->expired_at)
-            ) {
-                $refundId = 'RFD' . time() . random_int(100, 999);
-                \Midtrans\Transaction::refund($payment->unique_id, [
-                    'refund_key' => $refundId,
-                    'reason' => 'Payment completed after class started'
-                ]);
-
-                $payment->status = PaymentStatusEnum::Refund;
-                $payment->refund_id = $refundId;
-                $payment->enrolledCourse()->delete();
-            } else {
-                if ($data['transaction_status'] === MidtransTransactionEnum::Pending->value) {
-                    \Midtrans\Transaction::cancel($payment->unique_id);
-                }
-
-                $payment->status = match ($data['transaction_status']) {
-                    MidtransTransactionEnum::Settlement->value,
-                    MidtransTransactionEnum::Capture->value => PaymentStatusEnum::Paid,
-                    MidtransTransactionEnum::Pending->value,
-                    MidtransTransactionEnum::Expire->value,
-                    MidtransTransactionEnum::Cancel->value,
-                    MidtransTransactionEnum::Deny->value => PaymentStatusEnum::Failed,
-                    default => PaymentStatusEnum::Failed,
-                };
-
-                if ($payment->enrolledCourse) {
-                    $payment->enrolledCourse()->update([
-                        'is_verified' => match ($payment->status) {
-                            PaymentStatusEnum::Paid => true,
-                            PaymentStatusEnum::Pending => null,
-                            PaymentStatusEnum::Failed => false,
-                            default => null,
-                        },
-                    ]);
-                }
-            }
-
-            $payment->save();
-        });
-
-        $user = User::findOrFail($payment->user_id);
-        if ($payment) {
-            $user->notify(new RequestApproved(
-                'Payment Success',
-                \sprintf('Your %s payment has success.', $payment->course_name)
-            ));
-        } else {
-            $user->notify(new RequestApproved(
-                'Payment Failed',
-                \sprintf('Your %s payment has failed.', $payment->course_name)
-            ));
-        }
+        \HandleMidtransPayment::dispatch($data);
     }
 
     public function handleRefund($ids)
