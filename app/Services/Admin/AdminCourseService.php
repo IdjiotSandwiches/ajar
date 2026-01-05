@@ -68,8 +68,9 @@ class AdminCourseService
                 ->findOrFail($id);
             $schedule->is_verified = $isVerified;
 
+            $price = round($schedule->course->price - ($schedule->course->price * $schedule->course->discount / 100), 0);
             $teacherAmount = $schedule->course->teacher_salary;
-            $instituteAmount = $schedule->course->price - $teacherAmount;
+            $instituteAmount = $price - $teacherAmount;
             $courseSchedule = Carbon::parse($schedule->start_time)->format('d M Y') . ' '
                 . Carbon::parse($schedule->start_time)->toTimeString('minute') . ' - '
                 . Carbon::parse($schedule->end_time)->toTimeString('minute');

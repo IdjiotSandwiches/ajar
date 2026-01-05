@@ -87,7 +87,7 @@ class InstituteCourseService
             'description' => $data['description'],
             'price' => $data['price'],
             'duration' => $data['duration'],
-            'discount' => round($data['price'] * ($data['discount'] / 100), 0),
+            'discount' => $data['discount'],
             'teacher_salary' => $data['teacher_salary'],
             'category_id' => $data['category']
         ]);
