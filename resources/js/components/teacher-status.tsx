@@ -57,7 +57,11 @@ export default function TeacherVerificationStatus() {
             <div className="flex items-start gap-2">
                 <span
                     className={`mt-1 h-3 w-3 rounded-full ${
-                        status === 'verified' ? 'bg-green-500' : status === 'rejected' ? 'bg-red-500' : 'animate-pulse bg-yellow-400'
+                        status === 'verified'
+                            ? 'bg-green-500'
+                            : status === 'rejected'
+                            ? 'bg-red-500'
+                            : 'animate-pulse bg-yellow-400'
                     }`}
                 />
 
@@ -68,8 +72,14 @@ export default function TeacherVerificationStatus() {
 
                     {status === 'rejected' && (
                         <div>
-                            <p className="font-medium text-red-500">Verification rejected</p>
-                            {rejectMessage && <p className="mt-1 text-xs text-gray-500 dark:text-white/70">{rejectMessage}</p>}
+                            <p className="font-medium text-red-500">
+                                Verification rejected
+                            </p>
+                            {rejectMessage && (
+                                <p className="mt-1 text-xs text-gray-500 dark:text-white/70">
+                                    {rejectMessage}
+                                </p>
+                            )}
                         </div>
                     )}
                 </div>
