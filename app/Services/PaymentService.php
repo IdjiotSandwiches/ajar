@@ -162,7 +162,7 @@ class PaymentService
                         $payment->unique_id
                         . 200
                         . $payment->amount
-                        . config('midtrans.server_key')
+                        . config('services.midtrans.server_key')
                     )
                 ]);
             }
