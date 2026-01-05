@@ -95,6 +95,8 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
         setShowApplyModal(false);
     };
 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
     return (
         <div className="flex min-h-screen flex-col gap-6">
             <div className="flex items-start gap-2 rounded-lg bg-[#3ABEFF]/10 p-3 text-sm">
@@ -109,111 +111,115 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                 ref={formRef}
             >
                 <h3 className="mb-4 text-lg font-semibold dark:text-white">Availability</h3>
+                {isMobile ? (
+                    <div className="space-y-4">
+                        {days.map((day, index) => (
+                            <div key={day} className="rounded-xl border bg-white p-4 shadow-sm dark:border-white/20 dark:bg-[#222831]">
+                                <div className="mb-3 flex items-center justify-between">
+                                    <h4 className="text-base font-semibold dark:text-white">{day}</h4>
 
-                <div className="space-y-4 md:hidden">
-                    {days.map((day, index) => (
-                        <div key={day} className="rounded-xl border bg-white p-4 shadow-sm dark:border-white/20 dark:bg-[#222831]">
-                            <div className="mb-3 flex items-center justify-between">
-                                <h4 className="text-base font-semibold dark:text-white">{day}</h4>
+                                    <InputSwitch name={`availability[${index}].available`} checked={!!(availability[index]?.active ?? true)} />
+                                </div>
 
-                                <InputSwitch name={`availability[${index}].available`} checked={!!(availability[index]?.active ?? true)} />
+                                <input type="hidden" name={`availability[${index}].day`} value={day} />
+
+                                <div className="mb-3">
+                                    <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">Start Time</label>
+                                    <input
+                                        type="time"
+                                        name={`availability[${index}].start_time`}
+                                        defaultValue={availability[index]?.start_time ?? ''}
+                                        className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
+                                    />
+
+                                    {errors[`availability.${index}.start_time`] && (
+                                        <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.start_time`]}</p>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">End Time</label>
+                                    <input
+                                        type="time"
+                                        name={`availability[${index}].end_time`}
+                                        defaultValue={availability[index]?.end_time ?? ''}
+                                        className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
+                                    />
+
+                                    {errors[`availability.${index}.end_time`] && (
+                                        <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.end_time`]}</p>
+                                    )}
+                                    {errors[`availability.${index}`] && <p className="text-red-500">{errors[`availability.${index}`]}</p>}
+                                </div>
                             </div>
-
-                            <input type="hidden" name={`availability[${index}].day`} value={day} />
-
-                            <div className="mb-3">
-                                <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">Start Time</label>
-                                <input
-                                    type="time"
-                                    name={`availability[${index}].start_time`}
-                                    defaultValue={availability[index]?.start_time ?? ''}
-                                    className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
-                                />
-
-                                {errors[`availability.${index}.start_time`] && (
-                                    <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.start_time`]}</p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">End Time</label>
-                                <input
-                                    type="time"
-                                    name={`availability[${index}].end_time`}
-                                    defaultValue={availability[index]?.end_time ?? ''}
-                                    className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
-                                />
-
-                                {errors[`availability.${index}.end_time`] && (
-                                    <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.end_time`]}</p>
-                                )}
-                                {errors[`availability.${index}`] && <p className="text-red-500">{errors[`availability.${index}`]}</p>}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="hidden overflow-x-auto rounded-lg border md:block dark:border-white/20">
-                    <table className="w-full text-sm">
-                        <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20">
-                            <tr>
-                                <th className="p-2 text-left">Day</th>
-                                <th className="p-2 text-left">Start</th>
-                                <th className="p-2 text-left">End</th>
-                                <th className="p-2 text-center">Available</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {days.map((day, index) => (
-                                <tr
-                                    key={day}
-                                    className={`border-b dark:border-white/20 ${
-                                        index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
-                                    }`}
-                                >
-                                    <td className="p-2">
-                                        {day}
-                                        <input type="hidden" name={`availability[${index}].day`} value={day} />
-                                    </td>
-
-                                    <td className="p-2">
-                                        <input
-                                            type="time"
-                                            name={`availability[${index}].start_time`}
-                                            defaultValue={availability[index]?.start_time ?? ''}
-                                            className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
-                                        />
-
-                                        {errors[`availability.${index}.start_time`] && (
-                                            <p className="text-red-500">{errors[`availability.${index}.start_time`]}</p>
-                                        )}
-                                    </td>
-
-                                    <td className="p-2">
-                                        <input
-                                            type="time"
-                                            name={`availability[${index}].end_time`}
-                                            defaultValue={availability[index]?.end_time ?? ''}
-                                            className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
-                                        />
-
-                                        {errors[`availability.${index}.end_time`] && (
-                                            <p className="text-red-500">{errors[`availability.${index}.end_time`]}</p>
-                                        )}
-                                        {errors[`availability.${index}`] && <p className="text-red-500">{errors[`availability.${index}`]}</p>}
-                                    </td>
-
-                                    <td className="p-2 text-center">
-                                        <InputSwitch name={`availability[${index}].available`} checked={!!(availability[index]?.active ?? true)} />
-                                        {errors[`availability.${index}.available`] && (
-                                            <p className="text-red-500">{errors[`availability.${index}.available`]}</p>
-                                        )}
-                                    </td>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="overflow-x-auto rounded-lg border md:block dark:border-white/20">
+                        <table className="w-full text-sm">
+                            <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20">
+                                <tr>
+                                    <th className="p-2 text-left">Day</th>
+                                    <th className="p-2 text-left">Start</th>
+                                    <th className="p-2 text-left">End</th>
+                                    <th className="p-2 text-center">Available</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {days.map((day, index) => (
+                                    <tr
+                                        key={day}
+                                        className={`border-b dark:border-white/20 ${
+                                            index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                        }`}
+                                    >
+                                        <td className="p-2">
+                                            {day}
+                                            <input type="hidden" name={`availability[${index}].day`} value={day} />
+                                        </td>
+
+                                        <td className="p-2">
+                                            <input
+                                                type="time"
+                                                name={`availability[${index}].start_time`}
+                                                defaultValue={availability[index]?.start_time ?? ''}
+                                                className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
+                                            />
+
+                                            {errors[`availability.${index}.start_time`] && (
+                                                <p className="text-red-500">{errors[`availability.${index}.start_time`]}</p>
+                                            )}
+                                        </td>
+
+                                        <td className="p-2">
+                                            <input
+                                                type="time"
+                                                name={`availability[${index}].end_time`}
+                                                defaultValue={availability[index]?.end_time ?? ''}
+                                                className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
+                                            />
+
+                                            {errors[`availability.${index}.end_time`] && (
+                                                <p className="text-red-500">{errors[`availability.${index}.end_time`]}</p>
+                                            )}
+                                            {errors[`availability.${index}`] && <p className="text-red-500">{errors[`availability.${index}`]}</p>}
+                                        </td>
+
+                                        <td className="p-2 text-center">
+                                            <InputSwitch
+                                                name={`availability[${index}].available`}
+                                                checked={!!(availability[index]?.active ?? true)}
+                                            />
+                                            {errors[`availability.${index}.available`] && (
+                                                <p className="text-red-500">{errors[`availability.${index}.available`]}</p>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
 
                 <div className="mt-6 flex justify-end">
                     <button
@@ -287,7 +293,10 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                     </>
                 )}
                 {sessions.length !== 0 && (
-                    <button onClick={() => router.post(route('teacher.generate-now'))} className="mt-3 w-full rounded-md bg-[#3ABEFF] hover:bg-[#3ABEFF]/90 py-2 text-white">
+                    <button
+                        onClick={() => router.post(route('teacher.generate-now'))}
+                        className="mt-3 w-full rounded-md bg-[#3ABEFF] py-2 text-white hover:bg-[#3ABEFF]/90"
+                    >
                         Generate Now
                     </button>
                 )}
