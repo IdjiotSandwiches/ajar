@@ -117,7 +117,7 @@ class DashboardService
                     'end_time' => $schedule->end_time,
                     'teacher' => $teacher->user->name,
                     'meeting_link' => $item->courseSchedule->meeting_link,
-                    'can_join' => $isToday && now() < $schedule->end_time,
+                    'can_join' => $isToday && now() < $schedule->end_time && now()->addMinutes(15)->greaterThanOrEqualTo($schedule->start_time),
                     'has_done' => $isToday && now() > $schedule->end_time
                 ];
             });
@@ -142,7 +142,7 @@ class DashboardService
                     'end_time' => $item->end_time,
                     'teacher' => $teacher->user->name,
                     'meeting_link' => $item->meeting_link,
-                    'can_join' => $isToday && now() < $item->end_time,
+                    'can_join' => $isToday && now() < $item->end_time && now()->addMinutes(15)->greaterThanOrEqualTo($item->start_time),
                     'has_done' => $isToday && now() > $item->end_time
                 ];
             });
