@@ -249,10 +249,10 @@ class PaymentService
             $data['order_id']
             . $data['status_code']
             . $data['gross_amount']
-            . config('midtrans.server_key')
+            . config('services.midtrans.server_key')
         );
 
-        if ($signature !== $data['signature_key']) {
+        if (!hash_equals($signature, $data['signature_key'] ?? '')) {
             throw new \Exception('Signature key not match');
         }
 
