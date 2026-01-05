@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->text('image');
             $table->integer('duration');
             $table->decimal('price', 12, 2);
-            $table->decimal('discount', 5, 2);
+            $table->decimal('discount', 12, 2);
             $table->decimal('teacher_salary', 12, 2);
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('institute_id');
