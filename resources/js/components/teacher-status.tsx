@@ -9,11 +9,19 @@ export default function TeacherVerificationStatus() {
     const roles = props.enums.roles_enum;
     const isTeacher = user && user.role_id === roles.Teacher;
 
-    const [status, setStatus] = useState<VerificationStatus>('review');
+    function mapVerificationStatus(isVerified: boolean | null | undefined): VerificationStatus {
+        if (isVerified == true) return 'verified';
+        if (isVerified == false) return 'rejected';
+        return 'review';
+    }
+
+    const [status, setStatus] = useState<VerificationStatus>(() => mapVerificationStatus(user?.teacher?.is_verified));
     const [rejectMessage, setRejectMessage] = useState<string | null>(null);
 
     useEffect(() => {
         if (!user) return;
+
+        setStatus(mapVerificationStatus(user.teacher?.is_verified));
 
         const channelName = `private-teacher.${user.id}`;
         const channel = window.Echo.private(`teacher.${user.id}`);
@@ -49,11 +57,7 @@ export default function TeacherVerificationStatus() {
             <div className="flex items-start gap-2">
                 <span
                     className={`mt-1 h-3 w-3 rounded-full ${
-                        status === 'verified'
-                            ? 'bg-green-500'
-                            : status === 'rejected'
-                            ? 'bg-red-500'
-                            : 'animate-pulse bg-yellow-400'
+                        status === 'verified' ? 'bg-green-500' : status === 'rejected' ? 'bg-red-500' : 'animate-pulse bg-yellow-400'
                     }`}
                 />
 
@@ -64,14 +68,8 @@ export default function TeacherVerificationStatus() {
 
                     {status === 'rejected' && (
                         <div>
-                            <p className="font-medium text-red-500">
-                                Verification rejected
-                            </p>
-                            {rejectMessage && (
-                                <p className="mt-1 text-xs text-gray-500 dark:text-white/70">
-                                    {rejectMessage}
-                                </p>
-                            )}
+                            <p className="font-medium text-red-500">Verification rejected</p>
+                            {rejectMessage && <p className="mt-1 text-xs text-gray-500 dark:text-white/70">{rejectMessage}</p>}
                         </div>
                     )}
                 </div>

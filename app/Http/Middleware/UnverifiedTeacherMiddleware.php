@@ -25,9 +25,12 @@ class UnverifiedTeacherMiddleware
         }
 
         $user->loadMissing('teacher');
-        if (!$user->teacher || !$user->teacher->is_verified) {
+        if (!$user->teacher || $user->teacher->is_verified === null) {
             return redirect()->route('home')
                 ->with('info', "Thanks for your patience! Your account is being reviewed, and you'll be notified as soon as it's approved.");
+        } else if (!$user->teacher || $user->teacher->is_verified == false) {
+            return redirect()->route('home')
+                ->with('info', "You can't access MyDashboard.");
         }
 
         return $next($request);
