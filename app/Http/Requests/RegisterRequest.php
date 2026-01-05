@@ -66,7 +66,7 @@ class RegisterRequest extends FormRequest
             $rules['works.*.duration'] = 'required|integer|min:1';
 
             $rules['certificates'] = 'required|array|min:1';
-            $rules['certificates.*'] = 'required|file|image|max:256';
+            $rules['certificates.*'] = 'required|file|image|max:1024';
         }
 
         if ($role === RoleEnum::Institute) {
@@ -94,7 +94,7 @@ class RegisterRequest extends FormRequest
 
                 $errors->add(
                     'certificates',
-                    'One or more certificates are invalid. Please upload valid images (max 256KB).'
+                    'One or more certificates are invalid. Please upload valid images (max 1024KB).'
                 );
             }
         });

@@ -43,7 +43,7 @@ class TeacherDetailRequest extends FormRequest
 
                 $errors->add(
                     'certificates',
-                    'One or more certificates are invalid. Please upload valid images (max 256KB).'
+                    'One or more certificates are invalid. Please upload valid images (max 1024KB).'
                 );
             }
 
@@ -98,7 +98,7 @@ class TeacherDetailRequest extends FormRequest
             'works.*.institution' => 'required|string',
             'works.*.duration' => 'required|integer|min:1',
             'certificates' => 'array',
-            'certificates.*' => 'image|max:256',
+            'certificates.*' => 'image|max:1024',
             'deleted_certificates' => 'nullable|array',
             'deleted_certificates.*' => 'string',
         ];
