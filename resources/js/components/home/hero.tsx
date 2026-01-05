@@ -28,7 +28,7 @@ export default function HeroSection() {
                 </h1>
 
                 <p className="text-gray-600 dark:text-white">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita ullam aperiam illo quis architecto debitis, velit suscipit! Laboriosam, minus eligendi.
+                    A collaborative online learning platform where institutions, educators, and students connect through live classes and on-demand recordings to master technology and design skills.
                 </p>
 
                 <div className="flex max-w-md overflow-hidden rounded-lg bg-[#3ABEFF]/50 shadow-sm">
