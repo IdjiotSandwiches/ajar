@@ -41,7 +41,8 @@ class AdminInstituteService
                 'reviews_avg_rating' => round($item->reviews_avg_rating, 1),
                 'reviews_count' => $item->reviews_count,
                 'courses_count' => $item->courses_count,
-                'category' => $item->category->name
+                'category' => $item->category->name,
+                'register_date' => $item->user->created_at
             ]);
 
         return $institutes;
