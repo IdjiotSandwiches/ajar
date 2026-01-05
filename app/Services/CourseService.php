@@ -248,7 +248,6 @@ class CourseService
         $user = Auth::user();
         $courses = Course::with(['institute.user', 'courseSkills.skill', 'category.parent'])
             ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachingCourses.teacher.user'))
-            ->whereRelation('teachingCourses', 'is_verified', '=', true)
             ->withCount('teachingCourses')
             ->withAvg('courseReviews', 'rating')
             ->where('category_id', $categoryId)
@@ -268,7 +267,6 @@ class CourseService
             $filteredCourseIds = $courses->pluck('id');
             $moreCourses = Course::with(['institute.user', 'courseSkills.skill', 'category.parent'])
                 ->when($user?->role_id == RoleEnum::Teacher || $user?->role_id == RoleEnum::Institute, fn($q) => $q->with('teachingCourses.teacher.user'))
-                ->whereRelation('teachingCourses', 'is_verified', '=', true)
                 ->withCount('teachingCourses')
                 ->withAvg('courseReviews', 'rating')
                 ->whereRelation('category.parent', 'id', $parentCategory)
