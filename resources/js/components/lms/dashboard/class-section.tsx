@@ -146,7 +146,7 @@ export default function ClassSection({ title, course, type }: any) {
 
                                         <span className="text-sm text-gray-500 dark:text-white/60">{item.teacher}</span>
                                     </div>
-                                    {type === 'today' && !item.has_done &&
+                                    {type === 'today' && item.has_done == true &&
                                         (user?.role_id !== roles.Institute || user?.role_id !== roles.Admin) && (
                                             <button
                                                 onClick={() => handleJoinButton(item)}
