@@ -71,42 +71,57 @@ export default function InstituteList({ institutes, categories, filters }: any) 
                                         </td>
                                     </tr>
                                 )}
-                                {hasInstitute && institutes.data?.map((inst: any, index: number) => (
-                                    <tr
-                                        key={inst.id}
-                                        className={`border-b hover:bg-[#42C2FF]/10 dark:border-white/20 dark:text-white ${index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+                                {hasInstitute &&
+                                    institutes.data?.map((inst: any, index: number) => (
+                                        <tr
+                                            key={inst.id}
+                                            className={`border-b hover:bg-[#42C2FF]/10 dark:border-white/20 dark:text-white ${
+                                                index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
                                             }`}
-                                    >
-                                        <td className="p-2 text-center">{institutes.from + index}</td>
-                                        <td className="p-3 font-semibold cursor-pointer" onClick={() => router.get(route('detail-institute', inst.id))}>{inst.name}</td>
-                                        <td className="p-3 text-center">{inst.category}</td>
-                                        <td className="p-3 text-center">{inst.courses_count}</td>
-                                        <td className="p-3 text-center">
-                                            {inst.reviews_avg_rating ? (
-                                                <>
-                                                    <div className="flex items-center justify-center gap-1">
-                                                        <Star size={14} className="fill-yellow-400 text-yellow-400" />
-                                                        <span className="font-semibold">{inst.reviews_avg_rating}</span>
-                                                        <span className="text-gray-500">/ 5 ({inst.reviews_count})</span>
-                                                    </div>
-                                                </>
-                                            ) : (
-                                                <span className="text-gray-400 italic">No review</span>
-                                            )}
-                                        </td>
-                                        <td className="p-2 text-center">{inst.register_date}</td>
-                                        <td className="p-3">
-                                            <div className="flex justify-center gap-2">
-                                                <button
-                                                    onClick={() => handleDeleteClick(inst.id)}
-                                                    className="cursor-pointer rounded-md bg-[#FF1818] p-2 text-white"
-                                                >
-                                                    <Trash2 size={16} />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
+                                        >
+                                            <td className="p-2 text-center">{institutes.from + index}</td>
+                                            <td
+                                                className="cursor-pointer p-3 font-semibold"
+                                                onClick={() => router.get(route('detail-institute', inst.id))}
+                                            >
+                                                {inst.name}
+                                            </td>
+                                            <td className="p-3 text-center">{inst.category}</td>
+                                            <td className="p-3 text-center">{inst.courses_count}</td>
+                                            <td className="p-3 text-center">
+                                                {inst.reviews_avg_rating ? (
+                                                    <>
+                                                        <div className="flex items-center justify-center gap-1">
+                                                            <Star size={14} className="fill-yellow-400 text-yellow-400" />
+                                                            <span className="font-semibold">{inst.reviews_avg_rating}</span>
+                                                            <span className="text-gray-500">/ 5 ({inst.reviews_count})</span>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-gray-400 italic">No review</span>
+                                                )}
+                                            </td>
+                                            <td className="p-2 text-center">
+                                                {new Date(inst.register_date).toLocaleString('id-ID', {
+                                                    day: '2-digit',
+                                                    month: 'short',
+                                                    year: 'numeric',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit',
+                                                })}
+                                            </td>
+                                            <td className="p-3">
+                                                <div className="flex justify-center gap-2">
+                                                    <button
+                                                        onClick={() => handleDeleteClick(inst.id)}
+                                                        className="cursor-pointer rounded-md bg-[#FF1818] p-2 text-white"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     </div>
@@ -116,27 +131,39 @@ export default function InstituteList({ institutes, categories, filters }: any) 
                             <div className="flex flex-col items-center justify-center py-24 text-center">
                                 <University className="mb-4 h-12 w-12 text-gray-400" />
 
-                                <p className="text-base font-semibold text-gray-700 dark:text-white">
-                                    No institute found
-                                </p>
+                                <p className="text-base font-semibold text-gray-700 dark:text-white">No institute found</p>
 
                                 <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-white/70">
-                                    The institute with the status or category you selected is not yet available.
-                                    Try changing the filter or selecting a different category.
+                                    The institute with the status or category you selected is not yet available. Try changing the filter or selecting
+                                    a different category.
                                 </p>
                             </div>
                         )}
                         {hasInstitute &&
                             institutes.data?.map((inst: any) => (
                                 <div key={inst.id} className="dark:border-whie/20 rounded-xl border p-4 shadow-sm dark:shadow-white/20">
-                                    <p className="font-semibold text-gray-800 dark:text-white cursor-pointer" onClick={() => router.get(route('detail-institute', inst.id))}>{inst.name}</p>
+                                    <p
+                                        className="cursor-pointer font-semibold text-gray-800 dark:text-white"
+                                        onClick={() => router.get(route('detail-institute', inst.id))}
+                                    >
+                                        {inst.name}
+                                    </p>
                                     <p className="text-sm text-gray-600 dark:text-white/80">Category: {inst.category}</p>
                                     <p className="text-sm text-gray-600 dark:text-white/80">Courses: {inst.courses_count}</p>
                                     <p className="text-sm text-gray-600 dark:text-white/80">
                                         Rating: {inst.reviews_avg_rating ? `⭐ ${inst.reviews_avg_rating} (${inst.reviews_count})` : 'No review'}
                                     </p>
 
-                                    <p className="text-xs text-gray-500 dark:text-white/70">Registered on {inst.register_date}</p>
+                                    <p className="text-xs text-gray-500 dark:text-white/70">
+                                        Registered on{' '}
+                                        {new Date(inst.register_date).toLocaleString('id-ID', {
+                                            day: '2-digit',
+                                            month: 'short',
+                                            year: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                        })}
+                                    </p>
 
                                     <div className="mt-3 flex justify-end gap-2">
                                         <button onClick={() => handleDeleteClick(inst.id)} className="rounded-md bg-[#FF1818] p-2 text-white">
