@@ -9,7 +9,6 @@ use App\Enums\RoleEnum;
 use App\Enums\CourseStatusEnum;
 use App\Enums\PaymentStatusEnum;
 use App\Enums\MidtransTransactionEnum;
-use App\Models\User;
 use App\Models\Course;
 use App\Models\Earning;
 use App\Models\Payment;
@@ -20,7 +19,6 @@ use App\Jobs\ProcessPaymentRefund;
 use App\Jobs\HandleMidtransPayment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Notifications\RequestApproved;
 
 class PaymentService
 {
@@ -256,7 +254,7 @@ class PaymentService
             throw new \Exception('Signature key not match');
         }
 
-        \HandleMidtransPayment::dispatch($data);
+        HandleMidtransPayment::dispatch($data);
     }
 
     public function handleRefund($ids)

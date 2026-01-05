@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Jobs;
+
 use App\Enums\MidtransTransactionEnum;
 use App\Enums\PaymentStatusEnum;
 use App\Models\Payment;
