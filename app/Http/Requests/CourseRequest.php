@@ -63,7 +63,7 @@ class CourseRequest extends FormRequest
             // 'course_sessions.*.description' => 'required|string',
             'course_skills' => 'required|array',
             'course_skills.*.id' => 'required|numeric|exists:skills,id',
-            'course_images' => [Rule::requiredIf(!$hasImage), 'image', 'max:256']
+            'course_images' => [Rule::requiredIf(!$hasImage), 'image', 'max:1024']
         ];
     }
 }
