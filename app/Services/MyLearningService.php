@@ -61,7 +61,7 @@ class MyLearningService
                 $base = EnrolledCourse::with(['payments'])
                     ->where('student_id', $user->id)
                     ->where('is_verified', true)
-                    ->whereHas('payments', fn($q) => $q->where('status', PaymentStatusEnum::Paid));
+                    ->whereHas('payments', fn($q) => $q->whereIn('status', [PaymentStatusEnum::Paid, PaymentStatusEnum::Refund]));
                 $counts = [
                     LearningStatusEnum::Ongoing->value => (clone $base)
                         ->where('status', CourseStatusEnum::Scheduled)
@@ -267,7 +267,7 @@ class MyLearningService
             ->when($status === LearningStatusEnum::Ongoing, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Scheduled))
             ->when($status === LearningStatusEnum::Completed, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Completed))
             ->when($status === LearningStatusEnum::Cancelled, fn($q) => $q->where('enrolled_courses.status', CourseStatusEnum::Cancelled))
-            ->whereHas('payments', fn($q) => $q->where('status', PaymentStatusEnum::Paid))
+            ->whereHas('payments', fn($q) => $q->whereIn('status', [PaymentStatusEnum::Paid, PaymentStatusEnum::Refund]))
             ->withExists('courseReviews')
             ->withExists('instituteReviews')
             ->withExists('teacherReviews')
