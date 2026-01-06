@@ -42,7 +42,7 @@ class PaymentService
             ->where('course_id', $id)
             ->exists();
 
-        $course->discount *= $course->price;
+        $course->discount = $course->discount * $course->price / 100;
         return $hasSchedules ? $course : null;
     }
 
@@ -189,6 +189,7 @@ class PaymentService
         $teacher = $schedule->teacher;
         $course = $schedule->course;
         $payment = $data->activePayment;
+        $discount = $course->discount * $course->price / 100;
 
         $enrollment = [
             'payment' => [
@@ -213,8 +214,8 @@ class PaymentService
                 'name' => $course->name,
                 'price' => $course->price,
                 'duration' => $course->duration,
-                'discount' => $course->discount,
-                'final_price' => $course->price - $course->discount
+                'discount' => $discount,
+                'final_price' => $course->price - $discount
             ]
         ];
 

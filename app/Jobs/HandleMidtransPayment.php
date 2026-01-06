@@ -20,7 +20,9 @@ class HandleMidtransPayment implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 
-    public function __construct(private array $data) {}
+    public function __construct(private array $data)
+    {
+    }
 
     public function handle()
     {
@@ -38,7 +40,7 @@ class HandleMidtransPayment implements ShouldQueue
             $status = $this->data['transaction_status'];
 
             if (
-                in_array($status, [
+                \in_array($status, [
                     MidtransTransactionEnum::Settlement->value,
                     MidtransTransactionEnum::Capture->value
                 ]) &&
@@ -83,10 +85,6 @@ class HandleMidtransPayment implements ShouldQueue
                 $payment->enrolledCourse()?->delete();
             }
 
-            if ($this->data['transaction_status'] === MidtransTransactionEnum::Pending->value) {
-                \Midtrans\Transaction::cancel($payment->unique_id);
-            }
-
         } catch (\Throwable $e) {
             Log::warning('Midtrans API failed', [
                 'payment_id' => $payment->id,
@@ -98,16 +96,24 @@ class HandleMidtransPayment implements ShouldQueue
     private function notifyUser(Payment $payment)
     {
         $user = User::find($payment->user_id);
-        if (!$user) return;
+        if (!$user)
+            return;
 
-        $user->notify(new RequestApproved(
-            $payment->status === PaymentStatusEnum::Paid
-                ? 'Payment Success'
-                : 'Payment Failed',
-            sprintf('Your %s payment %s.',
-                $payment->course_name,
-                $payment->status === PaymentStatusEnum::Paid ? 'was successful' : 'failed'
-            )
-        ));
+        $status = match ($payment->status) {
+            PaymentStatusEnum::Paid => [
+                'title' => 'Payment Success',
+                'body' => 'was successful'
+            ],
+            PaymentStatusEnum::Pending => [
+                'title' => 'Payment Pending',
+                'body' => 'pending'
+            ],
+            default => [
+                'title' => 'Payment Failed',
+                'body' => 'failed'
+            ]
+        };
+
+        $user->notify(new RequestApproved($status['title'], \sprintf('Your %s payment %s.', $payment->course_name, $status['body'])));
     }
 }
