@@ -9,7 +9,10 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
     const { props } = usePage();
     const days = Object.values(props.enums?.days_enum || {});
     const hours = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
-    const [showApplyModal, setShowApplyModal] = React.useState(false);
+
+    type ModalAction = 'submit' | 'generate' | null;
+
+    const [modalAction, setModalAction] = useState<ModalAction>(null);
     const formRef = useRef<any>(null);
 
     const [popup, setPopup] = useState<{ visible: boolean; day?: string; hour?: string; id?: any }>({
@@ -73,9 +76,8 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                         id: session?.teaching_course_id,
                     })
                 }
-                className={`flex h-10 w-full cursor-pointer items-center justify-center overflow-hidden rounded border px-1 text-xs text-ellipsis whitespace-nowrap transition ${
-                    session ? 'border-blue-400 bg-blue-200 text-blue-900' : 'border-dashed border-gray-400 text-gray-400 dark:border-white/40'
-                } `}
+                className={`flex h-10 w-full cursor-pointer items-center justify-center overflow-hidden rounded border px-1 text-xs text-ellipsis whitespace-nowrap transition ${session ? 'border-[#3ABEFF]/40 bg-[#3ABEFF]/20 text-[#3ABEFF]' : 'border-dashed border-gray-400 text-gray-400 dark:border-white/40'
+                    } `}
                 title={session?.course_name ?? ''}
             >
                 <span className="truncate">{session?.course_name ?? '+'}</span>
@@ -90,12 +92,18 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
         }
     }, [popup.visible, popup.id, teachings]);
 
-    const handleConfirmSubmit = () => {
-        formRef.current?.submit();
-        setShowApplyModal(false);
+    const handleConfirmModal = () => {
+        if (modalAction === 'submit') {
+            formRef.current?.submit();
+        }
+
+        if (modalAction === 'generate') {
+            router.post(route('teacher.generate-now'));
+        }
+
+        setModalAction(null);
     };
 
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     return (
         <div className="flex min-h-screen flex-col gap-6">
@@ -111,124 +119,122 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                 ref={formRef}
             >
                 <h3 className="mb-4 text-lg font-semibold dark:text-white">Availability</h3>
-                {isMobile ? (
-                    <div className="space-y-4">
-                        {days.map((day, index) => (
-                            <div key={day} className="rounded-xl border bg-white p-4 shadow-sm dark:border-white/20 dark:bg-[#222831]">
-                                <div className="mb-3 flex items-center justify-between">
-                                    <h4 className="text-base font-semibold dark:text-white">{day}</h4>
+                <div className="lg:hidden space-y-4">
+                    {days.map((day, index) => (
+                        <div key={day} className="rounded-xl border bg-white p-4 shadow-sm dark:border-white/20 dark:bg-[#222831]">
+                            <div className="mb-3 flex items-center justify-between">
+                                <h4 className="text-base font-semibold dark:text-white">{day}</h4>
 
-                                    <InputSwitch name={`availability[${index}].available`} checked={!!(availability[index]?.active ?? true)} />
-                                </div>
-
-                                <input type="hidden" name={`availability[${index}].day`} value={day} />
-
-                                <div className="mb-3">
-                                    <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">Start Time</label>
-                                    <input
-                                        type="time"
-                                        name={`availability[${index}].start_time`}
-                                        defaultValue={availability[index]?.start_time ?? ''}
-                                        className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
-                                    />
-
-                                    {errors[`availability.${index}.start_time`] && (
-                                        <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.start_time`]}</p>
-                                    )}
-                                </div>
-
-                                <div>
-                                    <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">End Time</label>
-                                    <input
-                                        type="time"
-                                        name={`availability[${index}].end_time`}
-                                        defaultValue={availability[index]?.end_time ?? ''}
-                                        className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
-                                    />
-
-                                    {errors[`availability.${index}.end_time`] && (
-                                        <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.end_time`]}</p>
-                                    )}
-                                    {errors[`availability.${index}`] && <p className="text-red-500">{errors[`availability.${index}`]}</p>}
-                                </div>
+                                <InputSwitch name={`availability[${index}].available`} checked={!!(availability[index]?.active ?? true)} />
                             </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="overflow-x-auto rounded-lg border md:block dark:border-white/20">
-                        <table className="w-full text-sm">
-                            <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20">
-                                <tr>
-                                    <th className="p-2 text-left">Day</th>
-                                    <th className="p-2 text-left">Start</th>
-                                    <th className="p-2 text-left">End</th>
-                                    <th className="p-2 text-center">Available</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {days.map((day, index) => (
-                                    <tr
-                                        key={day}
-                                        className={`border-b dark:border-white/20 ${
-                                            index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
+
+                            <input type="hidden" name={`availability[${index}].day`} value={day} />
+
+                            <div className="mb-3">
+                                <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">Start Time</label>
+                                <input
+                                    type="time"
+                                    name={`availability[${index}].start_time`}
+                                    defaultValue={availability[index]?.start_time ?? ''}
+                                    className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
+                                />
+
+                                {errors[`availability.${index}.start_time`] && (
+                                    <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.start_time`]}</p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label className="mb-1 block text-sm text-gray-600 dark:text-white/70">End Time</label>
+                                <input
+                                    type="time"
+                                    name={`availability[${index}].end_time`}
+                                    defaultValue={availability[index]?.end_time ?? ''}
+                                    className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
+                                />
+
+                                {errors[`availability.${index}.end_time`] && (
+                                    <p className="mt-1 text-xs text-red-500">{errors[`availability.${index}.end_time`]}</p>
+                                )}
+                                {errors[`availability.${index}`] && <p className="text-red-500">{errors[`availability.${index}`]}</p>}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="hidden lg:block overflow-x-auto rounded-lg border dark:border-white/20">
+                    <table className="w-full text-sm">
+                        <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20">
+                            <tr>
+                                <th className="p-2 text-left">Day</th>
+                                <th className="p-2 text-left">Start</th>
+                                <th className="p-2 text-left">End</th>
+                                <th className="p-2 text-center">Available</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {days.map((day, index) => (
+                                <tr
+                                    key={day}
+                                    className={`border-b dark:border-white/20 ${index % 2 === 0 ? 'bg-[#F9FCFF] dark:bg-[#31363F]' : 'bg-white dark:bg-[#222831]'
                                         }`}
-                                    >
-                                        <td className="p-2">
-                                            {day}
-                                            <input type="hidden" name={`availability[${index}].day`} value={day} />
-                                        </td>
+                                >
+                                    <td className="p-2">
+                                        {day}
+                                        <input type="hidden" name={`availability[${index}].day`} value={day} />
+                                    </td>
 
-                                        <td className="p-2">
-                                            <input
-                                                type="time"
-                                                name={`availability[${index}].start_time`}
-                                                defaultValue={availability[index]?.start_time ?? ''}
-                                                className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
-                                            />
+                                    <td className="p-2">
+                                        <input
+                                            type="time"
+                                            name={`availability[${index}].start_time`}
+                                            defaultValue={availability[index]?.start_time ?? ''}
+                                            className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
+                                        />
 
-                                            {errors[`availability.${index}.start_time`] && (
-                                                <p className="text-red-500">{errors[`availability.${index}.start_time`]}</p>
-                                            )}
-                                        </td>
+                                        {errors[`availability.${index}.start_time`] && (
+                                            <p className="text-red-500">{errors[`availability.${index}.start_time`]}</p>
+                                        )}
+                                    </td>
 
-                                        <td className="p-2">
-                                            <input
-                                                type="time"
-                                                name={`availability[${index}].end_time`}
-                                                defaultValue={availability[index]?.end_time ?? ''}
-                                                className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
-                                            />
+                                    <td className="p-2">
+                                        <input
+                                            type="time"
+                                            name={`availability[${index}].end_time`}
+                                            defaultValue={availability[index]?.end_time ?? ''}
+                                            className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-white/20 dark:bg-gray-800"
+                                        />
 
-                                            {errors[`availability.${index}.end_time`] && (
-                                                <p className="text-red-500">{errors[`availability.${index}.end_time`]}</p>
-                                            )}
-                                            {errors[`availability.${index}`] && <p className="text-red-500">{errors[`availability.${index}`]}</p>}
-                                        </td>
+                                        {errors[`availability.${index}.end_time`] && (
+                                            <p className="text-red-500">{errors[`availability.${index}.end_time`]}</p>
+                                        )}
+                                        {errors[`availability.${index}`] && <p className="text-red-500">{errors[`availability.${index}`]}</p>}
+                                    </td>
 
-                                        <td className="p-2 text-center">
-                                            <InputSwitch
-                                                name={`availability[${index}].available`}
-                                                checked={!!(availability[index]?.active ?? true)}
-                                            />
-                                            {errors[`availability.${index}.available`] && (
-                                                <p className="text-red-500">{errors[`availability.${index}.available`]}</p>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+                                    <td className="p-2 text-center">
+                                        <InputSwitch
+                                            name={`availability[${index}].available`}
+                                            checked={!!(availability[index]?.active ?? true)}
+                                        />
+                                        {errors[`availability.${index}.available`] && (
+                                            <p className="text-red-500">{errors[`availability.${index}.available`]}</p>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                {/* } */}
 
                 <div className="mt-6 flex justify-end">
                     <button
                         type="button"
-                        onClick={() => setShowApplyModal(true)}
+                        onClick={() => setModalAction('submit')}
                         className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white hover:bg-[#3ABEFF]/90"
                     >
                         Submit
                     </button>
+
                 </div>
             </Form>
 
@@ -248,7 +254,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                     </>
                 ) : (
                     <>
-                        <div className="block space-y-4 md:hidden">
+                        <div className="block space-y-4 lg:hidden">
                             {days.map((day) => (
                                 <div key={day} className="rounded-xl border bg-white p-4 dark:border-white/20 dark:bg-[#222831]">
                                     <h4 className="mb-3 font-semibold dark:text-white">{day}</h4>
@@ -264,7 +270,7 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                                 </div>
                             ))}
                         </div>
-                        <div className="hidden overflow-x-auto rounded-xl border md:block dark:border-white/20">
+                        <div className="hidden overflow-x-auto rounded-xl border lg:block dark:border-white/20">
                             <table className="w-full min-w-[900px] table-fixed text-center text-sm">
                                 <thead className="border-b bg-[#3ABEFF]/10 dark:border-white/20">
                                     <tr>
@@ -293,12 +299,15 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
                     </>
                 )}
                 {sessions.length !== 0 && (
-                    <button
-                        onClick={() => router.post(route('teacher.generate-now'))}
-                        className="mt-3 w-full rounded-md bg-[#3ABEFF] py-2 text-white hover:bg-[#3ABEFF]/90"
-                    >
-                        Generate Now
-                    </button>
+                    <div className="mt-6 flex justify-end">
+                        <button
+                            onClick={() => setModalAction('generate')}
+                            className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white hover:bg-[#3ABEFF]/90"
+                        >
+                            Generate Now
+                        </button>
+
+                    </div>
                 )}
             </div>
             <div className="flex justify-end gap-2">
@@ -348,11 +357,16 @@ export default function AddSchedulePage({ sessions, teachings, availability, err
 
             <DynamicModal
                 type="confirmation"
-                isOpen={showApplyModal}
-                onClose={() => setShowApplyModal(false)}
-                onConfirm={handleConfirmSubmit}
-                description={`Are you sure you want to update your availability? This will affect your schedule starting next week.`}
+                isOpen={modalAction !== null}
+                onClose={() => setModalAction(null)}
+                onConfirm={handleConfirmModal}
+                description={
+                    modalAction === 'submit'
+                        ? 'Are you sure you want to update your availability? This will affect your schedule starting next week.'
+                        : 'Are you sure you want to generate the schedule now? This action cannot be undone.'
+                }
             />
+
         </div>
     );
 }

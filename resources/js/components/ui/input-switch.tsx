@@ -15,7 +15,7 @@ export function InputSwitch({ name, checked: controlledChecked, onChange, label,
     };
 
     return (
-        <div className="flex items-center space-x-2">
+        <div className="flex lg:d-flex justify-center space-x-2">
             <Switch checked={isChecked} onCheckedChange={handleToggle} {...props} />
             <input type="hidden" name={name} value={isChecked ? "1" : "0"} />
             {label && (
