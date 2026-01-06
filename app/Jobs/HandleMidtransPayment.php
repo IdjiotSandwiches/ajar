@@ -51,6 +51,7 @@ class HandleMidtransPayment implements ShouldQueue
                 $payment->status = match ($status) {
                     MidtransTransactionEnum::Settlement->value,
                     MidtransTransactionEnum::Capture->value => PaymentStatusEnum::Paid,
+                    MidtransTransactionEnum::Pending->value => PaymentStatusEnum::Pending,
                     default => PaymentStatusEnum::Failed,
                 };
             }
