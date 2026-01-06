@@ -110,7 +110,7 @@ class MyLearningService
                     ->where('student_id', $user->id)
                     ->where('enrolled_courses.is_verified', true)
                     ->whereDate('course_schedules.start_time', $date)
-                    ->whereHas('payments', fn($q) => $q->where('status', PaymentStatusEnum::Paid))
+                    ->whereHas('payments', fn($q) => $q->whereIn('status', [PaymentStatusEnum::Paid, PaymentStatusEnum::Refund]))
                     ->orderBy('course_schedules.start_time', 'asc')
                     ->select('enrolled_courses.*')
                     ->get()
