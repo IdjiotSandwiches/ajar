@@ -9,6 +9,7 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
     const [selectedTeacher, setSelectedTeacher] = useState<any>(payment?.teacher_id);
     const [selectedSchedule, setSelectedSchedule] = useState<any>(payment?.schedule_id);
     const [bypass, setBypass] = useState(false);
+    const isDev = import.meta.env.DEV;
 
     const formatIDR = (value: number) =>
         new Intl.NumberFormat('id-ID', {
@@ -50,7 +51,7 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
         }
 
         router.post(
-            route('pay', { id: selectedSchedule, bypass: bypass ? 1 : 0}),
+            route('pay', { id: selectedSchedule, bypass: bypass ? 1 : 0 }),
             {},
             {
                 preserveState: true,
@@ -201,9 +202,11 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
 
                                 <p className="mt-3 text-center text-xs text-gray-400">Payment will be processed via secure third-party gateway</p>
                             </div>
-                            <div className="mt-4">
-                                <InputSwitch label="Bypass Payment" checked={bypass} onChange={setBypass} />
-                            </div>
+                            {isDev && (
+                                <div className="mt-4">
+                                    <InputSwitch label="Bypass Payment" checked={bypass} onChange={setBypass} />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
