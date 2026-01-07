@@ -147,7 +147,7 @@ export default function ClassSection({ title, course, type }: any) {
                                         <span className="text-sm text-gray-500 dark:text-white/60">{item.teacher}</span>
                                     </div>
                                     {type === 'today' && !item.has_done &&
-                                        (user?.role_id !== roles.Institute || user?.role_id !== roles.Admin) && (
+                                        (user?.role_id != roles.Institute && user?.role_id != roles.Admin) && (
                                             <button
                                                 onClick={() => handleJoinButton(item)}
                                                 className="flex items-center gap-2 rounded-lg bg-[#3ABEFF] px-4 py-2 text-sm text-white transition hover:bg-[#3ABEFF]/90"
