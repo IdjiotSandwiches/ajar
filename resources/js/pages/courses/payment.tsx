@@ -202,11 +202,11 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
 
                                 <p className="mt-3 text-center text-xs text-gray-400">Payment will be processed via secure third-party gateway</p>
                             </div>
-                            {isDev && (
+                            {/* {isDev && (
+                            )} */}
                                 <div className="mt-4">
                                     <InputSwitch label="Bypass Payment" checked={bypass} onChange={setBypass} />
                                 </div>
-                            )}
                         </div>
                     </div>
                 </div>
