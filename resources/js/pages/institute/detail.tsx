@@ -120,7 +120,7 @@ export default function InstituteDetailPage({ institute, courses, teachers, appl
                     <div className="mt-10">
                         <h3 className="mb-4 text-xl font-semibold">Teachers</h3>
                         {teachers.length > 0 ? (
-                            <div className="flex cursor-pointer flex-wrap justify-center gap-8 md:justify-start">
+                            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-8 justify-items-center md:justify-items-start">
                                 {teachers.map((item: any, idx: number) => {
                                     const teacher = item?.teacher;
                                     return (

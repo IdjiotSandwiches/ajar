@@ -14,31 +14,31 @@ class InstituteSeeder extends Seeder
     {
         $institutes = [
             [
-                'user_id' => 7,
+                'user_id' => 25,
                 'website' => 'https://technova-academy.com',
                 'description' => 'Premier academy for emerging technologies and AI innovation.',
                 'category_id' => 1
             ],
             [
-                'user_id' => 8,
+                'user_id' => 26,
                 'website' => 'https://cybershield-labs.io',
                 'description' => 'Advanced training center for network defense and ethical hacking.',
                 'category_id' => 1
             ],
             [
-                'user_id' => 9,
+                'user_id' => 27,
                 'website' => 'https://creativepixel.studio',
                 'description' => 'A creative hub for digital artists, illustrators, and designers.',
                 'category_id' => 2
             ],
             [
-                'user_id' => 10,
+                'user_id' => 28,
                 'website' => 'https://datastream-edu.com',
                 'description' => 'Specialized institute for Cloud Computing and Big Data Analytics.',
                 'category_id' => 1
             ],
             [
-                'user_id' => 11,
+                'user_id' => 29,
                 'website' => 'https://codemaster-bootcamp.dev',
                 'description' => 'Intensive coding bootcamps to launch your tech career.',
                 'category_id' => 1

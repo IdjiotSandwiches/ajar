@@ -194,6 +194,7 @@ class CourseSkillSeeder extends Seeder
         ];
 
         foreach ($courseSkills as $courseSkill) {
+            $courseSkill['course_id'] += 5;
             CourseSkill::firstOrCreate($courseSkill);
         }
     }

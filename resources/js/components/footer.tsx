@@ -44,9 +44,9 @@ const Footer = () => {
                     <div>
                         <h2 className="text-3xl font-bold mb-4 cursor-pointer">Ajar</h2>
                         <p className="text-sm leading-relaxed mb-6 cursor-default">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Consectetur dolores ipsam eum ullam accusantium ad, quae
-                            quibusdam perspiciatis in quaerat quod enim similique?
+                            Ajar is an online learning platform that connects institutions,
+                            educators, and students through live classes and recorded
+                            sessions in technology and design.
                         </p>
 
                         <div className="flex space-x-6 text-white">

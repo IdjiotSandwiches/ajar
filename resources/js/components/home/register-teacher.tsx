@@ -13,8 +13,8 @@ export default function BecomeTeacherSection() {
                         </h2>
 
                         <p className="mb-6 max-w-4xl text-sm leading-relaxed text-gray-600 sm:mb-8 sm:text-base md:text-sm lg:text-base dark:text-white/80">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab nisi suscipit cupiditate ipsam dignissimos. Nam, neque. Animi
-                            doloremque veritatis delectus nostrum molestiae quam libero placeat accusantium rerum ratione! Repellat, nisi.
+                            Join Ajar as a teacher and share your expertise in technology or design through live, interactive classes.
+                            As part of our learning ecosystem, you can teach institution-curated courses, manage your teaching schedule, and engage directly with students who are eager to learn. Ajar supports your teaching journey by handling the platform, class management, and session recordings—allowing you to focus on delivering meaningful and impactful learning experiences.
                         </p>
 
                         <button
@@ -26,7 +26,11 @@ export default function BecomeTeacherSection() {
                     </div>
 
                     <div className="relative hidden w-full lg:block lg:w-1/3">
-                        <img src="/images/regis-teacher.jpg" alt="Apply as a Teacher" className="h-full w-full object-cover" />
+                        <img
+                            src="/images/regis-teacher.jpg"
+                            alt="Apply as a Teacher"
+                            className="h-full w-full object-cover"
+                        />
                         <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-white/70 via-white/40 to-transparent" />
                     </div>
                 </div>

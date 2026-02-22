@@ -236,6 +236,7 @@ class CourseStudentBenefitSeeder extends Seeder
         ];
 
         foreach ($courseStudentBenefits as $courseStudentBenefit) {
+            $courseStudentBenefit['course_id'] += 5;
             CourseStudentBenefit::firstOrCreate($courseStudentBenefit);
         }
     }

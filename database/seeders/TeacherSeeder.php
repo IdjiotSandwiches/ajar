@@ -14,27 +14,27 @@ class TeacherSeeder extends Seeder
     {
         $teachers = [
             [
-                'user_id' => 2,
+                'user_id' => 20,
                 'description' => 'Expert in Artificial Intelligence and Robotics.',
                 'is_verified' => null
             ],
             [
-                'user_id' => 3,
+                'user_id' => 21,
                 'description' => 'Senior Network Engineer with CCIE certification.',
                 'is_verified' => true
             ],
             [
-                'user_id' => 4,
+                'user_id' => 22,
                 'description' => 'Cybersecurity analyst specializing in ethical hacking.',
                 'is_verified' => null
             ],
             [
-                'user_id' => 5,
+                'user_id' => 23,
                 'description' => 'Cloud Solutions Architect (AWS & GCP).',
                 'is_verified' => true
             ],
             [
-                'user_id' => 6,
+                'user_id' => 24,
                 'description' => 'Data Scientist experienced in Big Data.',
                 'is_verified' => true
             ],

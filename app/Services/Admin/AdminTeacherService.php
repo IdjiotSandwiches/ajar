@@ -99,7 +99,7 @@ class AdminTeacherService
                 'id' => $item->user_id,
                 'name' => $item->user->name,
                 'profile_picture' => $item->user->profile_picture,
-                'created_at' => $item->user->created_at?->toDateTimeString()
+                'created_at' => $item->user->created_at
             ]);
 
         return $teachers;
