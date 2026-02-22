@@ -2,6 +2,7 @@
 
 namespace App\Services\Institute;
 
+use App\Utilities\Utility;
 use Carbon\Carbon;
 use App\Models\Skill;
 use App\Models\Course;
@@ -45,7 +46,7 @@ class InstituteCourseService
 
     public function getCourseById($id)
     {
-        $course = Course::with(['courseSkills.skill', 'courseLearningObjectives', 'courseStudentBenefits', 'courseTeacherBenefits', 'courseOverviews'])
+        $course = Course::with(['courseSkills.skill', 'courseLearningObjectives', 'courseStudentBenefits', 'courseTeacherBenefits', 'courseOverviews', 'courseSessions'])
             ->where('id', $id)
             ->first();
 
@@ -122,9 +123,17 @@ class InstituteCourseService
 
                 $ids = [];
                 foreach ($data[$key] as $item) {
+                    $attributes = [
+                        'description' => $item['description'] ?? null,
+                    ];
+
+                    if ($key === 'course_sessions') {
+                        $attributes['video_link'] = Utility::getYoutubeEmbedUrl($item['video_link'] ?? null);
+                    }
+
                     $model = $course->$relationMethod()->updateOrCreate(
                         ['id' => $item['id'] ?? null],
-                        ['description' => $item['description']]
+                        $attributes
                     );
                     $ids[] = $model->id;
                 }
@@ -167,7 +176,9 @@ class InstituteCourseService
         $courses = CourseSchedule::with(['course', 'teacher.user'])
             ->whereHas('course', fn($q) => $q->where('institute_id', $user->id)
                 ->when(!empty($filters['search']), fn($query) => $query->where('name', 'like', "%{$filters['search']}%")))
-            ->when(!empty($filters['status']), fn($q) => $q
+            ->when(
+                !empty($filters['status']),
+                fn($q) => $q
                     ->when(
                         $filters['status'] !== 'rejected' && $filters['status'] !== CourseStatusEnum::Completed->value,
                         fn($q) => $q->where('status', $filters['status'])

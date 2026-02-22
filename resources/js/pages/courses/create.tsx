@@ -1,6 +1,7 @@
 import DetailImage from '@/components/detail-image';
 import DetailInput from '@/components/detail-input';
 import DetailSelect from '@/components/detail-select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import LMSLayout from '@/layouts/lms-layout';
 import { Form, router } from '@inertiajs/react';
 import { CirclePlus, Trash2 } from 'lucide-react';
@@ -40,6 +41,16 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
     };
 
     const [image, setImage] = useState(course?.image);
+    const [sessions, setSessions] = useState(
+        (course?.course_sessions?.length
+            ? course.course_sessions
+            : [{ id: null, description: '', video_link: '', timestamp: crypto.randomUUID() }]
+        ).map((obj: any) => ({
+            ...obj,
+            timestamp: crypto.randomUUID(),
+        })),
+    );
+
     const [learningObjectives, setLearningObjectives] = useState(
         (course?.course_learning_objectives?.length
             ? course.course_learning_objectives
@@ -85,6 +96,14 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
             timestamp: crypto.randomUUID(),
         })),
     );
+
+    const handleAddSession = () => {
+        setSessions((prev: any) => [...prev, { id: null, description: '', timestamp: crypto.randomUUID() }]);
+    };
+
+    const handleRemoveSession = (timestamp: string) => {
+        setSessions((prev: any[]) => prev.filter((obj) => obj.timestamp !== timestamp));
+    };
 
     const handleAddLearnObj = () => {
         setLearningObjectives((prev: any) => [...prev, { id: null, description: '', timestamp: crypto.randomUUID() }]);
@@ -135,24 +154,145 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
     return (
         <>
             <div className="flex min-h-screen flex-col gap-6">
-                {/* <h1 className="hidden md:flex text-2xl font-semibold text-gray-800">{course ? "Course Edit" : "Course Create"}</h1> */}
-                <div className="rounded-xl border p-6 shadow-sm dark:border-white/20 dark:shadow-white/20">
-                    <Form
-                        action={route('institute.post-course', course?.id)}
-                        method="post"
-                        encType="multipart/form-data"
-                        className="flex flex-col gap-4"
-                    >
-                        <div className="mb-2 items-center gap-2">
-                            <DetailInput type="text" name="name" id="name" title="Name" value={course?.name} />
-                            {errors.name && <p className="text-red-500">{errors.name}</p>}
-                        </div>
-                        <div>
-                            <DetailInput type="textarea" name="description" id="description" title="Description" value={course?.description} />
-                            {errors.description && <p className="text-red-500">{errors.description}</p>}
-                        </div>
-                        <div>
-                            <h3 className="mb-3 text-sm font-medium text-gray-800">Learning Objectives</h3>
+                <Form action={route('institute.post-course', course?.id)} method="post" encType="multipart/form-data" className="flex flex-col gap-4">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Course Information</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-4">
+                            <div>
+                                <DetailInput type="text" name="name" id="name" title="Name" value={course?.name} />
+                                {errors.name && <p className="text-red-500">{errors.name}</p>}
+                            </div>
+                            <div>
+                                <DetailInput type="textarea" name="description" id="description" title="Description" value={course?.description} />
+                                {errors.description && <p className="text-red-500">{errors.description}</p>}
+                            </div>
+                            <div>
+                                <DetailSelect
+                                    id={`category`}
+                                    name={`category`}
+                                    options={categorySelect}
+                                    title={`Category`}
+                                    value={String(category)}
+                                    onChange={(val) => handleCategoryChange(val)}
+                                />
+                                {errors[`category`] && <p className="text-red-500">{errors[`category`]}</p>}
+                            </div>
+                            <div>
+                                <DetailImage
+                                    name="course_images"
+                                    images={image ? [image] : []}
+                                    onChange={handleImageChange}
+                                    index={0}
+                                    multiple={false}
+                                    ref={false}
+                                />
+                                {errors[`course_images`] && <p className="text-red-500">{errors[`course_images`]}</p>}
+                            </div>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Course Details</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-4">
+                            <div>
+                                <DetailInput
+                                    type="number"
+                                    min={0}
+                                    title="Duration (Minutes)"
+                                    name="duration"
+                                    id="duration"
+                                    value={course?.duration}
+                                />
+                                {errors[`duration`] && <p className="text-red-500">{errors[`duration`]}</p>}
+                            </div>
+                            <div>
+                                <DetailInput type="number" min={0} title="Price for Student (Rp)" name="price" id="price" value={course?.price} />
+                                {errors[`price`] && <p className="text-red-500">{errors[`price`]}</p>}
+                            </div>
+                            <div>
+                                <DetailInput type="number" min={0} title="Discount (%)" name="discount" id="discount" value={course?.discount} />
+                                {errors[`discount`] && <p className="text-red-500">{errors[`discount`]}</p>}
+                            </div>
+                            <div>
+                                <DetailInput
+                                    type="number"
+                                    min={0}
+                                    title="Teacher Salary (/Session)"
+                                    name="teacher_salary"
+                                    id="teacher_salary"
+                                    value={course?.teacher_salary}
+                                />
+                                {errors[`teacher_salary`] && <p className="text-red-500">{errors[`teacher_salary`]}</p>}
+                            </div>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Course Sessions</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-4">
+                            {sessions.map((row: any, index: number) => {
+                                const isLast = index === (sessions?.length ?? 1) - 1;
+                                const isSingle = (sessions?.length ?? 0) === 1;
+
+                                return (
+                                    <div key={row.timestamp} className="relative flex items-center gap-4">
+                                        <div className={`flex-1 gap-4 ${!isLast ? 'mb-4' : ''}`}>
+                                            <DetailInput
+                                                type="textarea"
+                                                name={`course_sessions[${index}].description`}
+                                                id={`course_sessions[${index}].description`}
+                                                title={`Session Description ${index + 1}`}
+                                                value={row?.description}
+                                            />
+                                            {errors[`course_sessions.${index}.description`] && (
+                                                <p className="text-red-500">{errors[`course_sessions.${index}.description`]}</p>
+                                            )}
+                                        </div>
+                                        <div className={`flex-1 gap-4 ${!isLast ? 'mb-4' : ''}`}>
+                                            <DetailInput
+                                                type="textarea"
+                                                name={`course_sessions[${index}].video_link`}
+                                                id={`course_sessions[${index}].video_link`}
+                                                title={`Video Link ${index + 1}`}
+                                                value={row?.video_link}
+                                            />
+                                            {errors[`course_sessions.${index}.video_link`] && (
+                                                <p className="text-red-500">{errors[`course_sessions.${index}.video_link`]}</p>
+                                            )}
+                                        </div>
+                                        <div className="flex items-center">
+                                            {isLast || isSingle ? (
+                                                <button
+                                                    type="button"
+                                                    onClick={handleAddSession}
+                                                    className="rounded-full p-2 text-gray-500 hover:text-[#3ABEFF]"
+                                                >
+                                                    <CirclePlus size={18} />
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveSession(row.timestamp)}
+                                                    className="rounded-full p-2 text-gray-500 hover:text-red-500"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Course Learning Objectives</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-4">
                             {learningObjectives.map((row: any, index: number) => {
                                 const isLast = index === (learningObjectives?.length ?? 1) - 1;
                                 const isSingle = (learningObjectives?.length ?? 0) === 1;
@@ -193,95 +333,13 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                                     </div>
                                 );
                             })}
-                        </div>
-                        <div>
-                            <h3 className="mb-3 text-sm font-medium text-gray-800">Benefit for Students</h3>
-                            {studentBenefits.map((row: any, index: number) => {
-                                const isLast = index === (studentBenefits?.length ?? 1) - 1;
-                                const isSingle = (studentBenefits?.length ?? 0) === 1;
-
-                                return (
-                                    <div key={row.timestamp} className="relative flex items-center gap-4">
-                                        <div className={`flex-1 gap-4 ${!isLast ? 'mb-4' : ''}`}>
-                                            <DetailInput
-                                                type="textarea"
-                                                name={`benefit_for_students[${index}].description`}
-                                                id={`benefit_for_students[${index}].description`}
-                                                title={`Benefit for Student ${index + 1}`}
-                                                value={row?.description}
-                                            />
-                                            {errors[`benefit_for_students.${index}.description`] && (
-                                                <p className="text-red-500">{errors[`benefit_for_students.${index}.description`]}</p>
-                                            )}
-                                        </div>
-                                        <div className="flex items-center">
-                                            {isLast || isSingle ? (
-                                                <button
-                                                    type="button"
-                                                    onClick={handleAddStudentBenefit}
-                                                    className="rounded-full p-2 text-gray-500 hover:text-[#3ABEFF]"
-                                                >
-                                                    <CirclePlus size={18} />
-                                                </button>
-                                            ) : (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleRemoveStudentBenefit(row.timestamp)}
-                                                    className="rounded-full p-2 text-gray-500 hover:text-red-500"
-                                                >
-                                                    <Trash2 size={18} />
-                                                </button>
-                                            )}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        <div>
-                            <h3 className="mb-3 text-sm font-medium text-gray-800">Benefit for Teachers</h3>
-                            {teacherBenefits.map((row: any, index: number) => {
-                                const isLast = index === (teacherBenefits?.length ?? 1) - 1;
-                                const isSingle = (teacherBenefits?.length ?? 0) === 1;
-
-                                return (
-                                    <div key={row.timestamp} className="relative flex items-center gap-4">
-                                        <div className={`flex-1 gap-4 ${!isLast ? 'mb-4' : ''}`}>
-                                            <DetailInput
-                                                type="textarea"
-                                                name={`benefit_for_teachers[${index}].description`}
-                                                id={`benefit_for_teachers[${index}].description`}
-                                                title={`Benefit for Teacher ${index + 1}`}
-                                                value={row?.description}
-                                            />
-                                            {errors[`benefit_for_teachers.${index}.description`] && (
-                                                <p className="text-red-500">{errors[`benefit_for_teachers.${index}.description`]}</p>
-                                            )}
-                                        </div>
-                                        <div className="flex items-center">
-                                            {isLast || isSingle ? (
-                                                <button
-                                                    type="button"
-                                                    onClick={handleAddTeacherBenefit}
-                                                    className="rounded-full p-2 text-gray-500 hover:text-[#3ABEFF]"
-                                                >
-                                                    <CirclePlus size={18} />
-                                                </button>
-                                            ) : (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleRemoveTeacherBenefit(row.timestamp)}
-                                                    className="rounded-full p-2 text-gray-500 hover:text-red-500"
-                                                >
-                                                    <Trash2 size={18} />
-                                                </button>
-                                            )}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        <div>
-                            <h3 className="mb-3 text-sm font-medium text-gray-800">Course Overviews</h3>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Course Overviews</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-4">
                             {courseOverviews.map((row: any, index: number) => {
                                 const isLast = index === (courseOverviews?.length ?? 1) - 1;
                                 const isSingle = (courseOverviews?.length ?? 0) === 1;
@@ -322,9 +380,13 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                                     </div>
                                 );
                             })}
-                        </div>
-                        <div>
-                            <h3 className="mb-3 text-sm font-medium text-gray-800 dark:text-white">Course Skills</h3>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Course Skills</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-4">
                             {courseSkills.map((row: any, index: number) => {
                                 const isLast = index === (courseSkills?.length ?? 1) - 1;
                                 const isSingle = (courseSkills?.length ?? 0) === 1;
@@ -379,60 +441,118 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
                                     </div>
                                 );
                             })}
-                        </div>
-                        <DetailSelect
-                            id={`category`}
-                            name={`category`}
-                            options={categorySelect}
-                            title={`Category`}
-                            value={String(category)}
-                            onChange={(val) => handleCategoryChange(val)}
-                        />
-                        {errors[`category`] && <p className="text-red-500">{errors[`category`]}</p>}
-                        <DetailInput type="number" min={0} title="Duration (Minutes)" name="duration" id="duration" value={course?.duration} />
-                        {errors[`duration`] && <p className="text-red-500">{errors[`duration`]}</p>}
-                        <DetailInput type="number" min={0} title="Price for Student (Rp)" name="price" id="price" value={course?.price} />
-                        {errors[`price`] && <p className="text-red-500">{errors[`price`]}</p>}
-                        <DetailInput type="number" min={0} title="Discount (%)" name="discount" id="discount" value={course?.discount} />
-                        {errors[`discount`] && <p className="text-red-500">{errors[`discount`]}</p>}
-                        <DetailInput
-                            type="number"
-                            min={0}
-                            title="Teacher Salary (/Session)"
-                            name="teacher_salary"
-                            id="teacher_salary"
-                            value={course?.teacher_salary}
-                        />
-                        {errors[`teacher_salary`] && <p className="text-red-500">{errors[`teacher_salary`]}</p>}
-                        <div>
-                            <h3 className="mb-3 text-sm font-medium text-gray-800">Course Image</h3>
-                            <DetailImage
-                                name="course_images"
-                                images={image ? [image] : []}
-                                onChange={handleImageChange}
-                                index={0}
-                                multiple={false}
-                                ref={false}
-                            />
-                            {errors[`course_images`] && <p className="text-red-500">{errors[`course_images`]}</p>}
-                        </div>
-                        <div className="flex justify-end gap-2">
-                            <button
-                                type="button"
-                                onClick={handleBack}
-                                className="rounded-lg bg-black/80 px-6 py-2 font-semibold text-white transition-all hover:bg-black/70 dark:bg-gray-700 dark:hover:bg-gray-600"
-                            >
-                                Back
-                            </button>
-                            <button
-                                type="submit"
-                                className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white transition-all hover:bg-[#3ABEFF]/90"
-                            >
-                                Submit
-                            </button>
-                        </div>
-                    </Form>
-                </div>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Benefit for Students</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-4">
+                            {studentBenefits.map((row: any, index: number) => {
+                                    const isLast = index === (studentBenefits?.length ?? 1) - 1;
+                                    const isSingle = (studentBenefits?.length ?? 0) === 1;
+
+                                    return (
+                                        <div key={row.timestamp} className="relative flex items-center gap-4">
+                                            <div className={`flex-1 gap-4 ${!isLast ? 'mb-4' : ''}`}>
+                                                <DetailInput
+                                                    type="textarea"
+                                                    name={`benefit_for_students[${index}].description`}
+                                                    id={`benefit_for_students[${index}].description`}
+                                                    title={`Benefit for Student ${index + 1}`}
+                                                    value={row?.description}
+                                                />
+                                                {errors[`benefit_for_students.${index}.description`] && (
+                                                    <p className="text-red-500">{errors[`benefit_for_students.${index}.description`]}</p>
+                                                )}
+                                            </div>
+                                            <div className="flex items-center">
+                                                {isLast || isSingle ? (
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleAddStudentBenefit}
+                                                        className="rounded-full p-2 text-gray-500 hover:text-[#3ABEFF]"
+                                                    >
+                                                        <CirclePlus size={18} />
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleRemoveStudentBenefit(row.timestamp)}
+                                                        className="rounded-full p-2 text-gray-500 hover:text-red-500"
+                                                    >
+                                                        <Trash2 size={18} />
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Benefit for Teachers</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-4">
+                            {teacherBenefits.map((row: any, index: number) => {
+                                    const isLast = index === (teacherBenefits?.length ?? 1) - 1;
+                                    const isSingle = (teacherBenefits?.length ?? 0) === 1;
+
+                                    return (
+                                        <div key={row.timestamp} className="relative flex items-center gap-4">
+                                            <div className={`flex-1 gap-4 ${!isLast ? 'mb-4' : ''}`}>
+                                                <DetailInput
+                                                    type="textarea"
+                                                    name={`benefit_for_teachers[${index}].description`}
+                                                    id={`benefit_for_teachers[${index}].description`}
+                                                    title={`Benefit for Teacher ${index + 1}`}
+                                                    value={row?.description}
+                                                />
+                                                {errors[`benefit_for_teachers.${index}.description`] && (
+                                                    <p className="text-red-500">{errors[`benefit_for_teachers.${index}.description`]}</p>
+                                                )}
+                                            </div>
+                                            <div className="flex items-center">
+                                                {isLast || isSingle ? (
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleAddTeacherBenefit}
+                                                        className="rounded-full p-2 text-gray-500 hover:text-[#3ABEFF]"
+                                                    >
+                                                        <CirclePlus size={18} />
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleRemoveTeacherBenefit(row.timestamp)}
+                                                        className="rounded-full p-2 text-gray-500 hover:text-red-500"
+                                                    >
+                                                        <Trash2 size={18} />
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                        </CardContent>
+                    </Card>
+                    <div className="flex justify-end gap-2">
+                        <button
+                            type="button"
+                            onClick={handleBack}
+                            className="rounded-lg bg-black/80 px-6 py-2 font-semibold text-white transition-all hover:bg-black/70 dark:bg-gray-700 dark:hover:bg-gray-600"
+                        >
+                            Back
+                        </button>
+                        <button
+                            type="submit"
+                            className="rounded-lg bg-[#3ABEFF] px-6 py-2 font-semibold text-white transition-all hover:bg-[#3ABEFF]/90"
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </Form>
             </div>
         </>
     );

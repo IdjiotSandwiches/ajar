@@ -19,7 +19,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 3,
-                'institute_id' => 25,
+                'institute_id' => 7,
             ],
             [
                 'name' => 'Machine Learning Basics',
@@ -30,7 +30,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 3,
-                'institute_id' => 25,
+                'institute_id' => 7,
             ],
             [
                 'name' => 'Deep Learning Introduction',
@@ -41,7 +41,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 3,
-                'institute_id' => 25,
+                'institute_id' => 7,
             ],
             [
                 'name' => 'AI in Business',
@@ -52,7 +52,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 3,
-                'institute_id' => 25,
+                'institute_id' => 7,
             ],
             [
                 'name' => 'ChatGPT Prompt Engineering',
@@ -63,7 +63,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 3,
-                'institute_id' => 25,
+                'institute_id' => 7,
             ],
             [
                 'name' => 'Networking Fundamentals',
@@ -74,7 +74,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 4,
-                'institute_id' => 26,
+                'institute_id' => 8,
             ],
             [
                 'name' => 'Cisco CCNA Prep',
@@ -85,7 +85,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 4,
-                'institute_id' => 26,
+                'institute_id' => 8,
             ],
             [
                 'name' => 'Network Security Basics',
@@ -96,7 +96,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 4,
-                'institute_id' => 26,
+                'institute_id' => 8,
             ],
             [
                 'name' => 'Wireless Networking',
@@ -107,7 +107,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 4,
-                'institute_id' => 26,
+                'institute_id' => 8,
             ],
             [
                 'name' => 'Network Troubleshooting',
@@ -118,7 +118,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 4,
-                'institute_id' => 26,
+                'institute_id' => 8,
             ],
             [
                 'name' => 'Cybersecurity Essentials',
@@ -129,7 +129,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 5,
-                'institute_id' => 26,
+                'institute_id' => 8,
             ],
             [
                 'name' => 'Ethical Hacking Introduction',
@@ -140,7 +140,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 5,
-                'institute_id' => 26,
+                'institute_id' => 8,
             ],
             [
                 'name' => 'Digital Forensics Basics',
@@ -151,7 +151,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 5,
-                'institute_id' => 26,
+                'institute_id' => 8,
             ],
             [
                 'name' => 'Cloud Security Fundamentals',
@@ -162,7 +162,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 5,
-                'institute_id' => 26,
+                'institute_id' => 8,
             ],
             [
                 'name' => 'Threat Intelligence Basics',
@@ -173,7 +173,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 5,
-                'institute_id' => 26,
+                'institute_id' => 8,
             ],
             [
                 'name' => 'Cloud Computing Fundamentals',
@@ -184,7 +184,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 6,
-                'institute_id' => 27,
+                'institute_id' => 10,
             ],
             [
                 'name' => 'AWS Solutions Architect Prep',
@@ -195,7 +195,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 6,
-                'institute_id' => 27,
+                'institute_id' => 10,
             ],
             [
                 'name' => 'Google Cloud Essentials',
@@ -206,7 +206,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 6,
-                'institute_id' => 27,
+                'institute_id' => 10,
             ],
             [
                 'name' => 'DevOps with Kubernetes',
@@ -217,7 +217,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 6,
-                'institute_id' => 27,
+                'institute_id' => 10,
             ],
             [
                 'name' => 'Cloud Automation with Terraform',
@@ -228,7 +228,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 6,
-                'institute_id' => 27,
+                'institute_id' => 10,
             ],
             [
                 'name' => 'Data Science for Beginners',
@@ -239,7 +239,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 7,
-                'institute_id' => 27,
+                'institute_id' => 10,
             ],
             [
                 'name' => 'Statistics for Data Science',
@@ -250,7 +250,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 7,
-                'institute_id' => 27,
+                'institute_id' => 10,
             ],
             [
                 'name' => 'Data Visualization with Tableau',
@@ -261,7 +261,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 7,
-                'institute_id' => 27,
+                'institute_id' => 10,
             ],
             [
                 'name' => 'Python for Data Analysis',
@@ -272,7 +272,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 7,
-                'institute_id' => 27,
+                'institute_id' => 10,
             ],
             [
                 'name' => 'Machine Learning Intermediate',
@@ -283,7 +283,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 7,
-                'institute_id' => 27,
+                'institute_id' => 10,
             ],
             [
                 'name' => 'HTML & CSS Basics',
@@ -294,7 +294,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 8,
-                'institute_id' => 28,
+                'institute_id' => 11,
             ],
             [
                 'name' => 'JavaScript Essentials',
@@ -305,7 +305,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 8,
-                'institute_id' => 28,
+                'institute_id' => 11,
             ],
             [
                 'name' => 'Frontend Developer Bootcamp',
@@ -316,7 +316,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 8,
-                'institute_id' => 28,
+                'institute_id' => 11,
             ],
             [
                 'name' => 'Backend with Laravel',
@@ -327,7 +327,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 8,
-                'institute_id' => 28,
+                'institute_id' => 11,
             ],
             [
                 'name' => 'Fullstack Developer Program',
@@ -338,7 +338,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 8,
-                'institute_id' => 28,
+                'institute_id' => 11,
             ],
             [
                 'name' => 'Photoshop for Beginners',
@@ -349,7 +349,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 9,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Photo Manipulation Basics',
@@ -360,7 +360,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 9,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Poster Design with Photoshop',
@@ -371,7 +371,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 9,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Advanced Photo Editing',
@@ -382,7 +382,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 9,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Digital Painting in Photoshop',
@@ -393,7 +393,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 9,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Adobe Illustrator Basics',
@@ -404,7 +404,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 10,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Logo Design in Illustrator',
@@ -415,7 +415,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 10,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Illustration Techniques',
@@ -426,7 +426,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 10,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Poster Vector Art',
@@ -437,7 +437,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 10,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Advanced Illustrator Techniques',
@@ -448,7 +448,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 10,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Blender 3D Basics',
@@ -459,7 +459,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 11,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => '3D Animation in Blender',
@@ -470,7 +470,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 11,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Blender Sculpting Essentials',
@@ -481,7 +481,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 11,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Blender VFX Basics',
@@ -492,7 +492,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 11,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Game Asset Creation',
@@ -503,7 +503,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 11,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Color Theory Basics',
@@ -514,7 +514,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 12,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Color Grading for Photos',
@@ -525,7 +525,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 12,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Color Composition in Art',
@@ -536,7 +536,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 12,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Color for Branding',
@@ -547,7 +547,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 12,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Advanced Color Psychology',
@@ -558,7 +558,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 12,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Figma for Beginners',
@@ -569,7 +569,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 13,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Prototyping with Figma',
@@ -580,7 +580,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 13,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Design Systems in Figma',
@@ -591,7 +591,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 13,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Figma for Mobile Apps',
@@ -602,7 +602,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 13,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
             [
                 'name' => 'Advanced Figma Techniques',
@@ -613,7 +613,7 @@ class CourseSeeder extends Seeder
                 'discount' => 0,
                 'teacher_salary' => 10000,
                 'category_id' => 13,
-                'institute_id' => 29,
+                'institute_id' => 9,
             ],
         ];
 

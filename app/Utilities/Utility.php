@@ -55,4 +55,31 @@ class Utility
 
         return $categories;
     }
+
+    public static function getYoutubeEmbedUrl(?string $url): ?string
+    {
+        if (!$url) {
+            return null;
+        }
+
+        $host = parse_url($url, PHP_URL_HOST);
+        $isYoutube = str_contains($host, 'youtube.com') || str_contains($host, 'youtu.be');
+
+        if (!$isYoutube) {
+            return $url;
+        }
+
+        if (str_contains($host, 'youtu.be')) {
+            $id = trim(parse_url($url, PHP_URL_PATH), '/');
+        } else {
+            parse_str(parse_url($url, PHP_URL_QUERY), $query);
+            $id = $query['v'] ?? null;
+        }
+
+        if (!$id) {
+            return null;
+        }
+
+        return "https://www.youtube.com/embed/" . $id;
+    }
 }
