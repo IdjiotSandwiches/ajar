@@ -50,11 +50,14 @@ Route::middleware(['auth', 'verified', 'block.unverified.teacher'])
             Route::controller(StudentController::class)->group(function () {
                 Route::get('profile', 'getProfile')->name('profile');
                 Route::put('profile', 'putProfile')->name('update-profile');
+                Route::get('my-courses', 'getMyCourses')->name('my-courses');
+                Route::get('my-courses/{id}', 'getMyCourse')->name('my-course');
             });
             Route::controller(PaymentController::class)->group(function () {
                 Route::get('payment-register', 'getEnrollment')->name('payment-register');
                 Route::get('payment-register/{id}', 'getPendingEnrollment')->name('pending-payment');
-                Route::post('payment-register/{id}/{bypass?}', 'createPayment')->name('pay');
+                Route::post('payment-register/{id}', 'createPayment')->name('pay');
+                Route::post('buy-course/{id}', 'buyCourse')->name('buy');
             });
         });
         Route::middleware(['role:Admin'])

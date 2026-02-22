@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\CourseStudentBenefit;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CourseStudentBenefitSeeder extends Seeder
@@ -236,7 +235,7 @@ class CourseStudentBenefitSeeder extends Seeder
         ];
 
         foreach ($courseStudentBenefits as $courseStudentBenefit) {
-            $courseStudentBenefit['course_id'] += 5;
+            // $courseStudentBenefit['course_id'] += 5;
             CourseStudentBenefit::firstOrCreate($courseStudentBenefit);
         }
     }

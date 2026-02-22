@@ -232,7 +232,7 @@ class CourseLearningObjectiveSeeder extends Seeder
         ];
 
         foreach ($objectives as $obj) {
-            $obj['course_id'] += 5;
+            // $obj['course_id'] += 5;
             CourseLearningObjective::create($obj);
         }
     }

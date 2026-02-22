@@ -12,21 +12,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            // RoleSeeder::class,
-            // CategorySeeder::class,
-            // DegreeTypeSeeder::class,
-            // SkillSeeder::class,
-            // SocialMediaTypeSeeder::class,
-            // UserSeeder::class,
-            // TeacherSeeder::class,
-            // InstituteSeeder::class,
-            // CourseSeeder::class,
-            // CourseLearningObjectiveSeeder::class,
-            // CourseOverviewSeeder::class,
-            // CourseSkillSeeder::class,
-            // CourseStudentBenefitSeeder::class,
-            // CourseTeacherBenefitSeeder::class,
-            // CourseScheduleSeeder::class,
+            RoleSeeder::class,
+            CategorySeeder::class,
+            DegreeTypeSeeder::class,
+            SkillSeeder::class,
+            SocialMediaTypeSeeder::class,
+            UserSeeder::class,
+            TeacherSeeder::class,
+            InstituteSeeder::class,
+            CourseSeeder::class,
+            CourseLearningObjectiveSeeder::class,
+            CourseOverviewSeeder::class,
+            CourseSkillSeeder::class,
+            CourseStudentBenefitSeeder::class,
+            CourseTeacherBenefitSeeder::class,
+            CourseScheduleSeeder::class,
         ]);
     }
 }

@@ -523,7 +523,7 @@ class CourseOverviewSeeder extends Seeder
         foreach ($courseOverviews as $courseId => $descriptions) {
             foreach ($descriptions as $description) {
                 CourseOverview::firstOrCreate([
-                    'course_id'   => $courseId + 5,
+                    'course_id'   => $courseId,
                     'description' => $description,
                 ]);
             }

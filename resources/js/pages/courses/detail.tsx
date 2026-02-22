@@ -2,6 +2,7 @@ import CourseHero from '@/components/course/hero-section';
 import ReviewSection from '@/components/course/review';
 import CourseSidebar from '@/components/course/sidebar';
 import PopularCourses from '@/components/home/popular-courses';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
@@ -61,7 +62,7 @@ export default function CourseDetailPage({ course }: any) {
             <Head title={course?.name || 'Not Found'} />
             <div className="min-h-screen">
                 <CourseHero course={course} />
-                <div className="relative z-20 mb-8 flex justify-center px-3 -mt-6">
+                <div className="relative z-20 -mt-6 mb-8 flex justify-center px-3">
                     <div className="scrollbar-hide flex max-w-full gap-4 overflow-x-auto rounded-full border bg-white px-6 py-1 shadow-sm dark:bg-[#222831] dark:shadow-[#ffffff]/20">
                         {[
                             { id: 'syllabus', label: 'Syllabus', ref: syllabusRef },
@@ -71,20 +72,21 @@ export default function CourseDetailPage({ course }: any) {
                             <button
                                 key={tab.id}
                                 onClick={() => handleScrollTo(tab.ref, tab.id)}
-                                className={`rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all md:px-5 md:py-2 md:text-sm ${activeTab === tab.id
-                                    ? 'bg-[#3ABEFF] text-white'
-                                    : 'text-gray-600 hover:bg-gray-100 dark:text-white/60 dark:hover:bg-white/20'
-                                    }`}
+                                className={`rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all md:px-5 md:py-2 md:text-sm ${
+                                    activeTab === tab.id
+                                        ? 'bg-[#3ABEFF] text-white'
+                                        : 'text-gray-600 hover:bg-gray-100 dark:text-white/60 dark:hover:bg-white/20'
+                                }`}
                             >
                                 {tab.label}
                             </button>
                         ))}
                     </div>
                 </div>
-                <div className="mt-4 block px-4 sm:px-6 lg:px-12 lg:hidden">
+                <div className="mt-4 block px-4 sm:px-6 lg:hidden lg:px-12">
                     <CourseSidebar institute={course.institute} teacher={course.teachers} />
                 </div>
-                <div className="mx-auto mt-10 lg:mt-0 grid grid-cols-1 gap-10 px-4 sm:px-6 lg:px-12 lg:grid-cols-6 2xl:grid-cols-8">
+                <div className="mx-auto mt-10 grid grid-cols-1 gap-10 px-4 sm:px-6 lg:mt-0 lg:grid-cols-6 lg:px-12 2xl:grid-cols-8">
                     <div className="space-y-10 lg:col-span-4 2xl:col-span-6">
                         <section>
                             <h4 ref={syllabusRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
@@ -102,6 +104,23 @@ export default function CourseDetailPage({ course }: any) {
                             </ul>
                         </section>
                         <section>
+                            <h4 className="mb-2 text-xs font-medium text-[#3ABEFF]">Materials</h4>
+                            <h2 className="mb-4 text-lg font-semibold text-gray-800 dark:text-white">You will learn</h2>
+                            <div className="flex flex-col gap-2">
+                                {course.sessions?.map((item: any, index: number) => {
+                                    return (
+                                        <Card key={index} className="py-3">
+                                            <CardHeader>
+                                                <CardTitle>
+                                                    Session {index + 1} : <span className="font-normal">{item.description}</span>
+                                                </CardTitle>
+                                            </CardHeader>
+                                        </Card>
+                                    );
+                                })}
+                            </div>
+                        </section>
+                        <section>
                             <h4 ref={infoRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
                                 Course Information
                             </h4>
@@ -111,7 +130,7 @@ export default function CourseDetailPage({ course }: any) {
                             </ul>
                         </section>
                     </div>
-                    <div className="hidden lg:inline lg:col-span-2 2xl:col-span-2">
+                    <div className="hidden lg:col-span-2 lg:inline 2xl:col-span-2">
                         <CourseSidebar institute={course.institute} teacher={course.teachers} />
                     </div>
                 </div>
@@ -120,9 +139,7 @@ export default function CourseDetailPage({ course }: any) {
                         <h4 ref={testimonialRef} className="mb-2 text-xs font-medium text-[#3ABEFF]">
                             Testimonial
                         </h4>
-                        <h2 className="mb-8 text-base font-semibold sm:text-lg md:text-xl">
-                            Reviews
-                        </h2>
+                        <h2 className="mb-8 text-base font-semibold sm:text-lg md:text-xl">Reviews</h2>
                         <ReviewSection reviews={course.reviews} />
                     </section>
                 </div>

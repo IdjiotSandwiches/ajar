@@ -32,4 +32,20 @@ class StudentController extends Controller
             return back()->with('error', 'Failed to update profile.');
         }
     }
+
+    public function getMyCourses()
+    {
+        $courses = $this->service->getMyCourses();
+        return Inertia::render('student/my-course', [
+            'myCourses' => $courses
+        ]);
+    }
+
+    public function getMyCourse($id)
+    {
+        $course = $this->service->getMyCourse($id);
+        return Inertia::render('student/course-session', [
+            'course' => $course
+        ]);
+    }
 }

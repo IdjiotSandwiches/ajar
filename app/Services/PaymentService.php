@@ -2,14 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\MyCourse;
 use Carbon\Carbon;
 use Midtrans\Snap;
 use Midtrans\Config;
 use App\Enums\RoleEnum;
 use App\Enums\CourseStatusEnum;
 use App\Enums\PaymentStatusEnum;
-use App\Enums\MidtransTransactionEnum;
-use App\Models\Course;
 use App\Models\Earning;
 use App\Models\Payment;
 use App\Models\CourseSchedule;
@@ -32,17 +31,22 @@ class PaymentService
 
     public function getCourseDetail($id)
     {
-        $course = Course::query()
-            ->where('id', $id)
-            ->select('name', 'price', 'duration', 'discount')
-            ->selectRaw('price - (price * COALESCE(discount, 0) / 100) AS final_price')
+        $user = Auth::user();
+        $q = MyCourse::with('course')
+            ->where('user_id', $user->id)
+            ->where('course_id', $id)
             ->first();
+
+        $course = [
+            'name' => $q->course->name,
+            'teacher_salary' => $q->course->teacher_salary,
+            'duration' => $q->course->duration
+        ];
 
         $hasSchedules = CourseSchedule::query()
             ->where('course_id', $id)
             ->exists();
 
-        $course->discount = $course->discount * $course->price / 100;
         return $hasSchedules ? $course : null;
     }
 
@@ -91,7 +95,7 @@ class PaymentService
         return $schedules;
     }
 
-    public function payment($scheduleId, $bypass)
+    public function liveSession($scheduleId)
     {
         $user = Auth::user();
         $existingEnrollment = EnrolledCourse::where('course_schedule_id', $scheduleId)
@@ -105,7 +109,7 @@ class PaymentService
         }
 
         $snapToken = "";
-        DB::transaction(function () use ($scheduleId, $user, $bypass, &$snapToken) {
+        DB::transaction(function () use ($scheduleId, $user, &$snapToken) {
             $enrolled = EnrolledCourse::createOrFirst([
                 'course_schedule_id' => $scheduleId,
                 'student_id' => $user->id
@@ -131,46 +135,64 @@ class PaymentService
                 'expired_at' => $schedule->start_time->subMinutes(10)
             ]);
 
-            $params = [
-                'transaction_details' => [
-                    'order_id' => $payment->unique_id,
-                    'gross_amount' => $payment->amount,
-                ],
-                'customer_details' => [
-                    'first_name' => $user->name,
-                    'email' => $user->email,
-                    'phone' => $user->phone_number,
-                ],
-                "page_expiry" => [
-                    "duration" => 10,
-                    "unit" => "minutes"
-                ]
-            ];
+            $snapToken = $this->payment($user, $payment);
+            $payment->snap_token = $snapToken;
 
-
-            if (!$bypass) {
-                $snapToken = Snap::getSnapToken($params);
-                $payment->snap_token = $snapToken;
-            } else {
-                $this->completePayment([
-                    'order_id' => $payment->unique_id,
-                    'status_code' => 200,
-                    'gross_amount' => $payment->amount,
-                    'transaction_status' => MidtransTransactionEnum::Settlement->value,
-                    'signature_key' => hash(
-                        'sha512',
-                        $payment->unique_id
-                        . 200
-                        . $payment->amount
-                        . config('services.midtrans.server_key')
-                    )
-                ]);
-            }
+            // if (!$bypass) {
+            //     $snapToken = Snap::getSnapToken($params);
+            // } else {
+            //     $this->completePayment([
+            //         'order_id' => $payment->unique_id,
+            //         'status_code' => 200,
+            //         'gross_amount' => $payment->amount,
+            //         'transaction_status' => MidtransTransactionEnum::Settlement->value,
+            //         'signature_key' => hash(
+            //             'sha512',
+            //             $payment->unique_id
+            //             . 200
+            //             . $payment->amount
+            //             . config('services.midtrans.server_key')
+            //         )
+            //     ]);
+            // }
 
             $payment->save();
         });
 
         return $snapToken;
+    }
+
+    private function payment($user, $payment)
+    {
+        $params = [
+            'transaction_details' => [
+                'order_id' => $payment->unique_id,
+                'gross_amount' => $payment->amount,
+            ],
+            'customer_details' => [
+                'first_name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone_number,
+            ],
+            "page_expiry" => [
+                "duration" => 10,
+                "unit" => "minutes"
+            ]
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+        return $snapToken;
+    }
+
+    public function createCourse($courseId)
+    {
+        $user = Auth::user();
+        $course = MyCourse::create([
+            'user_id' => $user->id,
+            'course_id' => $courseId
+        ]);
+
+        $course->save();
     }
 
     public function getPendingEnrollment($paymentId)

@@ -65,17 +65,20 @@ export default function CourseHero({ course }: any) {
                         </div>
                         <div className="mt-4 flex flex-wrap items-center gap-6">
                             {(user?.role_id === roles.Student || !user) && (
-                                course.has_schedule ? (
+                                course.can_buy ? (
                                     <button
-                                        onClick={() => router.get(route('payment-register', { course: course.id }))}
+                                        onClick={() => router.post(route('buy', { id: course.id }))}
                                         className="cursor-pointer rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
                                     >
-                                        Register Now
+                                        Buy Course
                                     </button>
                                 ) : (
-                                    <div className="rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]">
-                                        No Schedules
-                                    </div>
+                                    <button
+                                        onClick={() => router.get(route('my-courses'))}
+                                        className="cursor-pointer rounded-lg bg-[#3ABEFF] px-7 py-3 font-medium text-white transition hover:bg-[#2fa5d8]"
+                                    >
+                                        My Course
+                                    </button>
                                 )
                             )}
                             {(user?.role_id === roles.Teacher && course.can_apply) &&
