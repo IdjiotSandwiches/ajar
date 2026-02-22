@@ -24,11 +24,19 @@ class StudentService
         ]);
     }
 
-    public function getMyCourses()
+    public function getMyCourses($filters)
     {
         $user = Auth::user();
         $courses = MyCourse::with('course.institute.user')
             ->where('user_id', $user->id)
+            ->when(
+                !empty($filters['search']),
+                fn($q) => $q->whereHas(
+                    'course',
+                    fn($query) =>
+                    $query->where('name', 'like', "%{$filters['search']}%")
+                )
+            )
             ->paginate(10)
             ->through(fn($q) => [
                 'id' => $q->id,

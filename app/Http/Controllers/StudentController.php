@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ItemFilterRequest;
 use Inertia\Inertia;
 use App\Services\StudentService;
 use App\Http\Requests\StudentProfileRequest;
@@ -33,11 +34,15 @@ class StudentController extends Controller
         }
     }
 
-    public function getMyCourses()
+    public function getMyCourses(ItemFilterRequest $request)
     {
-        $courses = $this->service->getMyCourses();
+        $filters = $request->validated();
+        $courses = $this->service->getMyCourses($filters);
         return Inertia::render('student/my-course', [
-            'myCourses' => $courses
+            'myCourses' => $courses,
+            'filters' => [
+                'search' => $filters['search'] ?? null,
+            ]
         ]);
     }
 
