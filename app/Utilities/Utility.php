@@ -65,7 +65,7 @@ class Utility
         $host = parse_url($url, PHP_URL_HOST);
         $isYoutube = str_contains($host, 'youtube.com') || str_contains($host, 'youtu.be');
 
-        if (!$isYoutube) {
+        if (!$isYoutube || str_contains($url, 'youtube.com/embed')) {
             return $url;
         }
 

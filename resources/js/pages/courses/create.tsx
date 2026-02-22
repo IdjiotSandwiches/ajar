@@ -98,7 +98,7 @@ export default function CreateCoursePage({ course, skills, categories, errors }:
     );
 
     const handleAddSession = () => {
-        setSessions((prev: any) => [...prev, { id: null, description: '', timestamp: crypto.randomUUID() }]);
+        setSessions((prev: any) => [...prev, { id: null, description: '', video_link: '', timestamp: crypto.randomUUID() }]);
     };
 
     const handleRemoveSession = (timestamp: string) => {

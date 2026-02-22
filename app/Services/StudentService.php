@@ -2,12 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\CourseReview;
-use App\Models\CourseSchedule;
-use App\Models\InstituteReview;
-use App\Models\TeacherReview;
+use App\Models\MyCourse;
+use App\Enums\CourseStatusEnum;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class StudentService
 {
@@ -25,5 +22,48 @@ class StudentService
             'phone_number' => $data['phone_number'],
             'email' => $data['email']
         ]);
+    }
+
+    public function getMyCourses()
+    {
+        $user = Auth::user();
+        $courses = MyCourse::with('course.institute.user')
+            ->where('user_id', $user->id)
+            ->paginate(10)
+            ->through(fn($q) => [
+                'id' => $q->id,
+                'course_id' => $q->course->id,
+                'name' => $q->course->name,
+                'description' => $q->course->description,
+                'image' => $q->course->image,
+                'institute' => $q->course->institute->user->name
+            ]);
+
+        return $courses;
+    }
+
+    public function getMyCourse($id)
+    {
+        $user = Auth::user();
+        $q = MyCourse::with('course.courseSessions', 'course.courseSchedules')
+            ->where('user_id', $user->id)
+            ->where('course_id', $id)
+            ->first();
+
+        return [
+            'id' => $q->id,
+            'course_id' => $q->course->id,
+            'name' => $q->course->name,
+            'description' => $q->course->description,
+            'image' => $q->course->image,
+            'has_schedule' => $q->course->courseSchedules
+                ->where('status', CourseStatusEnum::Scheduled)
+                ->count() != 0,
+            'sessions' => $q->course->courseSessions
+                ->map(fn($item) => [
+                    'description' => $item->description,
+                    'link' => $item->video_link
+                ])
+        ];
     }
 }

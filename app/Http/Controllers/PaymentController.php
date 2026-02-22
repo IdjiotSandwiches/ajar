@@ -23,7 +23,8 @@ class PaymentController extends Controller
 
         $course = $this->service->getCourseDetail($courseId);
         if (!$course) {
-            return redirect()->intended(route('detail-course', $courseId));
+            return redirect()->back()
+                ->with('error', 'You cannot access the page');
         }
 
         $teachers = $this->service->getTeachingCourses($courseId);
@@ -51,7 +52,7 @@ class PaymentController extends Controller
     public function createPayment($scheduleId, $bypass = false)
     {
         try {
-            $snapToken = $this->service->payment($scheduleId, $bypass);
+            $snapToken = $this->service->liveSession($scheduleId);
             if (!$bypass) {
                 return back()->with([
                     'snap_token' => $snapToken
@@ -61,6 +62,18 @@ class PaymentController extends Controller
             }
         } catch (\Exception $e) {
             return redirect()->route('payment-lms')
+                ->with('error', $e->getMessage());
+        }
+    }
+
+    public function buyCourse($courseId)
+    {
+        try {
+            $this->service->createCourse($courseId);
+            return redirect()->route('my-courses')
+                ->with('success', 'Course transaction successful');
+        } catch (\Exception $e) {
+            return redirect()->route('my-courses')
                 ->with('error', $e->getMessage());
         }
     }

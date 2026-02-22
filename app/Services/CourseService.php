@@ -9,7 +9,6 @@ use App\Models\TeachingCourse;
 use App\Models\TeacherApplication;
 use App\Enums\RoleEnum;
 use App\Enums\CourseStatusEnum;
-use App\Utilities\UploadUtility;
 use Illuminate\Support\Facades\Auth;
 
 class CourseService
@@ -151,8 +150,10 @@ class CourseService
                 'courseLearningObjectives',
                 'courseOverviews',
                 'courseSchedules',
+                'courseSessions',
                 'teachingCourses' => fn($q) => $q->where('is_verified', true),
                 'teachingCourses.teacher.user.socialMedias.socialMediaType',
+                'myCourses' => fn($q) => $q->where('user_id', $user?->id)
             ]
         )
             ->withAvg('courseReviews', 'rating')
@@ -167,6 +168,7 @@ class CourseService
 
         $teaching = null;
         $canApply = false;
+        $hasBought = $course->myCourses->isNotEmpty();
         if ($user?->role_id == RoleEnum::Teacher) {
             $canApply = TeacherApplication::query()
                 ->where('teacher_id', $user->id)
@@ -227,6 +229,9 @@ class CourseService
             'skills' => $course->courseSkills->map(fn($item) => [
                 'name' => $item->skill->name
             ]),
+            'sessions' => $course->courseSessions->map(fn($item) => [
+                'description' => $item->description
+            ]),
             'reviews' => $course->courseReviews->map(fn($item) => [
                 'rating' => $item->rating,
                 'description' => $item->description,
@@ -235,7 +240,8 @@ class CourseService
             ]),
             'popular_courses' => $this->getPopularCourseByCategory($course->category_id, $course->id),
             'teaching' => $teaching,
-            'can_apply' => $canApply
+            'can_apply' => $canApply,
+            'can_buy' => !$hasBought
         ];
 
         return $course;

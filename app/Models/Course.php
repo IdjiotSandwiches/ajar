@@ -121,4 +121,9 @@ class Course extends Model
     {
         return $this->hasMany(CourseSchedule::class);
     }
+
+    public function myCourses()
+    {
+        return $this->hasMany(MyCourse::class);
+    }
 }
