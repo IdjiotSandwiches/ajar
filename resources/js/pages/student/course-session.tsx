@@ -59,7 +59,7 @@ export default function CourseSession({ course }: any) {
                             {sessions.map((session: any, index: number) => (
                                 <AccordionItem key={session.value} value={session.value}>
                                     <AccordionTrigger>
-                                        PART {index + 1} : {session.trigger}
+                                        SESSION {index + 1} : {session.trigger}
                                     </AccordionTrigger>
                                     <AccordionContent className="flex justify-center">
                                         <iframe className="aspect-video w-1/2 rounded-md" src={session.content} allowFullScreen />

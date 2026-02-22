@@ -112,7 +112,7 @@ export default function CourseDetailPage({ course }: any) {
                                         <Card key={index} className="py-3">
                                             <CardHeader>
                                                 <CardTitle>
-                                                    Part {index + 1} : <span className="font-normal">{item.description}</span>
+                                                    Session {index + 1} : <span className="font-normal">{item.description}</span>
                                                 </CardTitle>
                                             </CardHeader>
                                         </Card>
