@@ -46,7 +46,15 @@ class InstituteCourseService
 
     public function getCourseById($id)
     {
-        $course = Course::with(['courseSkills.skill', 'courseLearningObjectives', 'courseStudentBenefits', 'courseTeacherBenefits', 'courseOverviews', 'courseSessions'])
+        $course = Course::with([
+            'courseSkills.skill',
+            'courseLearningObjectives',
+            'courseStudentBenefits',
+            'courseTeacherBenefits',
+            'courseOverviews',
+            'courseSessions',
+            'courseQuizzes.options'
+        ])
             ->where('id', $id)
             ->first();
 
@@ -140,6 +148,36 @@ class InstituteCourseService
 
                 $course->$relationMethod()->whereNotIn('id', $ids)->delete();
             }
+        }
+
+        if (isset($data['quizzes']) && \is_array($data['quizzes'])) {
+            $quizIds = [];
+            foreach ($data['quizzes'] as $quizData) {
+
+                $quiz = $course->courseQuizzes()->updateOrCreate(
+                    ['id' => $quizData['id'] ?? null],
+                    ['question' => $quizData['question']]
+                );
+
+                $quizIds[] = $quiz->id;
+                $optionIds = [];
+                foreach ($quizData['options'] as $opt) {
+
+                    $option = $quiz->options()->updateOrCreate(
+                        ['id' => $opt['id'] ?? null],
+                        [
+                            'option_text' => $opt['option_text'],
+                            'is_correct' => !empty($opt['is_correct'])
+                        ]
+                    );
+
+                    $optionIds[] = $option->id;
+                }
+
+                $quiz->options()->whereNotIn('id', $optionIds)->delete();
+            }
+
+            $course->courseQuizzes()->whereNotIn('id', $quizIds)->delete();
         }
     }
 

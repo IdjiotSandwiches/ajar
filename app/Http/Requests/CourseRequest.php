@@ -25,7 +25,9 @@ class CourseRequest extends FormRequest
             'course_overviews.*.description' => 'Course Overviews',
             'course_sessions.*.description' => 'Course Sessions',
             'course_skills.*.id' => 'Course Skills',
-            'course_images.*' => 'Course Images'
+            'course_images.*' => 'Course Images',
+            'quizzes.*.id' => 'Quizzes',
+            'quizzes.*.options.*.id' => 'Quiz Options'
         ];
     }
 
@@ -64,7 +66,19 @@ class CourseRequest extends FormRequest
             'course_sessions.*.video_link' => 'required|url|active_url',
             'course_skills' => 'required|array',
             'course_skills.*.id' => 'required|numeric|exists:skills,id',
-            'course_images' => [Rule::requiredIf(!$hasImage), 'image', 'max:1024']
+            'course_images' => [Rule::requiredIf(!$hasImage), 'image', 'max:1024'],
+            'quizzes' => 'required|array',
+            'quizzes.*.id' => 'numeric',
+            'quizzes.*.question' => 'required|string',
+            'quizzes.*.options' => function ($attr, $value, $fail) {
+                $correct = collect($value)->where('is_correct', true)->count();
+                if ($correct !== 1) {
+                    $fail('Each quiz must have exactly one correct answer.');
+                }
+            },
+            'quizzes.*.options.*.id' => 'nullable|numeric',
+            'quizzes.*.options.*.option_text' => 'required|string',
+            'quizzes.*.options.*.is_correct' => 'nullable|boolean',
         ];
     }
 }
