@@ -153,4 +153,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Chat::class, 'sender_id', 'id');
     }
+
+    public function myCourses()
+    {
+        return $this->hasMany(MyCourse::class, 'user_id');
+    }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class MyCourse extends Model
+class CourseQuiz extends Model
 {
     use HasFactory;
 
@@ -16,30 +16,21 @@ class MyCourse extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'course_id',
-        'user_id'
+        'question',
+        'course_id'
     ];
 
     /**
      * BelongsTo: Course
-     * @return BelongsTo<Course, MyCourse>
+     * @return BelongsTo<Course, CourseQuiz>
      */
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
     }
 
-    /**
-     * BelongsTo: User
-     * @return BelongsTo<User, MyCourse>
-     */
-    public function user(): BelongsTo
+    public function options()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function quizAttempt()
-    {
-        return $this->hasOne(StudentQuizAttempt::class);
+        return $this->hasMany(CourseQuizOption::class);
     }
 }

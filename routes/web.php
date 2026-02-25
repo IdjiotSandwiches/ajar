@@ -19,6 +19,7 @@ use App\Http\Controllers\Teacher\TeacherApplicationController;
 use App\Http\Controllers\Institute\InstituteController;
 use App\Http\Controllers\Institute\InstituteCourseController;
 use App\Http\Controllers\Institute\InstituteManagementController;
+use Inertia\Inertia;
 
 Route::group([], function () {
     Route::get('/', [HomeController::class, 'getHomeData'])->name('home');
@@ -52,6 +53,7 @@ Route::middleware(['auth', 'verified', 'block.unverified.teacher'])
                 Route::put('profile', 'putProfile')->name('update-profile');
                 Route::get('my-courses', 'getMyCourses')->name('my-courses');
                 Route::get('my-courses/{id}', 'getMyCourse')->name('my-course');
+                Route::post('quiz/{id}', 'submit')->name('submit-quiz');
             });
             Route::controller(PaymentController::class)->group(function () {
                 Route::get('payment-register', 'getEnrollment')->name('payment-register');
@@ -92,6 +94,7 @@ Route::middleware(['auth', 'verified', 'block.unverified.teacher'])
                     Route::get('profile', 'getProfile')->name('profile');
                     Route::put('profile', 'putProfile')->name('update-profile');
                     Route::post('detail', 'putDetail')->name('update-detail');
+                    Route::get('session-management/{id}', 'getSessionDetail')->name('session-detail');
                 });
                 Route::controller(TeacherApplicationController::class)->group(function () {
                     Route::get('institute-applications', 'getTeacherApplications')->name('institute-applications');

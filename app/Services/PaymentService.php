@@ -125,7 +125,7 @@ class PaymentService
             $payment = Payment::create([
                 'unique_id' => 'ENRL' . time() . random_int(100, 999),
                 'enrolled_course_id' => $enrolled->id,
-                'amount' => round($schedule->course->price - ($schedule->course->price * $schedule->course->discount / 100), 0),
+                'amount' => $schedule->course->teacher_salary,
                 'user_id' => $user->id,
                 'course_name' => $schedule->course->name,
                 'teacher_name' => $schedule->teacher->user->name,
