@@ -78,11 +78,6 @@ export default function CourseCard({ enroll, state, review }: any) {
         });
     };
 
-    const handleCancel = () => {
-        router.post(route('teacher.cancel-schedule', { id: enroll.id }));
-        setModalType(null);
-    };
-
     const actions = {
         [roles.Student]: () => {
             if (state === states.Ongoing) return <PrimaryButton onClick={handleJoinButton}>Join Meeting</PrimaryButton>;
@@ -90,11 +85,12 @@ export default function CourseCard({ enroll, state, review }: any) {
         },
         [roles.Teacher]: () => (
             <>
-                {enroll.can_cancel && (
-                    <PrimaryButton destructive={true} onClick={() => setModalType('confirmation')}>
-                        Cancel
-                    </PrimaryButton>
-                )}
+                <button
+                    onClick={() => router.get(route('teacher.session-detail', { id: enroll.id }))}
+                    className={`rounded-lg bg-black/80 px-4 py-2 text-sm text-white transition-all hover:bg-black/70 dark:bg-gray-700 dark:hover:bg-gray-600`}
+                >
+                    Manage
+                </button>
 
                 {state === states.Completed && (
                     <>
@@ -165,25 +161,7 @@ export default function CourseCard({ enroll, state, review }: any) {
                 </div>
             </div>
 
-            {modalType === 'warning' && (
-                <DynamicModal
-                    type="warning"
-                    isOpen
-                    onClose={() => setModalType(null)}
-                    description={modalText!}
-                />
-            )}
-
-            {modalType === 'confirmation' && (
-                <DynamicModal
-                    type="confirmation"
-                    isOpen
-                    onClose={() => setModalType(null)}
-                    onConfirm={handleCancel}
-                    description="Are you sure you want to cancel this schedule?"
-                    confirmText="Confirm"
-                />
-            )}
+            {modalType === 'warning' && <DynamicModal type="warning" isOpen onClose={() => setModalType(null)} description={modalText!} />}
 
             {modalType === 'meeting' && (
                 <AddLinkModal

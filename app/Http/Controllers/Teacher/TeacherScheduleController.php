@@ -73,7 +73,8 @@ class TeacherScheduleController extends Controller
     {
         try {
             $this->service->cancelSchedule($id);
-            return back()->with('success', 'Schedule has been cancelled.');
+            return redirect()->route('my-learning')
+                ->with('success', 'Schedule has been cancelled.');
         } catch (\Exception $e) {
             return back()->with('error', 'Schedule not found.');
         }

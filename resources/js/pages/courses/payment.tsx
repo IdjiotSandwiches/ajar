@@ -194,7 +194,7 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
                             </div>
                             <button
                                 onClick={() => router.get(route('my-courses'))}
-                                className={`mt-6 w-full rounded-xl py-3 text-sm font-semibold bg-[#3ABEFF] text-white hover:bg-[#3ABEFF]/90`}
+                                className={`mt-6 w-full rounded-xl py-3 text-sm font-semibold bg-black/80 text-white hover:bg-black/70 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all`}
                             >
                                 Back
                             </button>

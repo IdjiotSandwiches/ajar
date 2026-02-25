@@ -2,12 +2,17 @@
 
 namespace App\Services\Teacher;
 
+use App\Enums\CourseStatusEnum;
+use App\Models\CourseSchedule;
+use App\Models\MyCourse;
 use App\Models\Teacher;
+use App\Models\EnrolledCourse;
 use App\Models\TeacherApplication;
-use App\Utilities\UploadUtility;
 use App\Utilities\Utility;
-use Illuminate\Support\Facades\Auth;
+use App\Utilities\UploadUtility;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherService
 {
@@ -91,7 +96,6 @@ class TeacherService
         Utility::updateSocialMedias($user, $data);
     }
 
-
     public function updateDetail(array $data)
     {
         return DB::transaction(function () use ($data) {
@@ -144,5 +148,90 @@ class TeacherService
         foreach ($data['deleted_certificates'] ?? [] as $file) {
             UploadUtility::remove($file);
         }
+    }
+
+    public function sessionDetail($id)
+    {
+        $session = CourseSchedule::with('course')
+            ->where('id', $id)
+            ->first();
+
+        $session = [
+            'id' => $session->id,
+            'name' => $session->course->name,
+            'schedule' => Carbon::parse($session->start_time)->format('d M Y') . ' '
+                . Carbon::parse($session->start_time)->toTimeString('minute') . ' - '
+                . Carbon::parse($session->end_time)->toTimeString('minute'),
+            'meeting_link' => $session->meeting_link,
+            'recording_link' => $session->recording_link,
+            'can_modify' => $session->status === CourseStatusEnum::Scheduled && now()->lt($session->start_time->subHours(2)),
+        ];
+
+        return $session;
+    }
+
+    public function enrollsDetail($id)
+    {
+        $enrolls = EnrolledCourse::with(
+            'student',
+            'courseSchedule.course',
+            'student.myCourses.quizAttempt'
+        )
+            ->where('course_schedule_id', $id)
+            ->where('status', CourseStatusEnum::Scheduled)
+            ->paginate(10);
+
+        $courseId = $enrolls->first()?->courseSchedule->course_id;
+        $enrolls->getCollection()->transform(function ($item) use ($courseId) {
+            $myCourse = $item->student->myCourses
+                ->where('course_id', $courseId)
+                ->first();
+
+            $attempt = $myCourse?->quizAttempt;
+            return [
+                'id' => $myCourse?->id,
+                'name' => $item->student->name,
+                'score' => $attempt?->score,
+                'status' => (bool) $attempt,
+            ];
+        });
+
+        return $enrolls;
+    }
+
+    public function getQuizAnswers($id)
+    {
+        $q = MyCourse::with(
+            'course.courseSessions',
+            'course.courseSchedules',
+            'course.courseQuizzes.options',
+            'quizAttempt.answers'
+        )
+            ->where('id', $id)
+            ->first();
+
+        return [
+            'quizzes' => $q->course->courseQuizzes
+                ->map(fn($item) => [
+                    'id' => $item->id,
+                    'question' => $item->question,
+                    'options' => $item->options->map(fn($option) => [
+                        'id' => $option->id,
+                        'option_text' => $option->option_text,
+                        'is_correct' => $option->is_correct
+                    ])
+                ]),
+            'attempt' => $q->quizAttempt
+                ? [
+                    'score' => $q->quizAttempt->score,
+                    'answers' => $q->quizAttempt->answers
+                        ->map(fn($item) => [
+                            'quiz_id' => $item->quiz_id,
+                            'selected_option_id' => $item->selected_option_id,
+                            'is_correct' => $item->is_correct
+                        ])
+                ]
+                : null
+        ];
     }
 }
