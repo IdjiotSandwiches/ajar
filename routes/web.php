@@ -52,6 +52,7 @@ Route::middleware(['auth', 'verified', 'block.unverified.teacher'])
                 Route::put('profile', 'putProfile')->name('update-profile');
                 Route::get('my-courses', 'getMyCourses')->name('my-courses');
                 Route::get('my-courses/{id}', 'getMyCourse')->name('my-course');
+                Route::post('quiz/{id}', 'submit')->name('submit-quiz');
             });
             Route::controller(PaymentController::class)->group(function () {
                 Route::get('payment-register', 'getEnrollment')->name('payment-register');

@@ -43,7 +43,7 @@ export default function CourseSession({ course, errors }: any) {
                                     value={row?.description}
                                 />
                                 {errors[`course_sessions.${index}.description`] && (
-                                    <p className="text-red-500">{errors[`course_sessions.${index}.description`]}</p>
+                                    <p className="text-red-500 text-sm">{errors[`course_sessions.${index}.description`]}</p>
                                 )}
                             </div>
                             <div className={`flex-1 gap-4 ${!isLast ? 'mb-4' : ''}`}>
@@ -55,7 +55,7 @@ export default function CourseSession({ course, errors }: any) {
                                     value={row?.video_link}
                                 />
                                 {errors[`course_sessions.${index}.video_link`] && (
-                                    <p className="text-red-500">{errors[`course_sessions.${index}.video_link`]}</p>
+                                    <p className="text-red-500 text-sm">{errors[`course_sessions.${index}.video_link`]}</p>
                                 )}
                             </div>
                             <div className="flex items-center">

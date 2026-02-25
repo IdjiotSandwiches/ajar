@@ -29,11 +29,11 @@ export default function CourseInformation({ course, categories, errors }: any) {
             <CardContent className="flex flex-col gap-4">
                 <div>
                     <DetailInput type="text" name="name" id="name" title="Name" value={course?.name} />
-                    {errors.name && <p className="text-red-500">{errors.name}</p>}
+                    {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                 </div>
                 <div>
                     <DetailInput type="textarea" name="description" id="description" title="Description" value={course?.description} />
-                    {errors.description && <p className="text-red-500">{errors.description}</p>}
+                    {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
                 </div>
                 <div>
                     <DetailSelect
@@ -44,7 +44,7 @@ export default function CourseInformation({ course, categories, errors }: any) {
                         value={String(category)}
                         onChange={(val) => handleCategoryChange(val)}
                     />
-                    {errors[`category`] && <p className="text-red-500">{errors[`category`]}</p>}
+                    {errors[`category`] && <p className="text-red-500 text-sm">{errors[`category`]}</p>}
                 </div>
                 <div>
                     <DetailImage
@@ -55,7 +55,7 @@ export default function CourseInformation({ course, categories, errors }: any) {
                         multiple={false}
                         ref={false}
                     />
-                    {errors[`course_images`] && <p className="text-red-500">{errors[`course_images`]}</p>}
+                    {errors[`course_images`] && <p className="text-red-500 text-sm">{errors[`course_images`]}</p>}
                 </div>
             </CardContent>
         </Card>

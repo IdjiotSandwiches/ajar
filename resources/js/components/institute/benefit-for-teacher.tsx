@@ -43,7 +43,7 @@ export default function BenefitForTeacher({ course, errors }: any) {
                                     value={row?.description}
                                 />
                                 {errors[`benefit_for_teachers.${index}.description`] && (
-                                    <p className="text-red-500">{errors[`benefit_for_teachers.${index}.description`]}</p>
+                                    <p className="text-red-500 text-sm">{errors[`benefit_for_teachers.${index}.description`]}</p>
                                 )}
                             </div>
                             <div className="flex items-center">

@@ -67,7 +67,7 @@ export default function CourseSkill({ course, skills, errors }: any) {
                                     value={String(row.skill_id)}
                                     onChange={(val) => handleSkillChange(index, val)}
                                 />
-                                {errors[`course_skills.${index}.id`] && <p className="text-red-500">{errors[`course_skills.${index}.id`]}</p>}
+                                {errors[`course_skills.${index}.id`] && <p className="text-red-500 text-sm">{errors[`course_skills.${index}.id`]}</p>}
                             </div>
                             <div className="flex items-center">
                                 {isLast || isSingle ? (

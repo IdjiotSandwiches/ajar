@@ -43,7 +43,7 @@ export default function CourseLearningObjective({ course, errors }: any) {
                                     value={row?.description}
                                 />
                                 {errors[`learning_objectives.${index}.description`] && (
-                                    <p className="text-red-500">{errors[`learning_objectives.${index}.description`]}</p>
+                                    <p className="text-red-500 text-sm">{errors[`learning_objectives.${index}.description`]}</p>
                                 )}
                             </div>
                             <div className="flex items-center">

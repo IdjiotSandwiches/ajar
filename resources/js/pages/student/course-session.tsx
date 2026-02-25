@@ -4,6 +4,7 @@ import LMSLayout from '@/layouts/lms-layout';
 import { storageUrl } from '@/utils/storage';
 import { router } from '@inertiajs/react';
 import { InfoIcon } from 'lucide-react';
+import Quizzes from './quizzes';
 
 export default function CourseSession({ course }: any) {
     const sessions = course?.sessions.map((session: any, index: number) => ({
@@ -18,7 +19,7 @@ export default function CourseSession({ course }: any) {
                 <img
                     src={storageUrl(course?.image)}
                     alt={course.name}
-                    className="max-h-[320px] w-full rounded-xl object-cover shadow-sm ring-1 ring-gray-200"
+                    className="max-h-[320px] w-[400px] rounded-xl object-cover shadow-sm ring-1 ring-gray-200"
                 />
                 <div>
                     <h2 className="text-2xl font-semibold">{course?.name}</h2>
@@ -66,6 +67,16 @@ export default function CourseSession({ course }: any) {
                                     </AccordionContent>
                                 </AccordionItem>
                             ))}
+                            {course?.quizzes?.length > 0 && (
+                                <AccordionItem key="item-quiz" value="item-quiz">
+                                    <AccordionTrigger>
+                                        QUIZ
+                                    </AccordionTrigger>
+                                    <AccordionContent className="flex justify-center">
+                                        <Quizzes course={course} />
+                                    </AccordionContent>
+                                </AccordionItem>
+                            )}
                         </Accordion>
                     </CardContent>
                 </Card>

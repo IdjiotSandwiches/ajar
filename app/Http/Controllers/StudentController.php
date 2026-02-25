@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemFilterRequest;
+use App\Http\Requests\SubmitQuizRequest;
 use Inertia\Inertia;
 use App\Services\StudentService;
 use App\Http\Requests\StudentProfileRequest;
@@ -52,5 +53,17 @@ class StudentController extends Controller
         return Inertia::render('student/course-session', [
             'course' => $course
         ]);
+    }
+
+    public function submit(SubmitQuizRequest $request, $courseId)
+    {
+        try {
+            $validated = $request->validated();
+            $this->service->submitAnswer($validated, $courseId);
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
     }
 }

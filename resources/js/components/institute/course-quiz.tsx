@@ -92,7 +92,7 @@ export default function CourseQuiz({ course, errors }: any) {
                                         value={quiz.question}
                                     />
 
-                                    {errors?.[`quizzes.${qIndex}.question`] && <p className="text-red-500">{errors[`quizzes.${qIndex}.question`]}</p>}
+                                    {errors?.[`quizzes.${qIndex}.question`] && <p className="text-red-500 text-sm">{errors[`quizzes.${qIndex}.question`]}</p>}
                                 </div>
 
                                 <div className="pt-8">
@@ -133,7 +133,7 @@ export default function CourseQuiz({ course, errors }: any) {
                                                 />
 
                                                 {errors?.[`quizzes.${qIndex}.options.${oIndex}.option_text`] && (
-                                                    <p className="text-red-500">{errors[`quizzes.${qIndex}.options.${oIndex}.option_text`]}</p>
+                                                    <p className="text-red-500 text-sm">{errors[`quizzes.${qIndex}.options.${oIndex}.option_text`]}</p>
                                                 )}
                                             </div>
 
@@ -157,6 +157,9 @@ export default function CourseQuiz({ course, errors }: any) {
                                         </div>
                                     );
                                 })}
+                                {errors?.[`quizzes.${qIndex}.options`] && (
+                                    <p className="text-red-500 text-sm">{errors[`quizzes.${qIndex}.options`]}</p>
+                                )}
                             </div>
                         </div>
                     );

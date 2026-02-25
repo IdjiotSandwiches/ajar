@@ -37,4 +37,9 @@ class MyCourse extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function quizAttempt()
+    {
+        return $this->hasOne(StudentQuizAttempt::class);
+    }
 }

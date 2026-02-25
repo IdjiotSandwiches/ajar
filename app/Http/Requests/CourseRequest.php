@@ -27,7 +27,9 @@ class CourseRequest extends FormRequest
             'course_skills.*.id' => 'Course Skills',
             'course_images.*' => 'Course Images',
             'quizzes.*.id' => 'Quizzes',
-            'quizzes.*.options.*.id' => 'Quiz Options'
+            'quizzes.*.question' => 'Question',
+            'quizzes.*.options.*' => 'Quiz Options',
+            'quizzes.*.options.*.option_text' => 'Quiz Option Text'
         ];
     }
 
@@ -78,7 +80,7 @@ class CourseRequest extends FormRequest
             },
             'quizzes.*.options.*.id' => 'nullable|numeric',
             'quizzes.*.options.*.option_text' => 'required|string',
-            'quizzes.*.options.*.is_correct' => 'nullable|boolean',
+            'quizzes.*.options.*.is_correct' => 'boolean',
         ];
     }
 }
