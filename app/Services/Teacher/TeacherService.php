@@ -190,6 +190,8 @@ class TeacherService
             $attempt = $myCourse?->quizAttempt;
             return [
                 'id' => $myCourse?->id,
+                'student_id' => $item->student->id,
+                'enroll_id' => $item->id,
                 'name' => $item->student->name,
                 'score' => $attempt?->score,
                 'status' => (bool) $attempt,
@@ -205,12 +207,14 @@ class TeacherService
             'course.courseSessions',
             'course.courseSchedules',
             'course.courseQuizzes.options',
-            'quizAttempt.answers'
+            'quizAttempt.answers',
+            'user'
         )
             ->where('id', $id)
             ->first();
 
         return [
+            'name' => $q->user->name,
             'quizzes' => $q->course->courseQuizzes
                 ->map(fn($item) => [
                     'id' => $item->id,
@@ -233,5 +237,20 @@ class TeacherService
                 ]
                 : null
         ];
+    }
+
+    public function getPreQuestion($studentId, $enrollId)
+    {
+        $question = EnrolledCourse::with('preQuestion', 'student')
+            ->where('id', $enrollId)
+            ->where('student_id', $studentId)
+            ->first();
+
+        $question = [
+            'name' => $question->student->name,
+            'question' => $question->preQuestion->question
+        ];
+
+        return $question;
     }
 }

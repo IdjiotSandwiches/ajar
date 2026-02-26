@@ -52,12 +52,15 @@ class TeacherController extends Controller
     public function getSessionDetail(Request $request, $id)
     {
         $myCourseId = $request->query('my_course_id');
+        $studentId = $request->query('student_id');
+        $enrollId = $request->query('enroll_id');
         $session = $this->service->sessionDetail($id);
         $students = $this->service->enrollsDetail($id);
         return Inertia::render('my-learning/session-management', [
             'session' => $session,
             'students' => $students,
             'answers' => Inertia::lazy(fn() => $this->service->getQuizAnswers($myCourseId)),
+            'preQuestion' => Inertia::lazy(fn() => $this->service->getPreQuestion($studentId, $enrollId))
         ]);
     }
 }

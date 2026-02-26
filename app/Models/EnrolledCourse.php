@@ -78,4 +78,9 @@ class EnrolledCourse extends Model
     {
         return $this->hasMany(TeacherReview::class);
     }
+
+    public function preQuestion()
+    {
+        return $this->hasOne(PreQuestion::class);
+    }
 }

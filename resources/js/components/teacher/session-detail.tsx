@@ -28,7 +28,7 @@ export default function SessionDetail({ session }: any) {
                         <CardTitle>Meeting Link</CardTitle>
                         <input
                             type="text"
-                            value={session.meeting_link}
+                            value={session.meeting_link || ''}
                             disabled={true}
                             name="link"
                             className="w-full rounded-lg border px-4 py-2 text-sm shadow-sm focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none disabled:text-gray-500 dark:border-white/20 dark:text-white dark:shadow-white/20"
@@ -38,7 +38,7 @@ export default function SessionDetail({ session }: any) {
                         <CardTitle>Recording Link</CardTitle>
                         <input
                             type="text"
-                            value={session.recording_link}
+                            value={session.recording_link || ''}
                             disabled={true}
                             name="link"
                             className="w-full rounded-lg border px-4 py-2 text-sm shadow-sm focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none disabled:text-gray-500 dark:border-white/20 dark:text-white dark:shadow-white/20"
