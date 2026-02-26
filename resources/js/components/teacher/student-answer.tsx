@@ -1,11 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { BookUser, Check, Menu, X } from 'lucide-react';
-import Pagination from '../pagination';
 import { router } from '@inertiajs/react';
+import { BookUser, Check, FileQuestion, Menu, X } from 'lucide-react';
+import Pagination from '../pagination';
 import { Badge } from '../ui/badge';
+import { Textarea } from '../ui/textarea';
 
-export default function StudentAnswer({ students, answers }: any) {
+export default function StudentAnswer({ students, answers, preQuestion }: any) {
     const hasStudents = students?.data && students.data.length > 0;
     return (
         <Card>
@@ -24,7 +25,7 @@ export default function StudentAnswer({ students, answers }: any) {
                         students.data.map((student: any) => (
                             <div key={student.id} className="rounded-xl border p-4 shadow-sm dark:border-white/20 dark:shadow-white/20">
                                 <p className="text-sm font-medium text-gray-700 dark:text-white/90">{student.name}</p>
-                                <p className="mb-3 text-xs text-gray-500 dark:text-white/70">Score: {student.score}</p>
+                                <p className="mb-3 text-xs text-gray-500 dark:text-white/70">Score: {student.score == null ? '-' : student.score}</p>
                                 <p className="mb-3 text-xs text-gray-500 dark:text-white/70">
                                     {student.status ? (
                                         <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">Attempted</Badge>
@@ -32,7 +33,10 @@ export default function StudentAnswer({ students, answers }: any) {
                                         <Badge className="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300">Not Attempted</Badge>
                                     )}
                                 </p>
-                                <div className="flex justify-end gap-2">{student.status && ViewQuizDetail({ id: student.id, answers })}</div>
+                                <div className="flex justify-end gap-2">
+                                    {student.status && ViewQuizDetail({ id: student.id, answers })}
+                                    {ViewPreQuestion({ studentId: student.student_id, enrollId: student.enroll_id, preQuestion: preQuestion })}
+                                </div>
                             </div>
                         ))}
                 </div>
@@ -66,7 +70,7 @@ export default function StudentAnswer({ students, answers }: any) {
                                     >
                                         <td className="p-1 text-center dark:text-white">{students.from + index}</td>
                                         <td className="p-3">{student.name}</td>
-                                        <td className="p-3 text-center">{student.score}</td>
+                                        <td className="p-3 text-center">{student.score == null ? '-' : student.score}</td>
                                         <td className="p-3 text-center">
                                             {student.status ? (
                                                 <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">Attempted</Badge>
@@ -74,7 +78,14 @@ export default function StudentAnswer({ students, answers }: any) {
                                                 <Badge className="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300">Not Attempted</Badge>
                                             )}
                                         </td>
-                                        <td className="p-3 text-center">{student.status && ViewQuizDetail({ id: student.id, answers })}</td>
+                                        <td className="space-x-2 p-3 text-center">
+                                            {student.status && ViewQuizDetail({ id: student.id, answers })}
+                                            {ViewPreQuestion({
+                                                studentId: student.student_id,
+                                                enrollId: student.enroll_id,
+                                                preQuestion: preQuestion,
+                                            })}
+                                        </td>
                                     </tr>
                                 ))}
                         </tbody>
@@ -117,12 +128,11 @@ function ViewQuizDetail({ id, answers }: any) {
             </DialogTrigger>
             <DialogContent className="sm:max-w-lg">
                 <DialogHeader>
-                    <DialogTitle>Quiz Results</DialogTitle>
+                    <DialogTitle>{answers?.name}'s Quiz Results</DialogTitle>
                 </DialogHeader>
                 {answers?.quizzes?.map((q: any, qIndex: number) => {
                     const selected = getUserAnswer(q.id);
                     const isCorrect = getIsCorrect(q.id);
-
                     return (
                         <Card key={q.id}>
                             <CardHeader>
@@ -169,6 +179,37 @@ function ViewQuizDetail({ id, answers }: any) {
                         </Card>
                     );
                 })}
+            </DialogContent>
+        </Dialog>
+    );
+}
+
+function ViewPreQuestion({ studentId, enrollId, preQuestion }: any) {
+    const handleAction = () => {
+        router.reload({
+            only: ['preQuestion'],
+            data: { student_id: studentId, enroll_id: enrollId },
+        });
+    };
+
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <button onClick={handleAction} className="cursor-pointer rounded-md bg-[#42C2FF] p-2 text-white shadow-sm hover:bg-[#42C2FF]/90">
+                    <FileQuestion />
+                </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-lg">
+                <DialogHeader>
+                    <DialogTitle>{preQuestion?.name}'s Question</DialogTitle>
+                </DialogHeader>
+                <Textarea
+                    id="question"
+                    name="question"
+                    placeholder="Write your question for the teacher..."
+                    value={preQuestion?.question}
+                    disabled={true}
+                />
             </DialogContent>
         </Dialog>
     );
