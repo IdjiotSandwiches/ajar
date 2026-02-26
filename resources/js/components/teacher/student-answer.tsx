@@ -51,7 +51,7 @@ export default function StudentAnswer({ students, answers }: any) {
                         <tbody>
                             {!hasStudents && (
                                 <tr>
-                                    <td colSpan={4} className="p-6 text-center text-sm text-gray-500 dark:text-white/70">
+                                    <td colSpan={5} className="p-6 text-center text-sm text-gray-500 dark:text-white/70">
                                         Quiz has not been answered.
                                     </td>
                                 </tr>

@@ -95,7 +95,7 @@ class PaymentService
         return $schedules;
     }
 
-    public function liveSession($scheduleId)
+    public function liveSession($scheduleId, $question)
     {
         $user = Auth::user();
         $existingEnrollment = EnrolledCourse::where('course_schedule_id', $scheduleId)
@@ -109,13 +109,16 @@ class PaymentService
         }
 
         $snapToken = "";
-        DB::transaction(function () use ($scheduleId, $user, &$snapToken) {
+        DB::transaction(function () use ($scheduleId, $user, $question, &$snapToken) {
             $enrolled = EnrolledCourse::createOrFirst([
                 'course_schedule_id' => $scheduleId,
                 'student_id' => $user->id
             ]);
 
             $enrolled->status = CourseStatusEnum::Scheduled;
+            $enrolled->preQuestion()->create([
+                'question' => $question,
+            ]);
             $enrolled->save();
 
             $schedule = CourseSchedule::with(['course.category', 'teacher.user'])

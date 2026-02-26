@@ -85,12 +85,14 @@ export default function CourseCard({ enroll, state, review }: any) {
         },
         [roles.Teacher]: () => (
             <>
-                <button
-                    onClick={() => router.get(route('teacher.session-detail', { id: enroll.id }))}
-                    className={`rounded-lg bg-black/80 px-4 py-2 text-sm text-white transition-all hover:bg-black/70 dark:bg-gray-700 dark:hover:bg-gray-600`}
-                >
-                    Manage
-                </button>
+                {state !== states.Cancelled && (
+                    <button
+                        onClick={() => router.get(route('teacher.session-detail', { id: enroll.id }))}
+                        className={`rounded-lg bg-black/80 px-4 py-2 text-sm text-white transition-all hover:bg-black/70 dark:bg-gray-700 dark:hover:bg-gray-600`}
+                    >
+                        Manage
+                    </button>
+                )}
 
                 {state === states.Completed && (
                     <>

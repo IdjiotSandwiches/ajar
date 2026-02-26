@@ -1,12 +1,14 @@
+import { Textarea } from '@/components/ui/textarea';
 import LMSLayout from '@/layouts/lms-layout';
 import { router } from '@inertiajs/react';
 import { CheckCircle } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function PaymentPage({ course, teachers, schedules, payment }: any) {
+export default function PaymentPage({ course, teachers, schedules, payment, errors }: any) {
     const [snapToken, setSnapToken] = useState<any>(payment?.snap_token);
     const [selectedTeacher, setSelectedTeacher] = useState<any>(payment?.teacher_id);
     const [selectedSchedule, setSelectedSchedule] = useState<any>(payment?.schedule_id);
+    const [question, setQuestion] = useState('');
     // const [bypass, setBypass] = useState(false);
     // const isDev = import.meta.env.DEV;
 
@@ -51,7 +53,9 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
 
         router.post(
             route('pay', { id: selectedSchedule }),
-            {},
+            {
+                question: question,
+            },
             {
                 preserveState: true,
                 only: ['course', 'teachers', 'payment', 'flash', 'snap_token'],
@@ -69,7 +73,7 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
     const teacherSummary = teachers?.find((x: any) => x.id === selectedTeacher);
     const scheduleSummary = schedules?.find((x: any) => x.id === selectedSchedule);
     const isLocked = !!payment || !!snapToken;
-    const canPay = (selectedTeacher && selectedSchedule) || isLocked;
+    const canPay = (selectedTeacher && selectedSchedule && question) || isLocked;
 
     return (
         <>
@@ -131,6 +135,21 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
                                         ))}
                                     </div>
                                 )}
+                            </div>
+
+                            <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-[#222831]">
+                                <h2 className="mb-1 text-lg font-semibold text-gray-800 dark:text-white">3. Question to be Asked</h2>
+                                <p className="mb-4 text-sm text-gray-500">You're required to ask a question before book a session.</p>
+                                <Textarea
+                                    id="question"
+                                    name="question"
+                                    placeholder="Write your question for the teacher..."
+                                    value={question}
+                                    onChange={(e) => setQuestion(e.target.value)}
+                                    className={`h-40 ${errors?.question ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                                    disabled={isLocked}
+                                />
+                                {errors[`question`] && <p className="text-sm text-red-500">{errors[`question`]}</p>}
                             </div>
                         </div>
 
@@ -194,7 +213,7 @@ export default function PaymentPage({ course, teachers, schedules, payment }: an
                             </div>
                             <button
                                 onClick={() => router.get(route('my-courses'))}
-                                className={`mt-6 w-full rounded-xl py-3 text-sm font-semibold bg-black/80 text-white hover:bg-black/70 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all`}
+                                className={`mt-6 w-full rounded-xl bg-black/80 py-3 text-sm font-semibold text-white transition-all hover:bg-black/70 dark:bg-gray-700 dark:hover:bg-gray-600`}
                             >
                                 Back
                             </button>

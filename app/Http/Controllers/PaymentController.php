@@ -49,10 +49,14 @@ class PaymentController extends Controller
         ]);
     }
 
-    public function createPayment($scheduleId, $bypass = false)
+    public function createPayment(Request $request, $scheduleId, $bypass = false)
     {
+        $data = $request->validate([
+            'question' => 'required|string'
+        ]);
+
         try {
-            $snapToken = $this->service->liveSession($scheduleId);
+            $snapToken = $this->service->liveSession($scheduleId, $data['question']);
             if (!$bypass) {
                 return back()->with([
                     'snap_token' => $snapToken
